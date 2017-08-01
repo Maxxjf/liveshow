@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--顶部导航自定义属性-->
+    <declare-styleable name="BaseBar">
+        <!--是否显示左边图标-->
+        <attr name="is_left" format="boolean"/>
+        <!--左边图标-->
+        <attr name="left_icon" format="reference"/>
+        <!--是否显示左边按钮-->
+        <attr name="is_left_text" format="boolean"/>
+        <!--左边按钮文字-->
+        <attr name="left_text" format="reference"/>
+        <!--是否显示右边图标-->
+        <attr name="is_right" format="boolean"/>
+        <!--右边图标-->
+        <attr name="right_icon" format="reference"/>
+        <!--是否显示右边按钮-->
+        <attr name="is_right_text" format="boolean"/>
+        <!--右边按钮文字-->
+        <attr name="right_text" format="reference"/>
+        <!--是否显示标题文字-->
+        <attr name="is_title" format="boolean"/>
+        <!--标题文字-->
+        <attr name="title_text" format="reference"/>
+        <!--是否显示搜索框-->
+        <attr name="is_search" format="boolean"/>
+    </declare-styleable>
+</resources>

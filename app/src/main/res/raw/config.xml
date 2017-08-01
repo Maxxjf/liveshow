@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <system>
+
+        <unicode>UTF-8</unicode>
+        <app_sign>liveshow</app_sign>
+
+        <!--库赞服务器-->
+        <server>http://10.10.100.169:8082/</server>
+
+    </system>
+</config>

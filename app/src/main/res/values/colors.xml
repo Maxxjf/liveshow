@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="colorTitle">#282828</color>
+    <color name="colorSubTitle">#656565</color>
+
+    <color name="colorGrayBg">#e7e7e7</color><!--线条颜色-->
+</resources>

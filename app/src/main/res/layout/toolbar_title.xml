@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height"
+    android:background="@color/colorPrimary">
+
+    <ImageButton
+        android:id="@+id/ib_left"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:paddingLeft="@dimen/margin_2"
+        android:paddingRight="@dimen/margin_2"/>
+
+    <TextView
+        android:id="@+id/btn_left"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:gravity="center"
+        android:drawablePadding="@dimen/draw_padding"
+        android:paddingLeft="@dimen/margin_2"
+        android:paddingRight="@dimen/margin_2"
+        android:textColor="@color/colorTitle"
+        android:textSize="@dimen/small_text_size"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/app_name"
+        android:textColor="@color/black"
+        android:textSize="@dimen/xmedium_text_size"
+        android:visibility="visible"/>
+
+    <LinearLayout
+        android:id="@+id/layout_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_gray_radius"
+        android:layout_toRightOf="@+id/ib_left"
+        android:layout_toLeftOf="@+id/ib_right"
+        android:layout_marginLeft="@dimen/layout_margin"
+        android:layout_marginRight="@dimen/layout_margin"
+        android:paddingLeft="@dimen/layout_margin"
+        android:paddingRight="@dimen/layout_margin"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/btn_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_search_qian"/>
+
+        <com.qcloud.qclib.widget.customview.ClearEditText
+            android:id="@+id/et_search"
+            style="@style/EditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:imeOptions="actionDone"
+            android:lines="1"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/small_text_size"
+            android:hint="搜索"
+            android:textColorHint="@color/colorGray"/>
+
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/layout_margin"
+            android:lines="1"
+            android:background="@drawable/frame_gray"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/micro_text_size"
+            android:hint="搜索"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/ib_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        android:paddingLeft="@dimen/margin_2"
+        android:paddingRight="@dimen/margin_2"/>
+
+    <TextView
+        android:id="@+id/btn_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="@null"
+        android:gravity="center"
+        android:paddingLeft="@dimen/margin_2"
+        android:paddingRight="@dimen/margin_2"
+        android:textColor="@color/colorTitle"
+        android:textSize="@dimen/small_text_size"/>
+</RelativeLayout>

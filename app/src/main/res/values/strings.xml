@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">直播</string>
+
+    <string name="save">保存</string>
+    <string name="edit">编辑</string>
+    <string name="finish">完成</string>
+    <string name="confirm">确定</string>
+    <string name="delete">删除</string>
+    <string name="change">修改</string>
+    <string name="search">搜索</string>
+
+    <string name="title_main">首页</string>
+</resources>
