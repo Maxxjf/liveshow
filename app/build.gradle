@@ -10,12 +10,40 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
+    signingConfigs {
+        key {
+            keyAlias 'liveshow'
+            keyPassword 'qcloud'
+            storeFile file('liveshow.jks')
+            storePassword 'qcloud'
+        }
+    }
+
     buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
+            signingConfig signingConfigs.key
+        }
         release {
             minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.key
         }
+    }
+
+    lintOptions {
+        disable 'InconsistentArrays','OldTargetApi','GradleOverrides','MissingTranslation','UnusedResources','GoogleAppIndexingWarning','ResourceType'
+        abortOnError false
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
 }
 
