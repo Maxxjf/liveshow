@@ -9,7 +9,9 @@ import com.lzy.okgo.cookie.CookieJarImpl;
 import com.lzy.okgo.cookie.store.DBCookieStore;
 import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
+import com.qcloud.liveshow.BuildConfig;
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.utils.FileLoggingTree;
 import com.qcloud.qclib.AppManager;
 import com.qcloud.qclib.FrameConfig;
 import com.qcloud.qclib.utils.ConstantUtil;
@@ -24,6 +26,7 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
 import okhttp3.OkHttpClient;
+import timber.log.Timber;
 
 /**
  * 类说明：BaseApplication
@@ -50,6 +53,14 @@ public class BaseApplication extends Application {
 
         // 腾讯Bugly crash异常捕捉
         CrashReport.initCrashReport(getApplicationContext(), "d05326ee5c", false);
+
+        // 在这里先使用Timber.plant注册一个Tree，然后调用静态的.d .v 去使用
+        // Timber.d("test Timber %d",10);
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        } else {
+            Timber.plant(new FileLoggingTree());
+        }
     }
 
     /**

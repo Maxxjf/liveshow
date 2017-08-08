@@ -27,8 +27,8 @@
             android:value="720"/>
 
         <activity
-            android:name=".ui.main.widget.MainActivity"
-            android:label="@string/title_main"
+            android:name=".ui.account.widget.LoginActivity"
+            android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -37,6 +37,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.main.widget.MainActivity"
+                  android:launchMode="singleTask"
+                  android:label="@string/title_main"/>
     </application>
 
 </manifest>

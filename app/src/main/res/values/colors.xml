@@ -8,4 +8,6 @@
     <color name="colorSubTitle">#656565</color>
 
     <color name="colorGrayBg">#e7e7e7</color><!--线条颜色-->
+
+    <color name="colorOrangeDark">#D9B300</color><!--深橙色-->
 </resources>

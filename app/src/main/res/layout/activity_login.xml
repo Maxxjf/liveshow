@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.account.widget.LoginActivity">
+
+    <LinearLayout
+        android:id="@+id/layout_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <com.qcloud.qclib.widget.customview.ClearEditText
+            android:id="@+id/et_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            android:background="@drawable/frame_gray_circular"
+            android:drawableLeft="@drawable/icon_password"
+            android:drawablePadding="@dimen/margin_2"
+            android:paddingLeft="@dimen/margin_2"
+            android:paddingRight="@dimen/margin_2"
+            android:gravity="center_vertical"
+            android:imeOptions="actionNext"
+            android:lines="1"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/small_text_size"
+            android:hint="@string/input_mobile_hint"
+            android:textColorHint="@color/colorGray"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/margin_2">
+
+            <com.qcloud.qclib.widget.customview.ClearEditText
+                android:id="@+id/et_code"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/frame_gray_circular"
+                android:drawableLeft="@drawable/icon_password"
+                android:drawablePadding="@dimen/margin_2"
+                android:paddingLeft="@dimen/margin_2"
+                android:paddingRight="@dimen/margin_2"
+                android:gravity="center_vertical"
+                android:imeOptions="actionNext"
+                android:lines="1"
+                android:textColor="@color/colorTitle"
+                android:textSize="@dimen/small_text_size"
+                android:hint="@string/input_code_hint"
+                android:textColorHint="@color/colorGray"/>
+
+            <TextView
+                android:id="@+id/btn_get_code"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_2"
+                android:paddingLeft="@dimen/margin_2"
+                android:paddingRight="@dimen/margin_2"
+                android:gravity="center"
+                android:background="@drawable/frame_orange_circular"
+                android:textAllCaps="false"
+                android:textColor="@color/colorOrange"
+                android:textSize="@dimen/small_text_size"
+                android:text="@string/btn_get_code"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            android:layout_marginTop="@dimen/margin_2"
+            android:background="@drawable/btn_left_right_orange_selector"
+            android:gravity="center"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="@dimen/medium_text_size"
+            android:text="@string/btn_login"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/small_text_size"
+                android:text="@string/tag_agree_clause"/>
+
+            <com.qcloud.qclib.widget.customview.LineTextView
+                android:id="@+id/btn_clause"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_2"
+                android:textAllCaps="false"
+                android:textColor="@color/colorRed"
+                android:textSize="@dimen/small_text_size"
+                android:text="@string/tag_clause"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:layout_marginBottom="@dimen/margin_6"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/line_height"
+                android:layout_weight="1"
+                android:background="@color/colorGray"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_2"
+                android:layout_marginRight="@dimen/margin_2"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textColor="@color/colorGray"
+                android:textSize="@dimen/medium_text_size"
+                android:text="@string/tag_other_login_method"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/line_height"
+                android:layout_weight="1"
+                android:background="@color/colorGray"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_4">
+
+            <ImageView
+                android:id="@+id/btn_we_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/default_refresh_icon"/>
+
+            <ImageView
+                android:id="@+id/btn_facebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/default_refresh_icon"
+                android:layout_marginLeft="@dimen/margin_10"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
