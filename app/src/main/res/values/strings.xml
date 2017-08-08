@@ -11,6 +11,7 @@
 
     <string name="title_main">首页</string>
     <string name="title_login">用户登录</string>
+    <string name="title_web">网页</string>
 
     <string name="input_mobile_hint">请输入手机号</string>
     <string name="input_code_hint">短信验证码</string>

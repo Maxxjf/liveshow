@@ -12,6 +12,7 @@ import com.qcloud.liveshow.beans.LoginBean;
 import com.qcloud.liveshow.ui.account.presenter.impl.LoginPresenterImpl;
 import com.qcloud.liveshow.ui.account.view.ILoginView;
 import com.qcloud.liveshow.ui.main.widget.MainActivity;
+import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.qclib.widget.customview.ClearEditText;
 import com.qcloud.qclib.widget.customview.LineTextView;
 
@@ -90,7 +91,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
 
     @Override
     public void onClauseClick() {
-        Timber.v("onClauseClick");
+        WebActivity.openActivity(this, "责任条款", "http://jiahua.test.qi-cloud.com/fep/app/merchandise/getGoodsMapDetails?id=334699649996685312");
     }
 
     @Override

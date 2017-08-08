@@ -59,4 +59,12 @@ dependencies {
     // 第三方crash异常捕捉
     compile 'com.tencent.bugly:crashreport:latest.release'
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
+
+    // 封装的webview
+    compile 'com.github.lzyzsd:jsbridge:1.0.4'
+}
+
+repositories {
+    // ...
+    maven { url "https://jitpack.io" }
 }
