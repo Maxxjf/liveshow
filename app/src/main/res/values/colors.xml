@@ -6,8 +6,14 @@
 
     <color name="colorTitle">#282828</color>
     <color name="colorSubTitle">#656565</color>
+    
+    <color name="colorDarkGray">#656565</color><!--深灰色-->
+    <color name="colorLightGray">#989898</color><!--浅灰色-->
 
     <color name="colorGrayBg">#e7e7e7</color><!--线条颜色-->
 
-    <color name="colorOrangeDark">#D9B300</color><!--深橙色-->
+    <color name="colorOrangeDark">#FC9520</color><!--深橙色-->
+    <color name="colorStart">#FC9520</color><!--深橙色--><!--白底背景上使用的纯色-->
+    <color name="colorEnd">#FEB52C</color><!--深橙色--><!--黑底磨砂背景上使用的纯色-->
+
 </resources>

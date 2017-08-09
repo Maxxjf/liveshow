@@ -11,6 +11,6 @@
 
     <stroke
         android:width="@dimen/line_height"
-        android:color="@color/colorGray" />
+        android:color="@color/colorDarkGray" />
 
 </shape>

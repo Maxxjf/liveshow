@@ -1,0 +1,4 @@
+<resources>
+    <!-- 1.5 -->
+    <dimen name="main_margin_bottom">-4.5dp</dimen>
+</resources>

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.beans.LoginBean;
+import com.qcloud.liveshow.enums.StartMainEnum;
 import com.qcloud.liveshow.ui.account.presenter.impl.LoginPresenterImpl;
 import com.qcloud.liveshow.ui.account.view.ILoginView;
 import com.qcloud.liveshow.ui.main.widget.MainActivity;
@@ -71,7 +72,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
 
     @Override
     public void onLoginClick() {
-        MainActivity.openActivity(this);
+        MainActivity.openActivity(this, StartMainEnum.START_HOME.getKey());
     }
 
     @Override

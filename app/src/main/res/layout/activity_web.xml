@@ -16,7 +16,7 @@
 
     <View
         android:id="@+id/divider"
-        style="@style/LineVertical"
+        style="@style/LineHorizontal"
         android:layout_below="@+id/title_bar"/>
 
     <LinearLayout

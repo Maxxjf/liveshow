@@ -6,15 +6,22 @@
     android:orientation="vertical"
     tools:context=".ui.account.widget.LoginActivity">
 
+    <ImageView
+        android:id="@+id/img_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bg_login_banner"
+        android:scaleType="centerCrop"/>
+
     <LinearLayout
         android:id="@+id/layout_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/img_banner"
         android:layout_marginLeft="@dimen/margin_10"
         android:layout_marginRight="@dimen/margin_10"
-        android:orientation="vertical"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        android:layout_marginTop="@dimen/margin_2">
 
         <com.qcloud.qclib.widget.customview.ClearEditText
             android:id="@+id/et_mobile"
@@ -22,7 +29,7 @@
             android:layout_height="@dimen/tab_height"
             android:background="@drawable/frame_gray_circular"
             android:drawableLeft="@drawable/icon_password"
-            android:drawablePadding="@dimen/margin_2"
+            android:drawablePadding="@dimen/margin_3"
             android:paddingLeft="@dimen/margin_2"
             android:paddingRight="@dimen/margin_2"
             android:gravity="center_vertical"
@@ -46,7 +53,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/frame_gray_circular"
                 android:drawableLeft="@drawable/icon_password"
-                android:drawablePadding="@dimen/margin_2"
+                android:drawablePadding="@dimen/margin_3"
                 android:paddingLeft="@dimen/margin_2"
                 android:paddingRight="@dimen/margin_2"
                 android:gravity="center_vertical"
@@ -67,7 +74,7 @@
                 android:gravity="center"
                 android:background="@drawable/frame_orange_circular"
                 android:textAllCaps="false"
-                android:textColor="@color/colorOrange"
+                android:textColor="@color/colorStart"
                 android:textSize="@dimen/small_text_size"
                 android:text="@string/btn_get_code"/>
 
@@ -107,7 +114,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/margin_2"
                 android:textAllCaps="false"
-                android:textColor="@color/colorRed"
+                android:textColor="@color/colorEnd"
                 android:textSize="@dimen/small_text_size"
                 android:text="@string/tag_clause"/>
 
@@ -121,7 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_10"
         android:layout_marginRight="@dimen/margin_10"
-        android:layout_marginBottom="@dimen/margin_6"
+        android:layout_marginBottom="@dimen/margin_4"
         android:orientation="vertical"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true">
@@ -144,7 +151,6 @@
                 android:layout_marginLeft="@dimen/margin_2"
                 android:layout_marginRight="@dimen/margin_2"
                 android:textAllCaps="false"
-                android:textStyle="bold"
                 android:textColor="@color/colorGray"
                 android:textSize="@dimen/medium_text_size"
                 android:text="@string/tag_other_login_method"/>
@@ -161,19 +167,19 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="@dimen/margin_4">
+            android:layout_marginTop="@dimen/margin_3">
 
             <ImageView
                 android:id="@+id/btn_we_chat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/default_refresh_icon"/>
+                android:src="@drawable/icon_we_chat"/>
 
             <ImageView
                 android:id="@+id/btn_facebook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/default_refresh_icon"
+                android:src="@drawable/icon_facebook"
                 android:layout_marginLeft="@dimen/margin_10"/>
 
         </LinearLayout>

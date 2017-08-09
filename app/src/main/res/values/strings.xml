@@ -22,4 +22,10 @@
     <string name="tag_agree_clause">登录即代表您同意</string>
     <string name="tag_clause">《免责条款》</string>
     <string name="tag_other_login_method">其他登录方式</string>
+
+    <string name="tab_home">首页</string>
+    <string name="tab_live_show">发直播</string>
+    <string name="tab_mine">我的</string>
+
+    <string name="toast_exit_app">再按一次退出应用</string>
 </resources>

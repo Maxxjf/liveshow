@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -63,6 +64,8 @@ public class TitleBar extends Toolbar {
     private boolean isTitle;
     private int title;
     private boolean isSearch;
+    private int titleColor;
+    private int barBackground;
 
     private String searchValue;
 
@@ -94,6 +97,12 @@ public class TitleBar extends Toolbar {
             tvTitle.setText(title);
         } else {
             tvTitle.setVisibility(GONE);
+        }
+
+        if (titleColor > 0) {
+            tvTitle.setTextColor(titleColor);
+        } else {
+            tvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.colorTitle));
         }
 
         // 左图标
@@ -133,6 +142,12 @@ public class TitleBar extends Toolbar {
             mLayoutSearch.setVisibility(VISIBLE);
         } else {
             mLayoutSearch.setVisibility(GONE);
+        }
+
+        if (barBackground > 0) {
+            rootView.setBackgroundColor(barBackground);
+        } else {
+            rootView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
         }
 
         mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -176,6 +191,9 @@ public class TitleBar extends Toolbar {
 
         // 搜索
         isSearch = typedArray.getBoolean(R.styleable.BaseBar_is_search, false);
+
+        titleColor = typedArray.getColor(R.styleable.BaseBar_title_color, ContextCompat.getColor(mContext, R.color.colorTitle));
+        barBackground = typedArray.getColor(R.styleable.BaseBar_bar_background, ContextCompat.getColor(mContext, R.color.white));
     }
 
     /**标题*/

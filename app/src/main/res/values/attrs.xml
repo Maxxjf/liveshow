@@ -24,5 +24,9 @@
         <attr name="title_text" format="reference"/>
         <!--是否显示搜索框-->
         <attr name="is_search" format="boolean"/>
+        <!--标题文字颜色-->
+        <attr name="title_color" format="color"/>
+        <!--档题背景颜色-->
+        <attr name="bar_background" format="color"/>
     </declare-styleable>
 </resources>

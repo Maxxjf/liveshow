@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_main_bottom_tab"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/btn_home"
+        style="@style/TabMain"
+        android:contentDescription="@string/tab_home"
+        android:src="@drawable/icon_home_normal"/>
+
+    <RelativeLayout
+        android:id="@+id/btn_live_show"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/img_live_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/tab_live_show"
+            android:src="@drawable/icon_live_show"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/btn_mine"
+        style="@style/TabMain"
+        android:contentDescription="@string/tab_mine"
+        android:src="@drawable/icon_mine_normal"/>
+</LinearLayout>

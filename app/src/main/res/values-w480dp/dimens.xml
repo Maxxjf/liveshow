@@ -1,0 +1,4 @@
+<resources>
+    <!-- 3 -->
+    <dimen name="main_margin_bottom">-9dp</dimen>
+</resources>
