@@ -23,6 +23,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
+import timber.log.Timber;
 
 /**
  * 类说明：activity基类
@@ -36,6 +37,7 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
     protected T mPresenter;
 
     private List<BaseFragment> fragments;
+    private Fragment mCurrFragment;
 
     protected boolean isRunning;
 
@@ -122,13 +124,13 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         }
     }
 
-    protected void replaceFragment(Fragment fragment, int containerId, boolean isAnim) {
-        if (fragment == null) {
+    protected void replaceFragment(Fragment toFragment, int containerId, boolean isAnim) {
+        if (toFragment == null) {
             Log.w("BaseActivity", "将要替换的fragment不存在");
             return;
         }
 
-        replaceFragment(fragment, containerId, isAnim,
+        replaceFragment(toFragment, containerId, isAnim,
                 com.qcloud.qclib.R.anim.left_right_in,
                 com.qcloud.qclib.R.anim.left_right_out);
     }
@@ -136,18 +138,33 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
     /**
      * 改变当前的fragment
      *
-     * @param fragment    需要加载的fragment
+     * @param toFragment    需要加载的fragment
      * @param containerId fragment的布局容器id
      * @param isInAnim    是否需要切换动画
      */
-    protected void replaceFragment(Fragment fragment, int containerId, boolean isInAnim,
+    protected void replaceFragment(Fragment toFragment, int containerId, boolean isInAnim,
                                    int inAnim, int outAnim) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (isInAnim) {
             ft.setCustomAnimations(inAnim, outAnim);
         }
-        ft.replace(containerId, fragment, fragment.getClass().getName());
+
+        String toTag = toFragment.getClass().getSimpleName();
+
+        if (mCurrFragment != null) {
+            ft.hide(mCurrFragment);
+        }
+
+        if (!toFragment.isAdded()) {
+            ft.add(containerId, toFragment, toTag);
+        } else {
+            ft.show(toFragment);
+        }
+
+        //ft.replace(containerId, fragment, fragment.getClass().getName());
         ft.commitAllowingStateLoss();
+
+        mCurrFragment = toFragment;
     }
 
     /**

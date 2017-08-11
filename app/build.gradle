@@ -62,6 +62,9 @@ dependencies {
 
     // 封装的webview
     compile 'com.github.lzyzsd:jsbridge:1.0.4'
+
+    // 上拉隐藏底部bar
+    compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.2'
 }
 
 repositories {

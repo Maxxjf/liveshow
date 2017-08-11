@@ -12,6 +12,8 @@
     <string name="title_main">首页</string>
     <string name="title_login">用户登录</string>
     <string name="title_web">网页</string>
+    <string name="title_home">首页</string>
+    <string name="title_mine">我的</string>
 
     <string name="input_mobile_hint">请输入手机号</string>
     <string name="input_code_hint">短信验证码</string>
@@ -22,10 +24,18 @@
     <string name="tag_agree_clause">登录即代表您同意</string>
     <string name="tag_clause">《免责条款》</string>
     <string name="tag_other_login_method">其他登录方式</string>
+    <string name="tag_search">搜索</string>
 
     <string name="tab_home">首页</string>
     <string name="tab_live_show">发直播</string>
     <string name="tab_mine">我的</string>
 
     <string name="toast_exit_app">再按一次退出应用</string>
+
+    <string name="tip_title">温馨提示</string>
+    <string name="tip_cancel">取消</string>
+    <string name="tip_confirm">确定</string>
+
+    <string name="behavior_footer_depend">com.qcloud.liveshow.widget.behavior.ScrollHideBehavior</string>
+
 </resources>

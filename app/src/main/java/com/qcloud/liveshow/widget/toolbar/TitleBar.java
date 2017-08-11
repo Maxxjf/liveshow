@@ -171,7 +171,7 @@ public class TitleBar extends Toolbar {
         TypedArray typedArray = this.mContext.obtainStyledAttributes(attrs, R.styleable.BaseBar);
         // 左图标
         isLeft = typedArray.getBoolean(R.styleable.BaseBar_is_left, false);
-        leftIcon = typedArray.getResourceId(R.styleable.BaseBar_left_icon, 0);
+        leftIcon = typedArray.getResourceId(R.styleable.BaseBar_left_icon, R.drawable.icon_normal_back);
 
         // 左文字
         isLeftText = typedArray.getBoolean(R.styleable.BaseBar_is_left_text, false);

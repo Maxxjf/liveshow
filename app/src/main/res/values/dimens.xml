@@ -1,3 +1,5 @@
 <resources>
     <dimen name="main_margin_bottom">-6dp</dimen>
+
+    <dimen name="margin_80dp">80dp</dimen>
 </resources>

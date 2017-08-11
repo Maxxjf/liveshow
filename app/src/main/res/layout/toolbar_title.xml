@@ -2,15 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/toolbar_height"
-    android:background="@color/colorPrimary">
+    android:background="@color/white">
 
     <ImageButton
         android:id="@+id/ib_left"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@null"
-        android:paddingLeft="@dimen/margin_2"
-        android:paddingRight="@dimen/margin_2"/>
+        android:paddingLeft="@dimen/margin_3"
+        android:paddingRight="@dimen/margin_3"
+        android:src="@drawable/icon_normal_back"/>
 
     <TextView
         android:id="@+id/btn_left"
@@ -54,7 +55,7 @@
             android:id="@+id/btn_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_search_qian"/>
+            android:src="@drawable/icon_search_gray"/>
 
         <com.qcloud.qclib.widget.customview.ClearEditText
             android:id="@+id/et_search"
@@ -67,7 +68,7 @@
             android:lines="1"
             android:textColor="@color/colorTitle"
             android:textSize="@dimen/small_text_size"
-            android:hint="搜索"
+            android:hint="@string/tag_search"
             android:textColorHint="@color/colorGray"/>
 
         <TextView
@@ -79,7 +80,7 @@
             android:background="@drawable/frame_gray"
             android:gravity="center_vertical"
             android:textSize="@dimen/micro_text_size"
-            android:hint="搜索"
+            android:hint="@string/tag_search"
             android:visibility="gone"/>
     </LinearLayout>
 
@@ -90,7 +91,8 @@
         android:layout_alignParentRight="true"
         android:background="@null"
         android:paddingLeft="@dimen/margin_2"
-        android:paddingRight="@dimen/margin_2"/>
+        android:paddingRight="@dimen/margin_2"
+        android:src="@drawable/icon_message_black"/>
 
     <TextView
         android:id="@+id/btn_right"
@@ -99,8 +101,8 @@
         android:layout_alignParentRight="true"
         android:background="@null"
         android:gravity="center"
-        android:paddingLeft="@dimen/margin_2"
-        android:paddingRight="@dimen/margin_2"
+        android:paddingLeft="@dimen/margin_3"
+        android:paddingRight="@dimen/margin_3"
         android:textColor="@color/colorTitle"
         android:textSize="@dimen/small_text_size"/>
 </RelativeLayout>

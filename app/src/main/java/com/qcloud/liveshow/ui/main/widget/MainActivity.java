@@ -11,9 +11,13 @@ import android.widget.RelativeLayout;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.base.BaseApplication;
+import com.qcloud.liveshow.base.BaseFragment;
+import com.qcloud.liveshow.enums.StartHomeEnum;
 import com.qcloud.liveshow.enums.StartMainEnum;
+import com.qcloud.liveshow.ui.home.widget.HomeFragment;
 import com.qcloud.liveshow.ui.main.presenter.impl.MainPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.IMainView;
+import com.qcloud.liveshow.ui.mine.widget.MineFragment;
 import com.qcloud.qclib.toast.ToastUtils;
 
 import butterknife.Bind;
@@ -28,6 +32,9 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     @Bind(R.id.btn_mine)
     ImageView mBtnMine;
 
+    private HomeFragment mHomeFragment;
+    private MineFragment mMineFragment;
+    private BaseFragment mFragment;
 
     private long exitTime = 0;
 
@@ -44,7 +51,6 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     @Override
     protected int setStatusBarColor() {
         return ContextCompat.getColor(this, R.color.white);
-
     }
 
     @Override
@@ -60,24 +66,27 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
 
     @Override
     public void onHomeClick() {
+        if (mHomeFragment == null) {
+            mHomeFragment = HomeFragment.newInstance(StartHomeEnum.START_HOT.getKey());
+        }
+        replaceFragment(mHomeFragment, R.id.fragment_container, false);
+        mFragment = mHomeFragment;
         clearEffect(mBtnHome);
     }
 
     @Override
     public void onLiveShowClick() {
-
+        ToastUtils.ToastMessage(this, "直播");
     }
 
     @Override
     public void onMineClick() {
+        if (mMineFragment == null) {
+            mMineFragment = new MineFragment();
+        }
+        replaceFragment(mMineFragment, R.id.fragment_container, false);
+        mFragment = mMineFragment;
         clearEffect(mBtnMine);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        int startEnum = intent.getIntExtra("START_ENUM", 1);
-        switchStart(startEnum);
     }
 
     private void switchStart(int startEnum) {
@@ -103,6 +112,13 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
             mBtnHome.setImageResource(R.drawable.icon_home_select);
             mBtnMine.setImageResource(R.drawable.icon_mine_normal);
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int startEnum = intent.getIntExtra("START_ENUM", 1);
+        switchStart(startEnum);
     }
 
     public static void openActivity(Context context, int startEnum) {

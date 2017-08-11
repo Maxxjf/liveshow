@@ -12,6 +12,25 @@
     <!-- application theme -->
     <style name="AppTheme" parent="@style/AppBaseTheme" />
 
+    <!--PopupWindow 进入退出动画-->
+    <style name="AnimationPopupWindow">
+        <item name="android:windowEnterAnimation">@anim/pop_in_anim</item>
+        <item name="android:windowExitAnimation">@anim/pop_out_anim</item>
+    </style>
+
+    <!--PopupWindow 进入退出动画 从下到上-->
+    <style name="AnimationPopupWindow_bottom_to_up">
+        <item name="android:windowEnterAnimation">@anim/up_to_bottom</item>
+        <item name="android:windowExitAnimation">@anim/bottom_to_up</item>
+    </style>
+
+
+    <!--PopupWindow 进入退出动画 从上到下-->
+    <style name="AnimationPopupWindow_up_to_bottom">
+        <item name="android:windowEnterAnimation">@anim/scale_in</item>
+        <item name="android:windowExitAnimation">@anim/scale_out</item>
+    </style>
+
     <!-- EditText 样式 -->
     <style name="EditTextStyle">
         <item name="android:textSize">@dimen/micro_text_size</item>

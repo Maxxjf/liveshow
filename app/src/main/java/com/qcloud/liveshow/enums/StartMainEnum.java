@@ -1,7 +1,5 @@
 package com.qcloud.liveshow.enums;
 
-import static android.R.attr.type;
-
 /**
  * 类说明：启动主界面
  * Author: Kuzan
@@ -9,11 +7,11 @@ import static android.R.attr.type;
  */
 public enum StartMainEnum {
     /**启动首页*/
-    START_HOME(1, "首页"),
+    START_HOME(0, "首页"),
     /**启动直播*/
-    START_LIVE_SHOW(2, "直播"),
+    START_LIVE_SHOW(1, "直播"),
     /**启动我的*/
-    START_MINE(3, "我的");
+    START_MINE(2, "我的");
 
     private int key;
     private String value;
@@ -24,12 +22,12 @@ public enum StartMainEnum {
     }
 
     public static StartMainEnum valueOf(int key) {
-        switch (type) {
-            case 1:
+        switch (key) {
+            case 0:
                 return START_HOME;
-            case 2:
+            case 1:
                 return START_LIVE_SHOW;
-            case 3:
+            case 2:
                 return START_MINE;
             default:
                 return START_HOME;
