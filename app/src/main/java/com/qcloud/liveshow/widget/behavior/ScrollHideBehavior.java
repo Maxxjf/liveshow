@@ -12,6 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.qclib.beans.RxBusEvent;
+import com.qcloud.qclib.rxbus.BusProvider;
+
+import timber.log.Timber;
 
 /**
  * 类说明：滑动隐藏底部bar
@@ -50,6 +54,7 @@ public class ScrollHideBehavior extends CoordinatorLayout.Behavior<View> {
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild,
                                        View target, int nestedScrollAxes) {
+        //Timber.e("onStartNestedScroll nestedScrollAxes = %d", nestedScrollAxes);
         return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
     }
 
@@ -81,6 +86,7 @@ public class ScrollHideBehavior extends CoordinatorLayout.Behavior<View> {
     @Override
     public boolean onNestedFling(CoordinatorLayout coordinatorLayout, View child, View target,
                                  float velocityX, float velocityY, boolean consumed) {
+        Timber.e("onNestedFling consumed = " + consumed);
         if (consumed) {
             if (velocityY > 0 && mScrollTrigger != DIRECTION_UP) {
                 mScrollTrigger = DIRECTION_UP;
@@ -98,6 +104,12 @@ public class ScrollHideBehavior extends CoordinatorLayout.Behavior<View> {
         if (mAnimator != null) {
             mAnimator.cancel();
             mAnimator = null;
+        }
+
+        if (value == 0) {
+            BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.show_hide_title_bar).setObj(true).build());
+        } else {
+            BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.show_hide_title_bar).setObj(false).build());
         }
 
         mAnimator = ObjectAnimator

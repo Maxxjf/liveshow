@@ -16,14 +16,14 @@ import android.view.WindowManager;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.qclib.base.BasePresenter;
+import com.qcloud.qclib.rxbus.Bus;
+import com.qcloud.qclib.rxbus.BusProvider;
 import com.qcloud.qclib.widget.dialog.LoadingDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import io.reactivex.disposables.CompositeDisposable;
-import timber.log.Timber;
 
 /**
  * 类说明：activity基类
@@ -33,7 +33,8 @@ import timber.log.Timber;
 public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity {
     protected Context mContext;
     protected BaseApplication application = BaseApplication.getInstance();
-    protected CompositeDisposable mDisposable;
+    //protected CompositeDisposable mDisposable;
+    protected Bus mEventBus = BusProvider.getInstance();
     protected T mPresenter;
 
     private List<BaseFragment> fragments;
@@ -53,7 +54,12 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         mContext = this;
         ButterKnife.bind(this);
         application.getAppManager().addActivity(this);
-        mDisposable = new CompositeDisposable();
+        //mDisposable = new CompositeDisposable();
+        // 注册eventBus
+        if (mEventBus == null) {
+            mEventBus = BusProvider.getInstance();
+        }
+        mEventBus.register(this);
 
         mPresenter = initPresenter();
         if (mPresenter != null) {
@@ -97,9 +103,11 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         application.getAppManager().killActivity(this);
 
         // 如果订阅了相关事件，在onDestroy时取消订阅，防止RxJava可能会引起的内存泄漏问题
-        if (!mDisposable.isDisposed()) {
-            mDisposable.dispose();
-        }
+//        if (mDisposable != null && mDisposable.isDisposed()) {
+//            mDisposable.dispose();
+//        }
+        mEventBus.unregister(this);
+        mEventBus = null;
 
         isRunning = false;
 

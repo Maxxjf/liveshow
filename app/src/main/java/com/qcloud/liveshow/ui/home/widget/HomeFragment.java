@@ -1,9 +1,12 @@
 package com.qcloud.liveshow.ui.home.widget;
 
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.HomeViewPagerAdapter;
@@ -12,6 +15,7 @@ import com.qcloud.liveshow.beans.HomeViewPageBean;
 import com.qcloud.liveshow.ui.home.presenter.impl.HomePresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IHomeView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
+import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.DensityUtils;
 import com.qcloud.qclib.widget.indicator.FixedIndicatorView;
@@ -21,19 +25,27 @@ import com.qcloud.qclib.widget.indicator.transition.OnTransitionTextListener;
 
 import java.util.List;
 
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+
 /**
  * 类说明：首页
  * Author: Kuzan
  * Date: 2017/8/10 9:55.
  */
+@SuppressLint("WrongViewCast")
 public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> implements IHomeView {
 
     private TitleBar mTitleBar;
     private FixedIndicatorView mIndicator;
     private ViewPager mViewPager;
+    private RelativeLayout mLayoutTitle;
 
     private IndicatorViewPager mIndicatorViewPager;
     private HomeViewPagerAdapter mAdapter;
+
+    /**显示与隐藏TitleBar动画*/
+    private ObjectAnimator mAnimator;
 
     @Override
     protected int getLayoutId() {
@@ -50,6 +62,7 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
         mTitleBar = (TitleBar) mView.findViewById(R.id.title_bar);
         mIndicator = (FixedIndicatorView) mView.findViewById(R.id.view_page_indicator);
         mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
+        mLayoutTitle = (RelativeLayout) mView.findViewById(R.id.layout_title);
 
         initTitleBar();
         initIndicator();
@@ -57,7 +70,19 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
 
     @Override
     protected void beginLoad() {
+        initRxBusEvent();
+    }
 
+    private void initRxBusEvent() {
+        mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, new Consumer<RxBusEvent>() {
+            @Override
+            public void accept(@NonNull RxBusEvent rxBusEvent) throws Exception {
+                if (rxBusEvent.getType() == R.id.show_hide_title_bar) {
+                    boolean isShow = (boolean) rxBusEvent.getObj();
+                    //showOrHideTitle(isShow);
+                }
+            }
+        }));
     }
 
     private void initTitleBar() {
@@ -100,6 +125,37 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
         mIndicatorViewPager.setAdapter(mAdapter);
 
         mPresenter.createViewPager();
+    }
+
+    /**
+     * 显示或隐藏标题栏
+     * */
+    private void showOrHideTitle(boolean isShow) {
+        if (mLayoutTitle != null) {
+            if (isShow) {
+                restartTitleAnimator(mLayoutTitle, 0f);
+                if (mLayoutTitle.getVisibility() == View.GONE) {
+                    mLayoutTitle.setVisibility(View.VISIBLE);
+                }
+            } else {
+                restartTitleAnimator(mLayoutTitle, -mLayoutTitle.getHeight());
+                if (mLayoutTitle.getVisibility() == View.VISIBLE) {
+                    mLayoutTitle.setVisibility(View.GONE);
+                }
+            }
+        }
+    }
+
+    private void restartTitleAnimator(View target, float value) {
+        if (mAnimator != null) {
+            mAnimator.cancel();
+            mAnimator = null;
+        }
+
+        mAnimator = ObjectAnimator
+                .ofFloat(target, View.TRANSLATION_Y, value)
+                .setDuration(250);
+        mAnimator.start();
     }
 
     @Override

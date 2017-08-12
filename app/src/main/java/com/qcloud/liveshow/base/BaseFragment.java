@@ -9,10 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qcloud.qclib.base.BasePresenter;
+import com.qcloud.qclib.rxbus.Bus;
+import com.qcloud.qclib.rxbus.BusProvider;
 import com.qcloud.qclib.widget.dialog.LoadingDialog;
 
 import butterknife.ButterKnife;
-import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * 类说明：BaseFragment
@@ -29,7 +30,8 @@ public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragme
 
     public T mPresenter;
 
-    protected CompositeDisposable mDisposable;
+    //protected CompositeDisposable mDisposable;
+    protected Bus mEventBus = BusProvider.getInstance();
 
     protected boolean isInFragment;
 
@@ -46,9 +48,11 @@ public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragme
             mPresenter.attach((V) this);
         }
 
-        if (mDisposable == null) {
-            mDisposable = new CompositeDisposable();
+        // 注册eventBus
+        if (mEventBus == null) {
+            mEventBus = BusProvider.getInstance();
         }
+        mEventBus.register(this);
 
         if (getActivity() instanceof BaseActivity) {
             BaseActivity activity = (BaseActivity) getActivity();
@@ -146,11 +150,12 @@ public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragme
         }
 
         // 如果订阅了相关事件，在onDestroy时取消订阅，防止RxJava可能会引起的内存泄漏问题
-        if (!mDisposable.isDisposed()) {
-            mDisposable.dispose();
-        }
+//        if (mDisposable != null && mDisposable.isDisposed()) {
+//            mDisposable.dispose();
+//        }
+        mEventBus.unregister(this);
+        mEventBus = null;
     }
-
 
     /**
      * 模版方法，通过该方法获取该fragment的view的layoutid

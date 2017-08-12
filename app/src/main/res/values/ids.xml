@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--隐藏/显示titleBar-->
+    <item name="show_hide_title_bar" type="id"/>
+
+</resources>
