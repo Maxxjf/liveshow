@@ -33,7 +33,7 @@
                 myapp:width="120"/>
 
             <ImageView
-                android:id="@+id/img_user_vip"
+                android:id="@+id/img_anchor_level"
                 android:layout_width="@dimen/margin_4"
                 android:layout_height="@dimen/margin_4"
                 android:gravity="center"

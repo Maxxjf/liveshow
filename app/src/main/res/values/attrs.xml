@@ -29,4 +29,22 @@
         <!--档题背景颜色-->
         <attr name="bar_background" format="color"/>
     </declare-styleable>
+
+    <!--Item自定义属性-->
+    <declare-styleable name="ItemAttr">
+        <!--item图标-->
+        <attr name="item_icon" format="reference"/>
+        <!--是否显示点击图标-->
+        <attr name="is_item_arrow" format="boolean"/>
+        <!--点击进入图标-->
+        <attr name="item_arrow" format="reference"/>
+        <!--item名称-->
+        <attr name="item_name" format="reference"/>
+        <!--item备注-->
+        <attr name="item_remark" format="reference"/>
+        <!--item备注文字颜色-->
+        <attr name="item_remark_color" format="color"/>
+        <!--档题背景颜色-->
+        <attr name="item_background" format="color"/>
+    </declare-styleable>
 </resources>

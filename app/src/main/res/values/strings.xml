@@ -30,6 +30,16 @@
     <string name="tab_live_show">发直播</string>
     <string name="tab_mine">我的</string>
     <string name="tag_live_show_desc">你丑你先睡，我美我直播</string>
+    <string name="tag_user_center_profit">我的收益</string>
+    <string name="tag_user_center_level">我的等级</string>
+    <string name="tag_user_center_diamonds">我的钻石币</string>
+    <string name="tag_user_center_gift">我的礼物</string>
+    <string name="tag_user_center_inviting_friends">邀请好友</string>
+    <string name="tag_user_center_inviting_remark">邀请有奖哦~</string>
+    <string name="tag_user_center_extension_code">推广码</string>
+    <string name="tag_user_center_set">设置</string>
+    <string name="tag_follow">关注</string>
+    <string name="tag_fans">粉丝</string>
 
     <string name="toast_exit_app">再按一次退出应用</string>
 
@@ -38,6 +48,7 @@
     <string name="tip_confirm">确定</string>
 
     <string name="behavior_footer_depend">com.qcloud.liveshow.widget.behavior.ScrollHideBehavior</string>
+
 
 
 </resources>
