@@ -6,7 +6,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
@@ -18,6 +17,7 @@ import com.qcloud.liveshow.ui.main.presenter.impl.MainPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.IMainView;
 import com.qcloud.liveshow.ui.mine.widget.MineFragment;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.StatusBarUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -27,7 +27,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     @Bind(R.id.btn_home)
     ImageView mBtnHome;
     @Bind(R.id.btn_live_show)
-    RelativeLayout mBtnLiveShow;
+    ImageView mBtnLiveShow;
     @Bind(R.id.btn_mine)
     ImageView mBtnMine;
 
@@ -48,11 +48,12 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
 
     @Override
     protected int setStatusBarColor() {
-        return ContextCompat.getColor(this, R.color.colorEnd);
+        return ContextCompat.getColor(this, R.color.white);
     }
 
     @Override
     protected void initViewAndData() {
+        StatusBarUtil.setStatusTextColor(this, true);
         int startEnum = getIntent().getIntExtra("START_ENUM", 1);
         switchStart(startEnum);
     }

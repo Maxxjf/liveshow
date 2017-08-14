@@ -15,10 +15,10 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.utils.SystemBarTintManager;
 import com.qcloud.qclib.base.BasePresenter;
 import com.qcloud.qclib.rxbus.Bus;
 import com.qcloud.qclib.rxbus.BusProvider;
+import com.qcloud.qclib.utils.SystemBarTintManager;
 import com.qcloud.qclib.widget.dialog.LoadingDialog;
 
 import java.util.ArrayList;

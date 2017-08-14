@@ -7,18 +7,19 @@ import com.qcloud.qclib.adapter.recyclerview.BaseViewHolder;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
 
 /**
- * 类说明：热门
+ * 类说明：最新
  * Author: Kuzan
- * Date: 2017/8/11 17:52.
+ * Date: 2017/8/14 16:06.
  */
-public class HotAdapter extends CommonRecyclerAdapter<String> {
-    public HotAdapter(Context context) {
+public class NewestAdapter extends CommonRecyclerAdapter<String> {
+
+    public NewestAdapter(Context context) {
         super(context);
     }
 
     @Override
     public int onCreateViewLayoutID(int viewType) {
-        return R.layout.item_of_hot;
+        return R.layout.item_of_newest;
     }
 
     @Override

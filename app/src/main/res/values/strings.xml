@@ -29,6 +29,7 @@
     <string name="tab_home">首页</string>
     <string name="tab_live_show">发直播</string>
     <string name="tab_mine">我的</string>
+    <string name="tag_live_show_desc">你丑你先睡，我美我直播</string>
 
     <string name="toast_exit_app">再按一次退出应用</string>
 
@@ -37,5 +38,6 @@
     <string name="tip_confirm">确定</string>
 
     <string name="behavior_footer_depend">com.qcloud.liveshow.widget.behavior.ScrollHideBehavior</string>
+
 
 </resources>

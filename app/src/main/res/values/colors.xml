@@ -10,7 +10,7 @@
     <color name="colorDarkGray">#656565</color><!--深灰色-->
     <color name="colorLightGray">#989898</color><!--浅灰色-->
 
-    <color name="colorGrayBg">#e7e7e7</color><!--线条颜色-->
+    <color name="colorGrayBg">#f7f7f7</color><!--灰色背景-->
 
     <color name="colorOrangeDark">#FC9520</color><!--深橙色-->
     <color name="colorStart">#FC9520</color><!--深橙色--><!--白底背景上使用的纯色-->
