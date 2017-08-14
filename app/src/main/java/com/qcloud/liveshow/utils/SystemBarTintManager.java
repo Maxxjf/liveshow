@@ -1,4 +1,4 @@
-package com.qcloud.liveshow.base;
+package com.qcloud.liveshow.utils;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -17,38 +17,19 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
- * 类说明：
- * Author: Kuzan
- * Date: 2017/8/1 18:30.
+ * Created by Administrator on 2015/11/2.
  */
 public class SystemBarTintManager {
-    static {
-        // Android allows a system property to override the presence of the navigation bar.
-        // Used by the emulator.
-        // See https://github.com/android/platform_frameworks_base/blob/master/policy/src/com/android/internal/policy/impl/PhoneWindowManager.java#L1076
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            try {
-                Class c = Class.forName("android.os.SystemProperties");
-                Method m = c.getDeclaredMethod("get", String.class);
-                m.setAccessible(true);
-                sNavBarOverride = (String) m.invoke(null, "qemu.hw.mainkeys");
-            } catch (Throwable e) {
-                sNavBarOverride = null;
-            }
-        }
-    }
-
     /**
      * The default system bar tint color value.
      */
     public static final int DEFAULT_TINT_COLOR = 0x99000000;
-
-    private static String sNavBarOverride;
 
     private final SystemBarConfig mConfig;
     private boolean mStatusBarAvailable;
@@ -57,17 +38,35 @@ public class SystemBarTintManager {
     private boolean mNavBarTintEnabled;
     private View mStatusBarTintView;
     private View mNavBarTintView;
+    private static boolean sIsMiuiV6;
+    private static String sNavBarOverride = null;
+
+    static {
+        Method methodGetter = null;
+        try {
+            Class<?> sysClass = Class.forName("android.os.SystemProperties");
+            methodGetter = sysClass.getDeclaredMethod("get", String.class);
+            sIsMiuiV6 = "V6".equals((String) methodGetter.invoke(sysClass, "ro.miui.ui.version.name"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (methodGetter != null) {
+                try {
+                    sNavBarOverride = (String) methodGetter.invoke(null, "qemu.hw.mainkeys");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    sNavBarOverride = null;
+                }
+            }
+        }
+    }
 
     /**
-     * Constructor. Call this in the host activity onCreate method after its
-     * content view has been set. You should always create new instances when
-     * the host activity is recreated.
-     *
      * @param activity The host activity.
      */
     @TargetApi(19)
-    @SuppressWarnings("ResourceType")
     public SystemBarTintManager(Activity activity) {
+
 
         Window win = activity.getWindow();
         ViewGroup decorViewGroup = (ViewGroup) win.getDecorView();
@@ -112,9 +111,6 @@ public class SystemBarTintManager {
 
     /**
      * Enable tinting of the system status bar.
-     * If the platform is running Jelly Bean or earlier, or translucent system
-     * UI modes have not been enabled in either the theme or via window flags,
-     * then this method does nothing.
      *
      * @param enabled True to enable tinting, false to disable it (default).
      */
@@ -126,10 +122,29 @@ public class SystemBarTintManager {
     }
 
     /**
+     * set status bar darkmode
+     *
+     * @param darkmode
+     * @param activity
+     */
+    public void setStatusBarDarkMode(boolean darkmode, Activity activity) {
+        if (sIsMiuiV6) {
+            Class<? extends Window> clazz = activity.getWindow().getClass();
+            try {
+                int darkModeFlag = 0;
+                Class<?> layoutParams = Class.forName("android.view.MiuiWindowManager$LayoutParams");
+                Field field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE");
+                darkModeFlag = field.getInt(layoutParams);
+                Method extraFlagField = clazz.getMethod("setExtraFlags", int.class, int.class);
+                extraFlagField.invoke(activity.getWindow(), darkmode ? darkModeFlag : 0, darkModeFlag);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
      * Enable tinting of the system navigation bar.
-     * If the platform does not have soft navigation keys, is running Jelly Bean
-     * or earlier, or translucent system UI modes have not been enabled in either
-     * the theme or via window flags, then this method does nothing.
      *
      * @param enabled True to enable tinting, false to disable it (default).
      */
@@ -198,7 +213,7 @@ public class SystemBarTintManager {
      */
     public void setStatusBarTintResource(int res) {
         if (mStatusBarAvailable) {
-            mStatusBarTintView.setBackgroundResource(res);
+            mStatusBarTintView.setBackgroundColor(res);
         }
     }
 
@@ -301,7 +316,7 @@ public class SystemBarTintManager {
 
     private void setupStatusBarView(Context context, ViewGroup decorViewGroup) {
         mStatusBarTintView = new View(context);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, mConfig.getStatusBarHeight());
+        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, mConfig.getStatusBarHeight());
         params.gravity = Gravity.TOP;
         if (mNavBarAvailable && !mConfig.isNavigationAtBottom()) {
             params.rightMargin = mConfig.getNavigationBarWidth();
@@ -314,12 +329,12 @@ public class SystemBarTintManager {
 
     private void setupNavBarView(Context context, ViewGroup decorViewGroup) {
         mNavBarTintView = new View(context);
-        FrameLayout.LayoutParams params;
+        LayoutParams params;
         if (mConfig.isNavigationAtBottom()) {
-            params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, mConfig.getNavigationBarHeight());
+            params = new LayoutParams(LayoutParams.MATCH_PARENT, mConfig.getNavigationBarHeight());
             params.gravity = Gravity.BOTTOM;
         } else {
-            params = new FrameLayout.LayoutParams(mConfig.getNavigationBarWidth(), FrameLayout.LayoutParams.MATCH_PARENT);
+            params = new LayoutParams(mConfig.getNavigationBarWidth(), LayoutParams.MATCH_PARENT);
             params.gravity = Gravity.RIGHT;
         }
         mNavBarTintView.setLayoutParams(params);
@@ -328,10 +343,6 @@ public class SystemBarTintManager {
         decorViewGroup.addView(mNavBarTintView);
     }
 
-    /**
-     * Class which describes system bar sizing and other characteristics for the current
-     * device configuration.
-     */
     public static class SystemBarConfig {
 
         private static final String STATUS_BAR_HEIGHT_RES_NAME = "status_bar_height";
@@ -369,7 +380,7 @@ public class SystemBarTintManager {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                 TypedValue tv = new TypedValue();
                 context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
-                result = TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
+                result = context.getResources().getDimensionPixelSize(tv.resourceId);
             }
             return result;
         }
@@ -379,7 +390,7 @@ public class SystemBarTintManager {
             Resources res = context.getResources();
             int result = 0;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                if (hasNavBar(context)) {
+                if (!hasNavBar(context)) {
                     String key;
                     if (mInPortrait) {
                         key = NAV_BAR_HEIGHT_RES_NAME;
@@ -397,29 +408,11 @@ public class SystemBarTintManager {
             Resources res = context.getResources();
             int result = 0;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                if (hasNavBar(context)) {
+                if (!hasNavBar(context)) {
                     return getInternalDimensionSize(res, NAV_BAR_WIDTH_RES_NAME);
                 }
             }
             return result;
-        }
-
-        @TargetApi(14)
-        private boolean hasNavBar(Context context) {
-            Resources res = context.getResources();
-            int resourceId = res.getIdentifier(SHOW_NAV_BAR_RES_NAME, "bool", "android");
-            if (resourceId != 0) {
-                boolean hasNav = res.getBoolean(resourceId);
-                // check override flag (see static block)
-                if ("1".equals(sNavBarOverride)) {
-                    hasNav = false;
-                } else if ("0".equals(sNavBarOverride)) {
-                    hasNav = true;
-                }
-                return hasNav;
-            } else { // fallback
-                return !ViewConfiguration.get(context).hasPermanentMenuKey();
-            }
         }
 
         private int getInternalDimensionSize(Resources res, String key) {
@@ -539,5 +532,41 @@ public class SystemBarTintManager {
             }
         }
 
+        private boolean hasNavBar(Context context) {
+            Resources res = context.getResources();
+            int resourceId = res.getIdentifier(SHOW_NAV_BAR_RES_NAME, "bool", "android");
+            if (resourceId != 0) {
+                boolean hasNav = res.getBoolean(resourceId);
+                // check override flag (see static block)
+                if ("1".equals(sNavBarOverride)) {
+                    hasNav = false;
+                } else if ("0".equals(sNavBarOverride)) {
+                    hasNav = true;
+                }
+                return hasNav;
+            } else { // fallback
+                return !hasPermanentMenuKey(context);
+            }
+        }
+
+        private boolean hasPermanentMenuKey(Context cxt) {
+            try {
+                WindowManager wm = (WindowManager) cxt.getSystemService(Context.WINDOW_SERVICE);
+
+                ViewConfiguration config = ViewConfiguration.get(cxt);
+                Field menuKeyField = ViewConfiguration.class
+                        .getDeclaredField("sHasPermanentMenuKey");
+                if (menuKeyField != null) {
+                    menuKeyField.setAccessible(true);
+                    return menuKeyField.getBoolean(config);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
     }
+
 }

@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.base.BaseApplication;
-import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.enums.StartHomeEnum;
 import com.qcloud.liveshow.enums.StartMainEnum;
 import com.qcloud.liveshow.ui.home.widget.HomeFragment;
@@ -34,7 +33,6 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
 
     private HomeFragment mHomeFragment;
     private MineFragment mMineFragment;
-    private BaseFragment mFragment;
 
     private long exitTime = 0;
 
@@ -50,7 +48,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
 
     @Override
     protected int setStatusBarColor() {
-        return ContextCompat.getColor(this, R.color.white);
+        return ContextCompat.getColor(this, R.color.colorEnd);
     }
 
     @Override
@@ -70,7 +68,6 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
             mHomeFragment = HomeFragment.newInstance(StartHomeEnum.START_HOT.getKey());
         }
         replaceFragment(mHomeFragment, R.id.fragment_container, false);
-        mFragment = mHomeFragment;
         clearEffect(mBtnHome);
     }
 
@@ -85,7 +82,6 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
             mMineFragment = new MineFragment();
         }
         replaceFragment(mMineFragment, R.id.fragment_container, false);
-        mFragment = mMineFragment;
         clearEffect(mBtnMine);
     }
 
