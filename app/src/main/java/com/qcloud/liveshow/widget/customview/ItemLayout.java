@@ -105,14 +105,10 @@ public class ItemLayout extends BaseLinearLayout {
 
         if (itemRemark > 0) {
             mTvItemRemark.setText(itemRemark);
-            if (itemRemarkColor > 0) {
-                mTvItemRemark.setTextColor(itemRemarkColor);
-            }
         }
 
-        if (itemBackground > 0) {
-            mView.setBackgroundColor(itemBackground);
-        }
+        mTvItemRemark.setTextColor(itemRemarkColor);
+        mView.setBackgroundColor(itemBackground);
     }
 
     public void setRemark(String remark) {

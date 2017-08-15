@@ -144,11 +144,7 @@ public class TitleBar extends Toolbar {
             mLayoutSearch.setVisibility(GONE);
         }
 
-        if (barBackground > 0) {
-            rootView.setBackgroundColor(barBackground);
-        } else {
-            rootView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
-        }
+        rootView.setBackgroundColor(barBackground);
 
         mEtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 

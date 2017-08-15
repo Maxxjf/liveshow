@@ -12,6 +12,7 @@ import com.qcloud.liveshow.widget.customview.UserInfoLayout;
 import com.qcloud.qclib.toast.ToastUtils;
 
 import butterknife.Bind;
+import butterknife.BindString;
 import butterknife.OnClick;
 
 /**
@@ -41,6 +42,9 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
     @Bind(R.id.layout_set)
     ItemLayout mLayoutSet;
 
+    @BindString(R.string.money)
+    String moneyStr;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_mine;
@@ -53,7 +57,7 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
 
     @Override
     protected void initViewAndData() {
-
+        mLayoutProfit.setRemark(moneyStr+500);
     }
 
     @Override
@@ -70,7 +74,7 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
 
     @Override
     public void onUserClick() {
-        ToastUtils.ToastMessage(getActivity(), "个人信息");
+        UserInfoActivity.openActivity(getActivity());
     }
 
     @Override

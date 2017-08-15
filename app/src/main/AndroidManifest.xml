@@ -49,6 +49,11 @@
         <activity android:name=".ui.main.widget.WebActivity"
                   android:launchMode="singleTask"
                   android:label="@string/title_web"/>
+
+        <!--个人有关-->
+        <activity android:name=".ui.mine.widget.UserInfoActivity"
+                  android:launchMode="singleTask"
+                  android:label="@string/title_user_info"/>
     </application>
 
 </manifest>
