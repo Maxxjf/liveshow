@@ -17,7 +17,6 @@ import com.qcloud.liveshow.ui.main.presenter.impl.MainPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.IMainView;
 import com.qcloud.liveshow.ui.mine.widget.MineFragment;
 import com.qcloud.qclib.toast.ToastUtils;
-import com.qcloud.qclib.utils.StatusBarUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -52,8 +51,12 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     }
 
     @Override
+    protected boolean isStatusBarTextDark() {
+        return true;
+    }
+
+    @Override
     protected void initViewAndData() {
-        StatusBarUtil.setStatusTextColor(this, true);
         int startEnum = getIntent().getIntExtra("START_ENUM", 1);
         switchStart(startEnum);
     }

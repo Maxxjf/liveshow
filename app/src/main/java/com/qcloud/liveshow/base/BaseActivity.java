@@ -2,29 +2,25 @@ package com.qcloud.liveshow.base;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.qclib.base.BasePresenter;
 import com.qcloud.qclib.rxbus.Bus;
 import com.qcloud.qclib.rxbus.BusProvider;
-import com.qcloud.qclib.utils.SystemBarTintManager;
+import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.dialog.LoadingDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * 类说明：activity基类
@@ -177,6 +173,50 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
     }
 
     /**
+     * 设置状态栏颜色
+     * */
+    protected void initSystemBarTint() {
+        if (translucentStatusBar()) {
+            // 设置状态栏全透明
+            SystemBarUtil.transparencyStatusBar(this);
+        } else {
+            // 设置状态栏字体颜色为深色
+            if (isStatusBarTextDark()) {
+                if (SystemBarUtil.isSupportStatusBarDarkFont()) {
+                    // 设置状态栏颜色
+                    SystemBarUtil.setStatusBarColor(this, setStatusBarColor(), false);
+                    SystemBarUtil.setStatusBarLightMode(this, true);
+                } else {
+                    Timber.e("当前设备不支持状态栏字体变色");
+                    // 设置状态栏颜色为主题颜色
+                    SystemBarUtil.setStatusBarColor(this, getDarkColorPrimary(), false);
+                }
+            } else {
+                // 设置状态栏颜色
+                SystemBarUtil.setStatusBarColor(this, setStatusBarColor(), false);
+            }
+        }
+    }
+
+    /**
+     * 获取主题色
+     * */
+    public int getColorPrimary() {
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+        return typedValue.data;
+    }
+
+    /**
+     * 获取深主题色
+     * */
+    public int getDarkColorPrimary() {
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValue, true);
+        return typedValue.data;
+    }
+
+    /**
      * 模版方法，通过该方法获取该Activity的view的layoutId
      */
     protected abstract int initLayout();
@@ -203,62 +243,9 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         return false;
     }
 
-    /**
-     * 设置状态栏颜色
-     * */
-    protected void initSystemBarTint() {
-        Window window = getWindow();
-        if (translucentStatusBar()) {
-            // 设置状态栏全透明
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                window.setStatusBarColor(Color.TRANSPARENT);
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            }
-            return;
-        }
-        // 沉浸式状态栏
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //5.0以上使用原生方法
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(setStatusBarColor());
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //4.4-5.0使用三方工具类，有些4.4的手机有问题，这里为演示方便，不使用沉浸式
-//            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-//            tintManager.setStatusBarTintEnabled(true);
-//            tintManager.setStatusBarTintColor(setStatusBarColor());
-            Window win = getWindow();
-            WindowManager.LayoutParams winParams = win.getAttributes();
-            final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-            winParams.flags |= bits;
-            win.setAttributes(winParams);
-            SystemBarTintManager tintManager = new SystemBarTintManager(this);
-            tintManager.setStatusBarTintEnabled(true);
-            tintManager.setStatusBarTintResource(setStatusBarColor());
-            tintManager.setStatusBarDarkMode(true, this);
-        }
-    }
-
-    /**
-     * 获取主题色
-     * */
-    public int getColorPrimary() {
-        TypedValue typedValue = new TypedValue();
-        getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
-        return typedValue.data;
-    }
-
-    /**
-     * 获取深主题色
-     * */
-    public int getDarkColorPrimary() {
-        TypedValue typedValue = new TypedValue();
-        getTheme().resolveAttribute(R.attr.colorPrimaryDark, typedValue, true);
-        return typedValue.data;
+    /** 子类可以重写决定是否使用状态栏深色字体 */
+    protected boolean isStatusBarTextDark() {
+        return false;
     }
 
     public void startLoadingDialog() {

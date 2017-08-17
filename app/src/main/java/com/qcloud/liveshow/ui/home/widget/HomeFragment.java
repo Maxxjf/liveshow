@@ -106,7 +106,7 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
      * */
     private void initIndicator() {
         ColorBar bar = new ColorBar(getActivity(), ContextCompat.getColor(getContext(), R.color.colorTitle), 5);
-        bar.setWidth(DensityUtils.dp2px(getActivity(), 70));
+        bar.setWidth(DensityUtils.dp2px(getActivity(), 60));
         mIndicator.setScrollBar(bar);
 
         float unSelectSize = 16;
