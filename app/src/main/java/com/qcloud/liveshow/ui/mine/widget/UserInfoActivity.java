@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.base.BaseActivity;
+import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.ui.mine.presenter.impl.UserInfoPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IUserInfoView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
@@ -24,7 +24,7 @@ import timber.log.Timber;
  * Author: Kuzan
  * Date: 2017/8/15 9:29.
  */
-public class UserInfoActivity extends BaseActivity<IUserInfoView, UserInfoPresenterImpl> implements IUserInfoView {
+public class UserInfoActivity extends SwipeBaseActivity<IUserInfoView, UserInfoPresenterImpl> implements IUserInfoView {
 
     @Bind(R.id.img_user)
     RatioImageView mImgUser;
@@ -70,6 +70,7 @@ public class UserInfoActivity extends BaseActivity<IUserInfoView, UserInfoPresen
 
     @Override
     protected void initViewAndData() {
+        /**解决状态栏与内容重叠*/
         SystemBarUtil.remeasureTitleBar(this, mTitleBar);
     }
 

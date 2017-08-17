@@ -52,6 +52,7 @@
 
         <!--个人有关-->
         <activity android:name=".ui.mine.widget.UserInfoActivity"
+                  android:theme="@style/AppSwipeBackTheme"
                   android:launchMode="singleTask"
                   android:label="@string/title_user_info"/>
     </application>

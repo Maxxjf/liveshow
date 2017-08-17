@@ -100,11 +100,10 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         application.getAppManager().killActivity(this);
 
         // 如果订阅了相关事件，在onDestroy时取消订阅，防止RxJava可能会引起的内存泄漏问题
-//        if (mDisposable != null && mDisposable.isDisposed()) {
-//            mDisposable.dispose();
-//        }
-        mEventBus.unregister(this);
-        mEventBus = null;
+        if (mEventBus != null) {
+            mEventBus.unregister(this);
+            mEventBus = null;
+        }
 
         isRunning = false;
 
