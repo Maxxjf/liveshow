@@ -55,6 +55,10 @@
                   android:theme="@style/AppSwipeBackTheme"
                   android:launchMode="singleTask"
                   android:label="@string/title_user_info"/>
+        <activity android:name=".ui.mine.widget.EditUserActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:label="@string/title_edit_user"/>
     </application>
 
 </manifest>

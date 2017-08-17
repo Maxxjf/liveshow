@@ -57,10 +57,12 @@ public class TitleBar extends Toolbar {
     private int leftIcon;
     private boolean isLeftText;
     private int leftText;
+    private int leftTextColor;
     private boolean isRight;
     private int rightIcon;
     private boolean isRightText;
     private int rightText;
+    private int rightTextColor;
     private boolean isTitle;
     private int title;
     private boolean isSearch;
@@ -99,11 +101,7 @@ public class TitleBar extends Toolbar {
             tvTitle.setVisibility(GONE);
         }
 
-        if (titleColor > 0) {
-            tvTitle.setTextColor(titleColor);
-        } else {
-            tvTitle.setTextColor(ContextCompat.getColor(mContext, R.color.colorTitle));
-        }
+        tvTitle.setTextColor(titleColor);
 
         // 左图标
         if (isLeft) {
@@ -121,6 +119,8 @@ public class TitleBar extends Toolbar {
             btnLeft.setVisibility(GONE);
         }
 
+        btnLeft.setTextColor(leftTextColor);
+
         // 右图标
         if (isRight) {
             ibRight.setVisibility(VISIBLE);
@@ -136,6 +136,8 @@ public class TitleBar extends Toolbar {
         } else {
             btnRight.setVisibility(GONE);
         }
+
+        btnRight.setTextColor(rightTextColor);
 
         // 搜索
         if (isSearch) {
@@ -173,6 +175,8 @@ public class TitleBar extends Toolbar {
         isLeftText = typedArray.getBoolean(R.styleable.BaseBar_is_left_text, false);
         leftText = typedArray.getResourceId(R.styleable.BaseBar_left_text, R.string.save);
 
+        leftTextColor = typedArray.getColor(R.styleable.BaseBar_left_text_color, ContextCompat.getColor(mContext, R.color.colorTitle));
+
         // 右图标
         isRight = typedArray.getBoolean(R.styleable.BaseBar_is_right, false);
         rightIcon = typedArray.getResourceId(R.styleable.BaseBar_right_icon, 0);
@@ -180,6 +184,8 @@ public class TitleBar extends Toolbar {
         // 右文字
         isRightText = typedArray.getBoolean(R.styleable.BaseBar_is_right_text, false);
         rightText = typedArray.getResourceId(R.styleable.BaseBar_right_text, R.string.save);
+
+        rightTextColor = typedArray.getColor(R.styleable.BaseBar_right_text_color, ContextCompat.getColor(mContext, R.color.colorTitle));
 
         // 标题
         isTitle = typedArray.getBoolean(R.styleable.BaseBar_is_title, false);

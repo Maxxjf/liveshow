@@ -55,7 +55,6 @@
         <item name="android:background">@color/colorGray</item>
     </style>
 
-
     <!-- 垂直分界线 -->
     <style name="LineVertical">
         <item name="android:layout_width">@dimen/line_height</item>
@@ -71,4 +70,16 @@
         <item name="android:scaleType">centerInside</item>
     </style>
 
+    <!--首页底部导航栏样式-->
+    <style name="BtnSex">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:drawablePadding">@dimen/margin_2</item>
+        <item name="android:drawableLeft">@drawable/check_orange_select</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/tab_text_color</item>
+        <item name="android:textSize">@dimen/micro_text_size</item>
+    </style>
 </resources>

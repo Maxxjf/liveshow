@@ -10,6 +10,8 @@
         <attr name="is_left_text" format="boolean"/>
         <!--左边按钮文字-->
         <attr name="left_text" format="reference"/>
+        <!--左边按钮文字颜色-->
+        <attr name="left_text_color" format="color"/>
         <!--是否显示右边图标-->
         <attr name="is_right" format="boolean"/>
         <!--右边图标-->
@@ -18,6 +20,8 @@
         <attr name="is_right_text" format="boolean"/>
         <!--右边按钮文字-->
         <attr name="right_text" format="reference"/>
+        <!--右边按钮文字颜色-->
+        <attr name="right_text_color" format="color"/>
         <!--是否显示标题文字-->
         <attr name="is_title" format="boolean"/>
         <!--标题文字-->

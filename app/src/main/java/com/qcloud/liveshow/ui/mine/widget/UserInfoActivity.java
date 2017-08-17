@@ -2,7 +2,7 @@ package com.qcloud.liveshow.ui.mine.widget;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.FrameLayout;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +17,7 @@ import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.RatioImageView;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 /**
@@ -26,6 +27,8 @@ import timber.log.Timber;
  */
 public class UserInfoActivity extends SwipeBaseActivity<IUserInfoView, UserInfoPresenterImpl> implements IUserInfoView {
 
+    @Bind(R.id.title_bar)
+    TitleBar mTitleBar;
     @Bind(R.id.img_user)
     RatioImageView mImgUser;
     @Bind(R.id.tv_user_name)
@@ -40,10 +43,6 @@ public class UserInfoActivity extends SwipeBaseActivity<IUserInfoView, UserInfoP
     TextView mTvUserId;
     @Bind(R.id.btn_edit_info)
     TextView mBtnEditInfo;
-    @Bind(R.id.layout_user)
-    FrameLayout mLayoutUser;
-    @Bind(R.id.title_bar)
-    TitleBar mTitleBar;
     @Bind(R.id.tv_follow)
     TextView mTvFollow;
     @Bind(R.id.layout_follow)
@@ -72,6 +71,16 @@ public class UserInfoActivity extends SwipeBaseActivity<IUserInfoView, UserInfoP
     protected void initViewAndData() {
         /**解决状态栏与内容重叠*/
         SystemBarUtil.remeasureTitleBar(this, mTitleBar);
+    }
+
+    @OnClick({R.id.btn_edit_info})
+    void onBtnClick(View view) {
+        mPresenter.onBtnClick(view.getId());
+    }
+
+    @Override
+    public void onEditClick() {
+        EditUserActivity.openActivity(this);
     }
 
     @Override

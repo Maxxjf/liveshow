@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorGrayBg"
+    tools:context=".ui.mine.widget.EditUserActivity">
+
+    <com.qcloud.liveshow.widget.toolbar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        toolbar:is_title="true"
+        toolbar:title_text="@string/title_edit_user"
+        toolbar:is_left="true"
+        toolbar:left_icon="@drawable/icon_normal_back"
+        toolbar:is_right_text="true"
+        toolbar:right_text_color="@color/colorStart"
+        toolbar:right_text="@string/save"/>
+
+    <View
+        style="@style/LineHorizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="@dimen/layout_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_user_head"/>
+
+        <com.qcloud.qclib.widget.customview.RatioImageView
+            android:id="@+id/img_user_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_user_head_default"
+            myapp:ratio="1.0"
+            myapp:width="180"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/LineHorizontal"
+        android:layout_marginLeft="@dimen/layout_margin"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="@dimen/layout_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_user_id"/>
+
+        <TextView
+            android:id="@+id/tv_user_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:textColor="@color/colorSubTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_user_id"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/LineHorizontal"
+        android:layout_marginLeft="@dimen/layout_margin"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="@dimen/layout_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_sex"/>
+
+        <RadioGroup
+            android:id="@+id/rg_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/btn_man"
+                style="@style/BtnSex"
+                android:checked="true"
+                android:text="@string/tag_man"/>
+
+            <RadioButton
+                android:id="@+id/btn_lady"
+                style="@style/BtnSex"
+                android:text="@string/tag_lady"
+                android:layout_marginLeft="@dimen/margin_8"/>
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <View
+        style="@style/LineHorizontal"
+        android:layout_marginLeft="@dimen/layout_margin"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="@dimen/layout_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_nickname"/>
+
+        <EditText
+            android:id="@+id/et_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/large_btn_height"
+            android:background="@null"
+            android:imeOptions="actionDone"
+            android:lines="1"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:hint="@string/tag_nickname"
+            android:textColorHint="@color/colorSubTitle"/>
+
+    </LinearLayout>
+
+    <View
+        style="@style/LineHorizontal"
+        android:layout_marginLeft="@dimen/layout_margin"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="@dimen/layout_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/layout_margin"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_signature"/>
+
+        <EditText
+            android:id="@+id/et_signature"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/large_btn_height"
+            android:background="@null"
+            android:imeOptions="actionDone"
+            android:maxLines="3"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:hint="@string/tag_live_show_desc"
+            android:textColorHint="@color/colorSubTitle"/>
+
+    </LinearLayout>
+</LinearLayout>

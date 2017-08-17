@@ -2,5 +2,7 @@
     <!-- 1 -->
     <dimen name="main_margin_bottom">-3dp</dimen>
 
+    <dimen name="margin_60dp">30dp</dimen>
+    <dimen name="margin_70dp">35dp</dimen>
     <dimen name="margin_80dp">40dp</dimen>
 </resources>
