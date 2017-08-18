@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.ProfitRecordAdapter;
-import com.qcloud.liveshow.base.BaseActivity;
+import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.ui.profit.presenter.impl.ProfitRecordPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.IProfitRecordView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
@@ -29,7 +29,7 @@ import timber.log.Timber;
  * Author: Kuzan
  * Date: 2017/8/18 16:06.
  */
-public class ProfitRecordActivity extends BaseActivity<IProfitRecordView, ProfitRecordPresenterImpl> implements IProfitRecordView {
+public class ProfitRecordActivity extends SwipeBaseActivity<IProfitRecordView, ProfitRecordPresenterImpl> implements IProfitRecordView {
 
 
     @Bind(R.id.title_bar)

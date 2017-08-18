@@ -76,6 +76,12 @@ public class TipsPop extends BasePopupWindow {
 
     }
 
+    @Override
+    public void showAtLocation(View parent, int gravity, int x, int y) {
+        super.showAtLocation(parent, gravity, x, y);
+        setPopWindowBg(1.0f);
+    }
+
     /**
      * 标题
      * */

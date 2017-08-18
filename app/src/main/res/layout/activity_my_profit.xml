@@ -64,8 +64,8 @@
                 android:text="@string/tag_curr_profit"/>
 
             <ImageView
-                android:layout_width="@dimen/margin_4"
-                android:layout_height="@dimen/margin_4"
+                android:layout_width="@dimen/margin_3"
+                android:layout_height="@dimen/margin_3"
                 android:layout_marginLeft="@dimen/layout_margin"
                 android:src="@drawable/icon_rule"/>
 

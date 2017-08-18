@@ -20,6 +20,20 @@
     <string name="title_my_fans">我的粉丝</string>
     <string name="title_my_profit">我的收益</string>
     <string name="title_profit_record">收益记录</string>
+    <string name="title_setting">设置</string>
+
+    <string name="tab_home">首页</string>
+    <string name="tab_live_show">发直播</string>
+    <string name="tab_mine">我的</string>
+
+    <string name="behavior_footer_depend">com.qcloud.liveshow.widget.behavior.ScrollHideBehavior</string>
+
+    <string name="toast_exit_app">再按一次退出应用</string>
+
+    <string name="tip_title">温馨提示</string>
+    <string name="tip_cancel">取消</string>
+    <string name="tip_confirm">确定</string>
+    <string name="tip_confirm_to_logout">您确定要退出登录吗?</string>
 
     <string name="input_mobile_hint">请输入手机号</string>
     <string name="input_code_hint">短信验证码</string>
@@ -30,6 +44,7 @@
     <string name="btn_check_detail">查看明细</string>
     <string name="btn_confirm_cash">确认提现</string>
     <string name="btn_buy_diamonds">买钻石币</string>
+    <string name="btn_logout">退出登录</string>
 
     <string name="tag_agree_clause">登录即代表您同意</string>
     <string name="tag_clause">《免责条款》</string>
@@ -38,10 +53,6 @@
     <string name="tag_cash_rules">提现规则</string>
     <string name="tag_agree_cash_rules">提现即代表您阅读并同意</string>
     <string name="tag_cash_agreement">《用户提现协议》</string>
-
-    <string name="tab_home">首页</string>
-    <string name="tab_live_show">发直播</string>
-    <string name="tab_mine">我的</string>
     <string name="tag_live_show_desc">你丑你先睡，我美我直播</string>
     <string name="tag_user_center_profit">我的收益</string>
     <string name="tag_user_center_level">我的等级</string>
@@ -67,15 +78,9 @@
     <string name="tag_profit_extension">推广收益</string>
     <string name="tag_profit_percent">收益分成</string>
     <string name="tag_all_profit">累计收益（元）</string>
-
-    <string name="toast_exit_app">再按一次退出应用</string>
-
-    <string name="tip_title">温馨提示</string>
-    <string name="tip_cancel">取消</string>
-    <string name="tip_confirm">确定</string>
-
-    <string name="behavior_footer_depend">com.qcloud.liveshow.widget.behavior.ScrollHideBehavior</string>
-    
-
+    <string name="tag_blacklist">黑名单</string>
+    <string name="tag_about_us">关于我们</string>
+    <string name="tag_clear_cache">清除缓存</string>
+    <string name="tag_problem">常见问题</string>
 
 </resources>
