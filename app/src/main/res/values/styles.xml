@@ -107,4 +107,10 @@
         <item name="android:textColor">@drawable/btn_follow_text_color</item>
         <item name="android:textSize">@dimen/micro_text_size</item>
     </style>
+
+    <style name="ScrollViewStyle">
+        <item name="android:fadingEdge">none</item>
+        <item name="android:fadingEdgeLength">0dp</item>
+        <item name="android:overScrollMode">never</item>
+    </style>
 </resources>

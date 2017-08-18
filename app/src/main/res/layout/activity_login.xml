@@ -114,7 +114,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/margin_2"
                 android:textAllCaps="false"
-                android:textColor="@color/colorEnd"
+                android:textColor="@color/colorLightRed"
                 android:textSize="@dimen/small_text_size"
                 android:text="@string/tag_clause"/>
 

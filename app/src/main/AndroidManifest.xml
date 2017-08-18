@@ -63,6 +63,16 @@
                   android:theme="@style/AppSwipeBackTheme"
                   android:launchMode="singleTask"
                   android:label="@string/title_my_follow"/>
+
+        <!--与钱有关-->
+        <activity android:name=".ui.profit.widget.MyProfitActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:label="@string/title_my_profit"/>
+        <activity android:name=".ui.profit.widget.ProfitRecordActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:label="@string/title_profit_record"/>
     </application>
 
 </manifest>

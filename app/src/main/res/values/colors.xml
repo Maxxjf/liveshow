@@ -19,4 +19,5 @@
     <color name="colorOrangeDark">#fc9520</color><!--深橙色-->
     <color name="colorStart">#fc9520</color><!--深橙色--><!--白底背景上使用的纯色-->
     <color name="colorEnd">#feb52C</color><!--深橙色--><!--黑底磨砂背景上使用的纯色-->
+    <color name="colorLightRed">#80c269</color><!--浅红色-->
 </resources>
