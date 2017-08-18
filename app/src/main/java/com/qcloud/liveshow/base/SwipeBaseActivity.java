@@ -8,15 +8,15 @@ import android.util.TypedValue;
 import android.view.View;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.utils.SwipeBackUtils;
-import com.qcloud.liveshow.widget.swipeback.SwipeBackActivityBase;
-import com.qcloud.liveshow.widget.swipeback.SwipeBackActivityHelper;
-import com.qcloud.liveshow.widget.swipeback.SwipeBackLayout;
 import com.qcloud.qclib.base.BasePresenter;
 import com.qcloud.qclib.rxbus.Bus;
 import com.qcloud.qclib.rxbus.BusProvider;
+import com.qcloud.qclib.utils.SwipeBackUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.dialog.LoadingDialog;
+import com.qcloud.qclib.widget.swipeback.ISwipeBack;
+import com.qcloud.qclib.widget.swipeback.SwipeBackHelper;
+import com.qcloud.qclib.widget.swipeback.SwipeBackLayout;
 
 import butterknife.ButterKnife;
 import timber.log.Timber;
@@ -26,14 +26,14 @@ import timber.log.Timber;
  * Author: Kuzan
  * Date: 2017/8/17 14:37.
  */
-public abstract class SwipeBaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity implements SwipeBackActivityBase {
+public abstract class SwipeBaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity implements ISwipeBack {
 
     protected Context mContext;
     protected BaseApplication application = BaseApplication.getInstance();
     protected Bus mEventBus = BusProvider.getInstance();
     protected T mPresenter;
 
-    private SwipeBackActivityHelper mHelper;
+    private SwipeBackHelper mHelper;
 
     protected boolean isRunning;
 
@@ -60,7 +60,7 @@ public abstract class SwipeBaseActivity<V, T extends BasePresenter<V>> extends A
             mPresenter.attach((V) this);
         }
 
-        mHelper = new SwipeBackActivityHelper(this);
+        mHelper = new SwipeBackHelper(this);
         mHelper.onActivityCreate();
 
         isRunning = true;
