@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseFragment;
+import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.ui.mine.presenter.impl.MinePresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IMineView;
 import com.qcloud.liveshow.widget.customview.ItemLayout;
@@ -79,12 +80,12 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
 
     @Override
     public void onFollowClick() {
-        ToastUtils.ToastMessage(getActivity(), R.string.tag_follow);
+        MyFansActivity.openActivity(getActivity(), StartFansEnum.MY_FOLLOW.getKey());
     }
 
     @Override
     public void onFansClick() {
-        ToastUtils.ToastMessage(getActivity(), R.string.tag_fans);
+        MyFansActivity.openActivity(getActivity(), StartFansEnum.MY_FANS.getKey());
     }
 
     @Override

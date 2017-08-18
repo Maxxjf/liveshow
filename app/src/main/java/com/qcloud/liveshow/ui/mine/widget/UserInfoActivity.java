@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
+import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.ui.mine.presenter.impl.UserInfoPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IUserInfoView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
@@ -73,7 +74,7 @@ public class UserInfoActivity extends SwipeBaseActivity<IUserInfoView, UserInfoP
         SystemBarUtil.remeasureTitleBar(this, mTitleBar);
     }
 
-    @OnClick({R.id.btn_edit_info})
+    @OnClick({R.id.btn_edit_info, R.id.layout_follow, R.id.layout_fans })
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
     }
@@ -81,6 +82,16 @@ public class UserInfoActivity extends SwipeBaseActivity<IUserInfoView, UserInfoP
     @Override
     public void onEditClick() {
         EditUserActivity.openActivity(this);
+    }
+
+    @Override
+    public void onFollowClick() {
+        MyFansActivity.openActivity(this, StartFansEnum.MY_FOLLOW.getKey());
+    }
+
+    @Override
+    public void onFansClick() {
+        MyFansActivity.openActivity(this, StartFansEnum.MY_FANS.getKey());
     }
 
     @Override

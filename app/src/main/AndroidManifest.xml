@@ -59,6 +59,10 @@
                   android:theme="@style/AppSwipeBackTheme"
                   android:launchMode="singleTask"
                   android:label="@string/title_edit_user"/>
+        <activity android:name=".ui.mine.widget.MyFansActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:label="@string/title_my_follow"/>
     </application>
 
 </manifest>

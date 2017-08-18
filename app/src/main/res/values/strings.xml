@@ -16,6 +16,8 @@
     <string name="title_mine">我的</string>
     <string name="title_user_info">个人主页</string>
     <string name="title_edit_user">编辑信息</string>
+    <string name="title_my_follow">我的关注</string>
+    <string name="title_my_fans">我的粉丝</string>
 
     <string name="input_mobile_hint">请输入手机号</string>
     <string name="input_code_hint">短信验证码</string>
@@ -43,6 +45,7 @@
     <string name="tag_user_center_set">设置</string>
     <string name="tag_follow">关注</string>
     <string name="tag_fans">粉丝</string>
+    <string name="tag_un_follow">取消关注</string>
     <string name="tag_nickname">昵称</string>
     <string name="tag_sex">性别</string>
     <string name="tag_signature">个性签名</string>

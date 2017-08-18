@@ -22,6 +22,12 @@ public class UserInfoPresenterImpl extends BasePresenter<IUserInfoView> implemen
             case R.id.btn_edit_info:
                 mView.onEditClick();
                 break;
+            case R.id.layout_follow:
+                mView.onFollowClick();
+                break;
+            case R.id.layout_fans:
+                mView.onFansClick();
+                break;
         }
     }
 }

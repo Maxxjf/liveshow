@@ -84,7 +84,7 @@
         <item name="android:scaleType">centerInside</item>
     </style>
 
-    <!--选择样式-->
+    <!--选中样式-->
     <style name="BtnSex">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -94,6 +94,17 @@
         <item name="android:drawableLeft">@drawable/check_orange_select</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@drawable/tab_text_color</item>
+        <item name="android:textSize">@dimen/micro_text_size</item>
+    </style>
+
+    <!--关注样式-->
+    <style name="BtnFollow">
+        <item name="android:layout_width">@dimen/margin_80dp</item>
+        <item name="android:layout_height">@dimen/btn_height</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/check_follow_select</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/btn_follow_text_color</item>
         <item name="android:textSize">@dimen/micro_text_size</item>
     </style>
 </resources>
