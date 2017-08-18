@@ -27,7 +27,7 @@
                 android:id="@+id/list_hot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorGrayBg"/>
+                android:background="@color/colorBg"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout>

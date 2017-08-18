@@ -16,31 +16,11 @@
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <FrameLayout
+        <com.qcloud.liveshow.widget.customview.UserHeadImageView
             android:id="@+id/layout_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="@dimen/layout_margin">
-
-            <com.qcloud.qclib.widget.customview.RatioImageView
-                android:id="@+id/img_user_head"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/text_padding"
-                android:src="@drawable/icon_user_head_default"
-                myapp:ratio="1.0"
-                myapp:width="120"/>
-
-            <ImageView
-                android:id="@+id/img_anchor_level"
-                android:layout_width="@dimen/margin_4"
-                android:layout_height="@dimen/margin_4"
-                android:gravity="center"
-                android:layout_gravity="bottom|right"
-                android:src="@drawable/icon_man"/>
-
-        </FrameLayout>
+            android:layout_marginLeft="@dimen/layout_margin"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -113,7 +93,7 @@
 
         <TextView
             android:id="@+id/tv_user_desc"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/tab_height"
             android:layout_gravity="bottom"
             android:gravity="center_vertical"

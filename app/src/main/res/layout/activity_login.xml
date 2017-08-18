@@ -35,10 +35,10 @@
             android:gravity="center_vertical"
             android:imeOptions="actionNext"
             android:lines="1"
-            android:textColor="@color/colorTitle"
+            android:textColor="@color/colorText"
             android:textSize="@dimen/small_text_size"
             android:hint="@string/input_mobile_hint"
-            android:textColorHint="@color/colorGray"/>
+            android:textColorHint="@color/colorHint"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,10 +59,10 @@
                 android:gravity="center_vertical"
                 android:imeOptions="actionNext"
                 android:lines="1"
-                android:textColor="@color/colorTitle"
+                android:textColor="@color/colorText"
                 android:textSize="@dimen/small_text_size"
                 android:hint="@string/input_code_hint"
-                android:textColorHint="@color/colorGray"/>
+                android:textColorHint="@color/colorHint"/>
 
             <TextView
                 android:id="@+id/btn_get_code"
@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAllCaps="false"
-                android:textColor="@color/colorGray"
+                android:textColor="@color/colorText"
                 android:textSize="@dimen/small_text_size"
                 android:text="@string/tag_agree_clause"/>
 
@@ -128,7 +128,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_10"
         android:layout_marginRight="@dimen/margin_10"
-        android:layout_marginBottom="@dimen/margin_4"
+        android:layout_marginBottom="@dimen/margin_6"
         android:orientation="vertical"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true">
@@ -143,7 +143,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/line_height"
                 android:layout_weight="1"
-                android:background="@color/colorGray"/>
+                android:background="@color/colorLineWhite"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -151,7 +151,7 @@
                 android:layout_marginLeft="@dimen/margin_2"
                 android:layout_marginRight="@dimen/margin_2"
                 android:textAllCaps="false"
-                android:textColor="@color/colorGray"
+                android:textColor="@color/colorText"
                 android:textSize="@dimen/medium_text_size"
                 android:text="@string/tag_other_login_method"/>
 
@@ -159,7 +159,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/line_height"
                 android:layout_weight="1"
-                android:background="@color/colorGray"/>
+                android:background="@color/colorLineWhite"/>
         </LinearLayout>
 
         <LinearLayout

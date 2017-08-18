@@ -6,7 +6,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:background">@null</item>
         <!-- 窗口的背景颜色 -->
-        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:windowBackground">@color/white</item>
     </style>
 
     <!-- application theme -->
@@ -14,7 +14,7 @@
 
     <!--侧滑返回主题-->
     <style name="AppSwipeBackTheme" parent="@style/AppBaseTheme" >
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
@@ -40,26 +40,40 @@
     <!-- EditText 样式 -->
     <style name="EditTextStyle">
         <item name="android:textSize">@dimen/micro_text_size</item>
-        <item name="android:textColor">@color/colorTitle</item>
-        <item name="android:textColorHint">@color/colorGray</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColorHint">@color/colorHint</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:padding">@dimen/text_padding</item>
+        <item name="android:padding">@dimen/draw_padding</item>
         <item name="android:background">@null</item>
         <item name="android:textCursorDrawable">@drawable/cursor_drawable</item>
     </style>
 
-    <!-- 水平分界线 -->
+    <!-- 水平分界线白色底 -->
     <style name="LineHorizontal">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/line_height</item>
-        <item name="android:background">@color/colorGray</item>
+        <item name="android:background">@color/colorLineWhite</item>
     </style>
 
-    <!-- 垂直分界线 -->
+    <!-- 垂直分界线白色底 -->
     <style name="LineVertical">
         <item name="android:layout_width">@dimen/line_height</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/colorGray</item>
+        <item name="android:background">@color/colorLineWhite</item>
+    </style>
+
+    <!-- 水平分界线黑色底 -->
+    <style name="LineHorizontalBlack">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/line_height</item>
+        <item name="android:background">@color/colorLineBlack</item>
+    </style>
+
+    <!-- 垂直分界线黑色底 -->
+    <style name="LineVerticalBlack">
+        <item name="android:layout_width">@dimen/line_height</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/colorLineBlack</item>
     </style>
 
     <!--首页底部导航栏样式-->
@@ -70,12 +84,12 @@
         <item name="android:scaleType">centerInside</item>
     </style>
 
-    <!--首页底部导航栏样式-->
+    <!--选择样式-->
     <style name="BtnSex">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:button">@null</item>
-        <item name="android:background">@android:color/transparent</item>
+        <item name="android:background">@color/transparent</item>
         <item name="android:drawablePadding">@dimen/margin_2</item>
         <item name="android:drawableLeft">@drawable/check_orange_select</item>
         <item name="android:gravity">center</item>

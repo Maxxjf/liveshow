@@ -4,16 +4,19 @@
     <color name="colorPrimaryDark">#FC9520</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="colorTitle">#282828</color>
-    <color name="colorSubTitle">#656565</color>
+    <color name="colorTitle">#282828</color><!--标题-->
+    <color name="colorSubTitle">#656565</color><!--二级标题-->
+    <color name="colorText">#656565</color><!--正文-->
+    <color name="colorHint">#989898</color><!--提示-->
     
     <color name="colorDarkGray">#656565</color><!--深灰色-->
     <color name="colorLightGray">#989898</color><!--浅灰色-->
 
-    <color name="colorGrayBg">#f7f7f7</color><!--灰色背景-->
+    <color name="colorBg">#f7f7f7</color><!--背景-->
+    <color name="colorLineWhite">#e4e4e4</color><!--白底背景线条颜色-->
+    <color name="colorLineBlack">#6b696a</color>
 
-    <color name="colorOrangeDark">#FC9520</color><!--深橙色-->
-    <color name="colorStart">#FC9520</color><!--深橙色--><!--白底背景上使用的纯色-->
-    <color name="colorEnd">#FEB52C</color><!--深橙色--><!--黑底磨砂背景上使用的纯色-->
-
+    <color name="colorOrangeDark">#fc9520</color><!--深橙色-->
+    <color name="colorStart">#fc9520</color><!--深橙色--><!--白底背景上使用的纯色-->
+    <color name="colorEnd">#feb52C</color><!--深橙色--><!--黑底磨砂背景上使用的纯色-->
 </resources>

@@ -370,6 +370,13 @@ public class TitleBar extends Toolbar {
         }
     }
 
+    @OnClick(R.id.btn_left)
+    void leftClick() {
+        if (mListener != null) {
+            mListener.onBtnClick(btnLeft);
+        }
+    }
+
     @OnClick(R.id.btn_right)
     void rightClick() {
         if (mListener != null) {

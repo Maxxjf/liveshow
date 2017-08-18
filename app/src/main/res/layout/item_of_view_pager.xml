@@ -5,6 +5,6 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:textSize="@dimen/small_text_size"
-    android:textColor="@color/colorSubTitle"
+    android:textColor="@color/colorText"
     tools:text="热门"/>
 

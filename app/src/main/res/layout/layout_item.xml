@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/small_text_size"
-        android:textColor="@color/colorSubTitle"
+        android:textColor="@color/colorText"
         tools:text="@string/tag_user_center_inviting_remark"/>
 
     <ImageView

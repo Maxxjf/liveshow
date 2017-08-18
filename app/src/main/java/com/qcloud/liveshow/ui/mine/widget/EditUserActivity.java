@@ -3,6 +3,7 @@ package com.qcloud.liveshow.ui.mine.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -13,6 +14,7 @@ import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.ui.mine.presenter.impl.EditUserPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IEditUserView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
+import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.widget.customview.RatioImageView;
 
 import butterknife.Bind;
@@ -62,7 +64,21 @@ public class EditUserActivity extends SwipeBaseActivity<IEditUserView, EditUserP
 
     @Override
     protected void initViewAndData() {
+        initTitleBar();
 
+    }
+
+    private void initTitleBar() {
+        mTitleBar.setOnBtnListener(new TitleBar.OnBtnListener() {
+            @Override
+            public void onBtnClick(View view) {
+                if (view.getId() == R.id.btn_right) {
+                    ToastUtils.ToastMessage(EditUserActivity.this, "保存");
+                } else {
+                    finish();
+                }
+            }
+        });
     }
 
     public static void openActivity(Context context) {

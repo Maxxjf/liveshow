@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.widget.MainActivity">
+    tools:context=".ui.main.widget.WebActivity">
 
     <com.qcloud.liveshow.widget.toolbar.TitleBar
         android:id="@+id/title_bar"

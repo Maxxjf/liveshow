@@ -32,7 +32,7 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
 
     @BindDimen(R.dimen.margin_2)
     int dividerHeight;
-    @BindColor(R.color.colorGrayBg)
+    @BindColor(R.color.colorBg)
     int dividerBg;
 
     private EmptyView mEmptyView;

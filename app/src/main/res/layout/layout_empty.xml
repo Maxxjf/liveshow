@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_3"
         android:gravity="center"
-        android:textColor="@color/colorDark"
+        android:textColor="@color/colorTitle"
         android:textSize="@dimen/small_text_size"
         android:text="暂无数据"/>
 

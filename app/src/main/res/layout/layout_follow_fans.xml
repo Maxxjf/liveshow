@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_padding"
             android:textSize="@dimen/micro_text_size"
-            android:textColor="@color/colorSubTitle"
+            android:textColor="@color/colorText"
             android:textStyle="bold"
             android:text="@string/tag_follow"/>
 
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_padding"
             android:textSize="@dimen/micro_text_size"
-            android:textColor="@color/colorSubTitle"
+            android:textColor="@color/colorText"
             android:textStyle="bold"
             android:text="@string/tag_fans"/>
 

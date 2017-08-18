@@ -51,7 +51,7 @@
                 android:layout_width="@dimen/margin_4"
                 android:layout_height="@dimen/margin_4"
                 android:layout_marginLeft="@dimen/draw_padding"
-                android:src="@drawable/icon_lady"/>
+                android:src="@drawable/icon_anchor_level_1"/>
 
             <ImageView
                 android:id="@+id/img_user_level"

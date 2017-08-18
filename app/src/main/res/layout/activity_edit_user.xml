@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorGrayBg"
+    android:background="@color/colorBg"
     tools:context=".ui.mine.widget.EditUserActivity">
 
     <com.qcloud.liveshow.widget.toolbar.TitleBar
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lines="1"
-            android:textColor="@color/colorSubTitle"
+            android:textColor="@color/colorText"
             android:textSize="@dimen/micro_text_size"
             android:text="@string/tag_user_id"/>
 
@@ -147,12 +147,13 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/large_btn_height"
             android:background="@null"
+            android:gravity="center_vertical|right"
             android:imeOptions="actionDone"
             android:lines="1"
-            android:textColor="@color/colorTitle"
+            android:textColor="@color/colorText"
             android:textSize="@dimen/micro_text_size"
             android:hint="@string/tag_nickname"
-            android:textColorHint="@color/colorSubTitle"/>
+            android:textColorHint="@color/colorHint"/>
 
     </LinearLayout>
 
@@ -183,12 +184,13 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/large_btn_height"
             android:background="@null"
+            android:gravity="center_vertical|right"
             android:imeOptions="actionDone"
             android:maxLines="3"
-            android:textColor="@color/colorTitle"
+            android:textColor="@color/colorText"
             android:textSize="@dimen/micro_text_size"
             android:hint="@string/tag_live_show_desc"
-            android:textColorHint="@color/colorSubTitle"/>
+            android:textColorHint="@color/colorHint"/>
 
     </LinearLayout>
 </LinearLayout>

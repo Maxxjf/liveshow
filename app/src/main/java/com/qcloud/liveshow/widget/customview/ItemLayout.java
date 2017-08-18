@@ -74,7 +74,7 @@ public class ItemLayout extends BaseLinearLayout {
         itemName = typedArray.getResourceId(R.styleable.ItemAttr_item_name, 0);
 
         itemRemark = typedArray.getResourceId(R.styleable.ItemAttr_item_remark, 0);
-        itemRemarkColor = typedArray.getColor(R.styleable.ItemAttr_item_remark_color, ContextCompat.getColor(mContext, R.color.colorSubTitle));
+        itemRemarkColor = typedArray.getColor(R.styleable.ItemAttr_item_remark_color, ContextCompat.getColor(mContext, R.color.colorText));
 
         itemBackground = typedArray.getColor(R.styleable.ItemAttr_item_background, ContextCompat.getColor(mContext, R.color.white));
     }
