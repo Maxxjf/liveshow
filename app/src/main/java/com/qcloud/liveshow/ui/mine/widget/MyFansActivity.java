@@ -47,17 +47,19 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
     }
 
     @Override
-    protected int setStatusBarColor() {
-        return ContextCompat.getColor(this, R.color.white);
-    }
-
-    @Override
     protected boolean isStatusBarTextDark() {
         return true;
     }
 
     @Override
+    protected int setStatusBarColor() {
+        return ContextCompat.getColor(this, R.color.white);
+    }
+
+    @Override
     protected void initViewAndData() {
+        //SystemBarUtil.remeasureTitleBar(this, mTitleBar, ContextCompat.getColor(this, R.color.white));
+
         type = getIntent().getIntExtra("TYPE", StartFansEnum.MY_FOLLOW.getKey());
         mTitleBar.setTitle(StartFansEnum.valueOf(type).getValue());
 

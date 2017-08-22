@@ -15,6 +15,7 @@ import com.qcloud.liveshow.ui.account.widget.LoginActivity;
 import com.qcloud.liveshow.ui.mine.presenter.impl.SettingPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.ISettingView;
 import com.qcloud.liveshow.widget.pop.TipsPop;
+import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
 
@@ -28,6 +29,8 @@ import butterknife.OnClick;
  */
 public class SettingActivity extends SwipeBaseActivity<ISettingView, SettingPresenterImpl> implements ISettingView {
 
+    @Bind(R.id.title_bar)
+    TitleBar mTitleBar;
     @Bind(R.id.tv_cache)
     TextView mTvCache;
     @Bind(R.id.btn_logout)
@@ -55,7 +58,7 @@ public class SettingActivity extends SwipeBaseActivity<ISettingView, SettingPres
 
     @Override
     protected void initViewAndData() {
-
+        //SystemBarUtil.remeasureTitleBar(this, mTitleBar, ContextCompat.getColor(this, R.color.white));
     }
 
     @OnClick({R.id.layout_blacklist, R.id.layout_about_us, R.id.layout_clear_cache,

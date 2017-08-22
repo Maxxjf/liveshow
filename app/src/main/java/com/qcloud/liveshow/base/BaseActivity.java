@@ -183,16 +183,16 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
             if (isStatusBarTextDark()) {
                 if (SystemBarUtil.isSupportStatusBarDarkFont()) {
                     // 设置状态栏颜色
-                    SystemBarUtil.setStatusBarColor(this, setStatusBarColor(), false);
+                    SystemBarUtil.setStatusBarColor(this, setStatusBarColor(), false, isPaddingStatus());
                     SystemBarUtil.setStatusBarLightMode(this, true);
                 } else {
                     Timber.e("当前设备不支持状态栏字体变色");
                     // 设置状态栏颜色为主题颜色
-                    SystemBarUtil.setStatusBarColor(this, getDarkColorPrimary(), false);
+                    SystemBarUtil.setStatusBarColor(this, getDarkColorPrimary(), false, isPaddingStatus());
                 }
             } else {
                 // 设置状态栏颜色
-                SystemBarUtil.setStatusBarColor(this, setStatusBarColor(), false);
+                SystemBarUtil.setStatusBarColor(this, setStatusBarColor(), false, isPaddingStatus());
             }
         }
     }
@@ -245,6 +245,11 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
     /** 子类可以重写决定是否使用状态栏深色字体 */
     protected boolean isStatusBarTextDark() {
         return false;
+    }
+
+    /** 子类可以重写决定是否解决状态栏与标题栏重叠问题 */
+    protected boolean isPaddingStatus() {
+        return true;
     }
 
     public void startLoadingDialog() {

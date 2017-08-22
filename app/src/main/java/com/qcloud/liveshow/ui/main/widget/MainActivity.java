@@ -56,6 +56,11 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     }
 
     @Override
+    protected boolean isPaddingStatus() {
+        return false;
+    }
+
+    @Override
     protected void initViewAndData() {
         int startEnum = getIntent().getIntExtra("START_ENUM", 1);
         switchStart(startEnum);

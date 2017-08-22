@@ -64,8 +64,8 @@ public class EditUserActivity extends SwipeBaseActivity<IEditUserView, EditUserP
 
     @Override
     protected void initViewAndData() {
+        //SystemBarUtil.remeasureTitleBar(this, mTitleBar, ContextCompat.getColor(this, R.color.white));
         initTitleBar();
-
     }
 
     private void initTitleBar() {
