@@ -17,7 +17,7 @@
             android:layout_marginRight="@dimen/margin_small"
             android:src="@drawable/icon_user_head_default"
             myapp:ratio="1"
-            myapp:width="160"/>
+            myapp:width="100"/>
 
         <ImageView
             android:id="@+id/img_anchor_level"

@@ -49,6 +49,11 @@
                   android:launchMode="singleTask"
                   android:label="@string/title_web"/>
 
+        <!--播放器有关-->
+        <activity android:name=".ui.player.widget.PlayerActivity"
+                  android:launchMode="singleTask"
+                  android:label="@string/title_player"/>
+
         <!--个人有关-->
         <activity android:name=".ui.mine.widget.UserInfoActivity"
                   android:theme="@style/AppSwipeBackTheme"

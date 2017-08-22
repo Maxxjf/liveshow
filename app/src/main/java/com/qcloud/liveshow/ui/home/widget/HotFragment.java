@@ -7,13 +7,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.HotAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
+import com.qcloud.liveshow.beans.LiveShowBean;
 import com.qcloud.liveshow.ui.home.presenter.impl.HotPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IHotView;
+import com.qcloud.liveshow.ui.player.widget.PlayerActivity;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
 import com.qcloud.qclib.swiperefresh.SwipeRefreshUtil;
@@ -66,7 +69,7 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
     }
 
     private void loadData() {
-
+        mPresenter.loadData();
     }
 
     private void initBanner() {
@@ -140,6 +143,14 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
 
         mAdapter = new HotAdapter(getActivity());
         mListHot.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                LiveShowBean bean = mAdapter.getList().get(i);
+                PlayerActivity.openActivity(getActivity(), bean.getStream_addr(), bean.getName());
+            }
+        });
+        loadData();
     }
 
     @Override
@@ -166,6 +177,15 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
                 .setIndicatorGravity(CustomBanner.IndicatorGravity.CENTER_HORIZONTAL)
                 //设置翻页的效果，不需要翻页效果可用不设
                 .startTurning(5000);
+    }
+
+    @Override
+    public void replaceList(List<LiveShowBean> beans) {
+        if (isInFragment) {
+            if (beans != null && beans.size() > 0) {
+                mAdapter.replaceList(beans);
+            }
+        }
     }
 
     @Override

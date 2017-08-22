@@ -109,7 +109,7 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
         bar.setWidth(DensityUtils.dp2px(getActivity(), 60));
         mIndicator.setScrollBar(bar);
 
-        float unSelectSize = 16;
+        float unSelectSize = 14;
         float selectSize = unSelectSize * 1.2f;
 
         int selectColor = ContextCompat.getColor(getContext(), R.color.colorTitle);
