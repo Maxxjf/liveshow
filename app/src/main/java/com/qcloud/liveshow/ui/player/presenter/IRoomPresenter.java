@@ -7,5 +7,5 @@ import com.qcloud.qclib.base.BtnClickPresenter;
  * Author: Kuzan
  * Date: 2017/8/22 10:53.
  */
-public interface IPlayerPresenter extends BtnClickPresenter {
+public interface IRoomPresenter extends BtnClickPresenter {
 }

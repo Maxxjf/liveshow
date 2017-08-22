@@ -5,5 +5,5 @@ package com.qcloud.liveshow.ui.player.view;
  * Author: Kuzan
  * Date: 2017/8/22 10:53.
  */
-public interface IPlayerView {
+public interface IRoomView {
 }

@@ -16,7 +16,7 @@ import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.LiveShowBean;
 import com.qcloud.liveshow.ui.home.presenter.impl.HotPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IHotView;
-import com.qcloud.liveshow.ui.player.widget.PlayerActivity;
+import com.qcloud.liveshow.ui.player.widget.RoomActivity;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
 import com.qcloud.qclib.swiperefresh.SwipeRefreshUtil;
@@ -147,7 +147,7 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 LiveShowBean bean = mAdapter.getList().get(i);
-                PlayerActivity.openActivity(getActivity(), bean.getStream_addr(), bean.getName());
+                RoomActivity.openActivity(getActivity(), bean.getStream_addr(), bean.getName());
             }
         });
         loadData();

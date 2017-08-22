@@ -16,7 +16,7 @@ import com.qcloud.liveshow.ui.home.widget.HomeFragment;
 import com.qcloud.liveshow.ui.main.presenter.impl.MainPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.IMainView;
 import com.qcloud.liveshow.ui.mine.widget.MineFragment;
-import com.qcloud.liveshow.ui.player.widget.PlayerActivity;
+import com.qcloud.liveshow.ui.player.widget.RoomActivity;
 import com.qcloud.qclib.toast.ToastUtils;
 
 import butterknife.Bind;
@@ -84,7 +84,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     @Override
     public void onLiveShowClick() {
         String url = "http://qqpull99.inke.cn/live/1503369392953387.flv?ikHost=tx&ikOp=0&codecInfo=8192";
-        PlayerActivity.openActivity(this, url, "直播");
+        RoomActivity.openActivity(this, url, "直播");
     }
 
     @Override
