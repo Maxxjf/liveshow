@@ -28,4 +28,11 @@ ext {
     buildToolsVersion = "25.0.2"
     minSdkVersion = 16
     targetSdkVersion = 25
+
+    //library版本
+    jjdxm_minSdkVersion = 9
+    jjdxm_versionCode = 1
+    jjdxm_versionName = "1.0.0"
+    jjdxm_v4 = 'com.android.support:support-v4:23.3.0'
+    jjdxm_v7 = 'com.android.support:appcompat-v7:23.3.0'
 }
