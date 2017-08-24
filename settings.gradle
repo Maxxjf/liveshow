@@ -2,3 +2,4 @@ include ':app'
 include ':qcloudLib-android'
 project(':qcloudLib-android').projectDir = new File('../qcloudLib-android/')
 include ':qcloudLib-android:qclib'
+include 'jjdxm-ijkplayer'
