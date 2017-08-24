@@ -7,6 +7,7 @@ import com.qcloud.liveshow.beans.LiveShowBean;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.qclib.adapter.recyclerview.BaseViewHolder;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
+import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.widget.customview.RatioImageView;
 
 /**
@@ -36,8 +37,8 @@ public class HotAdapter extends CommonRecyclerAdapter<LiveShowBean> {
         if (bean.getCreator() != null) {
             holder.setText(R.id.tv_user_name, bean.getCreator().getNick());
             //userView.loadImage(bean.getCreator().getPortrait(), R.drawable.icon_anchor_level_1, 100);
-//            GlideUtil.loadImage(mContext, imgUser, bean.getCreator().getPortrait(), R.drawable.icon_default_user,
-//                    0, 0, true, true);
+            GlideUtil.loadImage(mContext, imgUser, bean.getCreator().getPortrait()+"?x-oss-process=image/resize,m_fixed,h_200,w_200",
+                    R.drawable.icon_default_user, true);
         }
     }
 }

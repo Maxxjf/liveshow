@@ -36,6 +36,7 @@
     <string name="tip_cancel">取消</string>
     <string name="tip_confirm">确定</string>
     <string name="tip_confirm_to_logout">您确定要退出登录吗?</string>
+    <string name="tip_confirm_to_exit_room">您确定要退出房间吗?</string>
 
     <string name="input_mobile_hint">请输入手机号</string>
     <string name="input_code_hint">短信验证码</string>
@@ -84,5 +85,7 @@
     <string name="tag_about_us">关于我们</string>
     <string name="tag_clear_cache">清除缓存</string>
     <string name="tag_problem">常见问题</string>
+    <string name="tag_app_id">AV8DID:\t</string>
+    <string name="tag_message_eg">别睡了，起来嗨</string>
 
 </resources>

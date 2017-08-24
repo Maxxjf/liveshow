@@ -1,21 +1,36 @@
 package com.qcloud.liveshow.adapter;
 
+import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.LiveShowBean;
+import com.qcloud.qclib.image.GlideUtil;
+
+import java.util.List;
 
 /**
- * 类说明：房间适配器
+ * 类说明：直播间
  * Author: Kuzan
  * Date: 2017/8/22 18:49.
  */
 public class RoomAdapter extends PagerAdapter {
+
+    private Context mContext;
+    private List<LiveShowBean> mList;
+
+    public RoomAdapter(Context context, List<LiveShowBean> list) {
+        this.mContext = context;
+        this.mList = list;
+    }
+
     @Override
     public int getCount() {
-        return 10;
+        return mList == null?0:mList.size();
     }
 
     @Override
@@ -27,6 +42,12 @@ public class RoomAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.item_of_view_room, null);
         view.setId(position);
+        final LiveShowBean bean = mList.get(position);
+        ImageView imgAnchor = (ImageView) view.findViewById(R.id.img_anchor);
+        if (bean.getCreator() != null) {
+            GlideUtil.loadImage(mContext, imgAnchor, bean.getCreator().getPortrait()+"?x-oss-process=image/resize,m_fixed,h_320,w_180",
+                    R.drawable.icon_default_user, true);
+        }
         container.addView(view);
         return view;
     }

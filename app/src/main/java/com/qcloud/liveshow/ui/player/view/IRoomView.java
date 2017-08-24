@@ -1,7 +1,7 @@
 package com.qcloud.liveshow.ui.player.view;
 
 /**
- * 类说明：播放器
+ * 类说明：直播间
  * Author: Kuzan
  * Date: 2017/8/22 10:53.
  */

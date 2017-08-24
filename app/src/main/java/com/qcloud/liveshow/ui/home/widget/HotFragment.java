@@ -147,7 +147,7 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 LiveShowBean bean = mAdapter.getList().get(i);
-                RoomActivity.openActivity(getActivity(), bean.getStream_addr(), bean.getName());
+                RoomActivity.openActivity(getActivity(), bean.getStream_addr(), bean.getName(), mAdapter.getList());
             }
         });
         loadData();

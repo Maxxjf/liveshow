@@ -5,4 +5,6 @@
     <dimen name="margin_60dp">120dp</dimen>
     <dimen name="margin_70dp">140dp</dimen>
     <dimen name="margin_80dp">160dp</dimen>
+
+    <dimen name="room_notice_min_height">320dp</dimen>
 </resources>

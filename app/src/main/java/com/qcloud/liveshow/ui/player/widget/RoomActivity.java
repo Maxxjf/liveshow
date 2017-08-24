@@ -12,7 +12,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.bumptech.glide.Glide;
 import com.dou361.ijkplayer.listener.OnPlayerBackListener;
 import com.dou361.ijkplayer.listener.OnShowThumbnailListener;
 import com.dou361.ijkplayer.widget.PlayStateParams;
@@ -20,16 +19,21 @@ import com.dou361.ijkplayer.widget.PlayerView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.RoomAdapter;
 import com.qcloud.liveshow.base.BaseActivity;
+import com.qcloud.liveshow.beans.LiveShowBean;
 import com.qcloud.liveshow.ui.player.presenter.impl.RoomPresenterImpl;
 import com.qcloud.liveshow.ui.player.view.IRoomView;
+import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.VerticalViewPager;
+
+import java.io.Serializable;
+import java.util.List;
 
 import butterknife.Bind;
 import timber.log.Timber;
 
 /**
- * 类说明：播放器
+ * 类说明：直播间
  * Author: Kuzan
  * Date: 2017/8/22 10:55.
  */
@@ -38,18 +42,20 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
     @Bind(R.id.view_pager)
     VerticalViewPager mViewPager;
 
-    private PlayerView mPlayer;
-    private String mUrl;
-    private String mTitle;
-
     private RelativeLayout mRoomContainer;
     private FrameLayout mFragmentContainer;
     private RoomAdapter mRoomAdapter;
     private int mCurrentItem;
     private int mRoomId = -1;
     private FragmentManager mFragmentManager;
-    private RoomFragment mRoomFragment = RoomFragment.newInstance();
+    private RoomFragment mRoomFragment;
     private boolean mInit = false;
+
+    private PlayerView mPlayer;
+    private String currUrl;
+    private String currTitle;
+    private String currImage;
+    private List<LiveShowBean> mList;
 
     @Override
     protected int initLayout() {
@@ -68,17 +74,64 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
 
     @Override
     protected void initViewAndData() {
-        SystemBarUtil.transparencyNavBar(this);
-        mUrl = getIntent().getStringExtra("URL");
-        mTitle = getIntent().getStringExtra("TITLE");
+        SystemBarUtil.hideNavBar(this);
+        currUrl = getIntent().getStringExtra("URL");
+        currTitle = getIntent().getStringExtra("TITLE");
+        mList = (List<LiveShowBean>) getIntent().getSerializableExtra("LIST");
+        currImage = "";
 
         mRoomContainer = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.layout_room_container, null);
         mFragmentContainer = (FrameLayout) mRoomContainer.findViewById(R.id.fragment_container);
+        mRoomFragment = RoomFragment.newInstance();
         mFragmentManager = getSupportFragmentManager();
-        mRoomAdapter = new RoomAdapter();
+
+        initPlayer();
+
+        initViewPager();
+    }
+
+    /**
+     * 初始化播放器
+     * */
+    private void initPlayer() {
+        Timber.e("initPlayer");
+        mPlayer = new PlayerView(this, mRoomContainer)
+                .setTitle(currTitle)
+                .setScaleType(PlayStateParams.fitparent)
+                .forbidTouch(true)
+                .hideMenu(true)
+                .hideSteam(true)
+                .setForbidDoulbeUp(true)
+                .hideCenterPlayer(true)
+                .hideControlPanl(true)
+                .showThumbnail(new OnShowThumbnailListener() {
+                    @Override
+                    public void onShowThumbnail(ImageView ivThumbnail) {
+                        GlideUtil.loadImage(mContext, ivThumbnail, currImage+"?x-oss-process=image/resize,m_fixed,h_320,w_180",
+                                R.drawable.icon_default_user, true);
+                    }
+                })
+                .setPlaySource(currUrl)
+                .setPlayerBackListener(new OnPlayerBackListener() {
+                    @Override
+                    public void onPlayerBack() {
+                        //这里可以简单播放器点击返回键
+                        finish();
+                    }
+                })
+                .startPlay();
+    }
+
+    /**
+     * 初始化直播间
+     * */
+    private void initViewPager() {
+        mRoomAdapter = new RoomAdapter(this, mList);
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Timber.e("mCurrentId = " + position + ", positionOffset = " + positionOffset +
+                        ", positionOffsetPixels = " + positionOffsetPixels);
                 mCurrentItem = position;
             }
         });
@@ -86,8 +139,8 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         mViewPager.setPageTransformer(false, new ViewPager.PageTransformer() {
             @Override
             public void transformPage(View page, float position) {
+                Timber.e("page.id = " + page.getId() + ", position = " + position);
                 ViewGroup viewGroup = (ViewGroup) page;
-                Timber.e("page.id == " + page.getId() + ", position == " + position);
 
                 if ((position < 0 && viewGroup.getId() != mCurrentItem)) {
                     View roomContainer = viewGroup.findViewById(R.id.room_container);
@@ -105,43 +158,12 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
             }
         });
         mViewPager.setAdapter(mRoomAdapter);
-
-        initPlayer();
     }
 
-    private void initPlayer() {
-        mPlayer = new PlayerView(this, mRoomContainer)
-                .setTitle(mTitle)
-                .setScaleType(PlayStateParams.fitparent)
-                .forbidTouch(true)
-                .hideMenu(true)
-                .hideSteam(true)
-                .setForbidDoulbeUp(true)
-                .hideCenterPlayer(true)
-                .hideControlPanl(true)
-                .showThumbnail(new OnShowThumbnailListener() {
-                    @Override
-                    public void onShowThumbnail(ImageView ivThumbnail) {
-                        Glide.with(mContext)
-                                .load("http://pic2.nipic.com/20090413/406638_125424003_2.jpg")
-                                .placeholder(R.color.colorText)
-                                .error(R.color.white)
-                                .into(ivThumbnail);
-                    }
-                })
-                .setPlaySource(mUrl)
-                .setPlayerBackListener(new OnPlayerBackListener() {
-                    @Override
-                    public void onPlayerBack() {
-                        //这里可以简单播放器点击返回键
-                        finish();
-                    }
-                })
-                .startPlay();
-    }
-
+    /**
+     * 加载直播视频
+     * */
     private void loadVideoAndChatRoom(ViewGroup viewGroup, int currentItem) {
-//        mSubscription = AppObservable.bindActivity(this, ).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
         //聊天室的fragment只加载一次，以后复用
         if (!mInit) {
             mFragmentManager.beginTransaction().add(mFragmentContainer.getId(), mRoomFragment).commitAllowingStateLoss();
@@ -150,7 +172,12 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         if (mPlayer != null) {
             mPlayer.stopPlay();
         }
-        //mUrl = "http://pull2.inke.cn/live/1503399935072960.flv?ikHost=ws&ikOp=1&codecInfo=8192";
+        if (mList != null) {
+            currUrl = mList.get(currentItem).getStream_addr();
+            if (mList.get(currentItem).getCreator() != null) {
+                currImage = mList.get(currentItem).getCreator().getPortrait();
+            }
+        }
         initPlayer();
         viewGroup.addView(mRoomContainer);
         mRoomId = currentItem;
@@ -188,10 +215,11 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         }
     }
 
-    public static void openActivity(Context context, String url, String title) {
+    public static void openActivity(Context context, String url, String title, List<LiveShowBean> list) {
         Intent intent = new Intent(context, RoomActivity.class);
         intent.putExtra("URL", url);
         intent.putExtra("TITLE", title);
+        intent.putExtra("LIST", (Serializable) list);
         context.startActivity(intent);
     }
 }

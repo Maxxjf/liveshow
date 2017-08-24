@@ -1,11 +1,13 @@
 package com.qcloud.liveshow.beans;
 
+import java.io.Serializable;
+
 /**
  * 类说明：
  * Author: Kuzan
  * Date: 2017/8/22 11:31.
  */
-public class LiveShowBean {
+public class LiveShowBean implements Serializable {
     CreatorBean creator;
     long id;
     String name;

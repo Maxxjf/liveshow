@@ -84,7 +84,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     @Override
     public void onLiveShowClick() {
         String url = "http://qqpull99.inke.cn/live/1503369392953387.flv?ikHost=tx&ikOp=0&codecInfo=8192";
-        RoomActivity.openActivity(this, url, "直播");
+        //RoomActivity.openActivity(this, url, "直播");
     }
 
     @Override

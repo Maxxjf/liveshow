@@ -17,12 +17,12 @@
             android:layout_marginRight="@dimen/margin_small"
             android:src="@drawable/icon_user_head_default"
             myapp:ratio="1"
-            myapp:width="100"/>
+            myapp:width="80"/>
 
         <ImageView
             android:id="@+id/img_anchor_level"
-            android:layout_width="@dimen/margin_4"
-            android:layout_height="@dimen/margin_4"
+            android:layout_width="@dimen/margin_3"
+            android:layout_height="@dimen/margin_3"
             android:gravity="center"
             android:layout_gravity="bottom|right"
             android:src="@drawable/icon_anchor_level_1"/>

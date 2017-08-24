@@ -20,4 +20,7 @@
     <color name="colorStart">#fc9520</color><!--深橙色--><!--白底背景上使用的纯色-->
     <color name="colorEnd">#feb52C</color><!--深橙色--><!--黑底磨砂背景上使用的纯色-->
     <color name="colorLightRed">#80c269</color><!--浅红色-->
+
+    <color name="colorBlackAlpha20">#32000000</color><!--黑色20透明-->
+    <color name="colorBlackAlpha10">#19000000</color><!--黑色10透明-->
 </resources>
