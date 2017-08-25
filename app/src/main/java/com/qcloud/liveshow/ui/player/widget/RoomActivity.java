@@ -49,13 +49,14 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
     private int mRoomId = -1;
     private FragmentManager mFragmentManager;
     private RoomFragment mRoomFragment;
+    /**是否初始化了Room*/
     private boolean mInit = false;
 
     private PlayerView mPlayer;
     private String currUrl;
-    private String currTitle;
     private String currImage;
     private List<LiveShowBean> mList;
+    private LiveShowBean mCurrBean;
 
     @Override
     protected int initLayout() {
@@ -75,17 +76,19 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
     @Override
     protected void initViewAndData() {
         SystemBarUtil.hideNavBar(this);
-        currUrl = getIntent().getStringExtra("URL");
-        currTitle = getIntent().getStringExtra("TITLE");
+        mCurrentItem = getIntent().getIntExtra("POSITION", 0);
         mList = (List<LiveShowBean>) getIntent().getSerializableExtra("LIST");
-        currImage = "";
+        if (mList != null) {
+            mCurrBean = mList.get(mCurrentItem);
+            currUrl = mCurrBean.getStream_addr();
+        }
 
         mRoomContainer = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.layout_room_container, null);
         mFragmentContainer = (FrameLayout) mRoomContainer.findViewById(R.id.fragment_container);
         mRoomFragment = RoomFragment.newInstance();
         mFragmentManager = getSupportFragmentManager();
 
-        initPlayer();
+        //initPlayer();
 
         initViewPager();
     }
@@ -96,7 +99,7 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
     private void initPlayer() {
         Timber.e("initPlayer");
         mPlayer = new PlayerView(this, mRoomContainer)
-                .setTitle(currTitle)
+                .setTitle("直播")
                 .setScaleType(PlayStateParams.fitparent)
                 .forbidTouch(true)
                 .hideMenu(true)
@@ -127,11 +130,12 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
      * */
     private void initViewPager() {
         mRoomAdapter = new RoomAdapter(this, mList);
+        Timber.e("mCurrentItem = %d", mCurrentItem);
+        mViewPager.setCurrentItem(mCurrentItem);
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Timber.e("mCurrentId = " + position + ", positionOffset = " + positionOffset +
-                        ", positionOffsetPixels = " + positionOffsetPixels);
+                Timber.e("position = %d, positionOffset = %2.1f, positionOffsetPixels = %d", position, positionOffset, positionOffsetPixels);
                 mCurrentItem = position;
             }
         });
@@ -139,16 +143,17 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         mViewPager.setPageTransformer(false, new ViewPager.PageTransformer() {
             @Override
             public void transformPage(View page, float position) {
-                Timber.e("page.id = " + page.getId() + ", position = " + position);
+                Timber.e("page.id = %d, position = %2.1f", page.getId(), position);
                 ViewGroup viewGroup = (ViewGroup) page;
 
-                if ((position < 0 && viewGroup.getId() != mCurrentItem)) {
+                if (position < 0 && viewGroup.getId() != mCurrentItem) {
                     View roomContainer = viewGroup.findViewById(R.id.room_container);
                     if (roomContainer != null && roomContainer.getParent() != null && roomContainer.getParent() instanceof ViewGroup) {
                         ((ViewGroup) (roomContainer.getParent())).removeView(roomContainer);
                     }
                 }
                 // 满足此种条件，表明需要加载直播视频，以及聊天室了
+                /*viewGroup.getId() == mCurrentItem && */
                 if (viewGroup.getId() == mCurrentItem && position == 0 && mCurrentItem != mRoomId) {
                     if (mRoomContainer.getParent() != null && mRoomContainer.getParent() instanceof ViewGroup) {
                         ((ViewGroup) (mRoomContainer.getParent())).removeView(mRoomContainer);
@@ -158,26 +163,34 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
             }
         });
         mViewPager.setAdapter(mRoomAdapter);
+        mViewPager.setCurrentItem(mCurrentItem);
     }
 
     /**
      * 加载直播视频
      * */
     private void loadVideoAndChatRoom(ViewGroup viewGroup, int currentItem) {
-        //聊天室的fragment只加载一次，以后复用
+        Timber.e("currentItem = %d", currentItem);
+        // 聊天室的fragment只加载一次，以后复用
         if (!mInit) {
             mFragmentManager.beginTransaction().add(mFragmentContainer.getId(), mRoomFragment).commitAllowingStateLoss();
             mInit = true;
         }
-        if (mPlayer != null) {
-            mPlayer.stopPlay();
-        }
         if (mList != null) {
-            currUrl = mList.get(currentItem).getStream_addr();
-            if (mList.get(currentItem).getCreator() != null) {
+            mCurrBean = mList.get(currentItem);
+            currUrl = mCurrBean.getStream_addr();
+            if (mCurrBean.getCreator() != null) {
                 currImage = mList.get(currentItem).getCreator().getPortrait();
             }
         }
+        if (mRoomFragment != null) {
+            mRoomFragment.refreshRoom(mCurrBean);
+            mRoomFragment.beginLoad();
+        }
+        if (mPlayer != null) {
+            mPlayer.stopPlay();
+        }
+
         initPlayer();
         viewGroup.addView(mRoomContainer);
         mRoomId = currentItem;
@@ -215,10 +228,9 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         }
     }
 
-    public static void openActivity(Context context, String url, String title, List<LiveShowBean> list) {
+    public static void openActivity(Context context, int position, List<LiveShowBean> list) {
         Intent intent = new Intent(context, RoomActivity.class);
-        intent.putExtra("URL", url);
-        intent.putExtra("TITLE", title);
+        intent.putExtra("POSITION", position);
         intent.putExtra("LIST", (Serializable) list);
         context.startActivity(intent);
     }

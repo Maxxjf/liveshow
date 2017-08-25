@@ -15,6 +15,7 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.RoomFansAdapter;
 import com.qcloud.liveshow.adapter.RoomMessageAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
+import com.qcloud.liveshow.beans.LiveShowBean;
 import com.qcloud.liveshow.ui.player.presenter.impl.RoomControlPresenterImpl;
 import com.qcloud.liveshow.ui.player.view.IRoomControlView;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
@@ -22,12 +23,14 @@ import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
+import com.qcloud.qclib.widget.customview.MarqueeView;
 import com.qcloud.qclib.widget.customview.clearscreen.ClearScreenHelper;
 import com.qcloud.qclib.widget.customview.clearscreen.IClearEvent;
 import com.qcloud.qclib.widget.customview.clearscreen.IClearRootView;
 import com.qcloud.qclib.widget.customview.clearscreen.view.RelativeClearLayout;
 
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * 类说明：直播间控制面板
@@ -49,7 +52,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private LinearLayout mLayoutId;
 
     private ImageView mBtnNotice;
-    private TextView mTvNotice;
+    private MarqueeView mTvNotice;
     private RecyclerView mListMessage;
     private LinearLayout mLayoutNotice;
 
@@ -64,6 +67,9 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     private RoomFansAdapter mFansAdapter;
     private RoomMessageAdapter mMessageAdapter;
+    /**是否第一次进入房间*/
+    private boolean isFirstInRoom = true;
+    private LiveShowBean mCurrBean;
 
     @Override
     protected int getLayoutId() {
@@ -86,7 +92,43 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     @Override
     protected void beginLoad() {
+        Timber.e("beginLoad()");
+        if (isFirstInRoom) {
+            isFirstInRoom = false;
+        } else {
+            refreshAndLoadData();
+        }
+    }
 
+    /**
+     * 刷新房间
+     * */
+    public void refreshRoom(LiveShowBean bean) {
+        Timber.e("refreshRoom()");
+        mCurrBean = bean;
+    }
+
+    /**
+     * 刷新和重新加载数据
+     * */
+    private void refreshAndLoadData() {
+        Timber.e("refreshAndLoadData()");
+        if (mCurrBean == null) {
+            return;
+        }
+        if (mTvTitle != null) {
+            mTvTitle.setText(mCurrBean.getName());
+        }
+        if (mTvFans != null) {
+            mTvFans.setText(mCurrBean.getOnline_users()+"");
+        }
+        if (mTvId != null) {
+            mTvId.setText(mCurrBean.getId()+"");
+        }
+        if (mTvNotice != null) {
+            mTvNotice.stopScroll();
+            mTvNotice.setText("我就是这么6......");
+        }
     }
 
     /**
@@ -104,7 +146,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mLayoutId = (LinearLayout) mView.findViewById(R.id.layout_id);
 
         mBtnNotice = (ImageView) mView.findViewById(R.id.btn_notice);
-        mTvNotice = (TextView) mView.findViewById(R.id.tv_notice);
+        mTvNotice = (MarqueeView) mView.findViewById(R.id.tv_notice);
         mListMessage = (RecyclerView) mView.findViewById(R.id.list_message);
         mLayoutNotice = (LinearLayout) mView.findViewById(R.id.layout_notice);
 
@@ -130,12 +172,12 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mClearScreenHelper.setIClearEvent(new IClearEvent() {
             @Override
             public void onClearEnd() {
-                ToastUtils.ToastMessage(getActivity(), "Clear End...");
+                Timber.d("Clear End...");
             }
 
             @Override
             public void onRecovery() {
-                ToastUtils.ToastMessage(getActivity(), "Recovery Now...");
+                Timber.d("Recovery Now...");
             }
         });
     }
@@ -168,12 +210,19 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     @Override
     public void onFollowClick() {
-
+        ToastUtils.ToastMessage(getActivity(), "关注");
     }
 
     @Override
     public void onNoticeClick() {
-
+        if (mTvNotice != null) {
+            if (mTvNotice.getVisibility() == View.VISIBLE) {
+                mTvNotice.setVisibility(View.GONE);
+            } else {
+                mTvNotice.setVisibility(View.VISIBLE);
+                mTvNotice.reset();
+            }
+        }
     }
 
     @Override
@@ -231,5 +280,13 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         RoomFragment fragment = new RoomFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mTvNotice != null) {
+            mTvNotice.stopScroll();
+        }
     }
 }
