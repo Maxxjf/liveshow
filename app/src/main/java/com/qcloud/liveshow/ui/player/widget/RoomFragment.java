@@ -21,6 +21,7 @@ import com.qcloud.liveshow.ui.player.presenter.impl.RoomControlPresenterImpl;
 import com.qcloud.liveshow.ui.player.view.IRoomControlView;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.liveshow.widget.dialog.InputMessageDialog;
+import com.qcloud.liveshow.widget.pop.BuyDiamondsPop;
 import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
@@ -73,7 +74,11 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private boolean isFirstInRoom = true;
     private LiveShowBean mCurrBean;
 
+    /**输入消息弹窗*/
     private InputMessageDialog mInputDialog;
+    /**购买钻石币弹窗*/
+    private BuyDiamondsPop mDiamondsPop;
+
 
     @Override
     protected int getLayoutId() {
@@ -93,6 +98,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         initFansLayout();
         initMessageLayout();
         initInputDialog();
+        initDiamondsPop();
     }
 
     @Override
@@ -207,6 +213,13 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     }
 
     /**
+     * 初始化购买钻石币弹窗
+     * */
+    private void initDiamondsPop() {
+        mDiamondsPop = new BuyDiamondsPop(mContext);
+    }
+
+    /**
      * 粉丝列表
      * */
     private void initFansLayout() {
@@ -259,7 +272,10 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     @Override
     public void onBuyDiamondsClick() {
-
+        if (mDiamondsPop == null) {
+            initDiamondsPop();
+        }
+        mDiamondsPop.showAtLocation(mBtnBuyDiamonds, Gravity.BOTTOM, 0, 0);
     }
 
     @Override
@@ -293,7 +309,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
                 }
             }
         });
-        pop.showAtLocation(mBtnExit, Gravity.CENTER, 0, 0);
+        pop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
         pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -314,6 +330,12 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         super.onStop();
         if (mTvNotice != null) {
             mTvNotice.stopScroll();
+        }
+        if (mInputDialog != null && mInputDialog.isShowing()) {
+            mInputDialog.dismiss();
+        }
+        if (mDiamondsPop != null && mDiamondsPop.isShowing()) {
+            mDiamondsPop.dismiss();
         }
     }
 }
