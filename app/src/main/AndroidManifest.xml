@@ -52,7 +52,8 @@
         <!--播放器有关-->
         <activity android:name=".ui.player.widget.RoomActivity"
                   android:launchMode="singleTask"
-                  android:label="@string/title_player"/>
+                  android:windowSoftInputMode="adjustPan"
+                  android:label="@string/title_room"/>
 
         <!--个人有关-->
         <activity android:name=".ui.mine.widget.UserInfoActivity"

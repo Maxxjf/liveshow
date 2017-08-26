@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.ui.player.widget;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.qcloud.liveshow.beans.LiveShowBean;
 import com.qcloud.liveshow.ui.player.presenter.impl.RoomControlPresenterImpl;
 import com.qcloud.liveshow.ui.player.view.IRoomControlView;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
+import com.qcloud.liveshow.widget.dialog.InputMessageDialog;
 import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
@@ -71,6 +73,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private boolean isFirstInRoom = true;
     private LiveShowBean mCurrBean;
 
+    private InputMessageDialog mInputDialog;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_room;
@@ -88,6 +92,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
         initFansLayout();
         initMessageLayout();
+        initInputDialog();
     }
 
     @Override
@@ -183,6 +188,25 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     }
 
     /**
+     * 初始化输入消息弹窗
+     * */
+    private void initInputDialog() {
+        mInputDialog = new InputMessageDialog(getActivity());
+        mInputDialog.setOnMessageSendListener(new InputMessageDialog.OnMessageSendListener() {
+            @Override
+            public void onMessageSend(String message, boolean isNotice) {
+                ToastUtils.ToastMessage(getActivity(), message);
+            }
+        });
+        mInputDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                SystemBarUtil.hideNavBar(getActivity());
+            }
+        });
+    }
+
+    /**
      * 粉丝列表
      * */
     private void initFansLayout() {
@@ -227,7 +251,10 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     @Override
     public void onSendMessageClick() {
-
+        if (mInputDialog == null) {
+            mInputDialog = new InputMessageDialog(getActivity());
+        }
+        mInputDialog.show();
     }
 
     @Override

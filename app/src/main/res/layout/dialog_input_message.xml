@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_outside"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/layout_input"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:background="@color/colorInputDialogBg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/btn_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_margin"
+            android:layout_marginRight="@dimen/layout_margin"
+            android:src="@drawable/icon_to_comment" />
+
+        <com.qcloud.qclib.widget.customview.ClearEditText
+            android:id="@+id/et_message"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/tab_height"
+            android:layout_weight="1"
+            android:textCursorDrawable="@drawable/cursor_orange_drawable"
+            android:imeActionId="@+id/login"
+            android:imeOptions="actionUnspecified"
+            android:inputType="text"
+            android:lines="1"
+            android:textColor="@color/colorStart"
+            android:textSize="@dimen/micro_text_size"
+            android:textColorHint="@color/colorHint"
+            android:hint="@string/input_message_or_notice_hint"/>
+
+        <TextView
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btn_height"
+            android:paddingLeft="@dimen/margin_3"
+            android:paddingRight="@dimen/margin_3"
+            android:gravity="center"
+            android:textColor="@color/colorStart"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/btn_send" />
+    </LinearLayout>
+</RelativeLayout>

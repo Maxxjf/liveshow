@@ -113,4 +113,19 @@
         <item name="android:fadingEdgeLength">0dp</item>
         <item name="android:overScrollMode">never</item>
     </style>
+
+    <!--输入消息弹窗-->
+    <style name="InputDialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">#00000000</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="colorControlNormal">@color/colorStart</item>
+        <item name="android:textColorHint">@color/colorHint</item>
+        <item name="colorControlActivated">@color/colorStart</item>
+    </style>
 </resources>

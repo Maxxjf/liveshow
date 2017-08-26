@@ -23,4 +23,6 @@
 
     <color name="colorBlackAlpha20">#32000000</color><!--黑色20透明-->
     <color name="colorBlackAlpha10">#19000000</color><!--黑色10透明-->
+
+    <color name="colorInputDialogBg">#b4ffffff</color>
 </resources>
