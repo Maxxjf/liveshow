@@ -53,6 +53,9 @@
     <string name="btn_send">发送</string>
     <string name="btn_buy">购买</string>
     <string name="btn_diamonds_recharge"><![CDATA[>充值]]></string>
+    <string name="btn_manage">管理</string>
+    <string name="btn_follow">关注</string>
+    <string name="btn_letter">私信</string>
 
     <string name="tag_agree_clause">登录即代表您同意</string>
     <string name="tag_clause">《免责条款》</string>
@@ -93,6 +96,12 @@
     <string name="tag_app_id">AV8DID:\t</string>
     <string name="tag_message_eg">别睡了，起来嗨</string>
     <string name="tag_please_select">请选择</string>
-
+    <string name="tag_colon">：</string>
+    <string name="tag_share_to_friends">分享给朋友</string>
+    <string name="tag_we_chat">微信</string>
+    <string name="tag_friends_circle">朋友圈</string>
+    <string name="tag_qq">QQ</string>
+    <string name="tag_qq_zone">QQ空间</string>
+    <string name="tag_facebook">Facebook</string>
 
 </resources>

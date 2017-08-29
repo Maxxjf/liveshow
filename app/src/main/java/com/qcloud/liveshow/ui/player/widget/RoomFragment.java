@@ -22,7 +22,11 @@ import com.qcloud.liveshow.ui.player.view.IRoomControlView;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.liveshow.widget.dialog.InputMessageDialog;
 import com.qcloud.liveshow.widget.pop.BuyDiamondsPop;
+import com.qcloud.liveshow.widget.pop.FansInfoPop;
+import com.qcloud.liveshow.widget.pop.MessageListPop;
 import com.qcloud.liveshow.widget.pop.SendGiftPop;
+import com.qcloud.liveshow.widget.pop.SharePop;
+import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.MarqueeView;
@@ -79,6 +83,12 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private BuyDiamondsPop mDiamondsPop;
     /**发送礼物弹窗*/
     private SendGiftPop mGiftPop;
+    /**粉丝信息弹窗*/
+    private FansInfoPop mFansPop;
+    /**消息列表弹窗*/
+    private MessageListPop mMessagePop;
+    /**分享弹窗*/
+    private SharePop mSharePop;
 
     @Override
     protected int getLayoutId() {
@@ -100,6 +110,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         initInputDialog();
         initDiamondsPop();
         initGiftPop();
+        initFansPop();
     }
 
     @Override
@@ -240,6 +251,45 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     }
 
     /**
+     * 初始化粉丝信息弹窗
+     * */
+    private void initFansPop() {
+        mFansPop = new FansInfoPop(mContext);
+        mFansPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemBarUtil.hideNavBar(getActivity());
+            }
+        });
+    }
+
+    /**
+     * 初始化消息列表弹窗
+     * */
+    private void initMessagePop() {
+        mMessagePop = new MessageListPop(mContext);
+        mMessagePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemBarUtil.hideNavBar(getActivity());
+            }
+        });
+    }
+
+    /**
+     * 初始化消息列表弹窗
+     * */
+    private void initSharePop() {
+        mSharePop = new SharePop(mContext);
+        mSharePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemBarUtil.hideNavBar(getActivity());
+            }
+        });
+    }
+
+    /**
      * 粉丝列表
      * */
     private void initFansLayout() {
@@ -247,6 +297,15 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mListFans.setLayoutManager(manager);
         mListFans.setAdapter(mFansAdapter);
+        mFansAdapter.setOnHolderClick(new CommonRecyclerAdapter.ViewHolderClick<String>() {
+            @Override
+            public void onViewClick(View view, String s, int position) {
+                if (mFansPop == null) {
+                    initFansPop();
+                }
+                mFansPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+            }
+        });
     }
 
     /**
@@ -300,12 +359,18 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     @Override
     public void onShareClick() {
-
+        if (mSharePop == null) {
+            initSharePop();
+        }
+        mSharePop.showAtLocation(mBtnShare, Gravity.BOTTOM, 0, 0);
     }
 
     @Override
     public void onReceiveMessageClick() {
-
+        if (mMessagePop == null) {
+            initMessagePop();
+        }
+        mMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
     }
 
     @Override
@@ -360,6 +425,9 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         }
         if (mDiamondsPop != null && mDiamondsPop.isShowing()) {
             mDiamondsPop.dismiss();
+        }
+        if (mGiftPop != null && mGiftPop.isShowing()) {
+            mGiftPop.dismiss();
         }
     }
 }

@@ -4,9 +4,11 @@ import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.enums.UserHeaderEnum;
 import com.qcloud.qclib.base.BaseLinearLayout;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.widget.customview.RatioImageView;
@@ -49,6 +51,26 @@ public class UserHeadImageView extends BaseLinearLayout {
     void onUserClick(View view) {
         if (mViewClick != null) {
             mViewClick.onViewClick(view);
+        }
+    }
+
+    /**
+     * 设置用户头像布局的等级icon大小
+     * */
+    public void setLevelModel(UserHeaderEnum model) {
+        if (mImgAnchorLevel != null) {
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mImgAnchorLevel.getLayoutParams();
+            if (model == UserHeaderEnum.BIG) {
+                params.width = R.dimen.margin_4;
+                params.height = R.dimen.margin_4;
+            } else if (model == UserHeaderEnum.SMALL) {
+                params.width = R.dimen.margin_2;
+                params.height = R.dimen.margin_2;
+            } else {
+                params.width = R.dimen.margin_3;
+                params.height = R.dimen.margin_3;
+            }
+            mImgAnchorLevel.setLayoutParams(params);
         }
     }
 

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/margin_1"
+        android:paddingBottom="@dimen/margin_1">
+
+        <com.qcloud.liveshow.widget.customview.UserHeadImageView
+            android:id="@+id/layout_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/layout_margin"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/layout_user"
+            android:layout_marginLeft="@dimen/layout_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_fans_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/micro_text_size"
+                    android:textStyle="bold"
+                    android:text="Chopper"/>
+
+                <ImageView
+                    android:id="@+id/img_fans_sex"
+                    android:layout_width="@dimen/margin_3"
+                    android:layout_height="@dimen/margin_3"
+                    android:layout_marginLeft="@dimen/layout_margin"
+                    android:gravity="center"
+                    android:src="@drawable/icon_lady"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/text_padding">
+
+                <TextView
+                    android:id="@+id/tv_message"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorLightGray"
+                    android:textSize="@dimen/micro_text_size"
+                    android:text="半夜不睡觉，起来嗨"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/layout_margin"
+            android:textColor="@color/white"
+            android:textSize="@dimen/micro_text_size"
+            android:text="15:43"/>
+    </RelativeLayout>
+
+    <View
+        style="@style/LineHorizontal"
+        android:layout_marginLeft="@dimen/layout_margin"/>
+
+</LinearLayout>

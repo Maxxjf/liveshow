@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/room_notice_min_height"
+    android:background="@drawable/bg_black_top_big_radius">
+
+    <com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView
+        android:id="@+id/list_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
