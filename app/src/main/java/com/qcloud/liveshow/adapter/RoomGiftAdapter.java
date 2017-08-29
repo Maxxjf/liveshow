@@ -9,18 +9,18 @@ import com.qcloud.qclib.adapter.recyclerview.BaseViewHolder;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
 
 /**
- * 类说明：房间钻石币
+ * 类说明：房间礼物列表
  * Author: Kuzan
- * Date: 2017/8/26 16:37.
+ * Date: 2017/8/29 11:43.
  */
-public class RoomDiamondsAdapter extends CommonRecyclerAdapter<PagerItemBean> {
-    public RoomDiamondsAdapter(Context context) {
+public class RoomGiftAdapter extends CommonRecyclerAdapter<PagerItemBean> {
+    public RoomGiftAdapter(Context context) {
         super(context);
     }
 
     @Override
     public int onCreateViewLayoutID(int viewType) {
-        return R.layout.item_of_room_diamonds;
+        return R.layout.item_of_room_gift;
     }
 
     @Override
@@ -31,9 +31,9 @@ public class RoomDiamondsAdapter extends CommonRecyclerAdapter<PagerItemBean> {
         LinearLayout layoutItem = holder.get(R.id.layout_item);
 
         if (bean.isSelect()) {
-            layoutItem.setBackgroundResource(R.drawable.icon_diamonds_select);
+            layoutItem.setBackgroundResource(R.drawable.frame_orange_radius);
         } else {
-            layoutItem.setBackgroundResource(R.drawable.icon_diamonds_normal);
+            layoutItem.setBackgroundResource(0);
         }
     }
 }

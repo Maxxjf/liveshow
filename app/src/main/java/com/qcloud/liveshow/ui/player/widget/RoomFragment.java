@@ -22,8 +22,7 @@ import com.qcloud.liveshow.ui.player.view.IRoomControlView;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.liveshow.widget.dialog.InputMessageDialog;
 import com.qcloud.liveshow.widget.pop.BuyDiamondsPop;
-import com.qcloud.liveshow.widget.pop.TipsPop;
-import com.qcloud.qclib.base.BasePopupWindow;
+import com.qcloud.liveshow.widget.pop.SendGiftPop;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.MarqueeView;
@@ -78,7 +77,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private InputMessageDialog mInputDialog;
     /**购买钻石币弹窗*/
     private BuyDiamondsPop mDiamondsPop;
-
+    /**发送礼物弹窗*/
+    private SendGiftPop mGiftPop;
 
     @Override
     protected int getLayoutId() {
@@ -99,6 +99,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         initMessageLayout();
         initInputDialog();
         initDiamondsPop();
+        initGiftPop();
     }
 
     @Override
@@ -217,6 +218,25 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * */
     private void initDiamondsPop() {
         mDiamondsPop = new BuyDiamondsPop(mContext);
+        mDiamondsPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemBarUtil.hideNavBar(getActivity());
+            }
+        });
+    }
+
+    /**
+     * 初始化发送礼物弹窗
+     * */
+    private void initGiftPop() {
+        mGiftPop = new SendGiftPop(mContext);
+        mGiftPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemBarUtil.hideNavBar(getActivity());
+            }
+        });
     }
 
     /**
@@ -290,32 +310,36 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     @Override
     public void onSendGiftClick() {
-
+        if (mGiftPop == null) {
+            initGiftPop();
+        }
+        mGiftPop.showAtLocation(mBtnSendGift, Gravity.BOTTOM, 0, 0);
     }
 
     @Override
     public void onExitClick() {
-        final TipsPop pop = new TipsPop(getActivity());
-        pop.setTips(R.string.tip_confirm_to_exit_room);
-        pop.setCancelBtn(R.string.tip_cancel);
-        pop.setOkBtn(R.string.tip_confirm);
-        pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
-            @Override
-            public void onViewClick(View view) {
-                if (view.getId() == R.id.btn_ok) {
-                    getActivity().finish();
-                } else {
-                    pop.dismiss();
-                }
-            }
-        });
-        pop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
-        pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                SystemBarUtil.hideNavBar(getActivity());
-            }
-        });
+        getActivity().finish();
+//        final TipsPop pop = new TipsPop(getActivity());
+//        pop.setTips(R.string.tip_confirm_to_exit_room);
+//        pop.setCancelBtn(R.string.tip_cancel);
+//        pop.setOkBtn(R.string.tip_confirm);
+//        pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+//            @Override
+//            public void onViewClick(View view) {
+//                if (view.getId() == R.id.btn_ok) {
+//                    getActivity().finish();
+//                } else {
+//                    pop.dismiss();
+//                }
+//            }
+//        });
+//        pop.showAtLocation(mBtnExit, Gravity.CENTER, 0, 0);
+//        pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                SystemBarUtil.hideNavBar(getActivity());
+//            }
+//        });
     }
 
     public static RoomFragment newInstance() {

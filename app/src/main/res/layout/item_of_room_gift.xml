@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_item"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="@dimen/margin_1"
+    android:orientation="vertical">
+
+    <com.qcloud.qclib.widget.customview.RatioImageView
+        android:id="@+id/img_gift"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerInside"
+        android:src="@drawable/icon_default_gift"
+        myapp:ratio="1"
+        myapp:width="80"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/micro_text_size"
+        android:text="10钻石币"/>
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_1"
+        android:gravity="center"
+        android:textColor="@color/colorEnd"
+        android:textSize="@dimen/mini_text_size"
+        android:text="1钻石币"/>
+
+</LinearLayout>

@@ -3,4 +3,7 @@
     <!--隐藏/显示titleBar-->
     <item name="show_hide_title_bar" type="id"/>
 
+    <!--购买钻石币分页管理-->
+    <item name="item_diamonds_tag" type="id"/>
+
 </resources>

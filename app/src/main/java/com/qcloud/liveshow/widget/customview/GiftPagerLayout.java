@@ -9,28 +9,28 @@ import android.widget.AdapterView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.PagerLayoutAdapter;
-import com.qcloud.liveshow.adapter.RoomDiamondsAdapter;
+import com.qcloud.liveshow.adapter.RoomGiftAdapter;
 import com.qcloud.liveshow.beans.PagerItemBean;
 
 import java.util.ArrayList;
 
 /**
- * 类说明：购买钻石币弹窗
+ * 类说明：发送礼物布局
  * Author: Kuzan
- * Date: 2017/8/29 11:08.
+ * Date: 2017/8/29 11:42.
  */
-public class DiamondsPagerLayout extends BasePagerLayout {
-    private RoomDiamondsAdapter mAdapter;
+public class GiftPagerLayout extends BasePagerLayout {
+    private RoomGiftAdapter mAdapter;
 
-    public DiamondsPagerLayout(Context context) {
+    public GiftPagerLayout(Context context) {
         this(context, null);
     }
 
-    public DiamondsPagerLayout(Context context, AttributeSet attrs) {
+    public GiftPagerLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public DiamondsPagerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GiftPagerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -41,7 +41,7 @@ public class DiamondsPagerLayout extends BasePagerLayout {
         for (ArrayList<PagerItemBean> data : mPagerData) {
             RecyclerView pager = new RecyclerView(mContext);
             pager.setLayoutManager(new GridLayoutManager(mContext, mCountRow));
-            mAdapter = new RoomDiamondsAdapter(mContext);
+            mAdapter = new RoomGiftAdapter(mContext);
             mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

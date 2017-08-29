@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">直播</string>
+    <string name="app_name">AV8D</string>
 
     <string name="save">保存</string>
     <string name="edit">编辑</string>
@@ -52,6 +52,7 @@
     <string name="btn_logout">退出登录</string>
     <string name="btn_send">发送</string>
     <string name="btn_buy">购买</string>
+    <string name="btn_diamonds_recharge"><![CDATA[>充值]]></string>
 
     <string name="tag_agree_clause">登录即代表您同意</string>
     <string name="tag_clause">《免责条款》</string>
