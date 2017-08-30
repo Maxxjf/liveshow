@@ -1,4 +1,4 @@
-package com.qcloud.liveshow.ui.player.widget;
+package com.qcloud.liveshow.ui.room.widget;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -17,8 +17,8 @@ import com.qcloud.liveshow.adapter.RoomFansAdapter;
 import com.qcloud.liveshow.adapter.RoomMessageAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.LiveShowBean;
-import com.qcloud.liveshow.ui.player.presenter.impl.RoomControlPresenterImpl;
-import com.qcloud.liveshow.ui.player.view.IRoomControlView;
+import com.qcloud.liveshow.ui.room.presenter.impl.RoomControlPresenterImpl;
+import com.qcloud.liveshow.ui.room.view.IRoomControlView;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.liveshow.widget.dialog.InputMessageDialog;
 import com.qcloud.liveshow.widget.pop.BuyDiamondsPop;

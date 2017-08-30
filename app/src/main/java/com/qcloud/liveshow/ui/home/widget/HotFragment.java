@@ -16,7 +16,7 @@ import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.LiveShowBean;
 import com.qcloud.liveshow.ui.home.presenter.impl.HotPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IHotView;
-import com.qcloud.liveshow.ui.player.widget.RoomActivity;
+import com.qcloud.liveshow.ui.room.widget.RoomActivity;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
 import com.qcloud.qclib.swiperefresh.SwipeRefreshUtil;

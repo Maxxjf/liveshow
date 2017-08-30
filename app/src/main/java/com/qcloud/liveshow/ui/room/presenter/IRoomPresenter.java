@@ -1,4 +1,4 @@
-package com.qcloud.liveshow.ui.player.presenter;
+package com.qcloud.liveshow.ui.room.presenter;
 
 import com.qcloud.qclib.base.BtnClickPresenter;
 

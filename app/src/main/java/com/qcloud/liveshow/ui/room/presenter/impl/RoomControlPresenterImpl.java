@@ -1,8 +1,8 @@
-package com.qcloud.liveshow.ui.player.presenter.impl;
+package com.qcloud.liveshow.ui.room.presenter.impl;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.ui.player.presenter.IRoomControlPresenter;
-import com.qcloud.liveshow.ui.player.view.IRoomControlView;
+import com.qcloud.liveshow.ui.room.presenter.IRoomControlPresenter;
+import com.qcloud.liveshow.ui.room.view.IRoomControlView;
 import com.qcloud.qclib.base.BasePresenter;
 
 /**

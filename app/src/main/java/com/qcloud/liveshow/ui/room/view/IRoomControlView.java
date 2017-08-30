@@ -1,4 +1,4 @@
-package com.qcloud.liveshow.ui.player.view;
+package com.qcloud.liveshow.ui.room.view;
 
 /**
  * 类说明：直播间

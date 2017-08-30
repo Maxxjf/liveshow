@@ -1,4 +1,4 @@
-package com.qcloud.liveshow.ui.player.widget;
+package com.qcloud.liveshow.ui.room.widget;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,8 +20,8 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.RoomAdapter;
 import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.beans.LiveShowBean;
-import com.qcloud.liveshow.ui.player.presenter.impl.RoomPresenterImpl;
-import com.qcloud.liveshow.ui.player.view.IRoomView;
+import com.qcloud.liveshow.ui.room.presenter.impl.RoomPresenterImpl;
+import com.qcloud.liveshow.ui.room.view.IRoomView;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.VerticalViewPager;
