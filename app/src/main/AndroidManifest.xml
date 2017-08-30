@@ -55,6 +55,13 @@
                   android:windowSoftInputMode="adjustPan"
                   android:label="@string/title_room"/>
 
+        <!--主播有关-->
+        <activity android:name=".ui.home.widget.SearchAnchorActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:windowSoftInputMode="adjustPan"
+                  android:label="@string/title_search_anchor"/>
+
         <!--个人有关-->
         <activity android:name=".ui.mine.widget.UserInfoActivity"
                   android:theme="@style/AppSwipeBackTheme"

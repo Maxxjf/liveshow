@@ -23,6 +23,7 @@
     <string name="title_setting">设置</string>
     <string name="title_room">直播间</string>
     <string name="title_player">播放器</string>
+    <string name="title_search_anchor">搜索主播</string>
 
     <string name="tab_home">首页</string>
     <string name="tab_live_show">发直播</string>
@@ -42,6 +43,7 @@
     <string name="input_mobile_hint">请输入手机号</string>
     <string name="input_code_hint">短信验证码</string>
     <string name="input_message_or_notice_hint">说点什么吧~</string>
+    <string name="input_search_anchor_hint">请输入用户名或用户ID进行搜索</string>
 
     <string name="btn_get_code">获取验证码</string>
     <string name="btn_login">确认</string>
@@ -56,6 +58,7 @@
     <string name="btn_manage">管理</string>
     <string name="btn_follow">关注</string>
     <string name="btn_letter">私信</string>
+    <string name="btn_cancel">取消</string>
 
     <string name="tag_agree_clause">登录即代表您同意</string>
     <string name="tag_clause">《免责条款》</string>

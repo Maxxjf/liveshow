@@ -32,8 +32,8 @@ public class RoomFansAdapter extends CommonRecyclerAdapter<String> {
         userHeader.setOnViewClickListener(new BaseLinearLayout.OnViewClickListener() {
             @Override
             public void onViewClick(View view) {
-                if (holderClick != null) {
-                    holderClick.onViewClick(view, "", position);
+                if (mHolderClick != null) {
+                    mHolderClick.onViewClick(view, "", position);
                 }
             }
         });

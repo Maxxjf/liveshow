@@ -4,26 +4,32 @@
     android:layout_height="@dimen/toolbar_height"
     android:background="@color/white">
 
-    <ImageButton
-        android:id="@+id/ib_left"
+    <RelativeLayout
+        android:id="@+id/layout_left"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@null"
-        android:paddingLeft="@dimen/margin_3"
-        android:paddingRight="@dimen/margin_3"
-        android:src="@drawable/icon_normal_back"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true">
 
-    <TextView
-        android:id="@+id/btn_left"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@null"
-        android:gravity="center"
-        android:drawablePadding="@dimen/draw_padding"
-        android:paddingLeft="@dimen/margin_2"
-        android:paddingRight="@dimen/margin_2"
-        android:textColor="@color/colorTitle"
-        android:textSize="@dimen/small_text_size"/>
+        <ImageButton
+            android:id="@+id/ib_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:paddingLeft="@dimen/margin_3"
+            android:paddingRight="@dimen/margin_3"
+            android:src="@drawable/icon_normal_back"/>
+
+        <TextView
+            android:id="@+id/btn_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center"
+            android:drawablePadding="@dimen/draw_padding"
+            android:paddingLeft="@dimen/margin_2"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/small_text_size"/>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_title"
@@ -42,9 +48,9 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:layout_centerInParent="true"
-        android:background="@drawable/bg_gray_radius"
-        android:layout_toRightOf="@+id/ib_left"
-        android:layout_toLeftOf="@+id/ib_right"
+        android:background="@drawable/bg_gray_circular"
+        android:layout_toRightOf="@+id/layout_left"
+        android:layout_toLeftOf="@+id/layout_right"
         android:layout_marginLeft="@dimen/layout_margin"
         android:layout_marginRight="@dimen/layout_margin"
         android:paddingLeft="@dimen/layout_margin"
@@ -84,25 +90,30 @@
             android:visibility="gone"/>
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/ib_right"
+    <RelativeLayout
+        android:id="@+id/layout_right"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:background="@null"
-        android:paddingLeft="@dimen/margin_2"
-        android:paddingRight="@dimen/margin_2"
-        android:src="@drawable/icon_message_black"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true">
 
-    <TextView
-        android:id="@+id/btn_right"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:background="@null"
-        android:gravity="center"
-        android:paddingLeft="@dimen/margin_3"
-        android:paddingRight="@dimen/margin_3"
-        android:textColor="@color/colorTitle"
-        android:textSize="@dimen/small_text_size"/>
+        <ImageButton
+            android:id="@+id/ib_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:paddingLeft="@dimen/margin_2"
+            android:paddingRight="@dimen/margin_2"
+            android:src="@drawable/icon_message_black"/>
+
+        <TextView
+            android:id="@+id/btn_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="center"
+            android:paddingRight="@dimen/margin_2"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/small_text_size"/>
+    </RelativeLayout>
+
 </RelativeLayout>

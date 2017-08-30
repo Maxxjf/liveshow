@@ -91,7 +91,7 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
             public void onBtnClick(View view) {
                 switch (view.getId()) {
                     case R.id.ib_left:
-                        ToastUtils.ToastMessage(getActivity(), "搜索");
+                        SearchAnchorActivity.openActivity(getActivity());
                         break;
                     case R.id.ib_right:
                         ToastUtils.ToastMessage(getActivity(), "消息");
