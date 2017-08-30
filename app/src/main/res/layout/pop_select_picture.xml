@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_white_frame_gray_radius">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            android:gravity="center"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/small_text_size"
+            android:text="@string/tag_select_picture"/>
+
+        <View
+            style="@style/LineHorizontal"/>
+
+        <TextView
+            android:id="@+id/btn_take_a_picture"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            android:gravity="center"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/small_text_size"
+            android:text="@string/btn_take_a_picture"/>
+
+        <View
+            style="@style/LineHorizontal"/>
+
+        <TextView
+            android:id="@+id/btn_album"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            android:gravity="center"
+            android:textColor="@color/colorBlue"
+            android:textSize="@dimen/small_text_size"
+            android:text="@string/btn_album"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dialog_btn_height"
+        android:background="@drawable/bg_white_frame_gray_radius"
+        android:layout_marginTop="@dimen/layout_margin"
+        android:layout_marginBottom="@dimen/layout_margin"
+        android:gravity="center"
+        android:textColor="@color/colorBlue"
+        android:textSize="@dimen/small_text_size"
+        android:text="@string/tip_cancel"/>
+
+</LinearLayout>

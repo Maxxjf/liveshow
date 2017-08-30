@@ -49,11 +49,18 @@
                   android:launchMode="singleTask"
                   android:label="@string/title_web"/>
 
-        <!--播放器有关-->
+        <!--直播间有关-->
         <activity android:name=".ui.room.widget.RoomActivity"
                   android:launchMode="singleTask"
                   android:windowSoftInputMode="adjustPan"
                   android:label="@string/title_room"/>
+
+        <!--直播有关-->
+        <activity android:name=".ui.anchor.widget.ApplyAnchorActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:windowSoftInputMode="adjustPan"
+                  android:label="@string/title_apply_anchor"/>
 
         <!--主播有关-->
         <activity android:name=".ui.home.widget.SearchAnchorActivity"
@@ -94,6 +101,12 @@
                   android:theme="@style/AppSwipeBackTheme"
                   android:launchMode="singleTask"
                   android:label="@string/title_profit_record"/>
+
+        <!-- 选择图片 -->
+        <activity android:name="com.qcloud.qclib.imageselect.ImageSelectActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name="com.qcloud.qclib.imageselect.ProcessImageActivity"
+                  android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

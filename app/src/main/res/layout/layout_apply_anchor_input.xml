@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:paddingLeft="@dimen/layout_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_real_name_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_real_name"/>
+
+        <EditText
+            android:id="@+id/et_real_name"
+            style="@style/ApplyEditTextStyle"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:hint="@string/input_real_name_hint"/>
+    </LinearLayout>
+
+    <View
+        style="@style/LineHorizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_nickname_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_nickname"/>
+
+        <EditText
+            android:id="@+id/et_nickname"
+            style="@style/ApplyEditTextStyle"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:hint="@string/input_nickname_hint"/>
+    </LinearLayout>
+
+    <View
+        style="@style/LineHorizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_sex_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_sex"/>
+
+        <RadioGroup
+            android:id="@+id/rg_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/layout_margin">
+
+            <RadioButton
+                android:id="@+id/btn_man"
+                style="@style/BtnSex"
+                android:checked="true"
+                android:text="@string/tag_man"/>
+
+            <RadioButton
+                android:id="@+id/btn_lady"
+                style="@style/BtnSex"
+                android:text="@string/tag_lady"
+                android:layout_marginLeft="@dimen/margin_8"/>
+        </RadioGroup>
+    </LinearLayout>
+
+    <View
+        style="@style/LineHorizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_contact_way_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_contact_way"/>
+
+        <EditText
+            android:id="@+id/et_contact_way"
+            style="@style/ApplyEditTextStyle"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            android:hint="@string/input_contact_way_hint"/>
+
+        <TextView
+            android:id="@+id/btn_get_code"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btn_height"
+            android:background="@drawable/frame_gray_circular"
+            android:layout_marginRight="@dimen/layout_margin"
+            android:paddingLeft="@dimen/layout_margin"
+            android:paddingRight="@dimen/layout_margin"
+            android:gravity="center"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/btn_get_code"/>
+    </LinearLayout>
+
+    <View
+        style="@style/LineHorizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_verification_code_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_verification_code"/>
+
+        <EditText
+            android:id="@+id/et_verification_code"
+            style="@style/ApplyEditTextStyle"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:hint="@string/input_verification_code_hint"/>
+    </LinearLayout>
+
+    <View
+        style="@style/LineHorizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_set_password_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_set_withdraw_cash_password"/>
+
+        <EditText
+            android:id="@+id/et_set_password"
+            style="@style/ApplyEditTextStyle"
+            android:imeOptions="actionNext"
+            android:inputType="numberPassword"
+            android:hint="@string/input_six_number_hint"/>
+    </LinearLayout>
+
+</LinearLayout>

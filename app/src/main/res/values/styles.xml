@@ -48,6 +48,22 @@
         <item name="android:textCursorDrawable">@drawable/cursor_drawable</item>
     </style>
 
+    <!-- EditText 样式 -->
+    <style name="ApplyEditTextStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/micro_text_size</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColorHint">@color/colorHint</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:background">@null</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_drawable</item>
+        <item name="android:layout_marginLeft">@dimen/layout_margin</item>
+        <item name="android:layout_marginRight">@dimen/layout_margin</item>
+    </style>
+
     <!-- 水平分界线白色底 -->
     <style name="LineHorizontal">
         <item name="android:layout_width">match_parent</item>
