@@ -16,7 +16,6 @@ import com.qcloud.liveshow.ui.home.presenter.impl.HomePresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IHomeView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.beans.RxBusEvent;
-import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.DensityUtils;
 import com.qcloud.qclib.widget.indicator.FixedIndicatorView;
 import com.qcloud.qclib.widget.indicator.IndicatorViewPager;
@@ -94,7 +93,7 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
                         SearchAnchorActivity.openActivity(getActivity());
                         break;
                     case R.id.ib_right:
-                        ToastUtils.ToastMessage(getActivity(), "消息");
+                        MessageListActivity.openActivity(getActivity());
                         break;
                 }
             }

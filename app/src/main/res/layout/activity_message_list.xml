@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBg"
+    tools:context=".ui.home.widget.MessageListActivity">
+
+    <com.qcloud.liveshow.widget.toolbar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        toolbar:is_title="true"
+        toolbar:title_text="@string/title_message_list"
+        toolbar:is_left="true"
+        toolbar:left_icon="@drawable/icon_normal_back"/>
+
+    <View
+        style="@style/LineHorizontal"/>
+
+    <com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView
+        android:id="@+id/list_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

@@ -61,6 +61,11 @@
                   android:launchMode="singleTask"
                   android:windowSoftInputMode="adjustPan"
                   android:label="@string/title_search_anchor"/>
+        <activity android:name=".ui.home.widget.MessageListActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:windowSoftInputMode="adjustPan"
+                  android:label="@string/title_message_list"/>
 
         <!--个人有关-->
         <activity android:name=".ui.mine.widget.UserInfoActivity"
