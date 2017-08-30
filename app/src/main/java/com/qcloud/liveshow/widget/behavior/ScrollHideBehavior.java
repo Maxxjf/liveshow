@@ -54,39 +54,41 @@ public class ScrollHideBehavior extends CoordinatorLayout.Behavior<View> {
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, View child, View directTargetChild,
                                        View target, int nestedScrollAxes) {
-        //Timber.e("onStartNestedScroll nestedScrollAxes = %d", nestedScrollAxes);
         return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
     }
 
     @Override
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, View child, View target,
                                   int dx, int dy, int[] consumed) {
-        if (dy > 0 && mScrollingDirection != DIRECTION_UP) {
-            mScrollingDirection = DIRECTION_UP;
-            mScrollDistance = 0;
-        } else if (dy < 0 && mScrollingDirection != DIRECTION_DOWN) {
-            mScrollingDirection = DIRECTION_DOWN;
-            mScrollDistance = 0;
-        }
+        Timber.e("dx = %d", dx);
+//        if (dy > 0 && mScrollingDirection != DIRECTION_UP) {
+//            mScrollingDirection = DIRECTION_UP;
+//            mScrollDistance = 0;
+//        } else if (dy < 0 && mScrollingDirection != DIRECTION_DOWN) {
+//            mScrollingDirection = DIRECTION_DOWN;
+//            mScrollDistance = 0;
+//        }
     }
 
     @Override
     public void onNestedScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dxConsumed, int dyConsumed,
                                int dxUnconsumed, int dyUnconsumed) {
-        mScrollDistance += dyConsumed;
-        if (mScrollDistance > mScrollThreshold && mScrollTrigger != DIRECTION_UP) {
-            mScrollTrigger = DIRECTION_UP;
-            restartAnimator(child, getTargetHideValue(coordinatorLayout, child));
-        } else if (mScrollDistance < -mScrollThreshold && mScrollTrigger != DIRECTION_DOWN) {
-            mScrollTrigger = DIRECTION_DOWN;
-            restartAnimator(child, 0f);
-        }
+//        mScrollDistance += dyConsumed;
+//        if (mScrollDistance > mScrollThreshold && mScrollTrigger != DIRECTION_UP) {
+//            mScrollTrigger = DIRECTION_UP;
+//            restartAnimator(child, getTargetHideValue(coordinatorLayout, child));
+//        } else if (mScrollDistance < -mScrollThreshold && mScrollTrigger != DIRECTION_DOWN) {
+//            mScrollTrigger = DIRECTION_DOWN;
+//            restartAnimator(child, 0f);
+//        }
     }
 
     @Override
     public boolean onNestedFling(CoordinatorLayout coordinatorLayout, View child, View target,
                                  float velocityX, float velocityY, boolean consumed) {
         Timber.e("onNestedFling consumed = " + consumed);
+        Timber.e("mScrollTrigger = %d", mScrollTrigger);
+        Timber.e("velocityY = %2.1f", velocityY);
         if (consumed) {
             if (velocityY > 0 && mScrollTrigger != DIRECTION_UP) {
                 mScrollTrigger = DIRECTION_UP;

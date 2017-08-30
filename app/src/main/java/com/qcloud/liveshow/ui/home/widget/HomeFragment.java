@@ -79,7 +79,7 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
             public void accept(@NonNull RxBusEvent rxBusEvent) throws Exception {
                 if (rxBusEvent.getType() == R.id.show_hide_title_bar) {
                     boolean isShow = (boolean) rxBusEvent.getObj();
-                    //showOrHideTitle(isShow);
+                    showOrHideTitle(isShow);
                 }
             }
         }));
