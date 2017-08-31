@@ -27,6 +27,7 @@
     <string name="title_search_anchor">搜索主播</string>
     <string name="title_message_list">消息列表</string>
     <string name="title_apply_anchor">主播申请验证</string>
+    <string name="title_my_gifts">我的礼物</string>
 
     <string name="tab_home">首页</string>
     <string name="tab_live_show">发直播</string>
@@ -126,6 +127,7 @@
     <string name="tag_upload_selfie_or_header">上传自拍照/头像</string>
     <string name="tag_agree_clause_by_apply">申请验证即代表您同意</string>
     <string name="tag_select_picture">选择图片</string>
-    
+    <string name="tag_gift_profit_account">累计礼物收益：</string>
+
 
 </resources>

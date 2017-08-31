@@ -106,7 +106,7 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
 
     @Override
     public void onGiftsClick() {
-        ToastUtils.ToastMessage(getActivity(), R.string.tag_user_center_gift);
+        MyGiftsActivity.openActivity(getActivity());
     }
 
     @Override
