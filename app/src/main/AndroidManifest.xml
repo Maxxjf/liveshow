@@ -105,6 +105,14 @@
                   android:theme="@style/AppSwipeBackTheme"
                   android:launchMode="singleTask"
                   android:label="@string/title_profit_record"/>
+        <activity android:name=".ui.profit.widget.SetCashPasswordActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:label="@string/title_set_cash_password"/>
+        <activity android:name=".ui.profit.widget.ResetCashPasswordActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:label="@string/title_reset_cash_password"/>
 
         <!-- 选择图片 -->
         <activity android:name="com.qcloud.qclib.imageselect.ImageSelectActivity"
