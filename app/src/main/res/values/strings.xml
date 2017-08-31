@@ -37,6 +37,8 @@
     <string name="toast_exit_app">再按一次退出应用</string>
     <string name="toast_input_not_null">input can not be empty!</string>
     <string name="toast_get_picture_failure">获取图片失败</string>
+    <string name="toast_permission_open">权限已开启</string>
+    <string name="toast_permission_refuse">权限被拒绝，请在设置里面开启相应权限，若无相应权限会影响使用</string>
 
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>

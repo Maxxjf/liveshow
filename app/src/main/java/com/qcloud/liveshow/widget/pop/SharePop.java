@@ -1,10 +1,12 @@
 package com.qcloud.liveshow.widget.pop;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
@@ -54,7 +56,15 @@ public class SharePop extends BasePopupWindow {
     @Override
     protected void init() {
         super.init();
-        setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        WindowManager manager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
+        Point size = new Point();
+        manager.getDefaultDisplay().getSize(size);
+        int w = size.x;
+        int h = size.y;
+        if (w > h) {
+            w = h;
+        }
+        setWidth(w * 9 / 10);
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 

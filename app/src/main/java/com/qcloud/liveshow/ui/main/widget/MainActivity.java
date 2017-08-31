@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.ui.main.widget;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
@@ -17,10 +18,14 @@ import com.qcloud.liveshow.ui.home.widget.HomeFragment;
 import com.qcloud.liveshow.ui.main.presenter.impl.MainPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.IMainView;
 import com.qcloud.liveshow.ui.mine.widget.MineFragment;
+import com.qcloud.qclib.permission.PermissionsManager;
 import com.qcloud.qclib.toast.ToastUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> implements IMainView {
 
@@ -30,6 +35,11 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     ImageView mBtnLiveShow;
     @Bind(R.id.btn_mine)
     ImageView mBtnMine;
+
+    private String[] PERMISSIONS = new String[] {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA };
 
     private HomeFragment mHomeFragment;
     private MineFragment mMineFragment;
@@ -65,6 +75,43 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     protected void initViewAndData() {
         int startEnum = getIntent().getIntExtra("START_ENUM", 1);
         switchStart(startEnum);
+
+        requestPermission();
+    }
+
+    /**
+     * 申请应用需要的权限
+     * */
+    private void requestPermission() {
+        PermissionsManager manager = new PermissionsManager(this);
+        manager.setLogging(true);
+        manager.request(PERMISSIONS)
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(@NonNull Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            // 所有权限都开启aBoolean才为true，否则为false
+                            Timber.e(getString(R.string.toast_permission_open));
+                            //ToastUtils.ToastMessage(MainActivity.this, R.string.toast_permission_open);
+                        } else {
+                            ToastUtils.ToastMessage(MainActivity.this, R.string.toast_permission_refuse);
+                        }
+                    }
+                });
+
+//        manager.requestEach(PERMISSIONS)
+//                .subscribe(new Consumer<PermissionBean>() {
+//                    @Override
+//                    public void accept(@NonNull PermissionBean bean) throws Exception {
+//                        if (bean.granted) {
+//                            // 用户已经同意该权限
+//                        } else if (bean.shouldShowRequestPermissionRationale) {
+//                            // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
+//                        } else {
+//                            // 用户拒绝了该权限，并且选中『不再询问』，提醒用户手动打开权限
+//                        }
+//                    }
+//                });
     }
 
     @OnClick({R.id.btn_home, R.id.btn_live_show, R.id.btn_mine})

@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -59,6 +60,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     private ImageView mBtnNotice;
     private MarqueeView mTvNotice;
+    private LinearLayout mLayoutNoticeBg;
     private RecyclerView mListMessage;
     private LinearLayout mLayoutNotice;
 
@@ -151,6 +153,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         if (mTvNotice != null) {
             mTvNotice.stopScroll();
             mTvNotice.setText("我就是这么6......");
+            resetNoticeWith();
         }
     }
 
@@ -170,6 +173,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
         mBtnNotice = (ImageView) mView.findViewById(R.id.btn_notice);
         mTvNotice = (MarqueeView) mView.findViewById(R.id.tv_notice);
+        mLayoutNoticeBg = (LinearLayout) mView.findViewById(R.id.layout_notice_bg);
         mListMessage = (RecyclerView) mView.findViewById(R.id.list_message);
         mLayoutNotice = (LinearLayout) mView.findViewById(R.id.layout_notice);
 
@@ -183,6 +187,29 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mBtnExit = (ImageView) mView.findViewById(R.id.btn_exit);
 
         mUserHead.loadImage("", R.drawable.icon_anchor_level_4, 80);
+    }
+
+    /**
+     * 设置公告背景宽度
+     * */
+    private void resetNoticeWith() {
+        if (mTvNotice != null) {
+            mTvNotice.post(new Runnable() {
+                @Override
+                public void run() {
+                    int textWidth = mTvNotice.getTextWidth() + 30;
+                    int viewWidth = mTvNotice.getViewWidth();
+                    Timber.e("textWidth = %d, viewWidth = %d", textWidth, viewWidth);
+                    ViewGroup.LayoutParams lp = mLayoutNoticeBg.getLayoutParams();
+                    if (textWidth > viewWidth) {
+                        lp.width = viewWidth;
+                    } else {
+                        lp.width = textWidth;
+                    }
+                    mLayoutNoticeBg.setLayoutParams(lp);
+                }
+            });
+        }
     }
 
     /**

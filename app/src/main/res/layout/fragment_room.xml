@@ -135,20 +135,33 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_notice"/>
 
-            <com.qcloud.qclib.widget.customview.MarqueeView
-                android:id="@+id/tv_notice"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/small_btn_height"
                 android:layout_marginLeft="@dimen/layout_margin"
-                android:background="@drawable/bg_black_alpha_20_circular"
-                android:gravity="center_vertical"
-                android:layout_gravity="bottom"
-                app:textColor="@color/white"
-                app:textSize="@dimen/micro_text_size"
-                app:startPoint="end"
-                app:isRepeat="true"
-                app:direction="left"
-                app:speed="50"/>
+                android:layout_gravity="bottom">
+
+                <LinearLayout
+                    android:id="@+id/layout_notice_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/small_btn_height"
+                    android:orientation="vertical"
+                    android:background="@drawable/bg_black_alpha_20_circular"/>
+
+                <com.qcloud.qclib.widget.customview.MarqueeView
+                    android:id="@+id/tv_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/small_btn_height"
+                    android:layout_marginLeft="@dimen/margin_1"
+                    android:layout_marginRight="@dimen/margin_1"
+                    app:textColor="@color/white"
+                    app:textSize="@dimen/micro_text_size"
+                    app:startPoint="end"
+                    app:isRepeat="true"
+                    app:direction="left"
+                    app:speed="20"/>
+            </RelativeLayout>
+
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
