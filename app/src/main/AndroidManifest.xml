@@ -113,6 +113,10 @@
                   android:theme="@style/AppSwipeBackTheme"
                   android:launchMode="singleTask"
                   android:label="@string/title_reset_cash_password"/>
+        <activity android:name=".ui.profit.widget.WithdrawCashActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:label="@string/title_withdraw_cash"/>
 
         <!-- 选择图片 -->
         <activity android:name="com.qcloud.qclib.imageselect.ImageSelectActivity"

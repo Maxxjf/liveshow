@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorBg"
-    tools:context=".ui.profit.widget.ResetCashPasswordActivity">
+    tools:context=".ui.profit.widget.WithdrawCashActivity">
 
     <com.qcloud.liveshow.widget.toolbar.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         toolbar:is_title="true"
-        toolbar:title_text="@string/title_reset_cash_password"
+        toolbar:title_text="@string/title_withdraw_cash"
         toolbar:is_left="true"
         toolbar:left_icon="@drawable/icon_normal_back"/>
 
@@ -22,8 +22,43 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/layout_margin"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/layout_margin">
+
+        <TextView
+            android:id="@+id/tv_cash_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_withdraw_cash_num"/>
+
+        <EditText
+            android:id="@+id/et_cash"
+            style="@style/ApplyEditTextStyle"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:maxLength="4"
+            android:hint="@string/input_withdraw_cash_num"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/layout_margin"
+            android:textColor="@color/colorStart"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/yuan"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="@dimen/layout_margin"
         android:background="@color/white"
         android:paddingLeft="@dimen/layout_margin">
 
@@ -34,12 +69,19 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/tv_contact_way"
+                android:id="@+id/tv_name_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorTitle"
                 android:textSize="@dimen/micro_text_size"
-                android:text="@string/tag_input_contact_way"/>
+                android:text="@string/tag_name"/>
+
+            <EditText
+                android:id="@+id/et_name"
+                style="@style/ApplyEditTextStyle"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:hint="@string/input_real_name_hint"/>
         </LinearLayout>
 
         <View
@@ -52,33 +94,19 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/tv_verification_code_tag"
+                android:id="@+id/tv_bank_code_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorTitle"
                 android:textSize="@dimen/micro_text_size"
-                android:text="@string/tag_verification_code"/>
+                android:text="@string/tag_bank_code"/>
 
             <EditText
-                android:id="@+id/et_verification_code"
+                android:id="@+id/et_bank_code"
                 style="@style/ApplyEditTextStyle"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:inputType="number"
-                android:maxLength="6"
-                android:hint="@string/input_verification_code_hint"/>
-
-            <TextView
-                android:id="@+id/btn_get_code"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btn_height"
-                android:background="@drawable/frame_gray_circular"
-                android:layout_marginRight="@dimen/layout_margin"
-                android:paddingLeft="@dimen/layout_margin"
-                android:paddingRight="@dimen/layout_margin"
-                android:gravity="center"
-                android:textColor="@color/colorText"
-                android:textSize="@dimen/micro_text_size"
-                android:text="@string/btn_get_code"/>
+                android:hint="@string/input_bank_code_hint"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -92,32 +120,19 @@
         android:paddingLeft="@dimen/layout_margin">
 
         <TextView
-            android:id="@+id/tv_set_password_tag"
+            android:id="@+id/tv_bank_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorTitle"
             android:textSize="@dimen/micro_text_size"
-            android:text="@string/tag_reset_password"/>
+            android:text="@string/tag_opening_bank"/>
 
-        <EditText
-            android:id="@+id/et_set_password"
+        <TextView
+            android:id="@+id/tv_bank"
             style="@style/ApplyEditTextStyle"
-            android:imeOptions="actionNext"
-            android:inputType="numberPassword"
-            android:maxLength="6"
-            android:hint="@string/input_six_number_hint"/>
+            android:hint="@string/input_opening_bank_hint"
+            android:drawableRight="@drawable/icon_orange_right_arrow"/>
 
-        <CheckBox
-            android:id="@+id/cb_see"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="@dimen/layout_margin"
-            android:paddingRight="@dimen/layout_margin"
-            android:background="@null"
-            android:button="@null"
-            android:layout_marginRight="@dimen/layout_margin"
-            android:checked="false"
-            android:drawableLeft="@drawable/check_eye"/>
     </LinearLayout>
 
     <TextView

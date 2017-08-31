@@ -101,7 +101,7 @@ public class MyProfitActivity extends SwipeBaseActivity<IMyProfitView, MyProfitP
 
     @Override
     public void onConfirmCashClick() {
-        ToastUtils.ToastMessage(this, "确认提现");
+        WithdrawCashActivity.openActivity(this);
     }
 
     @Override

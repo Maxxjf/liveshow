@@ -9,6 +9,7 @@
     <string name="change">修改</string>
     <string name="search">搜索</string>
     <string name="submit">提交</string>
+    <string name="yuan">元</string>
 
     <string name="title_main">首页</string>
     <string name="title_login">用户登录</string>
@@ -30,6 +31,7 @@
     <string name="title_my_gifts">我的礼物</string>
     <string name="title_set_cash_password">设置提现密码</string>
     <string name="title_reset_cash_password">重置提现密码</string>
+    <string name="title_withdraw_cash">提现到银行卡</string>
 
     <string name="tab_home">首页</string>
     <string name="tab_live_show">发直播</string>
@@ -58,6 +60,9 @@
     <string name="input_contact_way_hint">请输入手机号或邮箱</string>
     <string name="input_verification_code_hint">请输入收到的验证码</string>
     <string name="input_six_number_hint">请输入6位数字</string>
+    <string name="input_withdraw_cash_num">请输入至少100元，不超过4500元</string>
+    <string name="input_bank_code_hint">若姓名与银行卡账户不符会提现失败哦~</string>
+    <string name="input_opening_bank_hint">请选择</string>
 
     <string name="btn_get_code">获取验证码</string>
     <string name="btn_login">确认</string>
@@ -95,6 +100,7 @@
     <string name="tag_follow">关注</string>
     <string name="tag_fans">粉丝</string>
     <string name="tag_un_follow">取消关注</string>
+    <string name="tag_name">姓名</string>
     <string name="tag_nickname">昵称</string>
     <string name="tag_sex">性别</string>
     <string name="tag_signature">个性签名</string>
@@ -133,6 +139,8 @@
     <string name="tag_set_password">设置密码</string>
     <string name="tag_input_contact_way">请输入%s收到的验证码</string>
     <string name="tag_reset_password">重置密码</string>
-
+    <string name="tag_withdraw_cash_num">提现金额</string>
+    <string name="tag_bank_code">银行卡号</string>
+    <string name="tag_opening_bank">开户行</string>
 
 </resources>
