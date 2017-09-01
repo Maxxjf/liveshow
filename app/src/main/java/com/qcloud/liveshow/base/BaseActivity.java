@@ -51,7 +51,6 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         mContext = this;
         ButterKnife.bind(this);
         application.getAppManager().addActivity(this);
-        //mDisposable = new CompositeDisposable();
         // 注册eventBus
         if (mEventBus == null) {
             mEventBus = BusProvider.getInstance();

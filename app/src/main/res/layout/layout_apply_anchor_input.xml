@@ -151,6 +151,7 @@
             style="@style/ApplyEditTextStyle"
             android:imeOptions="actionNext"
             android:inputType="number"
+            android:maxLength="6"
             android:hint="@string/input_verification_code_hint"/>
     </LinearLayout>
 
@@ -174,8 +175,9 @@
         <EditText
             android:id="@+id/et_set_password"
             style="@style/ApplyEditTextStyle"
-            android:imeOptions="actionNext"
+            android:imeOptions="actionDone"
             android:inputType="numberPassword"
+            android:maxLength="6"
             android:hint="@string/input_six_number_hint"/>
     </LinearLayout>
 
