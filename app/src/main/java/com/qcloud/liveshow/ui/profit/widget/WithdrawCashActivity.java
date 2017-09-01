@@ -3,6 +3,7 @@ package com.qcloud.liveshow.ui.profit.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -10,10 +11,15 @@ import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
+import com.qcloud.liveshow.beans.BankBean;
 import com.qcloud.liveshow.ui.profit.presenter.impl.WithdrawCashPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.IWithdrawCashView;
+import com.qcloud.liveshow.widget.pop.BankPicker;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.toast.ToastUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -25,7 +31,6 @@ import timber.log.Timber;
  * Date: 2017/8/31 17:25.
  */
 public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, WithdrawCashPresenterImpl> implements IWithdrawCashView {
-
 
     @Bind(R.id.title_bar)
     TitleBar mTitleBar;
@@ -47,6 +52,8 @@ public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, W
     TextView mTvBank;
     @Bind(R.id.btn_confirm)
     TextView mBtnConfirm;
+
+    private BankPicker mPicker;
 
     @Override
     protected int initLayout() {
@@ -94,6 +101,19 @@ public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, W
         view.setLayoutParams(lp);
     }
 
+    private void initBankPicker() {
+        mPicker = new BankPicker(this);
+        mPicker.setOnBankPickListener(new BankPicker.OnBankPickListener() {
+            @Override
+            public void onBankPicked(int index, BankBean bean) {
+                if (mTvBank != null && bean != null) {
+                    mTvBank.setText(bean.getName());
+                }
+            }
+        });
+
+    }
+
     @OnClick({R.id.tv_bank, R.id.btn_confirm})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
@@ -101,7 +121,37 @@ public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, W
 
     @Override
     public void onSelectBankClick() {
+        List<BankBean> list = new ArrayList<>();
+        BankBean bean = new BankBean();
+        bean.setId(0);
+        bean.setName("建设银行");
+        list.add(bean);
+        bean = new BankBean();
+        bean.setId(1);
+        bean.setName("广发银行");
+        list.add(bean);
+        bean = new BankBean();
+        bean.setId(2);
+        bean.setName("工商银行");
+        list.add(bean);
+        bean = new BankBean();
+        bean.setId(3);
+        bean.setName("中国银行");
+        list.add(bean);
+        bean = new BankBean();
+        bean.setId(4);
+        bean.setName("招商银行");
+        list.add(bean);
+        bean = new BankBean();
+        bean.setId(5);
+        bean.setName("农业银行");
+        list.add(bean);
 
+        if (mPicker == null) {
+            initBankPicker();
+        }
+        mPicker.refreshData(list);
+        mPicker.showAtLocation(mTvBank, Gravity.BOTTOM, 0, 0);
     }
 
     @Override
