@@ -8,8 +8,8 @@ import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.ui.mine.presenter.impl.MinePresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IMineView;
+import com.qcloud.liveshow.ui.profit.widget.MyDiamondsActivity;
 import com.qcloud.liveshow.ui.profit.widget.MyProfitActivity;
-import com.qcloud.liveshow.ui.profit.widget.ResetCashPasswordActivity;
 import com.qcloud.liveshow.widget.customview.ItemLayout;
 import com.qcloud.liveshow.widget.customview.UserInfoLayout;
 import com.qcloud.qclib.toast.ToastUtils;
@@ -102,8 +102,7 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
 
     @Override
     public void onDiamondsClick() {
-        ToastUtils.ToastMessage(getActivity(), R.string.tag_user_center_diamonds);
-        ResetCashPasswordActivity.openActivity(getActivity());
+        MyDiamondsActivity.openActivity(getActivity());
     }
 
     @Override

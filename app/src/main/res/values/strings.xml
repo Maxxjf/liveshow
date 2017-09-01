@@ -32,6 +32,8 @@
     <string name="title_set_cash_password">设置提现密码</string>
     <string name="title_reset_cash_password">重置提现密码</string>
     <string name="title_withdraw_cash">提现到银行卡</string>
+    <string name="title_my_diamonds">充值</string>
+    <string name="title_diamonds_record">钻石币交易记录</string>
 
     <string name="tab_home">首页</string>
     <string name="tab_live_show">发直播</string>
@@ -80,6 +82,7 @@
     <string name="btn_cancel">取消</string>
     <string name="btn_take_a_picture">拍照</string>
     <string name="btn_album">相册</string>
+    <string name="btn_diamonds_record">交易记录</string>
 
     <string name="tag_agree_clause">登录即代表您同意</string>
     <string name="tag_clause">《免责条款》</string>
@@ -142,5 +145,9 @@
     <string name="tag_withdraw_cash_num">提现金额</string>
     <string name="tag_bank_code">银行卡号</string>
     <string name="tag_opening_bank">开户行</string>
+    <string name="tag_curr_diamonds">当前钻石币</string>
+    <string name="tag_agree_recharge_rules">充值即代表您阅读并同意</string>
+    <string name="tag_recharge_agreement">《充值协议》</string>
+    <string name="tag_recharge_has_problem">若充值遇到问题请联系客服：</string>
 
 </resources>

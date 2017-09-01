@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_item"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_margin="@dimen/view_padding"
+    android:orientation="vertical"
+    android:background="@drawable/icon_big_diamonds_normal">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="96"
+        android:gravity="center"
+        android:textColor="@color/colorDarkGray"
+        android:textSize="@dimen/micro_text_size"
+        android:text="10钻石币"/>
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="66"
+        android:gravity="center"
+        android:textColor="@color/colorDarkGray"
+        android:textSize="@dimen/mini_text_size"
+        android:text="¥1.00"/>
+
+</LinearLayout>

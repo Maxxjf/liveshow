@@ -117,6 +117,14 @@
                   android:theme="@style/AppSwipeBackTheme"
                   android:launchMode="singleTask"
                   android:label="@string/title_withdraw_cash"/>
+        <activity android:name=".ui.profit.widget.MyDiamondsActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:label="@string/title_my_diamonds"/>
+        <activity android:name=".ui.profit.widget.DiamondsRecordActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:label="@string/title_diamonds_record"/>
 
         <!-- 选择图片 -->
         <activity android:name="com.qcloud.qclib.imageselect.ImageSelectActivity"
