@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBlackAlpha20">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:layout_marginTop="@dimen/margin_6">
+
+        <ImageView
+            android:id="@+id/btn_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_close"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/layout_margin"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/btn_switch_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_switch_camera"
+            android:layout_toLeftOf="@+id/btn_exit"
+            android:layout_marginRight="@dimen/margin_3"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/layout_margin"
+        android:paddingLeft="@dimen/layout_margin">
+
+        <FrameLayout
+            android:id="@+id/layout_change_cover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.qcloud.qclib.widget.customview.RatioImageView
+                android:id="@+id/img_cover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                myapp:ratio="1"
+                myapp:width="180"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/btn_height"
+                android:orientation="horizontal"
+                android:gravity="center|bottom"
+                android:layout_marginBottom="@dimen/margin_1"
+                android:layout_gravity="bottom">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icon_change_cover"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_1"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/micro_text_size"
+                    android:text="@string/tag_change_cover"/>
+            </LinearLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/layout_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small_text_size"
+                    android:text="@string/tag_title"/>
+
+                <com.qcloud.qclib.widget.customview.ClearEditText
+                    android:id="@+id/et_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btn_height"
+                    android:background="@null"
+                    android:lines="1"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small_text_size"
+                    android:textColorHint="@color/colorLineWhite"
+                    android:hint="@string/input_anchor_title_hint"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small_text_size"
+                    android:text="@string/tag_notice"/>
+
+                <com.qcloud.qclib.widget.customview.ClearEditText
+                    android:id="@+id/et_notice"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/btn_height"
+                    android:background="@null"
+                    android:lines="1"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small_text_size"
+                    android:textColorHint="@color/colorLineWhite"
+                    android:hint="@string/input_anchor_notice_hint"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/margin_4"
+        android:paddingLeft="@dimen/layout_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/small_text_size"
+            android:text="@string/tag_toll_standard"/>
+
+        <EditText
+            android:id="@+id/et_toll_standard"
+            android:layout_width="@dimen/margin_10"
+            android:layout_height="@dimen/btn_height"
+            android:layout_marginLeft="@dimen/margin_1"
+            android:background="@drawable/frame_white_circular"
+            android:gravity="center"
+            android:inputType="number"
+            android:imeOptions="actionDone"
+            android:textColor="@color/white"
+            android:textSize="@dimen/medium_text_size"
+            android:text="0"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/small_text_size"
+            android:text="@string/tag_toll_standard2"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_toll_standard_remark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/layout_margin"
+        android:paddingRight="@dimen/layout_margin"
+        android:layout_marginTop="@dimen/layout_margin"
+        android:textColor="@color/colorLineWhite"
+        android:textSize="@dimen/small_text_size"
+        android:text="@string/tag_toll_standard_remark"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/layout_margin"
+        android:paddingLeft="@dimen/layout_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/small_text_size"
+            android:text="@string/tag_toll_period"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_1"
+            android:layout_marginRight="@dimen/layout_margin">
+
+            <TextView
+                android:id="@+id/btn_time_start"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/btn_height"
+                android:layout_weight="1"
+                android:background="@drawable/frame_white_circular"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/medium_text_size"
+                android:text="00:00"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/btn_height"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/margin_1"
+                android:layout_marginRight="@dimen/margin_1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/medium_text_size"
+                android:text="——"/>
+
+            <TextView
+                android:id="@+id/btn_time_end"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/btn_height"
+                android:layout_weight="1"
+                android:background="@drawable/frame_white_circular"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/medium_text_size"
+                android:text="00:00"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/layout_margin"
+        android:layout_marginTop="@dimen/layout_margin"
+        android:textColor="@color/colorLineWhite"
+        android:textSize="@dimen/small_text_size"
+        android:text="@string/tag_toll_period_remark"/>
+
+
+    <TextView
+        android:id="@+id/btn_begin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_6"
+        android:layout_marginRight="@dimen/margin_6"
+        android:background="@drawable/btn_white_circular_selector"
+        android:gravity="center"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textColor="@color/colorStart"
+        android:textSize="@dimen/medium_text_size"
+        android:text="@string/btn_begin_anchor"/>
+
+</LinearLayout>

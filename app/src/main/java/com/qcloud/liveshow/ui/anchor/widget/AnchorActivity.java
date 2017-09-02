@@ -2,7 +2,9 @@ package com.qcloud.liveshow.ui.anchor.widget;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.hardware.Camera;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.github.faucamp.simplertmp.RtmpHandler;
@@ -10,6 +12,7 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.AnchorPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IAnchorView;
+import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
 
 import net.ossrs.yasea.SrsCameraView;
@@ -20,7 +23,7 @@ import net.ossrs.yasea.SrsRecordHandler;
 import java.io.IOException;
 import java.net.SocketException;
 
-import butterknife.Bind;
+import timber.log.Timber;
 
 /**
  * 类说明：直播间
@@ -29,11 +32,13 @@ import butterknife.Bind;
  */
 public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImpl> implements IAnchorView,
         RtmpHandler.RtmpListener, SrsRecordHandler.SrsRecordListener, SrsEncodeHandler.SrsEncodeListener{
-    private static final String TAG = "AnchorActivity";
-    @Bind(R.id.glsurfaceview_camera)
-    SrsCameraView mGlsurfaceviewCamera;
 
     private SrsPublisher mPublisher;
+
+    /**直播前准备页面*/
+    private PreAnchorFragment mPreFragment;
+    /**直播控制页面*/
+    private AnchorFragment mControlFragment;
 
     @Override
     protected int initLayout() {
@@ -53,12 +58,21 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     @Override
     protected void initViewAndData() {
         SystemBarUtil.hideNavBar(this);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        switchPreFragment();
 
         initPublisher();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPublisher.resumeRecord();
+    }
+
     private void initPublisher() {
-        mPublisher = new SrsPublisher((SrsCameraView) findViewById(R.id.glsurfaceview_camera));
+        mPublisher = new SrsPublisher((SrsCameraView) findViewById(R.id.camera_view));
         mPublisher.setEncodeHandler(new SrsEncodeHandler(this));
         mPublisher.setRtmpHandler(new RtmpHandler(this));
         mPublisher.setRecordHandler(new SrsRecordHandler(this));
@@ -68,33 +82,70 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         mPublisher.startCamera();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mPublisher.resumeRecord();
+    private void initPreFragment() {
+        mPreFragment = PreAnchorFragment.newInstance();
+        mPreFragment.setOnFragmentClickListener(new OnFragmentClickListener() {
+            @Override
+            public void onBtnClick(View view) {
+                switch (view.getId()) {
+                    case R.id.btn_switch_camera:
+                        onSwitchCameraClick();
+                        break;
+                    case R.id.btn_begin:
+                        onBeginAnchorClick();
+                        break;
+                }
+            }
+        });
+    }
+
+    private void initControlFragment() {
+        mControlFragment = AnchorFragment.newInstance();
+        mControlFragment.setOnFragmentClickListener(new OnFragmentClickListener() {
+            @Override
+            public void onBtnClick(View view) {
+                switch (view.getId()) {
+                    case R.id.btn_switch_camera:
+                        onSwitchCameraClick();
+                        break;
+                }
+            }
+        });
+    }
+
+    private void switchPreFragment() {
+        if (mPreFragment == null) {
+            initPreFragment();
+        }
+        replaceFragment(mPreFragment, R.id.fragment_container, false);
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        mPublisher.pauseRecord();
+    public void onSwitchCameraClick() {
+        if (mPublisher != null) {
+            mPublisher.switchCameraFace((mPublisher.getCamraId() + 1) % Camera.getNumberOfCameras());
+        }
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mPublisher.stopPublish();
-        mPublisher.stopRecord();
+    public void onBeginAnchorClick() {
+        if (mControlFragment == null) {
+            initControlFragment();
+        }
+        replaceFragment(mControlFragment, R.id.fragment_container, false);
     }
 
+    /**
+     * Implementation of SrsRtmpListener.
+     * */
     @Override
     public void onRtmpConnecting(String msg) {
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        ToastUtils.ToastMessage(this, msg);
     }
 
     @Override
     public void onRtmpConnected(String msg) {
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+        ToastUtils.ToastMessage(this, msg);
     }
 
     @Override
@@ -107,26 +158,26 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     @Override
     public void onRtmpStopped() {
-        Toast.makeText(getApplicationContext(), "Stopped", Toast.LENGTH_SHORT).show();
+        ToastUtils.ToastMessage(this, "Stopped");
     }
 
     @Override
     public void onRtmpDisconnected() {
-        Toast.makeText(getApplicationContext(), "Disconnected", Toast.LENGTH_SHORT).show();
+        ToastUtils.ToastMessage(this, "Disconnected");
     }
 
     @Override
     public void onRtmpVideoFpsChanged(double fps) {
-        Log.i(TAG, String.format("Output Fps: %f", fps));
+        Timber.i("Output Fps: %f", fps);
     }
 
     @Override
     public void onRtmpVideoBitrateChanged(double bitrate) {
         int rate = (int) bitrate;
         if (rate / 1000 > 0) {
-            Log.i(TAG, String.format("Video bitrate: %f kbps", bitrate / 1000));
+            Timber.i("Video bitrate: %f kbps", bitrate / 1000);
         } else {
-            Log.i(TAG, String.format("Video bitrate: %d bps", rate));
+            Timber.i("Video bitrate: %d bps", rate);
         }
     }
 
@@ -134,9 +185,9 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     public void onRtmpAudioBitrateChanged(double bitrate) {
         int rate = (int) bitrate;
         if (rate / 1000 > 0) {
-            Log.i(TAG, String.format("Audio bitrate: %f kbps", bitrate / 1000));
+            Timber.i("Audio bitrate: %f kbps", bitrate / 1000);
         } else {
-            Log.i(TAG, String.format("Audio bitrate: %d bps", rate));
+            Timber.i("Audio bitrate: %d bps", rate);
         }
     }
 
@@ -160,26 +211,28 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         handleException(e);
     }
 
-    // Implementation of SrsRecordHandler.
-
+    /**
+     * Implementation of SrsRecordHandler.
+     * */
     @Override
     public void onRecordPause() {
+        ToastUtils.ToastMessage(this, "Record paused");
         Toast.makeText(getApplicationContext(), "Record paused", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onRecordResume() {
-        Toast.makeText(getApplicationContext(), "Record resumed", Toast.LENGTH_SHORT).show();
+        ToastUtils.ToastMessage(this, "Record resumed");
     }
 
     @Override
     public void onRecordStarted(String msg) {
-        Toast.makeText(getApplicationContext(), "Recording file: " + msg, Toast.LENGTH_SHORT).show();
+        ToastUtils.ToastMessage(this, "Recording file: " + msg);
     }
 
     @Override
     public void onRecordFinished(String msg) {
-        Toast.makeText(getApplicationContext(), "MP4 file saved: " + msg, Toast.LENGTH_SHORT).show();
+        ToastUtils.ToastMessage(this, "MP4 file saved: " + msg);
     }
 
     @Override
@@ -192,16 +245,17 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         handleException(e);
     }
 
-    // Implementation of SrsEncodeHandler.
-
+    /**
+     * Implementation of SrsEncodeHandler.
+     * */
     @Override
     public void onNetworkWeak() {
-        Toast.makeText(getApplicationContext(), "Network weak", Toast.LENGTH_SHORT).show();
+        ToastUtils.ToastMessage(this, "Network weak");
     }
 
     @Override
     public void onNetworkResume() {
-        Toast.makeText(getApplicationContext(), "Network resume", Toast.LENGTH_SHORT).show();
+        ToastUtils.ToastMessage(this, "Network resume");
     }
 
     @Override
@@ -211,11 +265,34 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     private void handleException(Exception e) {
         try {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            ToastUtils.ToastMessage(this, e.getMessage());
             mPublisher.stopPublish();
             mPublisher.stopRecord();
         } catch (Exception e1) {
-            //
+            Timber.e(e1.toString());
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPublisher.pauseRecord();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPublisher.stopPublish();
+        mPublisher.stopRecord();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            if (mPreFragment != null) {
+                mPreFragment.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 

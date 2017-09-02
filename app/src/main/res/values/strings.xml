@@ -65,6 +65,8 @@
     <string name="input_withdraw_cash_num">请输入至少100元，不超过4500元</string>
     <string name="input_bank_code_hint">若姓名与银行卡账户不符会提现失败哦~</string>
     <string name="input_opening_bank_hint">请选择</string>
+    <string name="input_anchor_title_hint">有趣的标题更吸引观众哦~</string>
+    <string name="input_anchor_notice_hint">发布公告昭告观众吧~</string>
 
     <string name="btn_get_code">获取验证码</string>
     <string name="btn_login">确认</string>
@@ -85,6 +87,7 @@
     <string name="btn_diamonds_record">交易记录</string>
     <string name="btn_message">消息</string>
     <string name="btn_ignore_message">忽略未读</string>
+    <string name="btn_begin_anchor">开始直播</string>
 
     <string name="tag_agree_clause">登录即代表您同意</string>
     <string name="tag_clause">《免责条款》</string>
@@ -151,6 +154,13 @@
     <string name="tag_agree_recharge_rules">充值即代表您阅读并同意</string>
     <string name="tag_recharge_agreement">《充值协议》</string>
     <string name="tag_recharge_has_problem">若充值遇到问题请联系客服：</string>
-    
+    <string name="tag_change_cover">更换页面</string>
+    <string name="tag_title">标题：</string>
+    <string name="tag_notice">公告：</string>
+    <string name="tag_toll_standard">收费标准\t(必填)\t:</string>
+    <string name="tag_toll_standard2">个钻石币/分钟</string>
+    <string name="tag_toll_standard_remark">设置0个则表示您的直播不收费哦，最高不得超过%d钻石币/分钟</string>
+    <string name="tag_toll_period">收费时段\t(选填)\t:</string>
+    <string name="tag_toll_period_remark">不设置的话默认全程哦</string>
 
 </resources>

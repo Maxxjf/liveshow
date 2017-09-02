@@ -196,8 +196,6 @@ public class ApplyAnchorActivity extends SwipeBaseActivity<IApplyAnchorView, App
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
         if (data != null) {
             if (requestCode == REQUEST_CODE) {
                 ArrayList<String> images = data.getStringArrayListExtra(ImageSelectUtil.SELECT_RESULT);

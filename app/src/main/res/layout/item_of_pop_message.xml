@@ -83,7 +83,7 @@
     </RelativeLayout>
 
     <View
-        style="@style/LineHorizontal"
+        style="@style/LineHorizontalBlack"
         android:layout_marginLeft="@dimen/layout_margin"/>
 
 </LinearLayout>
