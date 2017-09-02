@@ -34,6 +34,7 @@
     <string name="title_withdraw_cash">提现到银行卡</string>
     <string name="title_my_diamonds">充值</string>
     <string name="title_diamonds_record">钻石币交易记录</string>
+    <string name="title_anchor_finish">直播结束</string>
 
     <string name="tab_home">首页</string>
     <string name="tab_live_show">发直播</string>
@@ -88,6 +89,7 @@
     <string name="btn_message">消息</string>
     <string name="btn_ignore_message">忽略未读</string>
     <string name="btn_begin_anchor">开始直播</string>
+    <string name="btn_go_home">返回首页</string>
 
     <string name="tag_agree_clause">登录即代表您同意</string>
     <string name="tag_clause">《免责条款》</string>
@@ -162,5 +164,11 @@
     <string name="tag_toll_standard_remark">设置0个则表示您的直播不收费哦，最高不得超过%d钻石币/分钟</string>
     <string name="tag_toll_period">收费时段\t(选填)\t:</string>
     <string name="tag_toll_period_remark">不设置的话默认全程哦</string>
+    <string name="tag_anchor_state_not">直播还未开始</string>
+    <string name="tag_anchor_state_ing">直播正在进行中</string>
+    <string name="tag_anchor_state_finish">直播已结束</string>
+    <string name="tag_curr_income">本场收益</string>
+    <string name="tag_audience">观看人数</string>
+    <string name="tag_curr_profit2">当前收益</string>
 
 </resources>

@@ -340,6 +340,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     @Override
     public void onExitClick() {
+        AnchorFinishActivity.openActivity(getActivity());
         getActivity().finish();
     }
 

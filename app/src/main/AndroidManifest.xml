@@ -66,6 +66,10 @@
                   android:launchMode="singleTask"
                   android:windowSoftInputMode="adjustPan"
                   android:label="@string/title_room"/>
+        <activity android:name=".ui.anchor.widget.AnchorFinishActivity"
+                  android:launchMode="singleTask"
+                  android:windowSoftInputMode="adjustPan"
+                  android:label="@string/title_anchor_finish"/>
 
         <!--主播有关-->
         <activity android:name=".ui.home.widget.SearchAnchorActivity"

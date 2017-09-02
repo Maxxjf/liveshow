@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -76,6 +77,8 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
     @Override
     protected void initViewAndData() {
         SystemBarUtil.hideNavBar(this);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         mCurrentItem = getIntent().getIntExtra("POSITION", 0);
         mList = (List<LiveShowBean>) getIntent().getSerializableExtra("LIST");
         if (mList != null) {

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@color/colorDark"
+    tools:context=".ui.anchor.widget.AnchorFinishActivity">
+
+    <FrameLayout
+        android:id="@+id/layout_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_10">
+
+        <com.qcloud.qclib.widget.customview.RatioImageView
+            android:id="@+id/img_user_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_small"
+            android:src="@drawable/icon_user_head_default"
+            myapp:ratio="1"
+            myapp:width="180"/>
+
+        <ImageView
+            android:id="@+id/img_anchor_level"
+            android:layout_width="@dimen/margin_5"
+            android:layout_height="@dimen/margin_5"
+            android:gravity="center"
+            android:layout_gravity="bottom|right"
+            android:src="@drawable/icon_anchor_level_1"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_2"
+        android:textColor="@color/white"
+        android:textSize="@dimen/xmedium_text_size"
+        android:textStyle="bold"
+        android:text="主播昵称"/>
+
+    <LinearLayout
+        android:id="@+id/layout_id"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/small_btn_height"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/layout_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_app_id"/>
+
+        <TextView
+            android:id="@+id/tv_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="@dimen/micro_text_size"
+            tools:text="1234"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_anchor_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_2"
+        android:textColor="@color/colorEnd"
+        android:textSize="@dimen/xmedium_text_size"
+        android:text="@string/tag_anchor_state_finish"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:layout_marginTop="@dimen/margin_4"
+        android:gravity="center_horizontal">
+
+        <View style="@style/LineHorizontalBlack"/>
+
+        <TextView
+            android:id="@+id/tv_curr_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_3"
+            android:textColor="@color/colorEnd"
+            android:textSize="@dimen/xlarge_text_size"
+            android:text="¥1234.25"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_2"
+            android:layout_marginBottom="@dimen/margin_3"
+            android:textColor="@color/white"
+            android:textSize="@dimen/small_text_size"
+            android:text="@string/tag_curr_income"/>
+
+        <View style="@style/LineHorizontalBlack"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:layout_marginTop="@dimen/margin_4">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_audience"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/xmedium_text_size"
+                android:textStyle="bold"
+                android:text="1.5万"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_2"
+                android:textColor="@color/white"
+                android:textSize="@dimen/small_text_size"
+                android:text="@string/tag_audience"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_gift_profit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/xmedium_text_size"
+                android:textStyle="bold"
+                android:text="123.02"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_2"
+                android:textColor="@color/white"
+                android:textSize="@dimen/small_text_size"
+                android:text="@string/tag_profit_gift"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_curr_profit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/xmedium_text_size"
+                android:textStyle="bold"
+                android:text="1.5万"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_2"
+                android:textColor="@color/white"
+                android:textSize="@dimen/small_text_size"
+                android:text="@string/tag_curr_profit2"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btn_go_home"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:background="@drawable/btn_gray_circular_selector"
+        android:gravity="center"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="@dimen/medium_text_size"
+        android:text="@string/btn_go_home"/>
+</LinearLayout>
