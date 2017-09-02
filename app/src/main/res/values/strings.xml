@@ -35,6 +35,7 @@
     <string name="title_my_diamonds">充值</string>
     <string name="title_diamonds_record">钻石币交易记录</string>
     <string name="title_anchor_finish">直播结束</string>
+    <string name="title_my_level">我的等级</string>
 
     <string name="tab_home">首页</string>
     <string name="tab_live_show">发直播</string>
@@ -170,5 +171,7 @@
     <string name="tag_curr_income">本场收益</string>
     <string name="tag_audience">观看人数</string>
     <string name="tag_curr_profit2">当前收益</string>
+    <string name="tag_user_level">用户等级</string>
+    <string name="tag_anchor_level">主播等级</string>
 
 </resources>

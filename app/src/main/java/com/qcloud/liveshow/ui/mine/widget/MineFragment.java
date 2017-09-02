@@ -97,7 +97,7 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
 
     @Override
     public void onUserLevelClick() {
-        ToastUtils.ToastMessage(getActivity(), R.string.tag_user_center_level);
+        MyLevelActivity.openActivity(getActivity());
     }
 
     @Override

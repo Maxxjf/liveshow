@@ -104,6 +104,10 @@
                   android:theme="@style/AppSwipeBackTheme"
                   android:launchMode="singleTask"
                   android:label="@string/title_my_gifts"/>
+        <activity android:name=".ui.mine.widget.MyLevelActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:label="@string/title_my_level"/>
 
         <!--与钱有关-->
         <activity android:name=".ui.profit.widget.MyProfitActivity"
