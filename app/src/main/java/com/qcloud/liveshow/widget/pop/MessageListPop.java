@@ -12,6 +12,7 @@ import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * 类说明：消息列表弹窗
@@ -58,5 +59,10 @@ public class MessageListPop extends BasePopupWindow {
     public void showAtLocation(View parent, int gravity, int x, int y) {
         super.showAtLocation(parent, gravity, x, y);
         setPopWindowBg(1.0f);
+    }
+
+    @OnClick(R.id.btn_ignore_message)
+    void onIgnoreClick(View view) {
+
     }
 }

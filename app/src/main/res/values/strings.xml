@@ -83,6 +83,8 @@
     <string name="btn_take_a_picture">拍照</string>
     <string name="btn_album">相册</string>
     <string name="btn_diamonds_record">交易记录</string>
+    <string name="btn_message">消息</string>
+    <string name="btn_ignore_message">忽略未读</string>
 
     <string name="tag_agree_clause">登录即代表您同意</string>
     <string name="tag_clause">《免责条款》</string>
@@ -149,5 +151,6 @@
     <string name="tag_agree_recharge_rules">充值即代表您阅读并同意</string>
     <string name="tag_recharge_agreement">《充值协议》</string>
     <string name="tag_recharge_has_problem">若充值遇到问题请联系客服：</string>
+    
 
 </resources>

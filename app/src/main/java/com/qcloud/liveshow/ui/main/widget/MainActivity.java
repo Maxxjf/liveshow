@@ -13,7 +13,7 @@ import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.base.BaseApplication;
 import com.qcloud.liveshow.enums.StartHomeEnum;
 import com.qcloud.liveshow.enums.StartMainEnum;
-import com.qcloud.liveshow.ui.anchor.widget.ApplyAnchorActivity;
+import com.qcloud.liveshow.ui.anchor.widget.AnchorActivity;
 import com.qcloud.liveshow.ui.home.widget.HomeFragment;
 import com.qcloud.liveshow.ui.main.presenter.impl.MainPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.IMainView;
@@ -130,7 +130,8 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
 
     @Override
     public void onLiveShowClick() {
-        ApplyAnchorActivity.openActivity(this);
+        //ApplyAnchorActivity.openActivity(this);
+        AnchorActivity.openActivity(this);
     }
 
     @Override

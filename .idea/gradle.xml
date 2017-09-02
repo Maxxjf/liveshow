@@ -9,6 +9,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/jjdxm-ijkplayer" />
+            <option value="$PROJECT_DIR$/rtmp-library" />
             <option value="$PROJECT_DIR$/../qcloudLib-android" />
             <option value="$PROJECT_DIR$/../qcloudLib-android/qclib" />
           </set>
