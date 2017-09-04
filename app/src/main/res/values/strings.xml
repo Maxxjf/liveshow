@@ -173,5 +173,13 @@
     <string name="tag_curr_profit2">当前收益</string>
     <string name="tag_user_level">用户等级</string>
     <string name="tag_anchor_level">主播等级</string>
+    <string name="tag_to_go_up_1">离升级还差</string>
+    <string name="tag_to_go_up_2">经验值</string>
+    <string name="tag_how_to_go_up">如何升级</string>
+    <string name="tag_level_name">等级名称</string>
+    <string name="tag_sub_commission_level">分佣等级</string>
+    <string name="tag_sub_commission_by_profit">收益所得分佣</string>
+    <string name="tag_anchor_top_profit">直播间收费上限</string>
+    <string name="tag_customer_service_contact_way">客服联系方式：</string>
 
 </resources>

@@ -1,15 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.mine.widget.UserLevelFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/tag_user_level"/>
+        android:orientation="vertical"
+        android:background="@drawable/bg_user_level_banner">
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_6">
+
+            <com.qcloud.qclib.widget.customview.RatioImageView
+                android:id="@+id/img_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/margin_3"
+                android:src="@drawable/icon_user_head_default"
+                myapp:ratio="1.0"
+                myapp:width="150"/>
+
+            <TextView
+                android:id="@+id/tv_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:paddingTop="@dimen/view_padding"
+                android:background="@drawable/bg_user_level_name"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/small_text_size"
+                android:text="Lv.3"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/margin_3">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/micro_text_size"
+                    android:text="@string/tag_to_go_up_1"/>
+
+                <TextView
+                    android:id="@+id/tv_experience"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorStart"
+                    android:textSize="@dimen/micro_text_size"
+                    android:text="550"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:textSize="@dimen/micro_text_size"
+                    android:text="@string/tag_to_go_up_2"/>
+            </LinearLayout>
+
+            <com.qcloud.qclib.widget.customview.CustomProgressBar
+                android:id="@+id/pb_level"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_1"
+                android:layout_marginTop="@dimen/margin_2"
+                android:paddingLeft="@dimen/margin_6"
+                android:paddingRight="@dimen/margin_6"
+                android:max="1000"
+                android:progress="550"
+                myapp:pb_isCapRounded="true"
+                myapp:pb_isHiddenText="true"
+                myapp:pb_mode="horizontal"
+                myapp:pb_reachedColor="@color/colorStart"
+                myapp:pb_reachedHeight="@dimen/margin_1"
+                myapp:pb_textColor="@color/colorStart"
+                myapp:pb_unReachedColor="@color/colorLineWhite"
+                myapp:pb_unReachedHeight="2dp"/>
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/layout_margin"
+        android:background="@color/white"
+        android:padding="@dimen/layout_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/small_text_size"
+            android:text="@string/tag_how_to_go_up"/>
+
+        <TextView
+            android:id="@+id/tv_how_to_go_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_1"
+            android:lineSpacingExtra="@dimen/text_padding"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/mini_text_size"
+            android:text="每次充值1个钻石币可以获得10个经验值，每天不设上限，快来充值吧！"/>
+    </LinearLayout>
 </LinearLayout>

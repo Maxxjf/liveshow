@@ -1,11 +1,17 @@
 package com.qcloud.liveshow.ui.mine.widget;
 
+import android.widget.TextView;
+
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.ui.mine.presenter.impl.UserLevelPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IUserLevelView;
+import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.widget.customview.CustomProgressBar;
+import com.qcloud.qclib.widget.customview.RatioImageView;
 
+import butterknife.Bind;
 import timber.log.Timber;
 
 /**
@@ -15,6 +21,17 @@ import timber.log.Timber;
  */
 public class UserLevelFragment extends BaseFragment<IUserLevelView, UserLevelPresenterImpl> implements IUserLevelView {
 
+
+    @Bind(R.id.img_user)
+    RatioImageView mImgUser;
+    @Bind(R.id.tv_level)
+    TextView mTvLevel;
+    @Bind(R.id.tv_experience)
+    TextView mTvExperience;
+    @Bind(R.id.pb_level)
+    CustomProgressBar mPbLevel;
+    @Bind(R.id.tv_how_to_go_up)
+    TextView mTvHowToGoUp;
 
     @Override
     protected int getLayoutId() {
@@ -33,7 +50,7 @@ public class UserLevelFragment extends BaseFragment<IUserLevelView, UserLevelPre
 
     @Override
     protected void beginLoad() {
-
+        GlideUtil.loadCircleImage(getActivity(), mImgUser, "", R.drawable.icon_default_user, 0, 0, true, false);
     }
 
     @Override
