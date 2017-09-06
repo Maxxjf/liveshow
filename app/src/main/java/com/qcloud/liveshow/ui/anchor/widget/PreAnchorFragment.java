@@ -21,8 +21,11 @@ import com.qcloud.qclib.imageselect.utils.ImageSelectUtil;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.widget.customview.ClearEditText;
 import com.qcloud.qclib.widget.customview.RatioImageView;
+import com.qcloud.qclib.widget.customview.wheelview.DateTimePicker;
+import com.qcloud.qclib.widget.customview.wheelview.TimePicker;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.BindString;
@@ -137,7 +140,22 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
 
     @Override
     public void onTimeStartClick() {
-
+        TimePicker picker = new TimePicker(getActivity(), DateTimePicker.HOUR_24);
+        picker.setUseWeight(true);
+        picker.setCycleDisable(false);
+        picker.setRangeStart(0, 0);//00:00
+        picker.setRangeEnd(23, 59);//23:59
+        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int currentMinute = Calendar.getInstance().get(Calendar.MINUTE);
+        picker.setSelectedItem(currentHour, currentMinute);
+        picker.initWheelView();
+        picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
+            @Override
+            public void onTimePicked(String hour, String minute) {
+                ToastUtils.ToastMessage(getActivity(), hour + ":" + minute);
+            }
+        });
+        picker.showAtLocation(mBtnTimeStart, Gravity.BOTTOM, 0, 0);
     }
 
     @Override

@@ -48,6 +48,11 @@
     <string name="toast_get_picture_failure">获取图片失败</string>
     <string name="toast_permission_open">权限已开启</string>
     <string name="toast_permission_refuse">权限被拒绝，请在设置里面开启相应权限，若无相应权限会影响使用</string>
+    <string name="toast_right_mobile_phone">请输入正确的手机号码</string>
+    <string name="toast_input_code">请输入验证码</string>
+    <string name="toast_has_been_sent_to">已发送验证码至%s</string>
+    <string name="toast_login_success">登录成功</string>
+    <string name="toast_login_failure">登录失败</string>
 
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>
@@ -91,6 +96,8 @@
     <string name="btn_ignore_message">忽略未读</string>
     <string name="btn_begin_anchor">开始直播</string>
     <string name="btn_go_home">返回首页</string>
+    <string name="btn_get_code_after_second">%ds后重新获取</string>
+    <string name="btn_get_code_again">重新获取</string>
 
     <string name="tag_agree_clause">登录即代表您同意</string>
     <string name="tag_clause">《免责条款》</string>

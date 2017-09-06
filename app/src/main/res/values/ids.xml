@@ -6,4 +6,9 @@
     <!--购买钻石币分页管理-->
     <item name="item_diamonds_tag" type="id"/>
 
+    <!--获取用户信息成功-->
+    <item name="get_user_info_success" type="id"/>
+    <!--获取用户信息失败-->
+    <item name="get_user_info_error" type="id"/>
+
 </resources>

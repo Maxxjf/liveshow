@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/tab_height"
             android:background="@drawable/frame_gray_circular"
-            android:drawableLeft="@drawable/icon_password"
+            android:drawableLeft="@drawable/icon_phone"
             android:drawablePadding="@dimen/margin_3"
             android:paddingLeft="@dimen/margin_2"
             android:paddingRight="@dimen/margin_2"
@@ -77,7 +77,6 @@
                 android:textColor="@color/colorStart"
                 android:textSize="@dimen/small_text_size"
                 android:text="@string/btn_get_code"/>
-
         </LinearLayout>
 
         <TextView
@@ -117,9 +116,7 @@
                 android:textColor="@color/colorLightRed"
                 android:textSize="@dimen/small_text_size"
                 android:text="@string/tag_clause"/>
-
         </LinearLayout>
-
     </LinearLayout>
 
     <LinearLayout
@@ -181,9 +178,6 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_facebook"
                 android:layout_marginLeft="@dimen/margin_10"/>
-
         </LinearLayout>
-
     </LinearLayout>
-
 </RelativeLayout>

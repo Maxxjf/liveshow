@@ -20,9 +20,19 @@ import com.qcloud.liveshow.ui.profit.view.ISetCashPasswordView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.toast.ToastUtils;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.Bind;
+import butterknife.BindString;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -52,6 +62,15 @@ public class SetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswordV
     CheckBox mCbSee;
     @Bind(R.id.btn_confirm)
     TextView mBtnConfirm;
+
+    @BindString(R.string.btn_get_code)
+    String getCode;
+    @BindString(R.string.btn_get_code_after_second)
+    String getCodeAfter;
+    @BindString(R.string.btn_get_code_again)
+    String getCodeAgain;
+
+    private Disposable mDisposable;
 
     @Override
     protected int initLayout() {
@@ -123,12 +142,15 @@ public class SetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswordV
 
     @Override
     public void onGetCodeClick() {
-
+        mBtnGetCode.setEnabled(false);
+        startTimer();
     }
 
     @Override
     public void onConfirmClick() {
-
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
+        }
     }
 
     @Override
@@ -142,7 +164,57 @@ public class SetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswordV
         }
     }
 
+    /**
+     * 启动定时器
+     * */
+    private void startTimer() {
+        Observable observable = Observable.interval(1, TimeUnit.SECONDS).take(60).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        mDisposable = observable.doOnDispose(new Action() {
+            @Override
+            public void run() throws Exception {
+                if (mBtnGetCode != null) {
+                    mBtnGetCode.setText(getCode);
+                    mBtnGetCode.setEnabled(true);
+                }
+            }
+        }).subscribe(new Consumer<Long>() {
+            @Override
+            public void accept(@NonNull Long aLong) throws Exception {
+                if (mBtnGetCode != null) {
+                    mBtnGetCode.setText(String.format(getCodeAfter, (60 - aLong)));
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                if (mBtnGetCode != null) {
+                    mBtnGetCode.setText(getCodeAgain);
+                    mBtnGetCode.setEnabled(true);
+                }
+            }
+        }, new Action() {
+            @Override
+            public void run() throws Exception {
+                Timber.e("onComplete");
+                if (mBtnGetCode != null) {
+                    mBtnGetCode.setText(getCodeAgain);
+                    mBtnGetCode.setEnabled(true);
+                }
+            }
+        });
+    }
+
     public static void openActivity(Context context) {
         context.startActivity(new Intent(context, SetCashPasswordActivity.class));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
+        }
     }
 }
