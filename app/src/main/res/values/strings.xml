@@ -53,6 +53,8 @@
     <string name="toast_has_been_sent_to">已发送验证码至%s</string>
     <string name="toast_login_success">登录成功</string>
     <string name="toast_login_failure">登录失败</string>
+    <string name="toast_logout_success">退出登录成功</string>
+    <string name="toast_logout_failure">退出登录失败</string>
 
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>

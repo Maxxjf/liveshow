@@ -15,6 +15,10 @@ public interface UrlConstants {
     String GET_CODE = URL_PREFIX_APP + "login/sendCode";
     /**普通登录*/
     String LOGIN_NORMAL = URL_PREFIX_APP + "login/normalLogin";
+    /**第三方登录*/
+    String LOGIN_OTHER = URL_PREFIX_APP + "login/otherLogin";
     /**获取用户信息*/
     String GET_USER_INFO = URL_PREFIX_APP + "member/personalcenter";
+    /**退出登录*/
+    String LOGOUT = URL_PREFIX_APP + "member/logout";
 }

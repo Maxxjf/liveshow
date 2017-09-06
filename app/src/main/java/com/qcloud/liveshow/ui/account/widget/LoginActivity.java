@@ -2,6 +2,7 @@ package com.qcloud.liveshow.ui.account.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.base.BaseApplication;
 import com.qcloud.liveshow.beans.LoginBean;
+import com.qcloud.liveshow.beans.WeChatUserBean;
 import com.qcloud.liveshow.enums.StartMainEnum;
 import com.qcloud.liveshow.ui.account.presenter.impl.LoginPresenterImpl;
 import com.qcloud.liveshow.ui.account.view.ILoginView;
@@ -24,7 +26,11 @@ import com.qcloud.qclib.utils.TokenUtil;
 import com.qcloud.qclib.utils.ValidateUtil;
 import com.qcloud.qclib.widget.customview.ClearEditText;
 import com.qcloud.qclib.widget.customview.LineTextView;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
@@ -97,6 +103,18 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
         }
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        UMShareAPI.get(this).onSaveInstanceState(outState);
+    }
+
     private void initRxBusEvent() {
         mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, new Consumer<RxBusEvent>() {
             @Override
@@ -143,7 +161,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
 
     @Override
     public void onWeChatClick() {
-        Timber.d("onWeChatClick");
+        UMShareAPI.get(mContext).doOauthVerify(this, SHARE_MEDIA.WEIXIN, authListener);
     }
 
     @Override
@@ -188,6 +206,14 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
                 mBtnGetCode.setText(getCode);
                 mBtnGetCode.setEnabled(true);
             }
+        }
+    }
+
+    @Override
+    public void weChatUserInfo(WeChatUserBean bean) {
+        stopLoadingDialog();
+        if (isRunning && bean != null) {
+            mPresenter.otherLogin(bean.getIconurl(), bean.getName(), bean.getOpenid(), bean.getSex(), 0);
         }
     }
 
@@ -279,9 +305,50 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
         });
     }
 
-    public static void openActivity(Context context) {
-        context.startActivity(new Intent(context, LoginActivity.class));
-    }
+    UMAuthListener authListener = new UMAuthListener() {
+        /**
+         * @desc 授权开始的回调
+         * @param platform 平台名称
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            startLoadingDialog();
+        }
+
+        /**
+         * @desc 授权成功的回调
+         * @param platform 平台名称
+         * @param action 行为序号，开发者用不上
+         * @param data 用户资料返回
+         */
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+            mPresenter.loadPlatformInfo(LoginActivity.this, SHARE_MEDIA.WEIXIN);
+        }
+
+        /**
+         * @desc 授权失败的回调
+         * @param platform 平台名称
+         * @param action 行为序号，开发者用不上
+         * @param t 错误原因
+         */
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            stopLoadingDialog();
+            ToastUtils.ToastMessage(LoginActivity.this, "失败：" + t.getMessage());
+        }
+
+        /**
+         * @desc 授权取消的回调
+         * @param platform 平台名称
+         * @param action 行为序号，开发者用不上
+         */
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            stopLoadingDialog();
+            ToastUtils.ToastMessage(LoginActivity.this, "取消了");
+        }
+    };
 
     @Override
     protected void onDestroy() {
@@ -289,5 +356,16 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
         if (mDisposable != null && !mDisposable.isDisposed()) {
             mDisposable.dispose();
         }
+        UMShareAPI.get(this).release();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+    public static void openActivity(Context context) {
+        context.startActivity(new Intent(context, LoginActivity.class));
     }
 }

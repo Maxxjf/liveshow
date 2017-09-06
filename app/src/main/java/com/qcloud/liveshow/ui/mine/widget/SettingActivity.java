@@ -14,13 +14,16 @@ import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.ui.account.widget.LoginActivity;
 import com.qcloud.liveshow.ui.mine.presenter.impl.SettingPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.ISettingView;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.TokenUtil;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * 类说明：设置
@@ -96,6 +99,26 @@ public class SettingActivity extends SwipeBaseActivity<ISettingView, SettingPres
         logoutWarning();
     }
 
+    @Override
+    public void logoutSuccess() {
+        ToastUtils.ToastMessage(this, R.string.toast_logout_success);
+        UserInfoUtil.mUser = null;
+        TokenUtil.clearToken();
+        BaseApplication.getInstance().getAppManager().killAllActivity();
+        LoginActivity.openActivity(this);
+    }
+
+    @Override
+    public void loadErr(boolean isShow, String errMsg) {
+        if (isRunning) {
+            if (isShow) {
+                ToastUtils.ToastMessage(this, errMsg);
+            } else {
+                Timber.e(errMsg);
+            }
+        }
+    }
+
     private void logoutWarning() {
         TipsPop pop = new TipsPop(this);
         pop.setTips(R.string.tip_confirm_to_logout);
@@ -106,8 +129,7 @@ public class SettingActivity extends SwipeBaseActivity<ISettingView, SettingPres
             @Override
             public void onViewClick(View view) {
                 if (view.getId() == R.id.btn_ok) {
-                    BaseApplication.getInstance().getAppManager().killAllActivity();
-                    LoginActivity.openActivity(SettingActivity.this);
+                    mPresenter.logout();
                 }
             }
         });

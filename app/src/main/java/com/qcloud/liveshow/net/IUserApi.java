@@ -33,10 +33,24 @@ public class IUserApi {
         return OkGoRequest.getRequest(UrlConstants.LOGIN_NORMAL, type, params);
     }
 
+    /**第三方登录*/
+    public static Observable<BaseResponse<LoginBean>> loginOther(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<LoginBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.LOGIN_OTHER, type, params);
+    }
+
     /**获取用户信息*/
     public static Observable<BaseResponse<UserBean>> loadUserInfo(HttpParams params) {
         Type type = new TypeToken<BaseResponse<UserBean>>(){}.getType();
 
         return OkGoRequest.getRequest(UrlConstants.GET_USER_INFO, type, params);
+    }
+
+    /**退出登录*/
+    public static Observable<BaseResponse<ReturnEmptyBean>> logout(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.LOGOUT, type, params);
     }
 }

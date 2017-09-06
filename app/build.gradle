@@ -52,24 +52,19 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-
     compile project(':qcloudLib-android:qclib')
-
     // 第三方crash异常捕捉
     compile 'com.tencent.bugly:crashreport:latest.release'
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
-
     // 封装的webview
     compile 'com.github.lzyzsd:jsbridge:1.0.4'
-
     // 上拉隐藏底部bar
     compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.2'
-
     compile project(':jjdxm-ijkplayer')
     compile rootProject.ext.jjdxm_v7
     //    根据需要支持去拓展，在jjdxm-ijkplayer中默认加入了armv7a的了
@@ -79,6 +74,17 @@ dependencies {
     compile 'com.dou361.ijkplayer-x86:jjdxm-ijkplayer-x86:1.0.0'
     compile 'com.dou361.ijkplayer-x86_64:jjdxm-ijkplayer-x86_64:1.0.0'
     compile project(':rtmp-library')
+
+    // 友盟分享
+    compile files('libs/open_sdk_r5788_lite.jar')
+    compile files('libs/SocialSDK_WeChat_Simplify.jar')
+    compile files('libs/SocialSDK_WeiXin_Full.jar')
+    compile files('libs/umeng_shareboard_widget.jar')
+    compile files('libs/umeng_social_api.jar')
+    compile files('libs/umeng_social_net.jar')
+    compile files('libs/umeng_social_shareview.jar')
+    compile files('libs/umeng_social_tool.jar')
+    compile files('libs/wechat-sdk-android-with-mta-1.1.6.jar')
 }
 
 repositories {

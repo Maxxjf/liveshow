@@ -8,4 +8,6 @@ import com.qcloud.qclib.base.BtnClickPresenter;
  * Date: 2017/8/18 18:40.
  */
 public interface ISettingPresenter extends BtnClickPresenter {
+    /**退出登录*/
+    void logout();
 }

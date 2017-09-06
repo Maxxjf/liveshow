@@ -18,6 +18,10 @@ import com.qcloud.qclib.utils.ConstantUtil;
 import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.utils.TokenUtil;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.umeng.socialize.Config;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.common.QueuedWork;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -61,6 +65,12 @@ public class BaseApplication extends Application {
         } else {
             Timber.plant(new FileLoggingTree());
         }
+
+        // 友盟分享
+        Config.DEBUG = true;
+        QueuedWork.isUseThreadPool = false;
+        UMShareAPI.get(this);
+        PlatformConfig.setWeixin("wx8d335bf844b9c273", "c23c1d9c477a29088e91ab1c72650be0");
     }
 
     /**

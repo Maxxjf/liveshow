@@ -17,6 +17,12 @@ public interface IUserModel {
     /**手机号登录*/
     void loginNormal(String mobile, String code, DataCallback<LoginBean> callback);
 
+    /**第三方登录*/
+    void loginOther(String iconurl, String name, String openId, int sex, int type, DataCallback<LoginBean> callback);
+
     /**获取用户信息*/
     void loadUserInfo(DataCallback<UserBean> callback);
+
+    /**退出登录*/
+    void logout(DataCallback<ReturnEmptyBean> callback);
 }

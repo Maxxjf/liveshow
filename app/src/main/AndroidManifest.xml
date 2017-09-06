@@ -15,6 +15,17 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
+    <!-- 分享需要添加的权限 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+
     <application
         android:name=".base.BaseApplication"
         android:allowBackup="true"
@@ -30,6 +41,10 @@
         <meta-data
             android:name="targer_screen_width"
             android:value="720"/>
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="59afac875312dd8e8b0006c3" >
+        </meta-data>
 
         <activity
             android:name=".ui.account.widget.LoginActivity"
@@ -144,6 +159,14 @@
                   android:screenOrientation="portrait"/>
         <activity android:name="com.qcloud.qclib.imageselect.ProcessImageActivity"
                   android:screenOrientation="portrait"/>
+
+        <!--微信回调-->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
     </application>
 
 </manifest>

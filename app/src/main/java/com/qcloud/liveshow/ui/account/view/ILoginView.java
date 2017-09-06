@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.ui.account.view;
 
 import com.qcloud.liveshow.beans.LoginBean;
+import com.qcloud.liveshow.beans.WeChatUserBean;
 import com.qcloud.qclib.base.BaseView;
 
 /**
@@ -32,4 +33,7 @@ public interface ILoginView extends BaseView {
 
     /**获取验证码失败*/
     void getCodeFailure(String errMsg);
+
+    /**微信用户信息*/
+    void weChatUserInfo(WeChatUserBean bean);
 }

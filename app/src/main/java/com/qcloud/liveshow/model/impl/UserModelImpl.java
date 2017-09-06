@@ -52,6 +52,30 @@ public class UserModelImpl implements IUserModel {
     }
 
     /**
+     * 第三方登录
+     *
+     * @param iconurl   头像链接
+     * @param name      昵称
+     * @param openId    微信openId
+     * @param sex       性别 0:男, 1:女
+     * @param type      类型 0:微信 1:FaceBook
+     * @param callback
+     *
+     * @time 2017/9/6 16:55
+     */
+    @Override
+    public void loginOther(String iconurl, String name, String openId, int sex, int type, DataCallback<LoginBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+        mParams.put("iconurl", iconurl);
+        mParams.put("name", name);
+        mParams.put("openId", openId);
+        mParams.put("sex", sex);
+        mParams.put("type", type);
+
+        BaseApi.dispose(IUserApi.loginOther(mParams), callback);
+    }
+
+    /**
      * 获取用户信息
      *
      * @time 2017/9/6 11:35
@@ -61,5 +85,17 @@ public class UserModelImpl implements IUserModel {
         mParams = OkGoRequest.getAppParams();
 
         BaseApi.dispose(IUserApi.loadUserInfo(mParams), callback);
+    }
+
+    /**
+     * 退出登录
+     *
+     * @time 2017/9/6 17:20
+     */
+    @Override
+    public void logout(DataCallback<ReturnEmptyBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+
+        BaseApi.dispose(IUserApi.logout(mParams), callback);
     }
 }

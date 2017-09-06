@@ -1,11 +1,13 @@
 package com.qcloud.liveshow.ui.mine.view;
 
+import com.qcloud.qclib.base.BaseView;
+
 /**
  * 类说明：设置
  * Author: Kuzan
  * Date: 2017/8/18 18:40.
  */
-public interface ISettingView {
+public interface ISettingView extends BaseView {
     /**黑名单*/
     void onBlacklistClick();
 
@@ -20,4 +22,7 @@ public interface ISettingView {
 
     /**退出登录*/
     void onLogoutClick();
+
+    /**退出登录成功*/
+    void logoutSuccess();
 }
