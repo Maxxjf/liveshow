@@ -54,7 +54,7 @@
                             android:textColor="@color/white"
                             android:textSize="@dimen/medium_text_size"
                             android:textStyle="bold"
-                            android:text="Kuzan"/>
+                            tools:text="Kuzan"/>
 
                         <ImageView
                             android:id="@+id/img_user_sex"
@@ -69,14 +69,14 @@
                             android:layout_width="@dimen/margin_4"
                             android:layout_height="@dimen/margin_4"
                             android:layout_marginLeft="@dimen/draw_padding"
-                            android:src="@drawable/icon_lady"/>
+                            android:src="@drawable/icon_anchor_level_1"/>
 
                         <ImageView
                             android:id="@+id/img_user_level"
                             android:layout_width="@dimen/margin_4"
                             android:layout_height="@dimen/margin_4"
                             android:layout_marginLeft="@dimen/draw_padding"
-                            android:src="@drawable/icon_lady"/>
+                            android:src="@drawable/icon_user_level_v"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -92,7 +92,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/white"
                             android:textSize="@dimen/micro_text_size"
-                            android:text="ID: Kuzan123"/>
+                            tools:text="ID: Kuzan123"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -165,7 +165,7 @@
                     android:layout_weight="4"
                     android:textColor="@color/colorText"
                     android:textSize="@dimen/micro_text_size"
-                    android:text="Jennifer"/>
+                    tools:text="Jennifer"/>
             </LinearLayout>
 
             <View
@@ -194,7 +194,7 @@
                     android:layout_weight="4"
                     android:textColor="@color/colorText"
                     android:textSize="@dimen/micro_text_size"
-                    android:text="女"/>
+                    tools:text="女"/>
             </LinearLayout>
 
             <View
@@ -223,7 +223,7 @@
                     android:layout_weight="4"
                     android:textColor="@color/colorText"
                     android:textSize="@dimen/micro_text_size"
-                    android:text="@string/tag_live_show_desc"/>
+                    tools:text="@string/tag_live_show_desc"/>
             </LinearLayout>
 
         </LinearLayout>

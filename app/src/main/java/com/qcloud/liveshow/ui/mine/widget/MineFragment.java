@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseFragment;
+import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.ui.mine.presenter.impl.MinePresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IMineView;
@@ -12,13 +13,17 @@ import com.qcloud.liveshow.ui.profit.widget.MyDiamondsActivity;
 import com.qcloud.liveshow.ui.profit.widget.MyProfitActivity;
 import com.qcloud.liveshow.ui.profit.widget.ResetCashPasswordActivity;
 import com.qcloud.liveshow.ui.profit.widget.SetCashPasswordActivity;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.customview.ItemLayout;
 import com.qcloud.liveshow.widget.customview.UserInfoLayout;
+import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.toast.ToastUtils;
 
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.OnClick;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * 类说明：我的
@@ -47,8 +52,10 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
     @Bind(R.id.layout_set)
     ItemLayout mLayoutSet;
 
-    @BindString(R.string.money)
+    @BindString(R.string.money_str)
     String moneyStr;
+
+    private UserBean mUser;
 
     @Override
     protected int getLayoutId() {
@@ -62,12 +69,30 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
 
     @Override
     protected void initViewAndData() {
-        mLayoutProfit.setRemark(moneyStr+500);
+        initRxBusEvent();
     }
 
     @Override
     protected void beginLoad() {
+        if (UserInfoUtil.mUser == null) {
+            UserInfoUtil.loadUserInfo();
+        } else {
+            mUser = UserInfoUtil.mUser;
+            refreshUserInfo(mUser);
+        }
+    }
 
+    private void initRxBusEvent() {
+        mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, new Consumer<RxBusEvent>() {
+            @Override
+            public void accept(@NonNull RxBusEvent rxBusEvent) throws Exception {
+                stopLoadingDialog();
+                if (rxBusEvent.getType() == R.id.get_user_info_success) {
+                    mUser = (UserBean) rxBusEvent.getObj();
+                    refreshUserInfo(mUser);
+                }
+            }
+        }));
     }
 
     @OnClick({R.id.layout_user, R.id.layout_follow, R.id.layout_fans, R.id.layout_profit, R.id.layout_level,
@@ -127,5 +152,23 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
     @Override
     public void onSetClick() {
         SettingActivity.openActivity(getActivity());
+    }
+
+    @Override
+    public void refreshUserInfo(UserBean bean) {
+        if (isInFragment && bean != null) {
+            if (mLayoutUser != null) {
+                mLayoutUser.refreshUserInfo(bean);
+            }
+            if (mLayoutProfit != null) {
+                mLayoutProfit.setRemark(String.format(moneyStr, bean.getMoney()));
+            }
+            if (mTvFollow != null) {
+                mTvFollow.setText(bean.getAttentionNumStr());
+            }
+            if (mTvFans != null) {
+                mTvFans.setText(bean.getFansNumStr());
+            }
+        }
     }
 }

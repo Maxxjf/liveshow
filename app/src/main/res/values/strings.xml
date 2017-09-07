@@ -57,6 +57,7 @@
     <string name="toast_login_failure">登录失败</string>
     <string name="toast_logout_success">退出登录成功</string>
     <string name="toast_logout_failure">退出登录失败</string>
+    <string name="toast_give_up_to_edit">您确定要放弃编辑吗？</string>
 
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>
@@ -78,6 +79,7 @@
     <string name="input_opening_bank_hint">请选择</string>
     <string name="input_anchor_title_hint">有趣的标题更吸引观众哦~</string>
     <string name="input_anchor_notice_hint">发布公告昭告观众吧~</string>
+    <string name="input_signature_hint">请输入自己的个性签名吧~</string>
 
     <string name="btn_get_code">获取验证码</string>
     <string name="btn_login">确认</string>
@@ -192,5 +194,6 @@
     <string name="tag_sub_commission_by_profit">收益所得分佣</string>
     <string name="tag_anchor_top_profit">直播间收费上限</string>
     <string name="tag_customer_service_contact_way">客服联系方式：</string>
+    <string name="tag_id">ID：%s</string>
 
 </resources>

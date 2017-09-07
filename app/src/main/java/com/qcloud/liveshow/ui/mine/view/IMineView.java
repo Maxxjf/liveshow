@@ -1,5 +1,7 @@
 package com.qcloud.liveshow.ui.mine.view;
 
+import com.qcloud.liveshow.beans.UserBean;
+
 /**
  * 类说明：我的
  * Author: Kuzan
@@ -35,4 +37,7 @@ public interface IMineView {
 
     /**点击设置*/
     void onSetClick();
+
+    /**刷新用户信息*/
+    void refreshUserInfo(UserBean bean);
 }

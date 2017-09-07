@@ -32,7 +32,7 @@ public class UserModelImpl implements IUserModel {
     @Override
     public void getCode(String mobile, DataCallback<ReturnEmptyBean> callback) {
         mParams = OkGoRequest.getAppParams();
-        mParams.put("number", mobile);
+        mParams.put("phone", mobile);
 
         BaseApi.dispose(IUserApi.getCode(mParams), callback);
     }
@@ -45,7 +45,7 @@ public class UserModelImpl implements IUserModel {
     @Override
     public void loginNormal(String mobile, String code, DataCallback<LoginBean> callback) {
         mParams = OkGoRequest.getAppParams();
-        mParams.put("number", mobile);
+        mParams.put("phone", mobile);
         mParams.put("code", code);
 
         BaseApi.dispose(IUserApi.loginNormal(mParams), callback);

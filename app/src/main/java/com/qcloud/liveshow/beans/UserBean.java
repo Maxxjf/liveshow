@@ -16,15 +16,17 @@ public class UserBean {
     private String withdrawPassword;    // 提现密码
     private int exp;    // 经验值
     private String idAccount;   // id账号
-    private String registerTime;    // 注册时间
-    private String lastTime;    // 最后登录时间
-    private String freeTime;    // 成为免费会员时间
-    private long memberGradeId; // 会员等级id
-    private long anchorGradeId; // 主播等级id
-    private int type;   // 会员类型  第四位会员 第三位免费 第二位主播
-    private int state;  // 是否启用(普通会员) 0:禁用 1:启用
-    private int anchorState;    // 是否启用(主播) 0:禁用 1:启用
-    private int freeState;  // 是否启用(免费会员) 0:禁用 1:启用
+    private String memberGrade; // 会员等级名称
+    private String memberGradeIcon; // 会员等级icon
+    private String anchorGrade; // 主播等级名称
+    private String anchorGradeIcon; // 主播等级icon
+    private boolean isAnchor;   // 是否是主播
+    private long attentionNum;    // 关注数量
+    private long virtualCoin;     // 钻石币数量
+    private long fansNum;    // 粉丝数量
+    private long giftNum;    // 礼物数量
+    private double money;   // 收益余额
+
 
     public long getId() {
         return id;
@@ -74,6 +76,10 @@ public class UserBean {
         this.sex = sex;
     }
 
+    public String getSexStr() {
+        return sex == 0 ? "男" : "女";
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -106,76 +112,100 @@ public class UserBean {
         this.idAccount = idAccount;
     }
 
-    public String getRegisterTime() {
-        return registerTime;
+    public String getMemberGrade() {
+        return memberGrade;
     }
 
-    public void setRegisterTime(String registerTime) {
-        this.registerTime = registerTime;
+    public void setMemberGrade(String memberGrade) {
+        this.memberGrade = memberGrade;
     }
 
-    public String getLastTime() {
-        return lastTime;
+    public String getMemberGradeIcon() {
+        return memberGradeIcon;
     }
 
-    public void setLastTime(String lastTime) {
-        this.lastTime = lastTime;
+    public void setMemberGradeIcon(String memberGradeIcon) {
+        this.memberGradeIcon = memberGradeIcon;
     }
 
-    public String getFreeTime() {
-        return freeTime;
+    public String getAnchorGrade() {
+        return anchorGrade;
     }
 
-    public void setFreeTime(String freeTime) {
-        this.freeTime = freeTime;
+    public void setAnchorGrade(String anchorGrade) {
+        this.anchorGrade = anchorGrade;
     }
 
-    public long getMemberGradeId() {
-        return memberGradeId;
+    public String getAnchorGradeIcon() {
+        return anchorGradeIcon;
     }
 
-    public void setMemberGradeId(long memberGradeId) {
-        this.memberGradeId = memberGradeId;
+    public void setAnchorGradeIcon(String anchorGradeIcon) {
+        this.anchorGradeIcon = anchorGradeIcon;
     }
 
-    public long getAnchorGradeId() {
-        return anchorGradeId;
+    public boolean isAnchor() {
+        return isAnchor;
     }
 
-    public void setAnchorGradeId(long anchorGradeId) {
-        this.anchorGradeId = anchorGradeId;
+    public void setAnchor(boolean anchor) {
+        isAnchor = anchor;
     }
 
-    public int getType() {
-        return type;
+    public long getAttentionNum() {
+        return attentionNum;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setAttentionNum(long attentionNum) {
+        this.attentionNum = attentionNum;
     }
 
-    public int getState() {
-        return state;
+    public String getAttentionNumStr() {
+        return String.valueOf(attentionNum);
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public long getVirtualCoin() {
+        return virtualCoin;
     }
 
-    public int getAnchorState() {
-        return anchorState;
+    public void setVirtualCoin(long virtualCoin) {
+        this.virtualCoin = virtualCoin;
     }
 
-    public void setAnchorState(int anchorState) {
-        this.anchorState = anchorState;
+    public String getVirtualCoinStr() {
+        return String.valueOf(virtualCoin);
     }
 
-    public int getFreeState() {
-        return freeState;
+    public long getFansNum() {
+        return fansNum;
     }
 
-    public void setFreeState(int freeState) {
-        this.freeState = freeState;
+    public void setFansNum(long fansNum) {
+        this.fansNum = fansNum;
+    }
+
+    public String getFansNumStr() {
+        return String.valueOf(fansNum);
+    }
+
+    public long getGiftNum() {
+        return giftNum;
+    }
+
+    public void setGiftNum(long giftNum) {
+        this.giftNum = giftNum;
+    }
+
+    public String getGiftNumStr() {
+        return String.valueOf(giftNum);
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
     }
 
     @Override
@@ -191,15 +221,16 @@ public class UserBean {
                 ", withdrawPassword='" + withdrawPassword + '\'' +
                 ", exp=" + exp +
                 ", idAccount='" + idAccount + '\'' +
-                ", registerTime='" + registerTime + '\'' +
-                ", lastTime='" + lastTime + '\'' +
-                ", freeTime='" + freeTime + '\'' +
-                ", memberGradeId=" + memberGradeId +
-                ", anchorGradeId=" + anchorGradeId +
-                ", type=" + type +
-                ", state=" + state +
-                ", anchorState=" + anchorState +
-                ", freeState=" + freeState +
+                ", memberGrade='" + memberGrade + '\'' +
+                ", memberGradeIcon='" + memberGradeIcon + '\'' +
+                ", anchorGrade='" + anchorGrade + '\'' +
+                ", anchorGradeIcon='" + anchorGradeIcon + '\'' +
+                ", isAnchor=" + isAnchor +
+                ", attentionNum=" + attentionNum +
+                ", virtualCoin=" + virtualCoin +
+                ", fansNum=" + fansNum +
+                ", giftNum=" + giftNum +
+                ", money=" + money +
                 '}';
     }
 }

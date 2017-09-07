@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.qclib.base.BaseLinearLayout;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.widget.customview.RatioImageView;
@@ -22,6 +23,8 @@ public class UserInfoLayout extends BaseLinearLayout {
     private ImageView mImgUserSex;
     private ImageView mImgAnchorLevel;  // 主播等级
     private ImageView mImgUserLevel;    // 用户等级
+
+    private String idTag;
 
     public UserInfoLayout(Context context) {
         this(context, null);
@@ -49,11 +52,25 @@ public class UserInfoLayout extends BaseLinearLayout {
         mImgAnchorLevel = (ImageView) mView.findViewById(R.id.img_anchor_level);
         mImgUserLevel = (ImageView) mView.findViewById(R.id.img_user_level);
 
-        refreshUserInfo();
+        idTag = getResources().getString(R.string.tag_id);
     }
 
-    public void refreshUserInfo() {
-        GlideUtil.loadCircleImage(mContext, mImgUserHead, "", R.drawable.icon_default_user,
-                0, 0, true, true);
+    public void refreshUserInfo(UserBean bean) {
+        if (bean != null) {
+            GlideUtil.loadCircleImage(mContext, mImgUserHead, bean.getHeadImg(), R.drawable.icon_user_head_default,
+                    0, 0, true, false);
+            mTvUserName.setText(bean.getNickName());
+            mTvUserId.setText(String.format(idTag, bean.getIdAccount()));
+            if (bean.getSex() == 0) {
+                mImgUserSex.setImageResource(R.drawable.icon_man);
+            } else {
+                mImgUserSex.setImageResource(R.drawable.icon_lady);
+            }
+            GlideUtil.loadCircleImage(mContext, mImgAnchorLevel, bean.getAnchorGradeIcon(), R.drawable.icon_anchor_level_1,
+                    0, 0, true, false);
+            GlideUtil.loadCircleImage(mContext, mImgUserLevel, bean.getMemberGradeIcon(), R.drawable.icon_user_level_v,
+                    0, 0, true, false);
+        }
+
     }
 }

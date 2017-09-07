@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.ui.mine.presenter.impl;
 
+import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.ui.mine.presenter.IEditUserPresenter;
 import com.qcloud.liveshow.ui.mine.view.IEditUserView;
 import com.qcloud.qclib.base.BasePresenter;
@@ -13,5 +14,14 @@ public class EditUserPresenterImpl extends BasePresenter<IEditUserView> implemen
 
     public EditUserPresenterImpl() {
 
+    }
+
+    @Override
+    public void onBtnClick(int viewId) {
+        switch (viewId) {
+            case R.id.img_user_head:
+                mView.onUserHeadClick();
+                break;
+        }
     }
 }
