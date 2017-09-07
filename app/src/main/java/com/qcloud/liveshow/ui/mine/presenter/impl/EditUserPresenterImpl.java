@@ -12,7 +12,7 @@ import com.qcloud.liveshow.ui.mine.view.IEditUserView;
 import com.qcloud.qclib.base.BasePresenter;
 import com.qcloud.qclib.beans.UploadFileBean;
 import com.qcloud.qclib.callback.DataCallback;
-import com.qcloud.qclib.callback.LoadFileCallback;
+import com.qcloud.qclib.callback.UploadCallback;
 import com.qcloud.qclib.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -51,33 +51,33 @@ public class EditUserPresenterImpl extends BasePresenter<IEditUserView> implemen
         if (StringUtils.isNotEmptyString(path)) {
             paths.add(path);
         }
-        mFileModel.uploadFile(paths, new LoadFileCallback() {
+        mFileModel.uploadFile(paths, new UploadCallback() {
             @Override
-            public void onAccept(int type, String acceptStr) {
-
+            public void onAccept(String acceptStr) {
+                Timber.e(acceptStr);
             }
 
             @Override
-            public void onNext(@NonNull Progress progress) {
-                // 已下载的文件大小
+            public void onProgress(@NonNull Progress progress) {
+                // 已上传的文件大小
                 int pro = (int) (progress.fraction * 10000);
                 Timber.e("progress = %d", pro);
             }
 
             @Override
-            public void onError(int type, String errMsg) {
+            public void onError(String errMsg) {
                 if (mView != null) {
                     mView.loadErr(true, errMsg);
                 }
             }
 
             @Override
-            public void onComplete(int type, String completeMsg) {
-
+            public void onComplete(String completeMsg) {
+                Timber.e(completeMsg);
             }
 
             @Override
-            public void onSuccess(int type, UploadFileBean bean) {
+            public void onSuccess(UploadFileBean bean) {
                 if (mView != null) {
                     mView.uploadSuccess(bean);
                 }

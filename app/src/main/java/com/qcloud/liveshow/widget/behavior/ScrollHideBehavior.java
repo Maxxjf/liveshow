@@ -60,7 +60,7 @@ public class ScrollHideBehavior extends CoordinatorLayout.Behavior<View> {
     @Override
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, View child, View target,
                                   int dx, int dy, int[] consumed) {
-        Timber.e("dx = %d", dx);
+        //Timber.e("dx = %d", dx);
 //        if (dy > 0 && mScrollingDirection != DIRECTION_UP) {
 //            mScrollingDirection = DIRECTION_UP;
 //            mScrollDistance = 0;

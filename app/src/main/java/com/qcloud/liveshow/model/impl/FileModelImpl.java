@@ -3,7 +3,7 @@ package com.qcloud.liveshow.model.impl;
 import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.liveshow.model.IFileModel;
-import com.qcloud.qclib.callback.LoadFileCallback;
+import com.qcloud.qclib.callback.UploadCallback;
 import com.qcloud.qclib.network.OkGoRequest;
 
 import java.io.File;
@@ -28,10 +28,15 @@ public class FileModelImpl implements IFileModel {
     /**
      * 上传文件
      *
+     * @param paths
+     *          文件路径
+     * @param callback
+     *          上传回调
+     *
      * @time 2017/9/7 16:02
      */
     @Override
-    public void uploadFile(List<String> paths, LoadFileCallback callback) {
+    public void uploadFile(List<String> paths, UploadCallback callback) {
         mParams = OkGoRequest.getAppParams();
         List<File> files = new ArrayList<>();
         if (paths != null && paths.size() > 0) {

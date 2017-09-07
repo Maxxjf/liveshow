@@ -104,7 +104,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
             @Override
             public void onViewClick(View view) {
                 if (view.getId() == R.id.btn_take_a_picture) {
-                    ImageSelectUtil.startCamena(getActivity(), REQUEST_CODE, screenW, screenW);
+                    ImageSelectUtil.startCamera(getActivity(), REQUEST_CODE, screenW, screenW);
                 } else if (view.getId() == R.id.btn_album) {
                     ImageSelectUtil.openPhoto(getActivity(), REQUEST_CODE, screenW, screenW);
                 }

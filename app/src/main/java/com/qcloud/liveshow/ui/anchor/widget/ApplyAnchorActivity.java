@@ -152,7 +152,7 @@ public class ApplyAnchorActivity extends SwipeBaseActivity<IApplyAnchorView, App
             @Override
             public void onViewClick(View view) {
                 if (view.getId() == R.id.btn_take_a_picture) {
-                    ImageSelectUtil.startCamena(ApplyAnchorActivity.this, REQUEST_CODE, screenW, screenW);
+                    ImageSelectUtil.startCamera(ApplyAnchorActivity.this, REQUEST_CODE, screenW, screenW);
                 } else if (view.getId() == R.id.btn_album) {
                     ImageSelectUtil.openPhoto(ApplyAnchorActivity.this, REQUEST_CODE, screenW, screenW);
                 }

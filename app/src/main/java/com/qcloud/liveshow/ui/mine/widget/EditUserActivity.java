@@ -160,7 +160,7 @@ public class EditUserActivity extends BaseActivity<IEditUserView, EditUserPresen
             @Override
             public void onViewClick(View view) {
                 if (view.getId() == R.id.btn_take_a_picture) {
-                    ImageSelectUtil.startCamena(EditUserActivity.this, REQUEST_CODE, screenW, screenW);
+                    ImageSelectUtil.startCamera(EditUserActivity.this, REQUEST_CODE, screenW, screenW);
                 } else if (view.getId() == R.id.btn_album) {
                     ImageSelectUtil.openPhoto(EditUserActivity.this, REQUEST_CODE, screenW, screenW);
                 }
