@@ -18,6 +18,7 @@ import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.RatioImageView;
 
@@ -27,6 +28,9 @@ import butterknife.OnClick;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 /**
  * 类说明：个人信息
@@ -145,10 +149,20 @@ public class UserInfoActivity extends SwipeBaseActivity<IUserInfoView, UserInfoP
             } else {
                 mImgUserSex.setImageResource(R.drawable.icon_lady);
             }
-            GlideUtil.loadCircleImage(this, mImgAnchorLevel, bean.getAnchorGradeIcon(), R.drawable.icon_anchor_level_1,
-                    0, 0, true, false);
-            GlideUtil.loadCircleImage(this, mImgUserLevel, bean.getMemberGradeIcon(), R.drawable.icon_user_level_v,
-                    0, 0, true, false);
+            if (StringUtils.isNotEmptyString(bean.getAnchorGradeIcon())) {
+                mImgAnchorLevel.setVisibility(VISIBLE);
+                GlideUtil.loadCircleImage(this, mImgAnchorLevel, bean.getAnchorGradeIcon(), R.drawable.icon_anchor_level_1,
+                        0, 0, true, false);
+            } else {
+                mImgAnchorLevel.setVisibility(GONE);
+            }
+            if (StringUtils.isNotEmptyString(bean.getMemberGradeIcon())) {
+                mImgUserLevel.setVisibility(VISIBLE);
+                GlideUtil.loadCircleImage(this, mImgUserLevel, bean.getMemberGradeIcon(), R.drawable.icon_user_level_v,
+                        0, 0, true, false);
+            } else {
+                mImgUserLevel.setVisibility(GONE);
+            }
             mTvUserId.setText(String.format(idTag, bean.getIdAccount()));
             mTvFollow.setText(bean.getAttentionNumStr());
             mTvFans.setText(bean.getFansNumStr());

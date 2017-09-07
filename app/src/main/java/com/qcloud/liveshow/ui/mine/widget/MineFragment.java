@@ -54,6 +54,10 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
 
     @BindString(R.string.money_str)
     String moneyStr;
+    @BindString(R.string.tag_long_num)
+    String longNumStr;
+    @BindString(R.string.tag_id)
+    String idTag;
 
     private UserBean mUser;
 
@@ -168,6 +172,22 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
             }
             if (mTvFans != null) {
                 mTvFans.setText(bean.getFansNumStr());
+            }
+            if (mLayoutLevel != null) {
+                if (bean.isAnchor()) {
+                    mLayoutLevel.setRemark(bean.getAnchorGrade());
+                } else {
+                    mLayoutLevel.setRemark(bean.getMemberGrade());
+                }
+            }
+            if (mLayoutDiamonds != null) {
+                mLayoutDiamonds.setRemark(bean.getVirtualCoin() + "个");
+            }
+            if (mLayoutGift != null) {
+                mLayoutGift.setRemark(bean.getGiftNum() + "个");
+            }
+            if (mLayoutExtensionCode != null) {
+                mLayoutExtensionCode.setRemark(String.format(idTag, bean.getIdAccount()));
             }
         }
     }

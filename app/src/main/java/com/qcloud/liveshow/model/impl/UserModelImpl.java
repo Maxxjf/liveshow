@@ -10,6 +10,9 @@ import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.network.BaseApi;
 import com.qcloud.qclib.network.OkGoRequest;
 
+import static android.R.attr.name;
+import static android.R.attr.type;
+
 /**
  * 类说明：用户有关
  * Author: Kuzan
@@ -97,5 +100,31 @@ public class UserModelImpl implements IUserModel {
         mParams = OkGoRequest.getAppParams();
 
         BaseApi.dispose(IUserApi.logout(mParams), callback);
+    }
+
+    /**
+     * 编辑用户
+     *
+     * @param headImg
+     *          用户头像
+     * @param nickName
+     *          昵称
+     * @param sex
+     *          性别 0男 1女
+     * @param signature
+     *          个性签名
+     * @param callback
+     *
+     * @time 2017/9/7 17:32
+     */
+    @Override
+    public void edit(String headImg, String nickName, int sex, String signature, DataCallback<ReturnEmptyBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+        mParams.put("headImg", headImg);
+        mParams.put("nickName", nickName);
+        mParams.put("sex", sex);
+        mParams.put("signature", signature);
+
+        BaseApi.dispose(IUserApi.edit(mParams), callback);
     }
 }

@@ -53,4 +53,11 @@ public class IUserApi {
 
         return OkGoRequest.getRequest(UrlConstants.LOGOUT, type, params);
     }
+
+    /**编辑用户*/
+    public static Observable<BaseResponse<ReturnEmptyBean>> edit(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.EDIT_USER, type, params);
+    }
 }

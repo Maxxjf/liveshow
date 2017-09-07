@@ -25,4 +25,7 @@ public interface IUserModel {
 
     /**退出登录*/
     void logout(DataCallback<ReturnEmptyBean> callback);
+
+    /**编辑用户*/
+    void edit(String headImg, String nickName, int sex, String signature, DataCallback<ReturnEmptyBean> callback);
 }

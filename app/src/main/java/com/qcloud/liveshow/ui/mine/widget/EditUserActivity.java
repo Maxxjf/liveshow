@@ -3,9 +3,11 @@ package com.qcloud.liveshow.ui.mine.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -23,6 +25,7 @@ import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.beans.RxBusEvent;
+import com.qcloud.qclib.beans.UploadFileBean;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.imageselect.utils.ImageSelectUtil;
 import com.qcloud.qclib.toast.ToastUtils;
@@ -60,10 +63,16 @@ public class EditUserActivity extends BaseActivity<IEditUserView, EditUserPresen
     EditText mEtSignature;
 
     private UserBean mUser;
+    private boolean isEdit = false;
 
     /**调用摄像头回调*/
     private final int REQUEST_CODE = 0x002;
     private SelectPicturePop mPicturePop;
+
+    private String mUserImg;
+    private String mNickname;
+    private String mSignature;
+    private int mSex;
 
     @Override
     protected int initLayout() {
@@ -97,6 +106,17 @@ public class EditUserActivity extends BaseActivity<IEditUserView, EditUserPresen
             mUser = UserInfoUtil.mUser;
             refreshUserInfo(mUser);
         }
+
+        mRgSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                if (i == mBtnMan.getId()) {
+                    mSex = 0;
+                } else {
+                    mSex = 1;
+                }
+            }
+        });
     }
 
     private void initRxBusEvent() {
@@ -117,9 +137,14 @@ public class EditUserActivity extends BaseActivity<IEditUserView, EditUserPresen
             @Override
             public void onBtnClick(View view) {
                 if (view.getId() == R.id.btn_right) {
-                    ToastUtils.ToastMessage(EditUserActivity.this, "保存");
+                    assignment();
+                    mPresenter.edit(mUserImg, mNickname, mSex, mSignature);
                 } else {
-                    showExitPop();
+                    if (!isEdit) {
+                        showExitPop();
+                    } else {
+                        finish();
+                    }
                 }
             }
         });
@@ -159,6 +184,18 @@ public class EditUserActivity extends BaseActivity<IEditUserView, EditUserPresen
         });
     }
 
+    /**
+     * 赋值
+     * */
+    private void assignment() {
+        if (mEtNickname != null) {
+            mNickname = mEtNickname.getText().toString().trim();
+        }
+        if (mEtSignature != null) {
+            mSignature = mEtSignature.getText().toString().trim();
+        }
+    }
+
     @OnClick({R.id.img_user_head})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
@@ -178,13 +215,34 @@ public class EditUserActivity extends BaseActivity<IEditUserView, EditUserPresen
             GlideUtil.loadCircleImage(mContext, mImgUserHead, bean.getHeadImg(), R.drawable.icon_user_head_default,
                     0, 0, true, false);
             mTvUserId.setText(bean.getIdAccount());
-            if (bean.getSex() == 0) {
+
+            mSex = bean.getSex();
+            mNickname = bean.getNickName();
+            mSignature = bean.getSignature();
+
+            if (mSex == 0) {
                 mRgSex.check(mBtnMan.getId());
             } else {
                 mRgSex.check(mBtnLady.getId());
             }
-            mEtNickname.setText(bean.getNickName());
-            mEtSignature.setText(bean.getSignature());
+            mEtNickname.setText(mNickname);
+            mEtSignature.setText(mSignature);
+        }
+    }
+
+    @Override
+    public void uploadSuccess(UploadFileBean bean) {
+        if (isRunning && bean != null) {
+            mUserImg = bean.getFileId();
+        }
+    }
+
+    @Override
+    public void editSuccess() {
+        if (isRunning) {
+            ToastUtils.ToastMessage(this, R.string.toast_edit_success);
+            UserInfoUtil.loadUserInfo();
+            isEdit = true;
         }
     }
 
@@ -206,11 +264,13 @@ public class EditUserActivity extends BaseActivity<IEditUserView, EditUserPresen
             if (requestCode == REQUEST_CODE) {
                 ArrayList<String> images = data.getStringArrayListExtra(ImageSelectUtil.SELECT_RESULT);
                 if (images != null && !images.isEmpty()) {
-                    if (isRunning && mImgUserHead != null) {
-                        GlideUtil.loadCircleImage(EditUserActivity.this, mImgUserHead,
-                                images.get(0), R.drawable.icon_user_head_default, 0, 0, true, false);
+                    if (isRunning) {
+                        if (mImgUserHead != null) {
+                            GlideUtil.loadCircleImage(EditUserActivity.this, mImgUserHead,
+                                    images.get(0), R.drawable.icon_user_head_default, 0, 0, true, false);
+                        }
+                        mPresenter.uploadHeadImg(images.get(0));
                     }
-                    //mPresenter.uploadFile(images.get(0));
                 } else {
                     ToastUtils.ToastMessage(mContext, R.string.toast_get_picture_failure);
                 }
@@ -228,5 +288,17 @@ public class EditUserActivity extends BaseActivity<IEditUserView, EditUserPresen
         if (mPicturePop != null && mPicturePop.isShowing()) {
             mPicturePop.dismiss();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (!isEdit) {
+                showExitPop();
+            } else {
+                finish();
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

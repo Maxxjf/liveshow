@@ -9,6 +9,7 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.qclib.base.BaseLinearLayout;
 import com.qcloud.qclib.image.GlideUtil;
+import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.widget.customview.RatioImageView;
 
 /**
@@ -66,10 +67,20 @@ public class UserInfoLayout extends BaseLinearLayout {
             } else {
                 mImgUserSex.setImageResource(R.drawable.icon_lady);
             }
-            GlideUtil.loadCircleImage(mContext, mImgAnchorLevel, bean.getAnchorGradeIcon(), R.drawable.icon_anchor_level_1,
-                    0, 0, true, false);
-            GlideUtil.loadCircleImage(mContext, mImgUserLevel, bean.getMemberGradeIcon(), R.drawable.icon_user_level_v,
-                    0, 0, true, false);
+            if (StringUtils.isNotEmptyString(bean.getAnchorGradeIcon())) {
+                mImgAnchorLevel.setVisibility(VISIBLE);
+                GlideUtil.loadCircleImage(mContext, mImgAnchorLevel, bean.getAnchorGradeIcon(), R.drawable.icon_anchor_level_1,
+                        0, 0, true, false);
+            } else {
+                mImgAnchorLevel.setVisibility(GONE);
+            }
+            if (StringUtils.isNotEmptyString(bean.getMemberGradeIcon())) {
+                mImgUserLevel.setVisibility(VISIBLE);
+                GlideUtil.loadCircleImage(mContext, mImgUserLevel, bean.getMemberGradeIcon(), R.drawable.icon_user_level_v,
+                        0, 0, true, false);
+            } else {
+                mImgUserLevel.setVisibility(GONE);
+            }
         }
 
     }

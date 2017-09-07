@@ -24,9 +24,18 @@ public interface UrlConstants {
     String GET_USER_INFO = URL_PREFIX_APP + "member/personalcenter";
     /**退出登录*/
     String LOGOUT = URL_PREFIX_APP + "member/logout";
+    /**编辑用户*/
+    String EDIT_USER = URL_PREFIX_APP + "member/edit";
 
     /**
      * 直播间有关
      * */
+    /**获取热门直播间*/
     String GET_HOT_LIST = URL_PREFIX_APP + "index/hotList";
+
+    /**
+     * 文件有关
+     * */
+    /**上传图片*/
+    String UPLOAD_FILE = URL_PREFIX_APP + "file/add";
 }

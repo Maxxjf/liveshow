@@ -1,5 +1,7 @@
 package com.qcloud.liveshow.beans;
 
+import com.qcloud.qclib.utils.StringUtils;
+
 /**
  * 类说明：用户信息
  * Author: Kuzan
@@ -113,7 +115,7 @@ public class UserBean {
     }
 
     public String getMemberGrade() {
-        return memberGrade;
+        return StringUtils.isEmptyString(memberGrade)?"" : memberGrade;
     }
 
     public void setMemberGrade(String memberGrade) {
@@ -129,7 +131,7 @@ public class UserBean {
     }
 
     public String getAnchorGrade() {
-        return anchorGrade;
+        return StringUtils.isEmptyString(anchorGrade)?"" : anchorGrade;
     }
 
     public void setAnchorGrade(String anchorGrade) {
