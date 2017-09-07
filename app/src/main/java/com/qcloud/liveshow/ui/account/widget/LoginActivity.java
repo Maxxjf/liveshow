@@ -10,9 +10,11 @@ import android.widget.TextView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.base.BaseApplication;
+import com.qcloud.liveshow.beans.FacebookUserBean;
 import com.qcloud.liveshow.beans.LoginBean;
 import com.qcloud.liveshow.beans.WeChatUserBean;
 import com.qcloud.liveshow.enums.StartMainEnum;
+import com.qcloud.liveshow.enums.ThirdLoginEnum;
 import com.qcloud.liveshow.ui.account.presenter.impl.LoginPresenterImpl;
 import com.qcloud.liveshow.ui.account.view.ILoginView;
 import com.qcloud.liveshow.ui.main.widget.MainActivity;
@@ -98,6 +100,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
         initRxBusEvent();
         if (BaseApplication.isLogin()) {
             UserInfoUtil.loadUserInfo();
+            startLoadingDialog();
         } else {
             initView();
         }
@@ -119,6 +122,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
         mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, new Consumer<RxBusEvent>() {
             @Override
             public void accept(@NonNull RxBusEvent rxBusEvent) throws Exception {
+                stopLoadingDialog();
                 if (rxBusEvent.getType() == BaseApi.NOT_LOGIN_STATUS_TYPE) {
                     Timber.e("未登录");
                     initView();
@@ -161,12 +165,12 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
 
     @Override
     public void onWeChatClick() {
-        UMShareAPI.get(mContext).doOauthVerify(this, SHARE_MEDIA.WEIXIN, authListener);
+        UMShareAPI.get(this).doOauthVerify(this, SHARE_MEDIA.WEIXIN, authListener);
     }
 
     @Override
     public void onFacebookClick() {
-        Timber.i("onFacebookClick");
+        UMShareAPI.get(this).doOauthVerify(this, SHARE_MEDIA.FACEBOOK, authListener);
     }
 
     @Override
@@ -213,7 +217,15 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
     public void weChatUserInfo(WeChatUserBean bean) {
         stopLoadingDialog();
         if (isRunning && bean != null) {
-            mPresenter.otherLogin(bean.getIconurl(), bean.getName(), bean.getOpenid(), bean.getSex(), 0);
+            mPresenter.otherLogin(bean.getIconurl(), bean.getName(), bean.getOpenid(), bean.getSex(), ThirdLoginEnum.WEXIN.getKey());
+        }
+    }
+
+    @Override
+    public void facebookUserInfo(FacebookUserBean bean) {
+        stopLoadingDialog();
+        if (isRunning && bean != null) {
+            mPresenter.otherLogin(bean.getIconurl(), bean.getName(), bean.getId()+"", 0, ThirdLoginEnum.FACEBOOK.getKey());
         }
     }
 
@@ -323,7 +335,8 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
          */
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
-            mPresenter.loadPlatformInfo(LoginActivity.this, SHARE_MEDIA.WEIXIN);
+            Timber.e(data.toString());
+            mPresenter.loadPlatformInfo(LoginActivity.this, platform);
         }
 
         /**

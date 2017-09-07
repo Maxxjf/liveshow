@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.ui.account.view;
 
+import com.qcloud.liveshow.beans.FacebookUserBean;
 import com.qcloud.liveshow.beans.LoginBean;
 import com.qcloud.liveshow.beans.WeChatUserBean;
 import com.qcloud.qclib.base.BaseView;
@@ -36,4 +37,7 @@ public interface ILoginView extends BaseView {
 
     /**微信用户信息*/
     void weChatUserInfo(WeChatUserBean bean);
+
+    /**Facebook用户信息*/
+    void facebookUserInfo(FacebookUserBean bean);
 }

@@ -11,6 +11,7 @@ import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.qcloud.liveshow.BuildConfig;
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.utils.FileLoggingTree;
 import com.qcloud.qclib.AppManager;
 import com.qcloud.qclib.FrameConfig;
@@ -70,7 +71,7 @@ public class BaseApplication extends Application {
         Config.DEBUG = true;
         QueuedWork.isUseThreadPool = false;
         UMShareAPI.get(this);
-        PlatformConfig.setWeixin("wx8d335bf844b9c273", "c23c1d9c477a29088e91ab1c72650be0");
+        PlatformConfig.setWeixin(AppConstants.WX_APP_ID, AppConstants.WX_APP_SECRET);
     }
 
     /**

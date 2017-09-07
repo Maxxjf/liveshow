@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">AV8D</string>
 
+    <string name="facebook_app_id">176951416183947</string>
+
     <string name="save">保存</string>
     <string name="edit">编辑</string>
     <string name="finish">完成</string>

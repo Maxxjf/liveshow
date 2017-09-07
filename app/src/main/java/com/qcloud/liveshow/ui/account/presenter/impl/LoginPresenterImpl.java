@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.FacebookUserBean;
 import com.qcloud.liveshow.beans.LoginBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.WeChatUserBean;
@@ -21,6 +22,8 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.lang.reflect.Type;
 import java.util.Map;
+
+import timber.log.Timber;
 
 /**
  * 类说明：登录有关数据处理
@@ -117,6 +120,7 @@ public class LoginPresenterImpl extends BasePresenter<ILoginView> implements ILo
 
     @Override
     public void loadPlatformInfo(Activity activity, SHARE_MEDIA media) {
+        Timber.e("media = " + media);
         UMShareAPI.get(activity).getPlatformInfo(activity, media, new UMAuthListener() {
             @Override
             public void onStart(SHARE_MEDIA share_media) {
@@ -130,19 +134,31 @@ public class LoginPresenterImpl extends BasePresenter<ILoginView> implements ILo
                 }
                 Gson gson = new Gson();
                 String jsonStr = GsonUtil.mapToJson(map);
-                Type type = new TypeToken<WeChatUserBean>(){}.getType();
-                WeChatUserBean bean = gson.fromJson(jsonStr, type);
-                if (bean != null) {
-                    mView.weChatUserInfo(bean);
+                if (share_media == SHARE_MEDIA.WEIXIN) {
+                    Type type = new TypeToken<WeChatUserBean>() {
+                    }.getType();
+                    WeChatUserBean bean = gson.fromJson(jsonStr, type);
+                    if (bean != null) {
+                        mView.weChatUserInfo(bean);
+                    } else {
+                        mView.loadErr(true, "获取微信用户信息失败");
+                    }
                 } else {
-                    mView.loadErr(true, "获取微信用户信息失败");
+                    Type type = new TypeToken<FacebookUserBean>() {
+                    }.getType();
+                    FacebookUserBean bean = gson.fromJson(jsonStr, type);
+                    if (bean != null) {
+                        mView.facebookUserInfo(bean);
+                    } else {
+                        mView.loadErr(true, "获取Facebook用户信息失败");
+                    }
                 }
             }
 
             @Override
             public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
                 if (mView != null) {
-                    mView.loadErr(true, "获取微信用户信息失败");
+                    mView.loadErr(true, "获取用户信息失败");
                 }
             }
 
