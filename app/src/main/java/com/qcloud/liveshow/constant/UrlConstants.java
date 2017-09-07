@@ -11,6 +11,9 @@ public interface UrlConstants {
     /**带app的url前缀*/
     String URL_PREFIX_APP = URL_PREFIX + "app/";
 
+    /**
+     * 用户有关
+     * */
     /**获取验证码*/
     String GET_CODE = URL_PREFIX_APP + "login/sendCode";
     /**普通登录*/
@@ -21,4 +24,9 @@ public interface UrlConstants {
     String GET_USER_INFO = URL_PREFIX_APP + "member/personalcenter";
     /**退出登录*/
     String LOGOUT = URL_PREFIX_APP + "member/logout";
+
+    /**
+     * 直播间有关
+     * */
+    String GET_HOT_LIST = URL_PREFIX_APP + "index/hotList";
 }

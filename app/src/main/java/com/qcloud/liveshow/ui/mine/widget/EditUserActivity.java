@@ -221,4 +221,12 @@ public class EditUserActivity extends BaseActivity<IEditUserView, EditUserPresen
     public static void openActivity(Context context) {
         context.startActivity(new Intent(context, EditUserActivity.class));
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mPicturePop != null && mPicturePop.isShowing()) {
+            mPicturePop.dismiss();
+        }
+    }
 }

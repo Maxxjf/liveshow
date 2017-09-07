@@ -195,5 +195,6 @@
     <string name="tag_anchor_top_profit">直播间收费上限</string>
     <string name="tag_customer_service_contact_way">客服联系方式：</string>
     <string name="tag_id">ID：%s</string>
+    <string name="tag_watch_num">%s人在看</string>
 
 </resources>

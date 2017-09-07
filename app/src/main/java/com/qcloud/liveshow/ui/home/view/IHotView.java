@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.ui.home.view;
 
-import com.qcloud.liveshow.beans.LiveShowBean;
+import com.qcloud.liveshow.beans.BannerBean;
+import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.qclib.base.BaseView;
 
 import java.util.List;
@@ -11,7 +12,8 @@ import java.util.List;
  * Date: 2017/8/11 11:25.
  */
 public interface IHotView extends BaseView {
-    void replaceBanner(List<String> list);
-
-    void replaceList(List<LiveShowBean> beans);
+    /**轮播图*/
+    void replaceBanner(List<BannerBean> list);
+    /**热门直播间*/
+    void replaceList(List<RoomBean> beans);
 }

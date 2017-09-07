@@ -52,6 +52,11 @@ public class WebActivity extends BaseActivity<IWebView, WebPresenterImpl> implem
     }
 
     @Override
+    protected boolean isStatusBarTextDark() {
+        return true;
+    }
+
+    @Override
     protected void initViewAndData() {
         initWebView();
 

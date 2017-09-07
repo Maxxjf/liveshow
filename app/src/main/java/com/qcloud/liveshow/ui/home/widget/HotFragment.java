@@ -13,21 +13,23 @@ import android.widget.ImageView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.HotAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
-import com.qcloud.liveshow.beans.LiveShowBean;
+import com.qcloud.liveshow.beans.BannerBean;
+import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.ui.home.presenter.impl.HotPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IHotView;
-import com.qcloud.liveshow.ui.room.widget.RoomActivity;
+import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
 import com.qcloud.qclib.swiperefresh.SwipeRefreshUtil;
+import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.ScreenUtils;
 import com.qcloud.qclib.widget.customview.banner.CustomBanner;
 import com.qcloud.qclib.widget.layoutManager.FullyLinearLayoutManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import timber.log.Timber;
 
 /**
  * 类说明：热门
@@ -65,7 +67,7 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
 
     @Override
     protected void beginLoad() {
-
+        loadData();
     }
 
     private void loadData() {
@@ -77,12 +79,6 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
         ViewGroup.LayoutParams lp = mBanner.getLayoutParams();
         lp.height = width * 320 / 690;
         mBanner.setLayoutParams(lp);
-
-        ArrayList<String> list = new ArrayList<>();
-        list.add("http://file.greencd.cn/file/get.do?uid=D09BF2AA53DA4C02B2D00C9B097F4CD6.jpg");
-        list.add("http://file.greencd.cn/file/get.do?uid=D09BF2AA53DA4C02B2D00C9B097F4CD6.jpg");
-        list.add("http://file.greencd.cn/file/get.do?uid=D09BF2AA53DA4C02B2D00C9B097F4CD6.jpg");
-        replaceBanner(list);
     }
 
     private void initRefreshLayout() {
@@ -146,15 +142,14 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
         mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                RoomActivity.openActivity(getActivity(), i, mAdapter.getList());
+                //RoomActivity.openActivity(getActivity(), i, mAdapter.getList());
             }
         });
-        loadData();
     }
 
     @Override
-    public void replaceBanner(List<String> list) {
-        mBanner.setPages(new CustomBanner.ViewCreator<String>() {
+    public void replaceBanner(List<BannerBean> list) {
+        mBanner.setPages(new CustomBanner.ViewCreator<BannerBean>() {
             @Override
             public View createView(Context context, int position) {
                 ImageView imageView = new ImageView(context);
@@ -164,10 +159,12 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
             }
 
             @Override
-            public void UpdateUI(Context context, View view, int position, String entity) {
+            public void UpdateUI(Context context, View view, int position, BannerBean bean) {
                 ImageView imageView = (ImageView) view;
                 imageView.setImageBitmap(null);
-                GlideUtil.loadImage(context, imageView, entity, R.drawable.bg_banner_default, true);
+                if (bean != null) {
+                    GlideUtil.loadImage(context, imageView, bean.getImg(), R.drawable.bg_banner_default, true, false);
+                }
             }
         }, list)
                 //设置两个点图片作为翻页指示器，不设置则没有指示器，可以根据自己需求自行配合自己的指示器,不需要圆点指示器可用不设
@@ -176,10 +173,17 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
                 .setIndicatorGravity(CustomBanner.IndicatorGravity.CENTER_HORIZONTAL)
                 //设置翻页的效果，不需要翻页效果可用不设
                 .startTurning(5000);
+        mBanner.setOnPageClickListener(new CustomBanner.OnPageClickListener() {
+            @Override
+            public void onPageClick(int position, Object o) {
+                BannerBean bean = (BannerBean) o;
+                WebActivity.openActivity(mContext, "热门活动", bean.getHandleUrl());
+            }
+        });
     }
 
     @Override
-    public void replaceList(List<LiveShowBean> beans) {
+    public void replaceList(List<RoomBean> beans) {
         if (isInFragment) {
             if (beans != null && beans.size() > 0) {
                 mAdapter.replaceList(beans);
@@ -189,6 +193,12 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
 
     @Override
     public void loadErr(boolean isShow, String errMsg) {
-
+        if (isInFragment) {
+            if (isShow) {
+                ToastUtils.ToastMessage(mContext, errMsg);
+            } else {
+                Timber.e(errMsg);
+            }
+        }
     }
 }
