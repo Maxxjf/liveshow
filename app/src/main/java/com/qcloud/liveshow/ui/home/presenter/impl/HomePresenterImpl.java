@@ -23,17 +23,17 @@ public class HomePresenterImpl extends BasePresenter<IHomeView> implements IHome
     public void createViewPager() {
         List<HomeViewPageBean> beans = new ArrayList<>();
         HomeViewPageBean bean = new HomeViewPageBean();
-        bean.setEnum(StartHomeEnum.START_HOT);
+        bean.setEnum(StartHomeEnum.StartHot);
         bean.setBadgeNum(0);
         beans.add(bean);
 
         bean = new HomeViewPageBean();
-        bean.setEnum(StartHomeEnum.START_NEWEST);
+        bean.setEnum(StartHomeEnum.StartNewest);
         bean.setBadgeNum(0);
         beans.add(bean);
 
         bean = new HomeViewPageBean();
-        bean.setEnum(StartHomeEnum.START_FOLLOW);
+        bean.setEnum(StartHomeEnum.StartFollow);
         bean.setBadgeNum(0);
         beans.add(bean);
 

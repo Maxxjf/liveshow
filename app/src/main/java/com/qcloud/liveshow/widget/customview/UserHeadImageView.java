@@ -60,10 +60,10 @@ public class UserHeadImageView extends BaseLinearLayout {
     public void setLevelModel(UserHeaderEnum model) {
         if (mImgAnchorLevel != null) {
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mImgAnchorLevel.getLayoutParams();
-            if (model == UserHeaderEnum.BIG) {
+            if (model == UserHeaderEnum.Big) {
                 params.width = R.dimen.margin_4;
                 params.height = R.dimen.margin_4;
-            } else if (model == UserHeaderEnum.SMALL) {
+            } else if (model == UserHeaderEnum.Small) {
                 params.width = R.dimen.margin_2;
                 params.height = R.dimen.margin_2;
             } else {

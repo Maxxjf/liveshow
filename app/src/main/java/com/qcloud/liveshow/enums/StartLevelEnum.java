@@ -7,9 +7,9 @@ package com.qcloud.liveshow.enums;
  */
 public enum StartLevelEnum {
     /**启动用户等级*/
-    START_USER(0, "用户等级"),
+    StartUser(0, "用户等级"),
     /**启动主播等级*/
-    START_ANCHOR(1, "主播等级");
+    StartAnchor(1, "主播等级");
 
     private int key;
     private String value;
@@ -22,11 +22,11 @@ public enum StartLevelEnum {
     public static StartLevelEnum valueOf(int key) {
         switch (key) {
             case 0:
-                return START_USER;
+                return StartUser;
             case 1:
-                return START_ANCHOR;
+                return StartAnchor;
             default:
-                return START_USER;
+                return StartUser;
         }
     }
 

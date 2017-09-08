@@ -24,12 +24,12 @@ public class MyLevelPresenterImpl extends BasePresenter<IMyLevelView> implements
     public void createViewPager() {
         List<LevelViewPageBean> beans = new ArrayList<>();
         LevelViewPageBean bean = new LevelViewPageBean();
-        bean.setEnum(StartLevelEnum.START_USER);
+        bean.setEnum(StartLevelEnum.StartUser);
         bean.setBadgeNum(0);
         beans.add(bean);
 
         bean = new LevelViewPageBean();
-        bean.setEnum(StartLevelEnum.START_ANCHOR);
+        bean.setEnum(StartLevelEnum.StartAnchor);
         bean.setBadgeNum(0);
         beans.add(bean);
 

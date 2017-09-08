@@ -3,9 +3,11 @@ package com.qcloud.liveshow.ui.anchor.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.IdRes;
 import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -14,22 +16,36 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.base.SwipeBaseActivity;
+import com.qcloud.liveshow.base.BaseActivity;
+import com.qcloud.liveshow.beans.SubmitApplyBean;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.ApplyAnchorPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IApplyAnchorView;
 import com.qcloud.liveshow.widget.pop.SelectPicturePop;
+import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.base.BasePopupWindow;
+import com.qcloud.qclib.beans.UploadFileBean;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.imageselect.utils.ImageSelectUtil;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.StringUtils;
+import com.qcloud.qclib.utils.ValidateUtil;
 import com.qcloud.qclib.widget.customview.LineTextView;
 import com.qcloud.qclib.widget.customview.RatioImageView;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
+import butterknife.BindString;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -37,7 +53,7 @@ import timber.log.Timber;
  * Author: Kuzan
  * Date: 2017/8/30 16:16.
  */
-public class ApplyAnchorActivity extends SwipeBaseActivity<IApplyAnchorView, ApplyAnchorPresenterImpl> implements IApplyAnchorView {
+public class ApplyAnchorActivity extends BaseActivity<IApplyAnchorView, ApplyAnchorPresenterImpl> implements IApplyAnchorView {
 
     @Bind(R.id.title_bar)
     TitleBar mTitleBar;
@@ -76,8 +92,26 @@ public class ApplyAnchorActivity extends SwipeBaseActivity<IApplyAnchorView, App
     @Bind(R.id.img_header)
     RatioImageView mImgHeader;
 
+    @BindString(R.string.toast_has_been_sent_to)
+    String hasBeenSendTo;
+    @BindString(R.string.btn_get_code)
+    String getCode;
+    @BindString(R.string.btn_get_code_after_second)
+    String getCodeAfter;
+
+    private Disposable mDisposable;
+
     private final int REQUEST_CODE = 0x011;
     private SelectPicturePop mPicturePop;
+
+    private String mRealName;
+    private String mNickname;
+    private int mSex = 0;
+    private String mContactWay;
+    private String mCode;
+    private String mPassword;
+    private String mImage;
+    private SubmitApplyBean mApplyBean;
 
     @Override
     protected int initLayout() {
@@ -104,6 +138,17 @@ public class ApplyAnchorActivity extends SwipeBaseActivity<IApplyAnchorView, App
         initTitleBar();
 
         initTagWidth();
+
+        mRgSex.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+                if (i == mBtnMan.getId()) {
+                    mSex = 0;
+                } else {
+                    mSex = 1;
+                }
+            }
+        });
     }
 
     private void initTitleBar() {
@@ -113,7 +158,7 @@ public class ApplyAnchorActivity extends SwipeBaseActivity<IApplyAnchorView, App
                 if (view.getId() == R.id.btn_right) {
                     onSubmitClick();
                 } else {
-                    finish();
+                    showExitPop();
                 }
             }
         });
@@ -160,6 +205,64 @@ public class ApplyAnchorActivity extends SwipeBaseActivity<IApplyAnchorView, App
         });
     }
 
+    private void showExitPop() {
+        final TipsPop pop = new TipsPop(this);
+        pop.setTips(R.string.toast_give_up_to_apply);
+        pop.showAtLocation(mImgHeader, Gravity.CENTER, 0, 0);
+        pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                if (view.getId() == R.id.btn_ok) {
+                    finish();
+                } else {
+                    pop.dismiss();
+                }
+            }
+        });
+    }
+
+    /**
+     * 启动定时器
+     * */
+    private void startTimer() {
+        Observable observable = Observable.interval(1, TimeUnit.SECONDS).take(60).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        mDisposable = observable.doOnDispose(new Action() {
+            @Override
+            public void run() throws Exception {
+                if (mBtnGetCode != null) {
+                    mBtnGetCode.setText(getCode);
+                    mBtnGetCode.setEnabled(true);
+                }
+            }
+        }).subscribe(new Consumer<Long>() {
+            @Override
+            public void accept(@NonNull Long aLong) throws Exception {
+                if (mBtnGetCode != null) {
+                    mBtnGetCode.setText(String.format(getCodeAfter, (60 - aLong)));
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                if (mBtnGetCode != null) {
+                    mBtnGetCode.setText(getCode);
+                    mBtnGetCode.setEnabled(true);
+                }
+            }
+        }, new Action() {
+            @Override
+            public void run() throws Exception {
+                Timber.e("onComplete");
+                if (mBtnGetCode != null) {
+                    mBtnGetCode.setText(getCode);
+                    mBtnGetCode.setEnabled(true);
+                }
+            }
+        });
+    }
+
     @OnClick({R.id.btn_get_code, R.id.img_header})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
@@ -167,7 +270,11 @@ public class ApplyAnchorActivity extends SwipeBaseActivity<IApplyAnchorView, App
 
     @Override
     public void onGetCodeClick() {
-        ToastUtils.ToastMessage(ApplyAnchorActivity.this, "获取验证码");
+        if (checkContactWay()) {
+            mPresenter.getCode(mContactWay);
+            mBtnGetCode.setEnabled(false);
+            startTimer();
+        }
     }
 
     @Override
@@ -180,17 +287,140 @@ public class ApplyAnchorActivity extends SwipeBaseActivity<IApplyAnchorView, App
 
     @Override
     public void onSubmitClick() {
-        ToastUtils.ToastMessage(ApplyAnchorActivity.this, "提交");
+        if (check()) {
+            mPresenter.submitApply(mApplyBean);
+        }
+    }
+
+    @Override
+    public void getCodeSuccess() {
+        if (isRunning) {
+            ToastUtils.ToastMessage(this, String.format(hasBeenSendTo, mContactWay));
+        }
+    }
+
+    @Override
+    public void getCodeFailure(String errMsg) {
+        if (isRunning) {
+            ToastUtils.ToastMessage(mContext, errMsg);
+            if (mDisposable != null && !mDisposable.isDisposed()) {
+                mDisposable.dispose();
+            }
+            if (mBtnGetCode != null) {
+                mBtnGetCode.setText(getCode);
+                mBtnGetCode.setEnabled(true);
+            }
+        }
+    }
+
+    @Override
+    public void uploadSuccess(UploadFileBean bean) {
+        if (isRunning && bean != null) {
+            mImage = bean.getFileId();
+            stopLoadingDialog();
+        }
+    }
+
+    @Override
+    public void submitSuccess() {
+        if (isRunning) {
+            ToastUtils.ToastMessage(this, R.string.toast_apply_success_submit);
+            finish();
+        }
     }
 
     @Override
     public void loadErr(boolean isShow, String errMsg) {
         if (isRunning) {
+            stopLoadingDialog();
             if (isShow) {
                 ToastUtils.ToastMessage(this, errMsg);
             } else {
                 Timber.e(errMsg);
             }
+        }
+    }
+
+    private boolean check() {
+        mRealName = mEtRealName.getText().toString().trim();
+        mNickname = mEtNickname.getText().toString().trim();
+        mCode = mEtVerificationCode.getText().toString().trim();
+        mPassword = mEtSetPassword.getText().toString().trim();
+
+        if (StringUtils.isEmptyString(mRealName)) {
+            ToastUtils.ToastMessage(this, R.string.input_real_name_hint);
+            mEtRealName.requestFocus();
+            return false;
+        }
+
+        if (StringUtils.isEmptyString(mNickname)) {
+            ToastUtils.ToastMessage(this, R.string.input_nickname_hint);
+            mEtNickname.requestFocus();
+            return false;
+        }
+
+        if (!checkContactWay()) {
+            return false;
+        }
+
+        if (StringUtils.isEmptyString(mCode)) {
+            ToastUtils.ToastMessage(this, R.string.toast_input_code);
+            mEtVerificationCode.requestFocus();
+            return false;
+        }
+
+        if (StringUtils.isEmptyString(mPassword)) {
+            ToastUtils.ToastMessage(this, R.string.input_six_number_hint);
+            mEtSetPassword.requestFocus();
+            return false;
+        }
+
+        if (!ValidateUtil.isNumPasswordAndSix(mPassword)) {
+            ToastUtils.ToastMessage(this, R.string.input_six_number_hint);
+            mEtSetPassword.requestFocus();
+            return false;
+        }
+
+        if (StringUtils.isEmptyString(mImage)) {
+            ToastUtils.ToastMessage(this, R.string.toast_upload_head_img);
+            return false;
+        }
+
+        mApplyBean = new SubmitApplyBean();
+        mApplyBean.setName(mRealName);
+        mApplyBean.setNickName(mNickname);
+        mApplyBean.setSex(mSex);
+        mApplyBean.setPhone(mContactWay);
+        mApplyBean.setCode(mCode);
+        mApplyBean.setWithdrawPassword(mPassword);
+        mApplyBean.setHeadImg(mImage);
+
+        return true;
+    }
+
+    private boolean checkContactWay() {
+        mContactWay = mEtContactWay.getText().toString().trim();
+
+        if (StringUtils.isEmptyString(mContactWay)) {
+            ToastUtils.ToastMessage(this, R.string.input_contact_way_hint);
+            mEtContactWay.requestFocus();
+            return false;
+        }
+
+        if (!ValidateUtil.isMobileOrEmail(mContactWay)) {
+            ToastUtils.ToastMessage(this, R.string.toast_input_right_mobile_or_email);
+            mEtContactWay.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
         }
     }
 
@@ -200,16 +430,27 @@ public class ApplyAnchorActivity extends SwipeBaseActivity<IApplyAnchorView, App
             if (requestCode == REQUEST_CODE) {
                 ArrayList<String> images = data.getStringArrayListExtra(ImageSelectUtil.SELECT_RESULT);
                 if (images != null && !images.isEmpty()) {
-                    if (isRunning && mImgHeader != null) {
+                    if (isRunning) {
+                        if (mImgHeader != null) {
                         GlideUtil.loadImage(mContext, mImgHeader,
                                 images.get(0), R.drawable.icon_user_head_default, 0, 0, true, false);
+                        }
+                        mPresenter.uploadHeadImg(images.get(0));
+                        startLoadingDialog();
                     }
-                    //mPresenter.uploadFile(images.get(0));
                 } else {
                     ToastUtils.ToastMessage(mContext, R.string.toast_get_picture_failure);
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            showExitPop();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public static void openActivity(Context context) {

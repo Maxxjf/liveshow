@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.ui.anchor.view;
 
 import com.qcloud.qclib.base.BaseView;
+import com.qcloud.qclib.beans.UploadFileBean;
 
 /**
  * 类说明：申请主播
@@ -16,4 +17,16 @@ public interface IApplyAnchorView extends BaseView {
 
     /**点击提交*/
     void onSubmitClick();
+
+    /**获取验证码成功*/
+    void getCodeSuccess();
+
+    /**获取验证码失败*/
+    void getCodeFailure(String errMsg);
+
+    /**上传头像成功*/
+    void uploadSuccess(UploadFileBean bean);
+
+    /**提交成功*/
+    void submitSuccess();
 }

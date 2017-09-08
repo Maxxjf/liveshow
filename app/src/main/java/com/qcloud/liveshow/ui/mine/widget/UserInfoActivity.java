@@ -130,18 +130,18 @@ public class UserInfoActivity extends SwipeBaseActivity<IUserInfoView, UserInfoP
 
     @Override
     public void onFollowClick() {
-        MyFansActivity.openActivity(this, StartFansEnum.MY_FOLLOW.getKey());
+        MyFansActivity.openActivity(this, StartFansEnum.MyFollow.getKey());
     }
 
     @Override
     public void onFansClick() {
-        MyFansActivity.openActivity(this, StartFansEnum.MY_FANS.getKey());
+        MyFansActivity.openActivity(this, StartFansEnum.MyFans.getKey());
     }
 
     @Override
     public void refreshUserInfo(UserBean bean) {
         if (isRunning && bean != null) {
-            GlideUtil.loadImage(this, mImgUser, mUser.getHeadImg(), R.drawable.icon_default_user, 0, 0, true, false);
+            GlideUtil.loadImage(this, mImgUser, mUser.getHeadImg(), R.drawable.bitmap_user, 0, 0, true, false);
 
             mTvUserName.setText(bean.getName());
             if (bean.getSex() == 0) {

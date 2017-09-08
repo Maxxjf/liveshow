@@ -59,6 +59,13 @@
     <string name="toast_logout_failure">退出登录失败</string>
     <string name="toast_give_up_to_edit">您确定要放弃编辑吗？</string>
     <string name="toast_edit_success">信息更新成功</string>
+    <string name="toast_apply_pending">您的主播申请正在审核中，请耐心等待~</string>
+    <string name="toast_apply_disagree">您的主播申请不通过，是否重新申请？</string>
+    <string name="toast_apply_disable">您的主播申请被禁用，请联系客服后重新申请。</string>
+    <string name="toast_apply_success_submit">您的主播申请已成功提交，请耐心待待~</string>
+    <string name="toast_give_up_to_apply">您确定要放弃主播申请吗？</string>
+    <string name="toast_input_right_mobile_or_email">请输入正确的手机号码或邮箱号码</string>
+    <string name="toast_upload_head_img">请上传一张自拍照或头像</string>
 
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>

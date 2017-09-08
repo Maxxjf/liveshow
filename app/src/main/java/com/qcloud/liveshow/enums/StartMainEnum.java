@@ -7,11 +7,11 @@ package com.qcloud.liveshow.enums;
  */
 public enum StartMainEnum {
     /**启动首页*/
-    START_HOME(0, "首页"),
+    StartHome(0, "首页"),
     /**启动直播*/
-    START_LIVE_SHOW(1, "直播"),
+    StartLiveShow(1, "直播"),
     /**启动我的*/
-    START_MINE(2, "我的");
+    StartMine(2, "我的");
 
     private int key;
     private String value;
@@ -24,13 +24,13 @@ public enum StartMainEnum {
     public static StartMainEnum valueOf(int key) {
         switch (key) {
             case 0:
-                return START_HOME;
+                return StartHome;
             case 1:
-                return START_LIVE_SHOW;
+                return StartLiveShow;
             case 2:
-                return START_MINE;
+                return StartMine;
             default:
-                return START_HOME;
+                return StartHome;
         }
     }
 

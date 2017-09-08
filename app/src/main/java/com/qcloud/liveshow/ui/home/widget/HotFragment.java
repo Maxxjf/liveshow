@@ -163,7 +163,7 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
                 ImageView imageView = (ImageView) view;
                 imageView.setImageBitmap(null);
                 if (bean != null) {
-                    GlideUtil.loadImage(context, imageView, bean.getImg(), R.drawable.bg_banner_default, true, false);
+                    GlideUtil.loadImage(context, imageView, bean.getImg(), R.drawable.bitmap_banner, true, false);
                 }
             }
         }, list)

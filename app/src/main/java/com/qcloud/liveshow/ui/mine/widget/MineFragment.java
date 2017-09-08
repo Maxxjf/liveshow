@@ -113,12 +113,12 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
 
     @Override
     public void onFollowClick() {
-        MyFansActivity.openActivity(getActivity(), StartFansEnum.MY_FOLLOW.getKey());
+        MyFansActivity.openActivity(getActivity(), StartFansEnum.MyFollow.getKey());
     }
 
     @Override
     public void onFansClick() {
-        MyFansActivity.openActivity(getActivity(), StartFansEnum.MY_FANS.getKey());
+        MyFansActivity.openActivity(getActivity(), StartFansEnum.MyFans.getKey());
     }
 
     @Override

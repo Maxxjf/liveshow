@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,10 +15,13 @@ import com.qcloud.liveshow.base.BaseApplication;
 import com.qcloud.liveshow.enums.StartHomeEnum;
 import com.qcloud.liveshow.enums.StartMainEnum;
 import com.qcloud.liveshow.ui.anchor.widget.AnchorActivity;
+import com.qcloud.liveshow.ui.anchor.widget.ApplyAnchorActivity;
 import com.qcloud.liveshow.ui.home.widget.HomeFragment;
 import com.qcloud.liveshow.ui.main.presenter.impl.MainPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.IMainView;
 import com.qcloud.liveshow.ui.mine.widget.MineFragment;
+import com.qcloud.liveshow.widget.pop.TipsPop;
+import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.permission.PermissionsManager;
 import com.qcloud.qclib.toast.ToastUtils;
 
@@ -92,7 +96,6 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
                         if (aBoolean) {
                             // 所有权限都开启aBoolean才为true，否则为false
                             Timber.e(getString(R.string.toast_permission_open));
-                            //ToastUtils.ToastMessage(MainActivity.this, R.string.toast_permission_open);
                         } else {
                             ToastUtils.ToastMessage(MainActivity.this, R.string.toast_permission_refuse);
                         }
@@ -122,7 +125,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     @Override
     public void onHomeClick() {
         if (mHomeFragment == null) {
-            mHomeFragment = HomeFragment.newInstance(StartHomeEnum.START_HOT.getKey());
+            mHomeFragment = HomeFragment.newInstance(StartHomeEnum.StartHot.getKey());
         }
         replaceFragment(mHomeFragment, R.id.fragment_container, false);
         clearEffect(mBtnHome);
@@ -130,8 +133,10 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
 
     @Override
     public void onLiveShowClick() {
-        //ApplyAnchorActivity.openActivity(this);
-        AnchorActivity.openActivity(this);
+        if (BaseApplication.loginAuth()) {
+            mPresenter.getApplyStatus();
+            startLoadingDialog();
+        }
     }
 
     @Override
@@ -143,12 +148,90 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         clearEffect(mBtnMine);
     }
 
+    @Override
+    public void showPending() {
+        // 审核中
+        Timber.e("审核中");
+        stopLoadingDialog();
+        if (isRunning && mBtnLiveShow != null) {
+            TipsPop pop = new TipsPop(this);
+            pop.setTips(R.string.toast_apply_pending);
+            pop.showCancel(false);
+            pop.showAtLocation(mBtnLiveShow, Gravity.CENTER, 0, 0);
+        }
+    }
+
+    @Override
+    public void showAgree() {
+        // 审核通过
+        Timber.e("审核通过");
+        stopLoadingDialog();
+        AnchorActivity.openActivity(this);
+    }
+
+    @Override
+    public void showDisagree() {
+        // 审核不通过
+        Timber.e("审核不通过");
+        stopLoadingDialog();
+        if (isRunning && mBtnLiveShow != null) {
+            final TipsPop pop = new TipsPop(this);
+            pop.setTips(R.string.toast_apply_disagree);
+            pop.setCancelBtn(R.string.btn_no);
+            pop.setOkBtn(R.string.btn_yes);
+            pop.showAtLocation(mBtnLiveShow, Gravity.CENTER, 0, 0);
+            pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+                @Override
+                public void onViewClick(View view) {
+                    if (view.getId() == R.id.btn_ok) {
+                        ApplyAnchorActivity.openActivity(MainActivity.this);
+                    } else {
+                        pop.dismiss();
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void showNotApply() {
+        // 未提交审核
+        Timber.e("未提交审核");
+        stopLoadingDialog();
+        ApplyAnchorActivity.openActivity(MainActivity.this);
+    }
+
+    @Override
+    public void showDisable() {
+        // 禁用
+        Timber.e("禁用");
+        stopLoadingDialog();
+        if (isRunning && mBtnLiveShow != null) {
+            TipsPop pop = new TipsPop(this);
+            pop.setTips(R.string.toast_apply_disable);
+            pop.showCancel(false);
+            pop.showAtLocation(mBtnLiveShow, Gravity.CENTER, 0, 0);
+        }
+    }
+
+    @Override
+    public void loadErr(boolean isShow, String errMsg) {
+        if (isRunning) {
+            stopLoadingDialog();
+            if (isShow) {
+                ToastUtils.ToastMessage(this, errMsg);
+            } else {
+                Timber.e(errMsg);
+            }
+        }
+    }
+
     private void switchStart(int startEnum) {
-        if (startEnum == StartMainEnum.START_HOME.getKey()) {
+        if (startEnum == StartMainEnum.StartHome.getKey()) {
             onHomeClick();
-        } else if (startEnum == StartMainEnum.START_LIVE_SHOW.getKey()) {
+        } else if (startEnum == StartMainEnum.StartLiveShow.getKey()) {
             onLiveShowClick();
-        } else if (startEnum == StartMainEnum.START_MINE.getKey()) {
+        } else if (startEnum == StartMainEnum.StartMine.getKey()) {
             onMineClick();
         } else {
             onHomeClick();

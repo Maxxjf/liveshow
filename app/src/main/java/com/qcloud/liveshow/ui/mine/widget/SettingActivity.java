@@ -61,7 +61,7 @@ public class SettingActivity extends SwipeBaseActivity<ISettingView, SettingPres
 
     @Override
     protected void initViewAndData() {
-        //SystemBarUtil.remeasureTitleBar(this, mTitleBar, ContextCompat.getColor(this, R.color.white));
+
     }
 
     @OnClick({R.id.layout_blacklist, R.id.layout_about_us, R.id.layout_clear_cache,
@@ -76,7 +76,7 @@ public class SettingActivity extends SwipeBaseActivity<ISettingView, SettingPres
 
     @Override
     public void onBlacklistClick() {
-        MyFansActivity.openActivity(this, StartFansEnum.BLACKLIST.getKey());
+        MyFansActivity.openActivity(this, StartFansEnum.Blacklist.getKey());
     }
 
     @Override

@@ -1,9 +1,5 @@
 package com.qcloud.liveshow.enums;
 
-import static com.qcloud.liveshow.enums.StartHomeEnum.START_FOLLOW;
-import static com.qcloud.liveshow.enums.StartHomeEnum.START_HOT;
-import static com.qcloud.liveshow.enums.StartHomeEnum.START_NEWEST;
-
 /**
  * 类说明：启动我的关注和我的粉丝和黑名单列表
  * Author: Kuzan
@@ -11,11 +7,11 @@ import static com.qcloud.liveshow.enums.StartHomeEnum.START_NEWEST;
  */
 public enum StartFansEnum {
     /**我的关注*/
-    MY_FOLLOW(1, "我的关注"),
+    MyFollow(1, "我的关注"),
     /**我的粉丝*/
-    MY_FANS(2, "我的粉丝"),
+    MyFans(2, "我的粉丝"),
     /**黑名单*/
-    BLACKLIST(3, "黑名单");
+    Blacklist(3, "黑名单");
 
     private int key;
     private String value;
@@ -28,13 +24,13 @@ public enum StartFansEnum {
     public static StartFansEnum valueOf(int key) {
         switch (key) {
             case 1:
-                return MY_FOLLOW;
+                return MyFollow;
             case 2:
-                return MY_FANS;
+                return MyFans;
             case 3:
-                return BLACKLIST;
+                return Blacklist;
             default:
-                return MY_FOLLOW;
+                return MyFollow;
         }
     }
 

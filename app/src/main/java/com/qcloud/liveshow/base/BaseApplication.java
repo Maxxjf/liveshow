@@ -12,7 +12,9 @@ import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.qcloud.liveshow.BuildConfig;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.constant.AppConstants;
+import com.qcloud.liveshow.ui.account.widget.LoginActivity;
 import com.qcloud.liveshow.utils.FileLoggingTree;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.AppManager;
 import com.qcloud.qclib.FrameConfig;
 import com.qcloud.qclib.utils.ConstantUtil;
@@ -40,7 +42,7 @@ import timber.log.Timber;
  */
 public class BaseApplication extends Application {
     private static BaseApplication mApplication;
-    private AppManager mAppManager; // Activity 管理器
+    private static AppManager mAppManager; // Activity 管理器
 
     @Override
     public void onCreate() {
@@ -133,5 +135,19 @@ public class BaseApplication extends Application {
      */
     public static boolean isLogin() {
         return StringUtils.isNotEmptyString(TokenUtil.getToken());
+    }
+
+    /**
+     * 登录验证
+     * 未登录跳转登录页面，已登录则往后执行
+     *
+     * @return true：已登录，往下执行，false：未登录，跳转登录页面
+     */
+    public static boolean loginAuth() {
+        if (!isLogin() || UserInfoUtil.mUser == null) {
+            LoginActivity.openActivity(mAppManager.getTopActivity());
+            return false;
+        }
+        return true;
     }
 }

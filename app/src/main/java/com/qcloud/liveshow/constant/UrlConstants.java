@@ -34,6 +34,16 @@ public interface UrlConstants {
     String GET_HOT_LIST = URL_PREFIX_APP + "index/hotList";
 
     /**
+     * 直播有关
+     * */
+    /**申请主播状态*/
+    String GET_APPLY_STATUS = URL_PREFIX_APP + "anchor/applyStatus";
+    /**获取验证码*/
+    String GET_APPLY_CODE = URL_PREFIX_APP + "anchor/sendCode";
+    /**提交申请*/
+    String SUBMIT_APPLY = URL_PREFIX_APP + "anchor/apply";
+
+    /**
      * 文件有关
      * */
     /**上传图片*/

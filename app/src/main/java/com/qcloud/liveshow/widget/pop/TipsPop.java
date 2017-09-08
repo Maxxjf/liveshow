@@ -2,6 +2,9 @@ package com.qcloud.liveshow.widget.pop;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.view.View;
@@ -41,6 +44,8 @@ public class TipsPop extends BasePopupWindow {
     LinearLayout mLayoutOk;
     @Bind(R.id.layout_btn)
     LinearLayout mLayoutBtn;
+    @Bind(R.id.line)
+    View mLine;
 
     public TipsPop(Context context) {
         super(context);
@@ -82,14 +87,10 @@ public class TipsPop extends BasePopupWindow {
         setPopWindowBg(1.0f);
     }
 
-    /**
-     * 标题
-     * */
-    public void setTitleColor(int color) {
+    /** 标题 */
+    public void setTitleColor(@ColorInt int color) {
         if (mTvTitle != null) {
-            if (color > 0) {
-                mTvTitle.setTextColor(color);
-            }
+            mTvTitle.setTextColor(color);
         }
     }
 
@@ -103,7 +104,7 @@ public class TipsPop extends BasePopupWindow {
         }
     }
 
-    public void setTitle(int resId) {
+    public void setTitle(@StringRes int resId) {
         if (mTvTitle != null) {
             if (resId > 0) {
                 mTvTitle.setText(resId);
@@ -113,14 +114,10 @@ public class TipsPop extends BasePopupWindow {
         }
     }
 
-    /**
-     * 提示内容
-     * */
-    public void setTipsColor(int color) {
+    /** 提示内容 */
+    public void setTipsColor(@ColorInt int color) {
         if (mTvTips != null) {
-            if (color > 0) {
-                mTvTips.setTextColor(color);
-            }
+            mTvTips.setTextColor(color);
         }
     }
 
@@ -134,7 +131,7 @@ public class TipsPop extends BasePopupWindow {
         }
     }
 
-    public void setTips(int resId) {
+    public void setTips(@StringRes int resId) {
         if (mTvTips != null) {
             if (resId > 0) {
                 mTvTips.setText(resId);
@@ -151,14 +148,10 @@ public class TipsPop extends BasePopupWindow {
         }
     }
 
-    /**
-     * 取消
-     * */
-    public void setCancelBtnColor(int color) {
+    /** 取消 */
+    public void setCancelBtnColor(@ColorInt int color) {
         if (mBtnCancel != null) {
-            if (color > 0) {
-                mBtnCancel.setTextColor(color);
-            }
+            mBtnCancel.setTextColor(color);
         }
     }
 
@@ -172,7 +165,7 @@ public class TipsPop extends BasePopupWindow {
         }
     }
 
-    public void setCancelBtn(int resId) {
+    public void setCancelBtn(@StringRes int resId) {
         if (mBtnCancel != null) {
             if (resId > 0) {
                 mBtnCancel.setText(resId);
@@ -182,7 +175,7 @@ public class TipsPop extends BasePopupWindow {
         }
     }
 
-    public void setCancelBtnBg(int resId) {
+    public void setCancelBtnBg(@DrawableRes int resId) {
         if (mBtnCancel != null) {
             if (resId > 0) {
                 mBtnCancel.setBackgroundResource(resId);
@@ -190,14 +183,10 @@ public class TipsPop extends BasePopupWindow {
         }
     }
 
-    /**
-     * 确认
-     * */
-    public void setOkBtnColor(int color) {
+    /** 确认 */
+    public void setOkBtnColor(@ColorInt int color) {
         if (mBtnOk != null) {
-            if (color > 0) {
-                mBtnOk.setTextColor(color);
-            }
+            mBtnOk.setTextColor(color);
         }
     }
 
@@ -211,7 +200,7 @@ public class TipsPop extends BasePopupWindow {
         }
     }
 
-    public void setOkBtn(int resId) {
+    public void setOkBtn(@StringRes int resId) {
         if (mBtnOk != null) {
             if (resId > 0) {
                 mBtnOk.setText(resId);
@@ -221,7 +210,7 @@ public class TipsPop extends BasePopupWindow {
         }
     }
 
-    public void setOkBtnBg(int resId) {
+    public void setOkBtnBg(@DrawableRes int resId) {
         if (mBtnOk != null) {
             if (resId > 0) {
                 mBtnOk.setBackgroundResource(resId);
@@ -238,6 +227,9 @@ public class TipsPop extends BasePopupWindow {
     public void showCancel(boolean isShow) {
         if (mLayoutCancel != null) {
             mLayoutCancel.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        }
+        if (mLine != null) {
+            mLine.setVisibility(isShow ? View.VISIBLE : View.GONE);
         }
     }
 

@@ -138,7 +138,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
     }
 
     private void toMain() {
-        MainActivity.openActivity(this, StartMainEnum.START_HOME.getKey());
+        MainActivity.openActivity(this, StartMainEnum.StartHome.getKey());
         finish();
     }
 

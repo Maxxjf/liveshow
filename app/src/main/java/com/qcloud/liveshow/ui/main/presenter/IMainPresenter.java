@@ -8,4 +8,6 @@ import com.qcloud.qclib.base.BtnClickPresenter;
  * Date: 2017/8/1 19:17.
  */
 public interface IMainPresenter extends BtnClickPresenter {
+    /**获取主播申请状态*/
+    void getApplyStatus();
 }

@@ -1,9 +1,5 @@
 package com.qcloud.liveshow.enums;
 
-import static com.qcloud.liveshow.enums.StartMainEnum.START_HOME;
-import static com.qcloud.liveshow.enums.StartMainEnum.START_LIVE_SHOW;
-import static com.qcloud.liveshow.enums.StartMainEnum.START_MINE;
-
 /**
  * 类说明：用户头像大小
  * Author: Kuzan
@@ -11,11 +7,11 @@ import static com.qcloud.liveshow.enums.StartMainEnum.START_MINE;
  */
 public enum UserHeaderEnum {
     /**默认*/
-    DEFAULT(0, "默认"),
+    Default(0, "默认"),
     /**大图*/
-    BIG(1, "大图"),
+    Big(1, "大图"),
     /**小图*/
-    SMALL(2, "小图");
+    Small(2, "小图");
 
     private int key;
     private String value;
@@ -28,13 +24,13 @@ public enum UserHeaderEnum {
     public static UserHeaderEnum valueOf(int key) {
         switch (key) {
             case 0:
-                return DEFAULT;
+                return Default;
             case 1:
-                return BIG;
+                return Big;
             case 2:
-                return SMALL;
+                return Small;
             default:
-                return DEFAULT;
+                return Default;
         }
     }
 

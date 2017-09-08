@@ -34,7 +34,7 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
 
     private MyFansAdapter mAdapter;
 
-    private int type = StartFansEnum.MY_FOLLOW.getKey();
+    private int type = StartFansEnum.MyFollow.getKey();
 
     @Override
     protected int initLayout() {
@@ -60,7 +60,7 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
     protected void initViewAndData() {
         //SystemBarUtil.remeasureTitleBar(this, mTitleBar, ContextCompat.getColor(this, R.color.white));
 
-        type = getIntent().getIntExtra("TYPE", StartFansEnum.MY_FOLLOW.getKey());
+        type = getIntent().getIntExtra("TYPE", StartFansEnum.MyFollow.getKey());
         mTitleBar.setTitle(StartFansEnum.valueOf(type).getValue());
 
         initListLayout();
