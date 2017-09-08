@@ -212,7 +212,7 @@ public class EditUserActivity extends BaseActivity<IEditUserView, EditUserPresen
     @Override
     public void refreshUserInfo(UserBean bean) {
         if (isRunning && bean != null) {
-            GlideUtil.loadCircleImage(mContext, mImgUserHead, bean.getHeadImg(), R.drawable.icon_user_head_default,
+            GlideUtil.loadCircleImage(mContext, mImgUserHead, bean.getHeadImg(), R.drawable.bitmap_user_head,
                     0, 0, true, false);
             mTvUserId.setText(bean.getIdAccount());
 
@@ -267,7 +267,7 @@ public class EditUserActivity extends BaseActivity<IEditUserView, EditUserPresen
                     if (isRunning) {
                         if (mImgUserHead != null) {
                             GlideUtil.loadCircleImage(EditUserActivity.this, mImgUserHead,
-                                    images.get(0), R.drawable.icon_user_head_default, 0, 0, true, false);
+                                    images.get(0), R.drawable.bitmap_user_head, 0, 0, true, false);
                         }
                         mPresenter.uploadHeadImg(images.get(0));
                     }

@@ -190,7 +190,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
                 if (images != null && !images.isEmpty()) {
                     if (isInFragment && mImgCover != null) {
                         GlideUtil.loadImage(mContext, mImgCover,
-                                images.get(0), R.drawable.icon_user_head_default, 0, 0, true, false);
+                                images.get(0), R.drawable.bitmap_user_head, 0, 0, true, false);
                     }
                     //mPresenter.uploadFile(images.get(0));
                 } else {

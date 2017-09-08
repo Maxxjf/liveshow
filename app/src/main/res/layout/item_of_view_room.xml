@@ -7,6 +7,6 @@
         android:id="@+id/img_anchor"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/icon_default_user"
+        android:background="@drawable/bitmap_user"
         android:scaleType="centerCrop" />
 </FrameLayout>

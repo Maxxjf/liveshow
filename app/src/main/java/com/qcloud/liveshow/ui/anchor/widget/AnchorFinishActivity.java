@@ -69,7 +69,7 @@ public class AnchorFinishActivity extends BaseActivity<IAnchorFinishView, Anchor
 
     @Override
     protected void initViewAndData() {
-        GlideUtil.loadCircleImage(this, mImgUserHead, "", R.drawable.icon_default_user, 0, 0, true, false);
+        GlideUtil.loadCircleImage(this, mImgUserHead, "", R.drawable.bitmap_user_head, 0, 0, true, false);
     }
 
     @Override

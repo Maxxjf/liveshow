@@ -433,7 +433,7 @@ public class ApplyAnchorActivity extends BaseActivity<IApplyAnchorView, ApplyAnc
                     if (isRunning) {
                         if (mImgHeader != null) {
                         GlideUtil.loadImage(mContext, mImgHeader,
-                                images.get(0), R.drawable.icon_user_head_default, 0, 0, true, false);
+                                images.get(0), R.drawable.bitmap_user_head, 0, 0, true, false);
                         }
                         mPresenter.uploadHeadImg(images.get(0));
                         startLoadingDialog();

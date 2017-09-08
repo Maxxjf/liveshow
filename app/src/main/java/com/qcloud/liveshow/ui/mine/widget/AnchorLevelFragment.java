@@ -61,7 +61,7 @@ public class AnchorLevelFragment extends BaseFragment<IAnchorLevelView, AnchorLe
 
     @Override
     protected void beginLoad() {
-        GlideUtil.loadCircleImage(getActivity(), mImgUser, "", R.drawable.icon_default_user, 0, 0, true, false);
+        GlideUtil.loadCircleImage(getActivity(), mImgUser, "", R.drawable.bitmap_user_head, 0, 0, true, false);
     }
 
     private void initLevelNameLayout() {

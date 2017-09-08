@@ -44,7 +44,7 @@
             android:id="@+id/img_user_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_user_head_default"
+            android:src="@drawable/bitmap_user_head"
             myapp:ratio="1.0"
             myapp:width="150"/>
 

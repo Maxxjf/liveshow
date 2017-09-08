@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/margin_small"
-            android:src="@drawable/icon_user_head_default"
+            android:src="@drawable/bitmap_user_head"
             myapp:ratio="1"
             myapp:width="180"/>
 

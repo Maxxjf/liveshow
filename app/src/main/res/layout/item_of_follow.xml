@@ -86,7 +86,7 @@
             android:id="@+id/img_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_default_user"
+            android:src="@drawable/bitmap_user"
             android:scaleType="fitXY"
             myapp:ratio="1"/>
 

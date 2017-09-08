@@ -46,7 +46,7 @@ public class RoomAdapter extends PagerAdapter {
         ImageView imgAnchor = (ImageView) view.findViewById(R.id.img_anchor);
         if (bean.getCreator() != null) {
             GlideUtil.loadImage(mContext, imgAnchor, bean.getCreator().getPortrait()+"?x-oss-process=image/resize,m_fixed,h_320,w_180",
-                    R.drawable.icon_default_user, true);
+                    R.drawable.bitmap_user, true);
         }
         container.addView(view);
         return view;

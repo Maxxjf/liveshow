@@ -58,7 +58,7 @@ public class UserInfoLayout extends BaseLinearLayout {
 
     public void refreshUserInfo(UserBean bean) {
         if (bean != null) {
-            GlideUtil.loadCircleImage(mContext, mImgUserHead, bean.getHeadImg(), R.drawable.icon_user_head_default,
+            GlideUtil.loadCircleImage(mContext, mImgUserHead, bean.getHeadImg(), R.drawable.bitmap_user_head,
                     0, 0, true, false);
             mTvUserName.setText(bean.getNickName());
             mTvUserId.setText(String.format(idTag, bean.getIdAccount()));
@@ -82,6 +82,5 @@ public class UserInfoLayout extends BaseLinearLayout {
                 mImgUserLevel.setVisibility(GONE);
             }
         }
-
     }
 }

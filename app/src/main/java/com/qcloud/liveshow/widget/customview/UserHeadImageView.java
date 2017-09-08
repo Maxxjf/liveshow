@@ -78,7 +78,7 @@ public class UserHeadImageView extends BaseLinearLayout {
      * 加载图片
      *
      * @param imgUrl 图片地址
-     * @param levelRes  主播等级
+     * @param levelUrl  主播等级
      * @param size 图片大小
      * */
     public void loadImage(String imgUrl, String levelUrl, int size) {
@@ -87,7 +87,7 @@ public class UserHeadImageView extends BaseLinearLayout {
         }
         if (mImgUserHead != null) {
             mImgUserHead.setWidth(size);
-            GlideUtil.loadCircleImage(mContext, mImgUserHead, imgUrl, R.drawable.icon_default_user,
+            GlideUtil.loadCircleImage(mContext, mImgUserHead, imgUrl, R.drawable.bitmap_user_head,
                     0, 0, true, false);
         }
 
@@ -110,7 +110,7 @@ public class UserHeadImageView extends BaseLinearLayout {
         }
         if (mImgUserHead != null) {
             mImgUserHead.setWidth(size);
-            GlideUtil.loadCircleImage(mContext, mImgUserHead, imgUrl, R.drawable.icon_default_user,
+            GlideUtil.loadCircleImage(mContext, mImgUserHead, imgUrl, R.drawable.bitmap_user_head,
                     0, 0, true, true);
         }
 
@@ -137,7 +137,7 @@ public class UserHeadImageView extends BaseLinearLayout {
         }
         if (mImgUserHead != null) {
             mImgUserHead.setWidth(size);
-            GlideUtil.loadCircleImage(mContext, mImgUserHead, imgUrl, R.drawable.icon_default_user,
+            GlideUtil.loadCircleImage(mContext, mImgUserHead, imgUrl, R.drawable.bitmap_user_head,
                     0, 0, true, true);
         }
 

@@ -84,7 +84,7 @@
                     android:layout_marginTop="@dimen/layout_margin"
                     android:layout_marginBottom="@dimen/margin_4"
                     android:scaleType="centerInside"
-                    android:src="@drawable/icon_add_picture"
+                    android:src="@drawable/bitmap_add_picture"
                     myapp:width="300"
                     myapp:ratio="1"/>
 
