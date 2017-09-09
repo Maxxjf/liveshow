@@ -91,7 +91,7 @@ public class SettingActivity extends SwipeBaseActivity<ISettingView, SettingPres
 
     @Override
     public void onProblemClick() {
-        ToastUtils.ToastMessage(this, "常见问题");
+        ProblemActivity.openActivity(this);
     }
 
     @Override

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:paddingLeft="@dimen/layout_margin"
+        android:paddingRight="@dimen/layout_margin"
+        android:gravity="center_vertical"
+        android:drawableRight="@drawable/icon_gray_down_arrow"
+        android:textColor="@color/colorTitle"
+        android:textSize="@dimen/micro_text_size"
+        android:text="1.如何扫码积分" />
+
+    <com.qcloud.liveshow.widget.customview.SpreadLayout
+        android:id="@+id/sl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/tab_height"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+
+        <View
+            style="@style/LineVertical"
+            android:layout_marginLeft="@dimen/layout_margin"
+            android:layout_marginRight="@dimen/layout_margin" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/margin_4"
+            android:paddingRight="@dimen/margin_4"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/micro_text_size"
+            android:text="我就是这么6"/>
+
+    </com.qcloud.liveshow.widget.customview.SpreadLayout>
+
+    <View style="@style/LineVertical" />
+</LinearLayout>
