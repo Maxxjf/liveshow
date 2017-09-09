@@ -1,8 +1,10 @@
 package com.qcloud.liveshow.ui.home.presenter.impl;
 
 import com.qcloud.liveshow.beans.HotRoomBean;
+import com.qcloud.liveshow.beans.RetBean;
 import com.qcloud.liveshow.model.IRoomModel;
 import com.qcloud.liveshow.model.impl.RoomModelImpl;
+import com.qcloud.liveshow.model.impl.TestModelImpl;
 import com.qcloud.liveshow.ui.home.presenter.IHotPresenter;
 import com.qcloud.liveshow.ui.home.view.IHotView;
 import com.qcloud.qclib.base.BasePresenter;
@@ -31,9 +33,7 @@ public class HotPresenterImpl extends BasePresenter<IHotView> implements IHotPre
                 }
                 if (hotRoomBean != null) {
                     mView.replaceBanner(hotRoomBean.getImgList());
-                }
-                if (hotRoomBean != null) {
-                    mView.replaceList(hotRoomBean.getRoomList());
+                    //mView.replaceList(hotRoomBean.getRoomList());
                 }
             }
 
@@ -42,6 +42,26 @@ public class HotPresenterImpl extends BasePresenter<IHotView> implements IHotPre
                 if (mView != null) {
                     mView.loadErr(true, errMsg);
                 }
+            }
+        });
+    }
+
+    @Override
+    public void loadTest() {
+        new TestModelImpl().loadData(new DataCallback<RetBean>() {
+            @Override
+            public void onSuccess(RetBean retBean) {
+                if (mView == null) {
+                    return;
+                }
+                if (retBean != null) {
+                    mView.replaceList(retBean.getLives());
+                }
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.model;
 
+import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.LoginBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.UserBean;
@@ -12,7 +13,7 @@ import com.qcloud.qclib.callback.DataCallback;
  */
 public interface IUserModel {
     /**获取验证码*/
-    void getCode(String mobile, DataCallback<ReturnEmptyBean> callback);
+    void getCode(String mobile, DataCallback<GetCodeResBean> callback);
 
     /**手机号登录*/
     void loginNormal(String mobile, String code, DataCallback<LoginBean> callback);

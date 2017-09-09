@@ -79,7 +79,7 @@
     <string name="input_search_anchor_hint">请输入用户名或用户ID进行搜索</string>
     <string name="input_real_name_hint">请输入真实姓名</string>
     <string name="input_nickname_hint">请输入昵称</string>
-    <string name="input_contact_way_hint">请输入手机号或邮箱</string>
+    <string name="input_contact_way_hint">请输入手机号</string>
     <string name="input_verification_code_hint">请输入收到的验证码</string>
     <string name="input_six_number_hint">请输入6位数字</string>
     <string name="input_withdraw_cash_num">请输入至少100元，不超过4500元</string>
@@ -181,10 +181,14 @@
     <string name="tag_change_cover">更换页面</string>
     <string name="tag_title">标题：</string>
     <string name="tag_notice">公告：</string>
+    <string name="tag_toll_standard_title">收费标准</string>
     <string name="tag_toll_standard">收费标准\t(必填)\t:</string>
     <string name="tag_toll_standard2">个钻石币/分钟</string>
     <string name="tag_toll_standard_remark">设置0个则表示您的直播不收费哦，最高不得超过%d钻石币/分钟</string>
     <string name="tag_toll_period">收费时段\t(选填)\t:</string>
+    <string name="tag_start_time">开始时间</string>
+    <string name="tag_hour_minute">%1$s:%2$s</string>
+    <string name="tag_end_time">结束时间</string>
     <string name="tag_toll_period_remark">不设置的话默认全程哦</string>
     <string name="tag_anchor_state_not">直播还未开始</string>
     <string name="tag_anchor_state_ing">直播正在进行中</string>

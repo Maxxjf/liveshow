@@ -14,10 +14,11 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.HotAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.BannerBean;
-import com.qcloud.liveshow.beans.RoomBean;
+import com.qcloud.liveshow.beans.LiveShowBean;
 import com.qcloud.liveshow.ui.home.presenter.impl.HotPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IHotView;
 import com.qcloud.liveshow.ui.main.widget.WebActivity;
+import com.qcloud.liveshow.ui.room.widget.RoomActivity;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
 import com.qcloud.qclib.swiperefresh.SwipeRefreshUtil;
@@ -142,9 +143,11 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
         mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //RoomActivity.openActivity(getActivity(), i, mAdapter.getList());
+                RoomActivity.openActivity(getActivity(), i, mAdapter.getList());
             }
         });
+        mPresenter.loadTest();
+        startLoadingDialog();
     }
 
     @Override
@@ -183,8 +186,9 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
     }
 
     @Override
-    public void replaceList(List<RoomBean> beans) {
+    public void replaceList(List<LiveShowBean> beans) {
         if (isInFragment) {
+            stopLoadingDialog();
             if (beans != null && beans.size() > 0) {
                 mAdapter.replaceList(beans);
             }

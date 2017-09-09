@@ -2,6 +2,7 @@ package com.qcloud.liveshow.ui.anchor.presenter.impl;
 
 import com.lzy.okgo.model.Progress;
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.SubmitApplyBean;
 import com.qcloud.liveshow.model.IAnchorModel;
@@ -47,11 +48,11 @@ public class ApplyAnchorPresenterImpl extends BasePresenter<IApplyAnchorView> im
 
     @Override
     public void getCode(String contactWay) {
-        mModel.getCode(contactWay, new DataCallback<ReturnEmptyBean>() {
+        mModel.getCode(contactWay, new DataCallback<GetCodeResBean>() {
             @Override
-            public void onSuccess(ReturnEmptyBean returnEmptyBean) {
-                if (mView != null) {
-                    mView.getCodeSuccess();
+            public void onSuccess(GetCodeResBean bean) {
+                if (mView != null && bean != null) {
+                    mView.getCodeSuccess(bean.getCode());
                 }
             }
 

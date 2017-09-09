@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.model.impl;
 
 import com.lzy.okgo.model.HttpParams;
+import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.LoginBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.UserBean;
@@ -9,9 +10,6 @@ import com.qcloud.liveshow.net.IUserApi;
 import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.network.BaseApi;
 import com.qcloud.qclib.network.OkGoRequest;
-
-import static android.R.attr.name;
-import static android.R.attr.type;
 
 /**
  * 类说明：用户有关
@@ -33,7 +31,7 @@ public class UserModelImpl implements IUserModel {
      * @time 2017/9/6 12:07
      */
     @Override
-    public void getCode(String mobile, DataCallback<ReturnEmptyBean> callback) {
+    public void getCode(String mobile, DataCallback<GetCodeResBean> callback) {
         mParams = OkGoRequest.getAppParams();
         mParams.put("phone", mobile);
 

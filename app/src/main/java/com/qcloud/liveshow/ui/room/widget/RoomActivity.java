@@ -114,7 +114,7 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
                     @Override
                     public void onShowThumbnail(ImageView ivThumbnail) {
                         GlideUtil.loadImage(mContext, ivThumbnail, currImage+"?x-oss-process=image/resize,m_fixed,h_320,w_180",
-                                R.drawable.bitmap_user_head, true);
+                                R.drawable.bitmap_user, true);
                     }
                 })
                 .setPlaySource(currUrl)

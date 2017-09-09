@@ -31,6 +31,21 @@ public class PreAnchorPresenterImpl extends BasePresenter<IPreAnchorView> implem
             case R.id.layout_change_cover:
                 mView.onChangeCoverClick();
                 break;
+            case R.id.tv_title:
+                mView.onInputTitleClick();
+                break;
+            case R.id.tv_notice:
+                mView.onInputNoticeClick();
+                break;
+            case R.id.img_title_clear:
+                mView.onClearTitleClick();
+                break;
+            case R.id.img_notice_clear:
+                mView.onClearNoticeClick();
+                break;
+            case R.id.tv_toll_standard:
+                mView.onSelectDiamondsClick();
+                break;
             case R.id.btn_time_start:
                 mView.onTimeStartClick();
                 break;

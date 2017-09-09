@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.ApplyStatusBean;
+import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.SubmitApplyBean;
 import com.qcloud.liveshow.model.IAnchorModel;
@@ -47,7 +48,7 @@ public class AnchorModelImpl implements IAnchorModel {
      * @time 2017/9/8 11:59
      */
     @Override
-    public void getCode(String contactWay, DataCallback<ReturnEmptyBean> callback) {
+    public void getCode(String contactWay, DataCallback<GetCodeResBean> callback) {
         mParams = OkGoRequest.getAppParams();
         mParams.put("phone", contactWay);
 

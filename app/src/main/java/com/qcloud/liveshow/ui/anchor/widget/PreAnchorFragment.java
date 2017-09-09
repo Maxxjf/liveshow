@@ -1,28 +1,33 @@
 package com.qcloud.liveshow.ui.anchor.widget;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.PreAnchorPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IPreAnchorView;
+import com.qcloud.liveshow.widget.dialog.InputDialog;
 import com.qcloud.liveshow.widget.pop.SelectPicturePop;
+import com.qcloud.liveshow.widget.pop.TollStandardPicker;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.imageselect.utils.ImageSelectUtil;
 import com.qcloud.qclib.toast.ToastUtils;
-import com.qcloud.qclib.widget.customview.ClearEditText;
+import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.RatioImageView;
 import com.qcloud.qclib.widget.customview.wheelview.DateTimePicker;
 import com.qcloud.qclib.widget.customview.wheelview.TimePicker;
+import com.qcloud.qclib.widget.customview.wheelview.WheelView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,12 +52,16 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     RatioImageView mImgCover;
     @Bind(R.id.layout_change_cover)
     FrameLayout mLayoutChangeCover;
-    @Bind(R.id.et_title)
-    ClearEditText mEtTitle;
-    @Bind(R.id.et_notice)
-    ClearEditText mEtNotice;
-    @Bind(R.id.et_toll_standard)
-    EditText mEtTollStandard;
+    @Bind(R.id.tv_title)
+    TextView mTvTitle;
+    @Bind(R.id.img_title_clear)
+    ImageView mImgTitleClear;
+    @Bind(R.id.tv_notice)
+    TextView mTvNotice;
+    @Bind(R.id.img_notice_clear)
+    ImageView mImgNoticeClear;
+    @Bind(R.id.tv_toll_standard)
+    TextView mTvTollStandard;
     @Bind(R.id.tv_toll_standard_remark)
     TextView mTvTollStandardRemark;
     @Bind(R.id.btn_time_start)
@@ -64,6 +73,8 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
 
     @BindString(R.string.tag_toll_standard_remark)
     String tollStandardRemark;
+    @BindString(R.string.tag_hour_minute)
+    String tagHourMinute;
 
     /**fragment点击事件回调*/
     private OnFragmentClickListener mListener;
@@ -71,6 +82,13 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     private final int REQUEST_CODE = 0x001;
 
     private SelectPicturePop mPicturePop;
+
+    private TollStandardPicker mTollPicker;
+    private TimePicker mStartPicker;
+    private TimePicker mEndPicker;
+
+    private InputDialog mInputDialog;
+    private boolean isInputTitle = true;
 
     @Override
     protected int getLayoutId() {
@@ -94,6 +112,31 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         }
     }
 
+    /**
+     * 初始化输入消息弹窗
+     * */
+    private void initInputDialog() {
+        mInputDialog = new InputDialog(getActivity());
+        mInputDialog.setOnFinishInputListener(new InputDialog.OnFinishInputListener() {
+            @Override
+            public void onFinishInput(String message) {
+                if (isInputTitle) {
+                    mTvTitle.setText(message);
+                    mImgTitleClear.setVisibility(View.VISIBLE);
+                } else {
+                    mTvNotice.setText(message);
+                    mImgNoticeClear.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        mInputDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                SystemBarUtil.hideNavBar(getActivity());
+            }
+        });
+    }
+
     private void initSelectPicturePop() {
         DisplayMetrics dm = new DisplayMetrics();
         ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -112,8 +155,107 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         });
     }
 
+    private void initTollPicker() {
+        mTollPicker = new TollStandardPicker(getActivity());
+        mTollPicker.setOnStandardPickListener(new TollStandardPicker.OnStandardPickListener() {
+            @Override
+            public void onStandardPicked(int index, Integer item) {
+                mTvTollStandard.setText(String.valueOf(item));
+            }
+        });
+        mTollPicker.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemBarUtil.hideNavBar(getActivity());
+            }
+        });
+    }
+
+    private void initStartPicker() {
+        mStartPicker = new TimePicker(getActivity(), DateTimePicker.HOUR_24);
+        mStartPicker.setUseWeight(true);
+        mStartPicker.setCycleDisable(false);
+        mStartPicker.setTextColor(ContextCompat.getColor(mContext, R.color.colorTitle), ContextCompat.getColor(mContext, R.color.colorSubTitle));
+        mStartPicker.setLineSpaceMultiplier(3);
+        mStartPicker.setTextSize(14);
+
+        mStartPicker.setRangeStart(0, 0);//00:00
+        mStartPicker.setRangeEnd(23, 59);//23:59
+        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int currentMinute = Calendar.getInstance().get(Calendar.MINUTE);
+        mStartPicker.setSelectedItem(currentHour, currentMinute);
+
+        mStartPicker.setCancelTextColor(ContextCompat.getColor(mContext, R.color.colorStart));
+        mStartPicker.setFinishTextColor(ContextCompat.getColor(mContext, R.color.colorStart));
+        mStartPicker.setTitleText(R.string.tag_start_time);
+        mStartPicker.setTitleTextColor(ContextCompat.getColor(mContext, R.color.colorTitle));
+        mStartPicker.setTopBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
+
+        // 选中线条颜色
+        WheelView.DividerConfig config = new WheelView.DividerConfig();
+        config.setColor(ContextCompat.getColor(mContext, R.color.colorLineWhite));//线颜色
+        mStartPicker.setDividerConfig(config);
+        mStartPicker.setLabel(":", "");
+
+        mStartPicker.initWheelView();
+        mStartPicker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
+            @Override
+            public void onTimePicked(String hour, String minute) {
+                mBtnTimeStart.setText(String.format(tagHourMinute, hour, minute));
+            }
+        });
+        mStartPicker.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemBarUtil.hideNavBar(getActivity());
+            }
+        });
+    }
+
+    private void initEndPicker() {
+        mEndPicker = new TimePicker(getActivity(), DateTimePicker.HOUR_24);
+        mEndPicker.setUseWeight(true);
+        mEndPicker.setCycleDisable(false);
+        mEndPicker.setTextColor(ContextCompat.getColor(mContext, R.color.colorTitle), ContextCompat.getColor(mContext, R.color.colorSubTitle));
+        mEndPicker.setLineSpaceMultiplier(3);
+        mEndPicker.setTextSize(14);
+
+        mEndPicker.setRangeStart(0, 0);//00:00
+        mEndPicker.setRangeEnd(23, 59);//23:59
+        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        int currentMinute = Calendar.getInstance().get(Calendar.MINUTE);
+        mEndPicker.setSelectedItem(currentHour, currentMinute);
+
+        mEndPicker.setCancelTextColor(ContextCompat.getColor(mContext, R.color.colorStart));
+        mEndPicker.setFinishTextColor(ContextCompat.getColor(mContext, R.color.colorStart));
+        mEndPicker.setTitleText(R.string.tag_start_time);
+        mEndPicker.setTitleTextColor(ContextCompat.getColor(mContext, R.color.colorTitle));
+        mEndPicker.setTopBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
+
+        // 选中线条颜色
+        WheelView.DividerConfig config = new WheelView.DividerConfig();
+        config.setColor(ContextCompat.getColor(mContext, R.color.colorLineWhite));//线颜色
+        mEndPicker.setDividerConfig(config);
+        mEndPicker.setLabel(":", "");
+
+        mEndPicker.initWheelView();
+        mEndPicker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
+            @Override
+            public void onTimePicked(String hour, String minute) {
+                mBtnTimeEnd.setText(String.format(tagHourMinute, hour, minute));
+            }
+        });
+        mEndPicker.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemBarUtil.hideNavBar(getActivity());
+            }
+        });
+    }
+
     @OnClick({R.id.btn_exit, R.id.btn_switch_camera, R.id.btn_begin, R.id.layout_change_cover,
-            R.id.btn_time_start, R.id.btn_time_end})
+            R.id.tv_title, R.id.tv_notice, R.id.img_title_clear, R.id.img_notice_clear,
+            R.id.tv_toll_standard, R.id.btn_time_start, R.id.btn_time_end})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
     }
@@ -139,28 +281,58 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     }
 
     @Override
+    public void onInputTitleClick() {
+        isInputTitle = true;
+        if (mInputDialog == null) {
+            initInputDialog();
+        }
+        mInputDialog.show();
+    }
+
+    @Override
+    public void onInputNoticeClick() {
+        isInputTitle = false;
+        if (mInputDialog == null) {
+            initInputDialog();
+        }
+        mInputDialog.show();
+    }
+
+    @Override
+    public void onClearTitleClick() {
+        mTvTitle.setText("");
+        mImgTitleClear.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onClearNoticeClick() {
+        mTvNotice.setText("");
+        mImgNoticeClear.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onSelectDiamondsClick() {
+        if (mTollPicker == null) {
+            initTollPicker();
+        }
+        mTollPicker.refreshData(20);
+        mTollPicker.showAtLocation(mTvTollStandard, Gravity.BOTTOM, 0, 0);
+    }
+
+    @Override
     public void onTimeStartClick() {
-        TimePicker picker = new TimePicker(getActivity(), DateTimePicker.HOUR_24);
-        picker.setUseWeight(true);
-        picker.setCycleDisable(false);
-        picker.setRangeStart(0, 0);//00:00
-        picker.setRangeEnd(23, 59);//23:59
-        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        int currentMinute = Calendar.getInstance().get(Calendar.MINUTE);
-        picker.setSelectedItem(currentHour, currentMinute);
-        picker.initWheelView();
-        picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
-            @Override
-            public void onTimePicked(String hour, String minute) {
-                ToastUtils.ToastMessage(getActivity(), hour + ":" + minute);
-            }
-        });
-        picker.showAtLocation(mBtnTimeStart, Gravity.BOTTOM, 0, 0);
+        if (mStartPicker == null) {
+            initStartPicker();
+        }
+        mStartPicker.showAtLocation(mBtnTimeStart, Gravity.BOTTOM, 0, 0);
     }
 
     @Override
     public void onTimeEndClick() {
-
+        if (mEndPicker == null) {
+            initEndPicker();
+        }
+        mEndPicker.showAtLocation(mBtnTimeEnd, Gravity.BOTTOM, 0, 0);
     }
 
     @Override
@@ -198,6 +370,21 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
                 }
             }
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mTollPicker != null && mTollPicker.isShowing()) {
+            mTollPicker.dismiss();
+        }
+        if (mStartPicker != null && mStartPicker.isShowing()) {
+            mStartPicker.dismiss();
+        }
+        if (mEndPicker != null && mEndPicker.isShowing()) {
+            mEndPicker.dismiss();
+        }
+
     }
 
     /**

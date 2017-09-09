@@ -293,9 +293,13 @@ public class ApplyAnchorActivity extends BaseActivity<IApplyAnchorView, ApplyAnc
     }
 
     @Override
-    public void getCodeSuccess() {
+    public void getCodeSuccess(String code) {
         if (isRunning) {
-            ToastUtils.ToastMessage(this, String.format(hasBeenSendTo, mContactWay));
+            //ToastUtils.ToastMessage(this, String.format(hasBeenSendTo, mContactWay));
+            TipsPop pop = new TipsPop(this);
+            pop.setTips("验证码为" + code);
+            pop.showCancel(false);
+            pop.showAtLocation(mBtnGetCode, Gravity.CENTER, 0, 0);
         }
     }
 
@@ -407,8 +411,8 @@ public class ApplyAnchorActivity extends BaseActivity<IApplyAnchorView, ApplyAnc
             return false;
         }
 
-        if (!ValidateUtil.isMobileOrEmail(mContactWay)) {
-            ToastUtils.ToastMessage(this, R.string.toast_input_right_mobile_or_email);
+        if (!ValidateUtil.isMobilePhone(mContactWay)) {
+            ToastUtils.ToastMessage(this, R.string.toast_right_mobile_phone);
             mEtContactWay.requestFocus();
             return false;
         }

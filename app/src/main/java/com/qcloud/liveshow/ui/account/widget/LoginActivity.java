@@ -3,6 +3,7 @@ package com.qcloud.liveshow.ui.account.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.qcloud.liveshow.ui.account.view.ILoginView;
 import com.qcloud.liveshow.ui.main.widget.MainActivity;
 import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.liveshow.utils.UserInfoUtil;
+import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.network.BaseApi;
 import com.qcloud.qclib.toast.ToastUtils;
@@ -193,9 +195,13 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
     }
 
     @Override
-    public void getCodeSuccess() {
+    public void getCodeSuccess(String code) {
         if (isRunning) {
-            ToastUtils.ToastMessage(this, String.format(hasBeenSendTo, mobile));
+            //ToastUtils.ToastMessage(this, String.format(hasBeenSendTo, mobile));
+            TipsPop pop = new TipsPop(this);
+            pop.setTips("验证码为" + code);
+            pop.showCancel(false);
+            pop.showAtLocation(mBtnGetCode, Gravity.CENTER, 0, 0);
         }
     }
 

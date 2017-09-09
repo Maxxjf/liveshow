@@ -2,6 +2,7 @@ package com.qcloud.liveshow.net;
 
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.model.HttpParams;
+import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.LoginBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.UserBean;
@@ -20,8 +21,8 @@ import io.reactivex.Observable;
  */
 public class IUserApi {
     /**获取验证码*/
-    public static Observable<BaseResponse<ReturnEmptyBean>> getCode(HttpParams params) {
-        Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
+    public static Observable<BaseResponse<GetCodeResBean>> getCode(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<GetCodeResBean>>(){}.getType();
 
         return OkGoRequest.getRequest(UrlConstants.GET_CODE, type, params);
     }

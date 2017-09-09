@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.model;
 
 import com.qcloud.liveshow.beans.ApplyStatusBean;
+import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.SubmitApplyBean;
 import com.qcloud.qclib.callback.DataCallback;
@@ -15,7 +16,7 @@ public interface IAnchorModel {
     void getApplyStatus(DataCallback<ApplyStatusBean> callback);
 
     /**获取验证码*/
-    void getCode(String contactWay, DataCallback<ReturnEmptyBean> callback);
+    void getCode(String contactWay, DataCallback<GetCodeResBean> callback);
 
     /**提交申请主播*/
     void submitApply(SubmitApplyBean bean, DataCallback<ReturnEmptyBean> callback);

@@ -30,7 +30,7 @@ public interface ILoginView extends BaseView {
     void loginSuccess(LoginBean bean);
 
     /**获取验证码成功*/
-    void getCodeSuccess();
+    void getCodeSuccess(String code);
 
     /**获取验证码失败*/
     void getCodeFailure(String errMsg);

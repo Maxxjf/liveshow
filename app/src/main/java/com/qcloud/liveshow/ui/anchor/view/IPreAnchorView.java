@@ -17,6 +17,21 @@ public interface IPreAnchorView extends BaseView {
     /**点击更改封面*/
     void onChangeCoverClick();
 
+    /**点击输入标题*/
+    void onInputTitleClick();
+
+    /**点击输入公告*/
+    void onInputNoticeClick();
+
+    /**点击清除标题*/
+    void onClearTitleClick();
+
+    /**点击清除公告*/
+    void onClearNoticeClick();
+
+    /**点击选择钻石币*/
+    void onSelectDiamondsClick();
+
     /**点击开始时间*/
     void onTimeStartClick();
 

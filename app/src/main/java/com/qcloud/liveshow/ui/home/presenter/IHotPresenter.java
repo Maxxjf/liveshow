@@ -7,4 +7,6 @@ package com.qcloud.liveshow.ui.home.presenter;
  */
 public interface IHotPresenter {
     void loadData();
+
+    void loadTest();
 }

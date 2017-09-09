@@ -56,6 +56,7 @@
                 android:layout_height="@dimen/btn_height"
                 android:orientation="horizontal"
                 android:gravity="center|bottom"
+                android:layout_marginLeft="@dimen/margin_1"
                 android:layout_marginBottom="@dimen/margin_1"
                 android:layout_gravity="bottom">
 
@@ -85,7 +86,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginRight="@dimen/layout_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -94,26 +97,33 @@
                     android:textSize="@dimen/small_text_size"
                     android:text="@string/tag_title"/>
 
-                <com.qcloud.qclib.widget.customview.ClearEditText
-                    android:id="@+id/et_title"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/btn_height"
-                    android:background="@null"
+                    android:layout_weight="1"
                     android:lines="1"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
                     android:gravity="center_vertical"
                     android:textColor="@color/white"
                     android:textSize="@dimen/small_text_size"
                     android:textColorHint="@color/colorLineWhite"
                     android:hint="@string/input_anchor_title_hint"/>
+
+                <ImageView
+                    android:id="@+id/img_title_clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btn_height"
+                    android:paddingLeft="@dimen/layout_margin"
+                    android:src="@drawable/et_delete"
+                    android:visibility="gone"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginRight="@dimen/layout_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -122,19 +132,25 @@
                     android:textSize="@dimen/small_text_size"
                     android:text="@string/tag_notice"/>
 
-                <com.qcloud.qclib.widget.customview.ClearEditText
-                    android:id="@+id/et_notice"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_notice"
+                    android:layout_width="0dp"
                     android:layout_height="@dimen/btn_height"
-                    android:background="@null"
+                    android:layout_weight="1"
                     android:lines="1"
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
                     android:gravity="center_vertical"
                     android:textColor="@color/white"
                     android:textSize="@dimen/small_text_size"
                     android:textColorHint="@color/colorLineWhite"
                     android:hint="@string/input_anchor_notice_hint"/>
+
+                <ImageView
+                    android:id="@+id/img_notice_clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btn_height"
+                    android:paddingLeft="@dimen/layout_margin"
+                    android:src="@drawable/et_delete"
+                    android:visibility="gone"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -154,15 +170,13 @@
             android:textSize="@dimen/small_text_size"
             android:text="@string/tag_toll_standard"/>
 
-        <EditText
-            android:id="@+id/et_toll_standard"
+        <TextView
+            android:id="@+id/tv_toll_standard"
             android:layout_width="@dimen/margin_10"
             android:layout_height="@dimen/btn_height"
             android:layout_marginLeft="@dimen/margin_1"
             android:background="@drawable/frame_white_circular"
             android:gravity="center"
-            android:inputType="number"
-            android:imeOptions="actionDone"
             android:textColor="@color/white"
             android:textSize="@dimen/medium_text_size"
             android:text="0"/>

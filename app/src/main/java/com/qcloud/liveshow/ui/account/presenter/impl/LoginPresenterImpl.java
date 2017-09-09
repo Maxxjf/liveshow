@@ -6,8 +6,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.FacebookUserBean;
+import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.LoginBean;
-import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.WeChatUserBean;
 import com.qcloud.liveshow.model.IUserModel;
 import com.qcloud.liveshow.model.impl.UserModelImpl;
@@ -60,11 +60,11 @@ public class LoginPresenterImpl extends BasePresenter<ILoginView> implements ILo
 
     @Override
     public void getCode(String mobile) {
-        mModel.getCode(mobile, new DataCallback<ReturnEmptyBean>() {
+        mModel.getCode(mobile, new DataCallback<GetCodeResBean>() {
             @Override
-            public void onSuccess(ReturnEmptyBean returnEmptyBean) {
-                if (mView != null) {
-                    mView.getCodeSuccess();
+            public void onSuccess(GetCodeResBean bean) {
+                if (mView != null && bean != null) {
+                    mView.getCodeSuccess(bean.getCode());
                 }
             }
 

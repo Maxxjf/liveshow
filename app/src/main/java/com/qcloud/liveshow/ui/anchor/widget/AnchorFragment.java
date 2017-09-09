@@ -27,10 +27,6 @@ import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.MarqueeView;
-import com.qcloud.qclib.widget.customview.clearscreen.ClearScreenHelper;
-import com.qcloud.qclib.widget.customview.clearscreen.IClearEvent;
-import com.qcloud.qclib.widget.customview.clearscreen.IClearRootView;
-import com.qcloud.qclib.widget.customview.clearscreen.view.RelativeClearLayout;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -82,10 +78,6 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     @Bind(R.id.btn_exit)
     ImageView mBtnExit;
 
-    private IClearRootView mClearRootLayout;
-    private ClearScreenHelper mClearScreenHelper;
-
-
     private RoomFansAdapter mFansAdapter;
     private RoomMessageAdapter mMessageAdapter;
 
@@ -121,7 +113,6 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     @Override
     protected void initViewAndData() {
-        initClearLayout();
         initFansLayout();
         initMessageLayout();
     }
@@ -171,26 +162,6 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
                 }
             });
         }
-    }
-
-    /**
-     * 清屏布局
-     * */
-    private void initClearLayout() {
-        mClearRootLayout = (RelativeClearLayout) mView.findViewById(R.id.layout_root);
-        mClearScreenHelper = new ClearScreenHelper(getActivity(), mClearRootLayout);
-        mClearScreenHelper.bind(mLayoutTop, mLayoutId, mLayoutNotice, mLayoutBottom);
-        mClearScreenHelper.setIClearEvent(new IClearEvent() {
-            @Override
-            public void onClearEnd() {
-                Timber.d("Clear End...");
-            }
-
-            @Override
-            public void onRecovery() {
-                Timber.d("Recovery Now...");
-            }
-        });
     }
 
     /**
