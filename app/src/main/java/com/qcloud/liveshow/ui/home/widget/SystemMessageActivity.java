@@ -4,14 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
-import android.widget.AdapterView;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.adapter.MessageListAdapter;
+import com.qcloud.liveshow.adapter.SystemMessageAdapter;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
-import com.qcloud.liveshow.ui.home.presenter.impl.MessageListPresenterImpl;
-import com.qcloud.liveshow.ui.home.view.IMessageListView;
+import com.qcloud.liveshow.ui.home.presenter.impl.SystemMessagePresenterImpl;
+import com.qcloud.liveshow.ui.home.view.ISystemMessageView;
+import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
@@ -21,25 +20,27 @@ import butterknife.Bind;
 import timber.log.Timber;
 
 /**
- * 类说明：消息列表
+ * 类说明：系统消息
  * Author: Kuzan
- * Date: 2017/8/30 11:22.
+ * Date: 2017/9/11 12:05.
  */
-public class MessageListActivity extends SwipeBaseActivity<IMessageListView, MessageListPresenterImpl> implements IMessageListView {
+public class SystemMessageActivity extends SwipeBaseActivity<ISystemMessageView, SystemMessagePresenterImpl> implements ISystemMessageView {
 
+    @Bind(R.id.title_bar)
+    TitleBar mTitleBar;
     @Bind(R.id.list_message)
     PullRefreshRecyclerView mListMessage;
 
-    private MessageListAdapter mAdapter;
+    private SystemMessageAdapter mAdapter;
 
     @Override
     protected int initLayout() {
-        return R.layout.activity_message_list;
+        return R.layout.activity_system_message;
     }
 
     @Override
-    protected MessageListPresenterImpl initPresenter() {
-        return new MessageListPresenterImpl();
+    protected SystemMessagePresenterImpl initPresenter() {
+        return new SystemMessagePresenterImpl();
     }
 
     @Override
@@ -54,19 +55,11 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
 
     @Override
     protected void initViewAndData() {
-        initListView();
+        initRefreshList();
     }
 
-    private void initListView() {
-        PullRefreshUtil.setRefresh(mListMessage, true, true);
-
-        mListMessage.setLayoutManager(new LinearLayoutManager(this));
-        mListMessage.setOnPullDownRefreshListener(new PullRefreshView.OnPullDownRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mListMessage.refreshFinish();
-            }
-        });
+    private void initRefreshList() {
+        PullRefreshUtil.setRefresh(mListMessage, false, true);
         mListMessage.setOnPullUpRefreshListener(new PullRefreshView.OnPullUpRefreshListener() {
             @Override
             public void onRefresh() {
@@ -74,15 +67,9 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
             }
         });
 
-        mAdapter = new MessageListAdapter(this);
+        mListMessage.setLayoutManager(new LinearLayoutManager(mContext));
+        mAdapter = new SystemMessageAdapter(mContext);
         mListMessage.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FansMessageActivity.openActivity(MessageListActivity.this);
-            }
-        });
-
     }
 
     @Override
@@ -97,6 +84,6 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
     }
 
     public static void openActivity(Context context) {
-        context.startActivity(new Intent(context, MessageListActivity.class));
+        context.startActivity(new Intent(context, SystemMessageActivity.class));
     }
 }

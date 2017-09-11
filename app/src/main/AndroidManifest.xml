@@ -97,6 +97,16 @@
                   android:launchMode="singleTask"
                   android:windowSoftInputMode="adjustPan"
                   android:label="@string/title_message_list"/>
+        <activity android:name=".ui.home.widget.SystemMessageActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:windowSoftInputMode="adjustPan"
+                  android:label="@string/title_system_message"/>
+        <activity android:name=".ui.home.widget.FansMessageActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:windowSoftInputMode="adjustPan"
+                  android:label="@string/title_fans_message"/>
 
         <!--个人有关-->
         <activity android:name=".ui.mine.widget.UserInfoActivity"

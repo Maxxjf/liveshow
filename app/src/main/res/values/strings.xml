@@ -29,6 +29,8 @@
     <string name="title_player">播放器</string>
     <string name="title_search_anchor">搜索主播</string>
     <string name="title_message_list">消息列表</string>
+    <string name="title_system_message">系统消息</string>
+    <string name="title_fans_message">粉丝消息</string>
     <string name="title_apply_anchor">主播申请验证</string>
     <string name="title_my_gifts">我的礼物</string>
     <string name="title_set_cash_password">设置提现密码</string>
