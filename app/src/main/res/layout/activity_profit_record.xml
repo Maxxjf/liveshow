@@ -44,7 +44,8 @@
                     android:background="@color/white"
                     android:gravity="center_horizontal"
                     android:paddingTop="@dimen/margin_4"
-                    android:paddingBottom="@dimen/margin_4">
+                    android:paddingBottom="@dimen/margin_4"
+                    android:focusableInTouchMode="true">
 
                     <TextView
                         android:id="@+id/tv_profit_account"

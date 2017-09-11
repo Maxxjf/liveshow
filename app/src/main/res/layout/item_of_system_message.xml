@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/margin_1">
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:gravity="center"
+        android:textColor="@color/colorLightGray"
+        android:textSize="@dimen/micro_text_size"
+        android:text="2017-09-11 10:15"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/layout_margin"
+        android:paddingRight="@dimen/layout_margin">
+
+        <ImageView
+            android:id="@+id/img_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_system_message"/>
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="@dimen/margin_8"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_receive_message"
+            android:layout_marginLeft="@dimen/layout_margin"
+            android:lineSpacingExtra="@dimen/text_padding"
+            android:paddingLeft="@dimen/margin_2"
+            android:paddingRight="@dimen/margin_2"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/micro_text_size"
+            android:text="不知不觉关注了你，成为了你的粉丝，去打个招呼吧~"/>
+    </LinearLayout>
+</LinearLayout>

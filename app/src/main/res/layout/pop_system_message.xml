@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/room_notice_min_height"
+    android:orientation="vertical"
+    android:background="@drawable/bg_white_top_big_radius">
+
+    <RelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/layout_margin"
+            android:paddingRight="@dimen/layout_margin"
+            android:src="@drawable/icon_normal_back"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/layout_margin"
+            android:paddingRight="@dimen/layout_margin"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_system_message"/>
+    </RelativeLayout>
+
+    <View
+        style="@style/LineHorizontal"
+        android:id="@+id/line"
+        android:layout_below="@+id/layout_title"/>
+
+    <com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView
+        android:id="@+id/list_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBg"
+        android:layout_below="@id/line"/>
+</LinearLayout>

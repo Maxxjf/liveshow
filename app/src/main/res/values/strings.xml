@@ -210,5 +210,6 @@
     <string name="tag_id">ID：%s</string>
     <string name="tag_watch_num">%s人在看</string>
     <string name="tag_long_num">%ld个</string>
+    <string name="tag_system_message">系统消息</string>
 
 </resources>

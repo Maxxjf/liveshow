@@ -24,9 +24,11 @@ import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.liveshow.widget.dialog.InputMessageDialog;
 import com.qcloud.liveshow.widget.pop.BuyDiamondsPop;
 import com.qcloud.liveshow.widget.pop.FansInfoPop;
+import com.qcloud.liveshow.widget.pop.FansMessagePop;
 import com.qcloud.liveshow.widget.pop.MessageListPop;
 import com.qcloud.liveshow.widget.pop.SendGiftPop;
 import com.qcloud.liveshow.widget.pop.SharePop;
+import com.qcloud.liveshow.widget.pop.SystemMessagePop;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
@@ -89,6 +91,10 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private FansInfoPop mFansPop;
     /**消息列表弹窗*/
     private MessageListPop mMessagePop;
+    /**系统消息弹窗*/
+    private SystemMessagePop mSystemPop;
+    /**粉丝消息弹窗*/
+    private FansMessagePop mFansMessagePop;
     /**分享弹窗*/
     private SharePop mSharePop;
 
@@ -109,10 +115,6 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
         initFansLayout();
         initMessageLayout();
-        initInputDialog();
-        initDiamondsPop();
-        initGiftPop();
-        initFansPop();
     }
 
     @Override
@@ -295,12 +297,35 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * */
     private void initMessagePop() {
         mMessagePop = new MessageListPop(mContext);
+        mMessagePop.setOnPopItemClick(new MessageListPop.onPopItemClick() {
+            @Override
+            public void onItemClick(int position, String item) {
+                if (mFansMessagePop == null) {
+                    initFansMessagePop();
+                }
+                mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
+            }
+        });
         mMessagePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 SystemBarUtil.hideNavBar(getActivity());
             }
         });
+    }
+
+    /**
+     * 系统消息弹窗
+     * */
+    private void initSystemMessagePop() {
+        mSystemPop = new SystemMessagePop(getActivity());
+    }
+
+    /**
+     * 粉丝消息弹窗
+     * */
+    private void initFansMessagePop() {
+        mFansMessagePop = new FansMessagePop(getActivity());
     }
 
     /**
@@ -373,7 +398,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     @Override
     public void onSendMessageClick() {
         if (mInputDialog == null) {
-            mInputDialog = new InputMessageDialog(getActivity());
+            initInputDialog();
         }
         mInputDialog.show();
     }
@@ -413,27 +438,6 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     @Override
     public void onExitClick() {
         getActivity().finish();
-//        final TipsPop pop = new TipsPop(getActivity());
-//        pop.setTips(R.string.tip_confirm_to_exit_room);
-//        pop.setCancelBtn(R.string.tip_cancel);
-//        pop.setOkBtn(R.string.tip_confirm);
-//        pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
-//            @Override
-//            public void onViewClick(View view) {
-//                if (view.getId() == R.id.btn_ok) {
-//                    getActivity().finish();
-//                } else {
-//                    pop.dismiss();
-//                }
-//            }
-//        });
-//        pop.showAtLocation(mBtnExit, Gravity.CENTER, 0, 0);
-//        pop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-//            @Override
-//            public void onDismiss() {
-//                SystemBarUtil.hideNavBar(getActivity());
-//            }
-//        });
     }
 
     public static RoomFragment newInstance() {

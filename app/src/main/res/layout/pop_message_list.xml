@@ -1,45 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.qcloud.qclib.pullrefresh.PullRefreshView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh_view"
     android:layout_width="match_parent"
     android:layout_height="@dimen/room_notice_min_height"
     android:orientation="vertical"
     android:background="@drawable/bg_black_top_big_radius">
 
-    <RelativeLayout
+    <com.qcloud.qclib.widget.customview.SupportScrollview
         android:layout_width="match_parent"
-        android:layout_height="@dimen/tab_height">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
-        <TextView
-            android:id="@+id/btn_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/layout_margin"
-            android:paddingRight="@dimen/layout_margin"
-            android:textColor="@color/white"
-            android:textSize="@dimen/micro_text_size"
-            android:text="@string/btn_message"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/btn_ignore_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/layout_margin"
-            android:paddingRight="@dimen/layout_margin"
-            android:textColor="@color/white"
-            android:textSize="@dimen/micro_text_size"
-            android:text="@string/btn_ignore_message"/>
-    </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/layout_title"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tab_height"
+                android:focusableInTouchMode="true">
 
-    <View
-        style="@style/LineHorizontalBlack"/>
+                <TextView
+                    android:id="@+id/btn_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="@dimen/layout_margin"
+                    android:paddingRight="@dimen/layout_margin"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/micro_text_size"
+                    android:text="@string/btn_message"/>
 
-    <com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView
-        android:id="@+id/list_message"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/btn_ignore_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="@dimen/layout_margin"
+                    android:paddingRight="@dimen/layout_margin"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/micro_text_size"
+                    android:text="@string/btn_ignore_message"/>
+            </RelativeLayout>
 
-</LinearLayout>
+            <View
+                style="@style/LineHorizontalBlack"
+                android:id="@+id/line"
+                android:layout_below="@+id/layout_title"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/line"/>
+        </RelativeLayout>
+    </com.qcloud.qclib.widget.customview.SupportScrollview>
+</com.qcloud.qclib.pullrefresh.PullRefreshView>
