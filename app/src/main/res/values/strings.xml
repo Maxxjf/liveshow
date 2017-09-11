@@ -26,6 +26,7 @@
     <string name="title_profit_record">收益记录</string>
     <string name="title_setting">设置</string>
     <string name="title_room">直播间</string>
+    <string name="title_room_finish">直播完成</string>
     <string name="title_player">播放器</string>
     <string name="title_search_anchor">搜索主播</string>
     <string name="title_message_list">消息列表</string>
@@ -216,5 +217,6 @@
     <string name="tag_my_guarder">我的守护</string>
     <string name="tag_all_guarder_num">(最多20人)</string>
     <string name="tag_curr_guarder_num">当前%d人</string>
+    <string name="tag_curr_spend">本场花费</string>
 
 </resources>

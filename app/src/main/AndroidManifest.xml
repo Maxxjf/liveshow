@@ -70,6 +70,10 @@
                   android:launchMode="singleTask"
                   android:windowSoftInputMode="adjustPan"
                   android:label="@string/title_room"/>
+        <activity android:name=".ui.room.widget.RoomFinishActivity"
+                  android:launchMode="singleTask"
+                  android:windowSoftInputMode="adjustPan"
+                  android:label="@string/title_room_finish"/>
 
         <!--直播有关-->
         <activity android:name=".ui.anchor.widget.ApplyAnchorActivity"

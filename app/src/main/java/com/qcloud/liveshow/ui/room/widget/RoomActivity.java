@@ -32,6 +32,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import timber.log.Timber;
+import tv.danmaku.ijk.media.player.IMediaPlayer;
 
 /**
  * 类说明：直播间
@@ -126,6 +127,16 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
                     }
                 })
                 .startPlay();
+        mPlayer.setOnInfoListener(new IMediaPlayer.OnInfoListener() {
+            @Override
+            public boolean onInfo(IMediaPlayer iMediaPlayer, int i, int i1) {
+                if (i == PlayStateParams.STATE_COMPLETED) {
+                    // 播放完成
+                    RoomFinishActivity.openActivity(RoomActivity.this);
+                }
+                return true;
+            }
+        });
     }
 
     /**
