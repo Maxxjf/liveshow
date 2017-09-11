@@ -11,6 +11,7 @@ import com.qcloud.liveshow.R;
 import com.qcloud.qclib.base.BasePopupWindow;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * 类说明：粉丝信息弹窗
@@ -72,5 +73,12 @@ public class FansInfoPop extends BasePopupWindow {
     public void showAtLocation(View parent, int gravity, int x, int y) {
         super.showAtLocation(parent, gravity, x, y);
         setPopWindowBg(1.0f);
+    }
+
+    @OnClick(R.id.btn_manager)
+    void onManagerClick() {
+        if (mViewClick != null) {
+            mViewClick.onViewClick(mBtnManager);
+        }
     }
 }

@@ -213,5 +213,8 @@
     <string name="tag_watch_num">%s人在看</string>
     <string name="tag_long_num">%ld个</string>
     <string name="tag_system_message">系统消息</string>
+    <string name="tag_my_guarder">我的守护</string>
+    <string name="tag_all_guarder_num">(最多20人)</string>
+    <string name="tag_curr_guarder_num">当前%d人</string>
 
 </resources>

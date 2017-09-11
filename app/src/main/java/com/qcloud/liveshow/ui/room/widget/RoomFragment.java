@@ -25,11 +25,13 @@ import com.qcloud.liveshow.widget.dialog.InputMessageDialog;
 import com.qcloud.liveshow.widget.pop.BuyDiamondsPop;
 import com.qcloud.liveshow.widget.pop.FansInfoPop;
 import com.qcloud.liveshow.widget.pop.FansMessagePop;
+import com.qcloud.liveshow.widget.pop.GuarderPop;
 import com.qcloud.liveshow.widget.pop.MessageListPop;
 import com.qcloud.liveshow.widget.pop.SendGiftPop;
 import com.qcloud.liveshow.widget.pop.SharePop;
 import com.qcloud.liveshow.widget.pop.SystemMessagePop;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
+import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.MarqueeView;
@@ -89,6 +91,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private SendGiftPop mGiftPop;
     /**粉丝信息弹窗*/
     private FansInfoPop mFansPop;
+    /**守护者弹窗*/
+    private GuarderPop mGuarderPop;
     /**消息列表弹窗*/
     private MessageListPop mMessagePop;
     /**系统消息弹窗*/
@@ -284,12 +288,32 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * */
     private void initFansPop() {
         mFansPop = new FansInfoPop(mContext);
+        mFansPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                if (view.getId() == R.id.btn_manager) {
+                    if (mGuarderPop == null) {
+                        initGuarderPop();
+                    }
+                    mGuarderPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+                } else {
+                    mFansPop.dismiss();
+                }
+            }
+        });
         mFansPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 SystemBarUtil.hideNavBar(getActivity());
             }
         });
+    }
+
+    /**
+     * 初始化粉守护者弹窗
+     * */
+    private void initGuarderPop() {
+        mGuarderPop = new GuarderPop(mContext);
     }
 
     /**

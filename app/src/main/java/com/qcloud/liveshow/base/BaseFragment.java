@@ -48,12 +48,6 @@ public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragme
             mPresenter.attach((V) this);
         }
 
-        // 注册eventBus
-        if (mEventBus == null) {
-            mEventBus = BusProvider.getInstance();
-        }
-        mEventBus.register(this);
-
         if (getActivity() instanceof BaseActivity) {
             BaseActivity activity = (BaseActivity) getActivity();
             activity.addFragment(this);
@@ -76,6 +70,11 @@ public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragme
         }
         ButterKnife.bind(this, mView);
 
+        // 注册eventBus
+        if (mEventBus == null) {
+            mEventBus = BusProvider.getInstance();
+        }
+        mEventBus.register(this);
         return mView;
     }
 
@@ -114,7 +113,6 @@ public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragme
     @Override
     public void onDestroy() {
         super.onDestroy();
-
     }
 
     @Override
