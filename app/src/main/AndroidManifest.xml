@@ -141,6 +141,10 @@
                   android:theme="@style/AppSwipeBackTheme"
                   android:launchMode="singleTask"
                   android:label="@string/title_problem"/>
+        <activity android:name=".ui.mine.widget.ExtensionActivity"
+                  android:theme="@style/AppSwipeBackTheme"
+                  android:launchMode="singleTask"
+                  android:label="@string/title_extension"/>
 
         <!--与钱有关-->
         <activity android:name=".ui.profit.widget.MyProfitActivity"

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBg"
+    tools:context=".ui.mine.widget.ExtensionActivity">
+
+    <com.qcloud.liveshow.widget.toolbar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        toolbar:is_title="true"
+        toolbar:title_text="@string/title_extension"
+        toolbar:is_left="true"
+        toolbar:left_icon="@drawable/icon_normal_back"/>
+
+    <View
+        style="@style/LineHorizontal"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/layout_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/bg_extension_banner"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="175"/>
+
+                    <TextView
+                        android:id="@+id/tv_experience_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="75"
+                        android:gravity="center"
+                        android:textColor="@color/colorStart"
+                        android:textSize="@dimen/xlarge_text_size"
+                        android:textStyle="bold"
+                        android:text="推广码：BD1234"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/layout_top">
+
+                <com.github.lzyzsd.jsbridge.BridgeWebView
+                    android:id="@+id/webView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/margin_30"/>
+
+                <LinearLayout
+                    android:id="@+id/layout_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin_30"
+                    android:orientation="vertical"
+                    android:layout_gravity="bottom">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/line_height"
+                            android:layout_weight="1"
+                            android:background="@color/colorLineWhite"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_2"
+                            android:layout_marginRight="@dimen/margin_2"
+                            android:textAllCaps="false"
+                            android:textColor="@color/colorText"
+                            android:textSize="@dimen/medium_text_size"
+                            android:text="@string/tag_share_way"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/line_height"
+                            android:layout_weight="1"
+                            android:background="@color/colorLineWhite"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/margin_3">
+
+                        <ImageView
+                            android:id="@+id/btn_we_chat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_we_chat"/>
+
+                        <ImageView
+                            android:id="@+id/btn_wexin_circle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_wexin_circle"
+                            android:layout_marginLeft="@dimen/margin_10"/>
+
+                        <ImageView
+                            android:id="@+id/btn_facebook"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_facebook"
+                            android:layout_marginLeft="@dimen/margin_10"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

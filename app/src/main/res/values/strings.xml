@@ -42,6 +42,7 @@
     <string name="title_anchor_finish">直播结束</string>
     <string name="title_my_level">我的等级</string>
     <string name="title_problem">常见问题</string>
+    <string name="title_extension">邀你一起播</string>
 
     <string name="tab_home">首页</string>
     <string name="tab_live_show">发直播</string>
@@ -218,5 +219,6 @@
     <string name="tag_all_guarder_num">(最多20人)</string>
     <string name="tag_curr_guarder_num">当前%d人</string>
     <string name="tag_curr_spend">本场花费</string>
+    <string name="tag_share_way">选择分享方式</string>
 
 </resources>
