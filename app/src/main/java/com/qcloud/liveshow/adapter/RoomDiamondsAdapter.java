@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.LinearLayout;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.DiamondsBean;
 import com.qcloud.liveshow.beans.PagerItemBean;
 import com.qcloud.qclib.adapter.recyclerview.BaseViewHolder;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
@@ -14,8 +15,11 @@ import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
  * Date: 2017/8/26 16:37.
  */
 public class RoomDiamondsAdapter extends CommonRecyclerAdapter<PagerItemBean> {
+    private String moneyStr;
+
     public RoomDiamondsAdapter(Context context) {
         super(context);
+        moneyStr = context.getResources().getString(R.string.money_str);
     }
 
     @Override
@@ -26,10 +30,15 @@ public class RoomDiamondsAdapter extends CommonRecyclerAdapter<PagerItemBean> {
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         final PagerItemBean bean = mList.get(position);
+        final DiamondsBean diamondsBean = (DiamondsBean) bean.getO();
         holder.getConvertView().setTag(R.id.item_diamonds_tag, bean);
 
-        LinearLayout layoutItem = holder.get(R.id.layout_item);
+        if (diamondsBean != null) {
+            holder.setText(R.id.tv_name, diamondsBean.getName());
+            holder.setText(R.id.tv_price, String.format(moneyStr, diamondsBean.getMoney()));
+        }
 
+        LinearLayout layoutItem = holder.get(R.id.layout_item);
         if (bean.isSelect()) {
             layoutItem.setBackgroundResource(R.drawable.icon_diamonds_select);
         } else {

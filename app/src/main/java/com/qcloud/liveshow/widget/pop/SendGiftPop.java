@@ -6,13 +6,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.beans.PagerItemBean;
+import com.qcloud.liveshow.beans.GiftBean;
+import com.qcloud.liveshow.model.impl.ProfitModelImpl;
+import com.qcloud.liveshow.utils.BasicsUtil;
 import com.qcloud.liveshow.widget.customview.DiamondsPagerLayout;
 import com.qcloud.liveshow.widget.customview.GiftPagerLayout;
 import com.qcloud.qclib.base.BasePopupWindow;
+import com.qcloud.qclib.beans.ReturnDataBean;
+import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.toast.ToastUtils;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 
@@ -30,6 +32,8 @@ public class SendGiftPop extends BasePopupWindow {
     TextView mBtnRecharge;
     @Bind(R.id.btn_buy)
     TextView mBtnBuy;
+
+    private GiftBean currBean;
 
     public SendGiftPop(Context context) {
         super(context);
@@ -54,41 +58,50 @@ public class SendGiftPop extends BasePopupWindow {
 
     @Override
     protected void initAfterViews() {
-        //测试的假数据
-        ArrayList<String> list = new ArrayList<>();
-        list.add("1");
-        list.add("2");
-        list.add("3");
-        list.add("4");
-        list.add("5");
-        list.add("6");
-        list.add("7");
-        list.add("8");
-        list.add("9");
-        list.add("10");
-        list.add("11");
-        list.add("12");
-        list.add("13");
-        list.add("14");
-        list.add("15");
-        list.add("16");
-        list.add("17");
-        list.add("18");
 
         mPageGift.setCountNum(4, 2);
-        mPageGift.setData(list);
 
         mPageGift.setOnItemClickListener(new DiamondsPagerLayout.OnItemClickListener() {
             @Override
             public void onItemClick(Object o) {
-                ToastUtils.ToastMessage(mContext, ((PagerItemBean) o).getIndex() + " ");
+                currBean = (GiftBean) o;
+                if (currBean != null) {
+                    ToastUtils.ToastMessage(mContext, currBean.getName());
+                }
             }
         });
+
+        loadData();
     }
 
     @Override
     public void showAtLocation(View parent, int gravity, int x, int y) {
         super.showAtLocation(parent, gravity, x, y);
         setPopWindowBg(1.0f);
+    }
+
+    private void loadData() {
+        if (BasicsUtil.mGiftList != null && BasicsUtil.mGiftList.size() > 0) {
+            if (mPageGift != null) {
+                mPageGift.setData(BasicsUtil.mGiftList);
+            }
+        } else {
+            new ProfitModelImpl().getGiftList(new DataCallback<ReturnDataBean<GiftBean>>() {
+                @Override
+                public void onSuccess(ReturnDataBean<GiftBean> bean) {
+                    if (bean != null && bean.getList() != null) {
+                        BasicsUtil.mGiftList = bean.getList();
+                        if (mPageGift != null) {
+                            mPageGift.setData(bean.getList());
+                        }
+                    }
+                }
+
+                @Override
+                public void onError(int status, String errMsg) {
+                    ToastUtils.ToastMessage(mContext, errMsg + "");
+                }
+            });
+        }
     }
 }

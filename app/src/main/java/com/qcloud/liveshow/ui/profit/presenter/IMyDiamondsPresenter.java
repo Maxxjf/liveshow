@@ -8,4 +8,6 @@ import com.qcloud.qclib.base.BtnClickPresenter;
  * Date: 2017/9/1 15:30.
  */
 public interface IMyDiamondsPresenter extends BtnClickPresenter {
+    /**获取钻石币充值套餐*/
+    void getDiamondsList();
 }

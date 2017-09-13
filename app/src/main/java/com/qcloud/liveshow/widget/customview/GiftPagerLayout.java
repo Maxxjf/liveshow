@@ -50,7 +50,7 @@ public class GiftPagerLayout extends BasePagerLayout {
                         PagerItemBean bean = (PagerItemBean) view.getTag(R.id.item_diamonds_tag);
                         bean.setSelect(true);
                         resetPager();
-                        mListener.onItemClick(bean);
+                        mListener.onItemClick(bean.getO());
                     }
                 }
             });

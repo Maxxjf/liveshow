@@ -20,8 +20,6 @@ import com.qcloud.qclib.pullrefresh.PullRefreshView;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.widget.layoutManager.FullyLinearLayoutManager;
 
-import java.util.ArrayList;
-
 import butterknife.Bind;
 import timber.log.Timber;
 
@@ -70,28 +68,28 @@ public class MyGiftsActivity extends SwipeBaseActivity<IMyGiftsView, MyGiftsPres
 
     private void initGiftPager() {
         //测试的假数据
-        ArrayList<String> list = new ArrayList<>();
-        list.add("1");
-        list.add("2");
-        list.add("3");
-        list.add("4");
-        list.add("5");
-        list.add("6");
-        list.add("7");
-        list.add("8");
-        list.add("9");
-        list.add("10");
-        list.add("11");
-        list.add("12");
-        list.add("13");
-        list.add("14");
-        list.add("15");
-        list.add("16");
-        list.add("17");
-        list.add("18");
+//        ArrayList<String> list = new ArrayList<>();
+//        list.add("1");
+//        list.add("2");
+//        list.add("3");
+//        list.add("4");
+//        list.add("5");
+//        list.add("6");
+//        list.add("7");
+//        list.add("8");
+//        list.add("9");
+//        list.add("10");
+//        list.add("11");
+//        list.add("12");
+//        list.add("13");
+//        list.add("14");
+//        list.add("15");
+//        list.add("16");
+//        list.add("17");
+//        list.add("18");
 
         mPageGift.setCountNum(4, 2);
-        mPageGift.setData(list);
+        //mPageGift.setData(list);
 
 //        mPageGift.setOnItemClickListener(new DiamondsPagerLayout.OnItemClickListener() {
 //            @Override

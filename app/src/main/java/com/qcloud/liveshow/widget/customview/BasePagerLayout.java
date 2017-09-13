@@ -82,7 +82,7 @@ public abstract class BasePagerLayout extends BaseLinearLayout implements ViewPa
         Timber.e("countRow = %d, CountPager = %d", mCountRow, mCountPager);
     }
 
-    public void setData(ArrayList data) {
+    public void setData(List data) {
         this.mData = packData(data);
         /**先准备数据、先拆分数据源*/
         initItemData();
@@ -95,7 +95,7 @@ public abstract class BasePagerLayout extends BaseLinearLayout implements ViewPa
     /**
      * 设置数据
      * */
-    public ArrayList<PagerItemBean> packData(ArrayList<Object> data) {
+    public ArrayList<PagerItemBean> packData(List<Object> data) {
         ArrayList<PagerItemBean> list = new ArrayList<>();
         if (data == null) {
             return list;

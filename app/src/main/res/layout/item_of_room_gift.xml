@@ -3,10 +3,10 @@
     xmlns:myapp="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_item"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:padding="@dimen/margin_1"
+    android:padding="@dimen/layout_margin"
     android:orientation="vertical">
 
     <com.qcloud.qclib.widget.customview.RatioImageView
@@ -25,7 +25,7 @@
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/micro_text_size"
-        android:text="10钻石币"/>
+        tools:text="10钻石币"/>
 
     <TextView
         android:id="@+id/tv_price"
@@ -35,6 +35,6 @@
         android:gravity="center"
         android:textColor="@color/colorEnd"
         android:textSize="@dimen/mini_text_size"
-        android:text="1钻石币"/>
+        tools:text="1钻石币"/>
 
 </LinearLayout>

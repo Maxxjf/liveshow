@@ -5,12 +5,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.beans.PagerItemBean;
+import com.qcloud.liveshow.beans.DiamondsBean;
+import com.qcloud.liveshow.model.impl.ProfitModelImpl;
+import com.qcloud.liveshow.utils.BasicsUtil;
 import com.qcloud.liveshow.widget.customview.DiamondsPagerLayout;
 import com.qcloud.qclib.base.BasePopupWindow;
+import com.qcloud.qclib.beans.ReturnDataBean;
+import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.toast.ToastUtils;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 
@@ -22,6 +24,8 @@ import butterknife.Bind;
 public class BuyDiamondsPop extends BasePopupWindow {
     @Bind(R.id.page_diamonds)
     DiamondsPagerLayout mPageDiamonds;
+
+    private DiamondsBean currBean;
 
     public BuyDiamondsPop(Context context) {
         super(context);
@@ -39,36 +43,20 @@ public class BuyDiamondsPop extends BasePopupWindow {
 
     @Override
     protected void initAfterViews() {
-        //测试的假数据
-        ArrayList<String> list = new ArrayList<>();
-        list.add("1");
-        list.add("2");
-        list.add("3");
-        list.add("4");
-        list.add("5");
-        list.add("6");
-        list.add("7");
-        list.add("8");
-        list.add("9");
-        list.add("10");
-        list.add("11");
-        list.add("12");
-        list.add("13");
-        list.add("14");
-        list.add("15");
-        list.add("16");
-        list.add("17");
-        list.add("18");
 
         mPageDiamonds.setCountNum(3, 2);
-        mPageDiamonds.setData(list);
 
         mPageDiamonds.setOnItemClickListener(new DiamondsPagerLayout.OnItemClickListener() {
             @Override
             public void onItemClick(Object o) {
-                ToastUtils.ToastMessage(mContext, ((PagerItemBean) o).getIndex() + " ");
+                currBean = (DiamondsBean) o;
+                if (currBean != null) {
+                    ToastUtils.ToastMessage(mContext, currBean.getName());
+                }
             }
         });
+
+        loadData();
     }
 
     @Override
@@ -84,10 +72,28 @@ public class BuyDiamondsPop extends BasePopupWindow {
         setPopWindowBg(1.0f);
     }
 
-//    @OnClick(R.id.btn_buy)
-//    void onBuyClick(View view) {
-//        if (mViewClick != null) {
-//            mViewClick.onViewClick(view);
-//        }
-//    }
+    private void loadData() {
+        if (BasicsUtil.mDiamondsList != null && BasicsUtil.mDiamondsList.size() > 0) {
+            if (mPageDiamonds != null) {
+                mPageDiamonds.setData(BasicsUtil.mDiamondsList);
+            }
+        } else {
+            new ProfitModelImpl().getDiamondsList(new DataCallback<ReturnDataBean<DiamondsBean>>() {
+                @Override
+                public void onSuccess(ReturnDataBean<DiamondsBean> bean) {
+                    if (bean != null && bean.getList() != null) {
+                        BasicsUtil.mDiamondsList = bean.getList();
+                        if (mPageDiamonds != null) {
+                            mPageDiamonds.setData(bean.getList());
+                        }
+                    }
+                }
+
+                @Override
+                public void onError(int status, String errMsg) {
+                    ToastUtils.ToastMessage(mContext, errMsg+"");
+                }
+            });
+        }
+    }
 }

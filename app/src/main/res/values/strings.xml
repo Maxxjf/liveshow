@@ -220,5 +220,6 @@
     <string name="tag_curr_guarder_num">当前%d人</string>
     <string name="tag_curr_spend">本场花费</string>
     <string name="tag_share_way">选择分享方式</string>
+    <string name="tag_diamonds_price">%d钻石币</string>
 
 </resources>

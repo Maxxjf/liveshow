@@ -44,6 +44,30 @@ public interface UrlConstants {
     String SUBMIT_APPLY = URL_PREFIX_APP + "anchor/apply";
 
     /**
+     * 我的有关
+     * */
+    /**我的礼物列表*/
+    String GET_GIFT_PAGE = URL_PREFIX_APP + "mine/giftPage";
+    /**我的关注*/
+    String GET_MY_FOLLOW = URL_PREFIX_APP + "mine/attentionPage";
+    /**我的粉丝*/
+    String GET_MY_FANS = URL_PREFIX_APP + "mine/fansPage";
+    /**我的黑名单*/
+    String GET_MY_BLACKLIST = URL_PREFIX_APP + "mine/blackPage";
+    /**关注/取消关注*/
+    String ATTENTION = URL_PREFIX_APP + "mine/attention";
+    /**移出黑名单*/
+    String MOVE_OUT = URL_PREFIX_APP + "mine/moveOut";
+
+    /**
+     * 收益有关
+     * */
+    /**获取钻石币充值套餐列表*/
+    String GET_PAY_MEAL_LIST = URL_PREFIX_APP + "basics/payMealList";
+    /**获取礼物列表*/
+    String GET_GIFT_LIST = URL_PREFIX_APP + "basics/giftList";
+
+    /**
      * 文件有关
      * */
     /**上传图片*/

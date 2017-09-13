@@ -23,6 +23,7 @@ import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.imageselect.utils.ImageSelectUtil;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.DateUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.RatioImageView;
 import com.qcloud.qclib.widget.customview.wheelview.DateTimePicker;
@@ -86,6 +87,8 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     private TollStandardPicker mTollPicker;
     private TimePicker mStartPicker;
     private TimePicker mEndPicker;
+    private String startTime = "00:00";
+    private String endTime = "00:00";
 
     private InputDialog mInputDialog;
     private boolean isInputTitle = true;
@@ -201,7 +204,13 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mStartPicker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {
-                mBtnTimeStart.setText(String.format(tagHourMinute, hour, minute));
+                startTime = String.format(tagHourMinute, hour, minute);
+                mBtnTimeStart.setText(startTime);
+                if (DateUtils.compareTime(startTime, endTime, "HH:mm") > 0) {
+                    mBtnTimeEnd.setText("次日" + endTime);
+                } else {
+                    mBtnTimeEnd.setText(endTime);
+                }
             }
         });
         mStartPicker.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -228,7 +237,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
 
         mEndPicker.setCancelTextColor(ContextCompat.getColor(mContext, R.color.colorStart));
         mEndPicker.setFinishTextColor(ContextCompat.getColor(mContext, R.color.colorStart));
-        mEndPicker.setTitleText(R.string.tag_start_time);
+        mEndPicker.setTitleText(R.string.tag_end_time);
         mEndPicker.setTitleTextColor(ContextCompat.getColor(mContext, R.color.colorTitle));
         mEndPicker.setTopBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
 
@@ -242,7 +251,12 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mEndPicker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {
-                mBtnTimeEnd.setText(String.format(tagHourMinute, hour, minute));
+                endTime = String.format(tagHourMinute, hour, minute);
+                if (DateUtils.compareTime(startTime, endTime, "HH:mm") > 0) {
+                    mBtnTimeEnd.setText("次日" + endTime);
+                } else {
+                    mBtnTimeEnd.setText(endTime);
+                }
             }
         });
         mEndPicker.setOnDismissListener(new PopupWindow.OnDismissListener() {

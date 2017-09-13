@@ -1,6 +1,9 @@
 package com.qcloud.liveshow.ui.profit.view;
 
+import com.qcloud.liveshow.beans.DiamondsBean;
 import com.qcloud.qclib.base.BaseView;
+
+import java.util.List;
 
 /**
  * 类说明：我的钻石币
@@ -13,4 +16,7 @@ public interface IMyDiamondsView extends BaseView {
 
     /**服务热线*/
     void onCustomerServiceClick();
+
+    /**钻石币充值套餐*/
+    void replaceDiamondsList(List<DiamondsBean> beans);
 }

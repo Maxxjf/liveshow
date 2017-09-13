@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,13 +12,17 @@ import android.widget.TextView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.DiamondsAdapter;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
+import com.qcloud.liveshow.beans.DiamondsBean;
 import com.qcloud.liveshow.ui.profit.presenter.impl.MyDiamondsPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.IMyDiamondsView;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.LineTextView;
 import com.qcloud.qclib.widget.layoutManager.FullyGridLayoutManager;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.BindDimen;
@@ -75,6 +80,20 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
         initDiamondsList();
 
         mBtnRechargeAgreement.setText(getString(R.string.tag_recharge_agreement), LineTextView.BOTTOM);
+
+        if (UserInfoUtil.mUser != null) {
+            mTvCurrDiamonds.setText(UserInfoUtil.mUser.getVirtualCoinStr());
+        }
+
+        loadData();
+    }
+
+    /**
+     * 加载数据
+     * */
+    private void loadData() {
+        startLoadingDialog();
+        mPresenter.getDiamondsList();
     }
 
     private void initTitleBar() {
@@ -96,6 +115,15 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
 
         mAdapter = new DiamondsAdapter(this);
         mListDiamonds.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                DiamondsBean bean = mAdapter.refreshSelect(i);
+                if (bean != null) {
+                    ToastUtils.ToastMessage(mContext, bean.getName()+"");
+                }
+            }
+        });
     }
 
     @OnClick({R.id.btn_recharge_agreement, R.id.tv_customer_service})
@@ -114,8 +142,19 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
     }
 
     @Override
+    public void replaceDiamondsList(List<DiamondsBean> beans) {
+        if (isRunning) {
+            stopLoadingDialog();
+            if (beans != null) {
+                mAdapter.replaceList(beans);
+            }
+        }
+    }
+
+    @Override
     public void loadErr(boolean isShow, String errMsg) {
         if (isRunning) {
+            startLoadingDialog();
             if (isShow) {
                 ToastUtils.ToastMessage(this, errMsg);
             } else {

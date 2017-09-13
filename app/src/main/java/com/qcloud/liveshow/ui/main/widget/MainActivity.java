@@ -20,6 +20,7 @@ import com.qcloud.liveshow.ui.home.widget.HomeFragment;
 import com.qcloud.liveshow.ui.main.presenter.impl.MainPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.IMainView;
 import com.qcloud.liveshow.ui.mine.widget.MineFragment;
+import com.qcloud.liveshow.utils.BasicsUtil;
 import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.permission.PermissionsManager;
@@ -81,6 +82,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         switchStart(startEnum);
 
         requestPermission();
+        loadBasicData();
     }
 
     /**
@@ -115,6 +117,14 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
 //                        }
 //                    }
 //                });
+    }
+
+    /**
+     * 加载基础数据
+     * */
+    private void loadBasicData() {
+        BasicsUtil.loadDiamonds();
+        BasicsUtil.loadGift();
     }
 
     @OnClick({R.id.btn_home, R.id.btn_live_show, R.id.btn_mine})
