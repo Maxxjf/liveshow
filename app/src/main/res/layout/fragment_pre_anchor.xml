@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:myapp="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorBlackAlpha20">
+    android:background="@color/colorBlackAlpha20"
+    tools:context=".ui.anchor.widget.PreAnchorFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -48,6 +50,7 @@
                 android:id="@+id/img_cover"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/bitmap_add_picture"
                 myapp:ratio="1"
                 myapp:width="180"/>
 
@@ -56,7 +59,7 @@
                 android:layout_height="@dimen/btn_height"
                 android:orientation="horizontal"
                 android:gravity="center|bottom"
-                android:layout_marginLeft="@dimen/margin_1"
+                android:layout_marginLeft="@dimen/margin_2"
                 android:layout_marginBottom="@dimen/margin_1"
                 android:layout_gravity="bottom">
 
@@ -233,7 +236,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/medium_text_size"
-                android:text="00:00"/>
+                tools:text="00:00"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -254,7 +257,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/medium_text_size"
-                android:text="00:00"/>
+                tools:text="00:00"/>
         </LinearLayout>
     </LinearLayout>
 

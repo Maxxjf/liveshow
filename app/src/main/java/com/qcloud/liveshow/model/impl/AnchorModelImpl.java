@@ -7,6 +7,7 @@ import com.qcloud.liveshow.beans.ApplyStatusBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.SubmitApplyBean;
+import com.qcloud.liveshow.beans.SubmitStartLiveBean;
 import com.qcloud.liveshow.model.IAnchorModel;
 import com.qcloud.liveshow.net.IAnchorApi;
 import com.qcloud.qclib.callback.DataCallback;
@@ -75,5 +76,26 @@ public class AnchorModelImpl implements IAnchorModel {
         mParams.put("withdrawPassword", bean.getWithdrawPassword());
 
         BaseApi.dispose(IAnchorApi.submitApply(mParams), callback);
+    }
+
+    /**
+     * 创建直播间
+     *
+     * @param bean
+     *          创建信息
+     *
+     * @time 2017/9/14 16:33
+     */
+    @Override
+    public void createLive(@NonNull SubmitStartLiveBean bean, DataCallback<ReturnEmptyBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+        mParams.put("cover", bean.getCover());
+        mParams.put("title", bean.getTitle());
+        mParams.put("notice", bean.getNotice());
+        mParams.put("rates", bean.getRates());
+        mParams.put("feeStartTime", bean.getFeeStartTime());
+        mParams.put("feeEndTime", bean.getFeeEndTime());
+
+        BaseApi.dispose(IAnchorApi.createLive(mParams), callback);
     }
 }

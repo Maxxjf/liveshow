@@ -1,9 +1,12 @@
 package com.qcloud.liveshow.model;
 
+import android.support.annotation.NonNull;
+
 import com.qcloud.liveshow.beans.ApplyStatusBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.SubmitApplyBean;
+import com.qcloud.liveshow.beans.SubmitStartLiveBean;
 import com.qcloud.qclib.callback.DataCallback;
 
 /**
@@ -19,5 +22,8 @@ public interface IAnchorModel {
     void getCode(String contactWay, DataCallback<GetCodeResBean> callback);
 
     /**提交申请主播*/
-    void submitApply(SubmitApplyBean bean, DataCallback<ReturnEmptyBean> callback);
+    void submitApply(@NonNull SubmitApplyBean bean, DataCallback<ReturnEmptyBean> callback);
+
+    /**创建直播间*/
+    void createLive(@NonNull SubmitStartLiveBean bean, DataCallback<ReturnEmptyBean> callback);
 }

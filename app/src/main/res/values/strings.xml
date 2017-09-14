@@ -73,6 +73,9 @@
     <string name="toast_upload_head_img">请上传一张自拍照或头像</string>
     <string name="toast_no_data">暂无数据</string>
     <string name="toast_no_more_data">暂无更多数据</string>
+    <string name="toast_input_live_title">请输入标题</string>
+    <string name="toast_input_live_notice">请输入公告</string>
+    <string name="toast_input_live_cover">请选择一张图片作为封面</string>
 
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>

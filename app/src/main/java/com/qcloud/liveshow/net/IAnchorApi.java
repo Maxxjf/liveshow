@@ -39,4 +39,11 @@ public class IAnchorApi {
 
         return OkGoRequest.getRequest(UrlConstants.SUBMIT_APPLY, type, params);
     }
+
+    /**创建直播间*/
+    public static Observable<BaseResponse<ReturnEmptyBean>> createLive(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.CREATE_LIVE, type, params);
+    }
 }

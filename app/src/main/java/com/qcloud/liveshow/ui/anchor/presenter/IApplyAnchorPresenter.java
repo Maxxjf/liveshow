@@ -1,5 +1,7 @@
 package com.qcloud.liveshow.ui.anchor.presenter;
 
+import android.support.annotation.NonNull;
+
 import com.qcloud.liveshow.beans.SubmitApplyBean;
 import com.qcloud.qclib.base.BtnClickPresenter;
 
@@ -16,5 +18,5 @@ public interface IApplyAnchorPresenter extends BtnClickPresenter {
     void uploadHeadImg(String path);
 
     /**提交申请主播*/
-    void submitApply(SubmitApplyBean bean);
+    void submitApply(@NonNull SubmitApplyBean bean);
 }

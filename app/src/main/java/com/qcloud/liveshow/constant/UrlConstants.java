@@ -42,6 +42,8 @@ public interface UrlConstants {
     String GET_APPLY_CODE = URL_PREFIX_APP + "anchor/sendCode";
     /**提交申请*/
     String SUBMIT_APPLY = URL_PREFIX_APP + "anchor/apply";
+    /**创建直播间*/
+    String CREATE_LIVE = URL_PREFIX_APP + "room/create";
 
     /**
      * 我的有关

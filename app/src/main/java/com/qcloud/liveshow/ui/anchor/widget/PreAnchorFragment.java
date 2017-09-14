@@ -14,16 +14,19 @@ import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseFragment;
+import com.qcloud.liveshow.beans.SubmitStartLiveBean;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.PreAnchorPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IPreAnchorView;
 import com.qcloud.liveshow.widget.dialog.InputDialog;
 import com.qcloud.liveshow.widget.pop.SelectPicturePop;
 import com.qcloud.liveshow.widget.pop.TollStandardPicker;
 import com.qcloud.qclib.base.BasePopupWindow;
+import com.qcloud.qclib.beans.UploadFileBean;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.imageselect.utils.ImageSelectUtil;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.DateUtils;
+import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.RatioImageView;
 import com.qcloud.qclib.widget.customview.wheelview.DateTimePicker;
@@ -87,8 +90,14 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     private TollStandardPicker mTollPicker;
     private TimePicker mStartPicker;
     private TimePicker mEndPicker;
-    private String startTime = "00:00";
-    private String endTime = "00:00";
+    private String mStartTime;
+    private String mEndTime = "";
+
+    private String mTitle;
+    private String mNotice;
+    private String mDiamonds = "0";
+    private String mCover;
+    private SubmitStartLiveBean mSubmitBean;
 
     private InputDialog mInputDialog;
     private boolean isInputTitle = true;
@@ -105,7 +114,8 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
 
     @Override
     protected void initViewAndData() {
-
+        mStartTime = DateUtils.getCurrTime("HH:mm");
+        mBtnTimeStart.setText(mStartTime);
     }
 
     @Override
@@ -150,9 +160,10 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
             @Override
             public void onViewClick(View view) {
                 if (view.getId() == R.id.btn_take_a_picture) {
-                    ImageSelectUtil.startCamera(getActivity(), REQUEST_CODE, screenW, screenW);
+                    ToastUtils.ToastMessage(getActivity(), "暂时不支持照相，敬请期待~");
+                    //ImageSelectUtil.startCamera(getActivity(), REQUEST_CODE, screenW, screenW);
                 } else if (view.getId() == R.id.btn_album) {
-                    ImageSelectUtil.openPhoto(getActivity(), REQUEST_CODE, screenW, screenW);
+                    ImageSelectUtil.openPhoto(getActivity(), REQUEST_CODE, false);
                 }
             }
         });
@@ -186,6 +197,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mStartPicker.setRangeEnd(23, 59);//23:59
         int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         int currentMinute = Calendar.getInstance().get(Calendar.MINUTE);
+
         mStartPicker.setSelectedItem(currentHour, currentMinute);
 
         mStartPicker.setCancelTextColor(ContextCompat.getColor(mContext, R.color.colorStart));
@@ -204,12 +216,12 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mStartPicker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {
-                startTime = String.format(tagHourMinute, hour, minute);
-                mBtnTimeStart.setText(startTime);
-                if (DateUtils.compareTime(startTime, endTime, "HH:mm") > 0) {
-                    mBtnTimeEnd.setText("次日" + endTime);
+                mStartTime = String.format(tagHourMinute, hour, minute);
+                mBtnTimeStart.setText(mStartTime);
+                if (DateUtils.compareTime(mStartTime, mEndTime, "HH:mm") > 0) {
+                    mBtnTimeEnd.setText("次日" + mEndTime);
                 } else {
-                    mBtnTimeEnd.setText(endTime);
+                    mBtnTimeEnd.setText(mEndTime);
                 }
             }
         });
@@ -251,11 +263,11 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mEndPicker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {
-                endTime = String.format(tagHourMinute, hour, minute);
-                if (DateUtils.compareTime(startTime, endTime, "HH:mm") > 0) {
-                    mBtnTimeEnd.setText("次日" + endTime);
+                mEndTime = String.format(tagHourMinute, hour, minute);
+                if (DateUtils.compareTime(mStartTime, mEndTime, "HH:mm") > 0) {
+                    mBtnTimeEnd.setText("次日" + mEndTime);
                 } else {
-                    mBtnTimeEnd.setText(endTime);
+                    mBtnTimeEnd.setText(mEndTime);
                 }
             }
         });
@@ -351,20 +363,67 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
 
     @Override
     public void onBeginAnchorClick() {
-        if (mListener != null) {
-            mListener.onBtnClick(mBtnBegin);
+        if (check()) {
+            mPresenter.createLive(mSubmitBean);
+            startLoadingDialog();
+        }
+    }
+
+    @Override
+    public void uploadSuccess(UploadFileBean bean) {
+        if (isInFragment && bean != null) {
+            mCover = bean.getFileId();
+        }
+    }
+
+    @Override
+    public void createLiveSuccess() {
+        if (isInFragment) {
+            stopLoadingDialog();
+            if (mListener != null) {
+                mListener.onBtnClick(mBtnBegin);
+            }
         }
     }
 
     @Override
     public void loadErr(boolean isShow, String errMsg) {
         if (isInFragment) {
+            stopLoadingDialog();
             if (isShow) {
                 ToastUtils.ToastMessage(getActivity(), errMsg);
             } else {
                 Timber.e(errMsg);
             }
         }
+    }
+
+    private boolean check() {
+        mTitle = mTvTitle.getText().toString().trim();
+        mNotice = mTvNotice.getText().toString().trim();
+        mDiamonds = mTvTollStandard.getText().toString().trim();
+
+        if (StringUtils.isEmptyString(mTitle)) {
+            ToastUtils.ToastMessage(getActivity(), R.string.toast_input_live_title);
+            return false;
+        }
+        if (StringUtils.isEmptyString(mNotice)) {
+            ToastUtils.ToastMessage(getActivity(), R.string.toast_input_live_notice);
+            return false;
+        }
+        if (StringUtils.isEmptyString(mCover)) {
+            ToastUtils.ToastMessage(getActivity(), R.string.toast_input_live_cover);
+            return false;
+        }
+        mSubmitBean = new SubmitStartLiveBean();
+        mSubmitBean.setCover(mCover);
+        mSubmitBean.setTitle(mTitle);
+        mSubmitBean.setNotice(mNotice);
+        mSubmitBean.setRates(mDiamonds);
+        mSubmitBean.setFeeStartTime(mStartTime);
+        mSubmitBean.setFeeEndTime(mEndTime);
+
+        return true;
     }
 
     @Override
@@ -374,11 +433,13 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
             if (requestCode == REQUEST_CODE) {
                 ArrayList<String> images = data.getStringArrayListExtra(ImageSelectUtil.SELECT_RESULT);
                 if (images != null && !images.isEmpty()) {
-                    if (isInFragment && mImgCover != null) {
-                        GlideUtil.loadImage(mContext, mImgCover,
-                                images.get(0), R.drawable.bitmap_user_head, 0, 0, true, false);
+                    if (isInFragment) {
+                        if (mImgCover != null) {
+                            GlideUtil.loadImage(mContext, mImgCover,
+                                    images.get(0), R.drawable.bitmap_add_picture, 0, 0, true, false);
+                        }
+                        mPresenter.uploadCoverImg(images.get(0));
                     }
-                    //mPresenter.uploadFile(images.get(0));
                 } else {
                     ToastUtils.ToastMessage(mContext, R.string.toast_get_picture_failure);
                 }

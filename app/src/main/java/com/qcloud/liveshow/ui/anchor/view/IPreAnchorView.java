@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.ui.anchor.view;
 
 import com.qcloud.qclib.base.BaseView;
+import com.qcloud.qclib.beans.UploadFileBean;
 
 /**
  * 类说明：主播前的准备
@@ -40,4 +41,10 @@ public interface IPreAnchorView extends BaseView {
 
     /**点击开始直播*/
     void onBeginAnchorClick();
+
+    /**上传图片成功*/
+    void uploadSuccess(UploadFileBean bean);
+
+    /**创建直播间成功*/
+    void createLiveSuccess();
 }
