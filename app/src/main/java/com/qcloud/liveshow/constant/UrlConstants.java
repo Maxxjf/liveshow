@@ -57,7 +57,7 @@ public interface UrlConstants {
     /**关注/取消关注*/
     String ATTENTION = URL_PREFIX_APP + "mine/attention";
     /**移出黑名单*/
-    String MOVE_OUT = URL_PREFIX_APP + "mine/moveOut";
+    String IN_OUT_BLACKLIST = URL_PREFIX_APP + "mine/inOutBlacklist";
 
     /**
      * 收益有关

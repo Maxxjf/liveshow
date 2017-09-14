@@ -102,7 +102,7 @@
 
     <!--关注样式-->
     <style name="BtnFollow">
-        <item name="android:layout_width">@dimen/margin_80dp</item>
+        <item name="android:layout_width">@dimen/margin_90dp</item>
         <item name="android:layout_height">@dimen/btn_height</item>
         <item name="android:button">@null</item>
         <item name="android:background">@drawable/check_follow_select</item>

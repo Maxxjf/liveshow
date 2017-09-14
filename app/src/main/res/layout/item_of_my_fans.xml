@@ -42,7 +42,7 @@
                     android:textColor="@color/colorTitle"
                     android:textSize="@dimen/medium_text_size"
                     android:textStyle="bold"
-                    android:text="Chopper"/>
+                    tools:text="Chopper"/>
 
                 <ImageView
                     android:id="@+id/img_user_sex"
@@ -61,17 +61,21 @@
                 android:layout_marginTop="@dimen/margin_1"
                 android:textColor="@color/colorTitle"
                 android:textSize="@dimen/micro_text_size"
-                android:text="@string/tag_live_show_desc"/>
+                tools:text="@string/tag_live_show_desc"/>
 
         </LinearLayout>
 
-        <CheckBox
+        <TextView
             android:id="@+id/btn_follow"
-            style="@style/BtnFollow"
+            android:layout_width="@dimen/margin_90dp"
+            android:layout_height="@dimen/btn_height"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/layout_margin"
-            android:checked="false"
+            android:background="@drawable/frame_gray_circular"
+            android:gravity="center"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/micro_text_size"
             android:text="取消关注"/>
 
     </RelativeLayout>

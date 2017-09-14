@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/image_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_no_follow"/>
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_3"
+        android:gravity="center"
+        android:textColor="@color/colorText"
+        android:textSize="@dimen/small_text_size"
+        android:text="@string/tip_no_data"/>
+
+    <Button
+        android:id="@+id/btn_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/btn_height"
+        android:layout_marginTop="@dimen/margin_2"
+        android:paddingLeft="@dimen/margin_4"
+        android:paddingRight="@dimen/margin_4"
+        android:background="@drawable/btn_left_right_orange_selector"
+        android:gravity="center"
+        android:padding="@dimen/margin_2"
+        android:text="@string/btn_refresh"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/small_text_size" />
+</LinearLayout>

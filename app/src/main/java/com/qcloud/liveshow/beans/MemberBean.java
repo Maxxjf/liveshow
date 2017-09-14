@@ -1,5 +1,7 @@
 package com.qcloud.liveshow.beans;
 
+import com.qcloud.qclib.utils.StringUtils;
+
 /**
  * 类说明：粉丝成员
  * Author: Kuzan
@@ -17,7 +19,7 @@ public class MemberBean {
     String memberGradeIcon; // 会员等级图标
     double memberSum;   // 该会员贡献总收益
     String signature;   // 个性签名
-    boolean isAttention;// 是否关注
+    boolean isAttention = true;// 是否关注 默认为true是黑名单里使用
 
     public long getId() {
         return id;
@@ -28,7 +30,7 @@ public class MemberBean {
     }
 
     public String getNickName() {
-        return nickName;
+        return StringUtils.isEmptyString(nickName) ? "" : nickName;
     }
 
     public void setNickName(String nickName) {
@@ -104,7 +106,7 @@ public class MemberBean {
     }
 
     public String getSignature() {
-        return signature;
+        return StringUtils.isEmptyString(signature) ? "" : signature;
     }
 
     public void setSignature(String signature) {
@@ -117,6 +119,10 @@ public class MemberBean {
 
     public void setAttention(boolean attention) {
         isAttention = attention;
+    }
+
+    public void refreshAttention() {
+        isAttention = !isAttention;
     }
 
     @Override

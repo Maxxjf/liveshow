@@ -4,6 +4,7 @@ import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.MyGiftsBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.model.IMineModel;
 import com.qcloud.liveshow.net.IMineApi;
 import com.qcloud.qclib.beans.ReturnDataBean;
@@ -44,8 +45,9 @@ public class MineModelImpl implements IMineModel {
     }
 
     /**
-     * 获取我的关注
+     * 获取我的关注/我的粉丝/我的黑名单
      *
+     * @param type 1我的关注 2我的粉丝 3我的黑名单
      * @param pageNum
      * @param pageSize
      * @param callback
@@ -53,81 +55,41 @@ public class MineModelImpl implements IMineModel {
      * @time 2017/9/12 16:43
      */
     @Override
-    public void getFollowPage(int pageNum, int pageSize, DataCallback<ReturnDataBean<MemberBean>> callback) {
+    public void getAttentionPage(int type, int pageNum, int pageSize, DataCallback<ReturnDataBean<MemberBean>> callback) {
         mParams = OkGoRequest.getAppParams();
         mParams.put("pageNum", pageNum);
         mParams.put("pageSize", pageSize);
 
-        BaseApi.dispose(IMineApi.getAttentionPage(mParams), callback);
+        if (type == StartFansEnum.MyFans.getKey()) {
+            BaseApi.dispose(IMineApi.getFansPage(mParams), callback);
+        } else if (type == StartFansEnum.Blacklist.getKey()) {
+            BaseApi.dispose(IMineApi.getBlacklistPage(mParams), callback);
+        } else {
+            BaseApi.dispose(IMineApi.getAttentionPage(mParams), callback);
+        }
     }
 
     /**
-     * 获取我的粉丝
+     * 关注/取消关注 加入/移出黑名单
      *
-     * @param pageNum
-     * @param pageSize
-     * @param callback
-     *
-     * @time 2017/9/12 16:44
-     */
-    @Override
-    public void getFansPage(int pageNum, int pageSize, DataCallback<ReturnDataBean<MemberBean>> callback) {
-        mParams = OkGoRequest.getAppParams();
-        mParams.put("pageNum", pageNum);
-        mParams.put("pageSize", pageSize);
-
-        BaseApi.dispose(IMineApi.getFansPage(mParams), callback);
-    }
-
-    /**
-     * 获取我的黑名单
-     *
-     * @param pageNum
-     * @param pageSize
-     * @param callback
-     *
-     * @time 2017/9/12 16:44
-     */
-    @Override
-    public void getBlacklistPage(int pageNum, int pageSize, DataCallback<ReturnDataBean<MemberBean>> callback) {
-        mParams = OkGoRequest.getAppParams();
-        mParams.put("pageNum", pageNum);
-        mParams.put("pageSize", pageSize);
-
-        BaseApi.dispose(IMineApi.getBlacklistPage(mParams), callback);
-    }
-
-    /**
-     * 关注/取消关注
-     *
+     * @param type          1我的关注 2我的粉丝 3我的黑名单
      * @param id            粉丝id
-     * @param isAttention   是否已关注
+     * @param isAttention   true 关注/加入黑名单 false 取消关注/移出黑名单
      * @param callback
      *
      * @time 2017/9/12 16:45
      */
     @Override
-    public void attention(long id, boolean isAttention, DataCallback<ReturnEmptyBean> callback) {
-        mParams = OkGoRequest.getAppParams();
-        mParams.put("id", id);
-        mParams.put("isAttention", isAttention);
-
-        BaseApi.dispose(IMineApi.attention(mParams), callback);
-    }
-
-    /**
-     * 移出黑名单
-     *
-     * @param id    粉丝id
-     * @param callback
-     *
-     * @time 2017/9/12 16:46
-     */
-    @Override
-    public void moveOut(long id, DataCallback<ReturnEmptyBean> callback) {
+    public void submitAttention(int type, long id, boolean isAttention, DataCallback<ReturnEmptyBean> callback) {
         mParams = OkGoRequest.getAppParams();
         mParams.put("id", id);
 
-        BaseApi.dispose(IMineApi.moveOut(mParams), callback);
+        if (type == StartFansEnum.Blacklist.getKey()) {
+            mParams.put("isBlack", isAttention);
+            BaseApi.dispose(IMineApi.inOutBlacklist(mParams), callback);
+        } else {
+            mParams.put("isAttention", isAttention);
+            BaseApi.dispose(IMineApi.attention(mParams), callback);
+        }
     }
 }

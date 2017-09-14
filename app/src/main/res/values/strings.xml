@@ -71,12 +71,19 @@
     <string name="toast_give_up_to_apply">您确定要放弃主播申请吗？</string>
     <string name="toast_input_right_mobile_or_email">请输入正确的手机号码或邮箱号码</string>
     <string name="toast_upload_head_img">请上传一张自拍照或头像</string>
+    <string name="toast_no_data">暂无数据</string>
+    <string name="toast_no_more_data">暂无更多数据</string>
 
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>
     <string name="tip_confirm">确定</string>
     <string name="tip_confirm_to_logout">您确定要退出登录吗?</string>
     <string name="tip_confirm_to_exit_room">您确定要退出房间吗?</string>
+    <string name="tip_no_follow">你还没有关注的主播呢~</string>
+    <string name="tip_no_record">还没有交易记录呢~</string>
+    <string name="tip_no_search_res">没有搜索出来呢，换个关键词试试~</string>
+    <string name="tip_no_message">暂时没有消息通知哦~</string>
+    <string name="tip_err_request">页面丢失啦，点击图标刷新一下吧~</string>
 
     <string name="input_mobile_hint">请输入手机号</string>
     <string name="input_code_hint">短信验证码</string>
@@ -137,6 +144,8 @@
     <string name="tag_follow">关注</string>
     <string name="tag_fans">粉丝</string>
     <string name="tag_un_follow">取消关注</string>
+    <string name="tag_add_blacklist">加入黑名单</string>
+    <string name="tag_remove_blacklist">移出黑名单</string>
     <string name="tag_name">姓名</string>
     <string name="tag_nickname">昵称</string>
     <string name="tag_sex">性别</string>

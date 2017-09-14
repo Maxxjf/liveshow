@@ -55,10 +55,10 @@ public class IMineApi {
         return OkGoRequest.getRequest(UrlConstants.ATTENTION, type, params);
     }
 
-    /**移出黑名单*/
-    public static Observable<BaseResponse<ReturnEmptyBean>> moveOut(HttpParams params) {
+    /**加入/移出黑名单*/
+    public static Observable<BaseResponse<ReturnEmptyBean>> inOutBlacklist(HttpParams params) {
         Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
 
-        return OkGoRequest.getRequest(UrlConstants.MOVE_OUT, type, params);
+        return OkGoRequest.getRequest(UrlConstants.IN_OUT_BLACKLIST, type, params);
     }
 }

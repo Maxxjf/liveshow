@@ -11,6 +11,7 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.enums.UserHeaderEnum;
 import com.qcloud.qclib.base.BaseLinearLayout;
 import com.qcloud.qclib.image.GlideUtil;
+import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.widget.customview.RatioImageView;
 
 import butterknife.OnClick;
@@ -92,8 +93,13 @@ public class UserHeadImageView extends BaseLinearLayout {
         }
 
         if (mImgAnchorLevel != null) {
-            GlideUtil.loadCircleImage(mContext, mImgAnchorLevel, imgUrl, R.drawable.icon_anchor_level_1,
-                    0, 0, true, false);
+            if (StringUtils.isEmptyString(levelUrl)) {
+                mImgAnchorLevel.setVisibility(GONE);
+            } else {
+                mImgAnchorLevel.setVisibility(VISIBLE);
+                GlideUtil.loadCircleImage(mContext, mImgAnchorLevel, levelUrl, R.drawable.icon_anchor_level_1,
+                        0, 0, true, false);
+            }
         }
     }
 

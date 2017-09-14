@@ -16,17 +16,8 @@ public interface IMineModel {
     void getGiftPage(int pageNum, int pageSize, DataCallback<MyGiftsBean> callback);
 
     /**获取我的关注*/
-    void getFollowPage(int pageNum, int pageSize, DataCallback<ReturnDataBean<MemberBean>> callback);
+    void getAttentionPage(int type, int pageNum, int pageSize, DataCallback<ReturnDataBean<MemberBean>> callback);
 
-    /**获取我的关注*/
-    void getFansPage(int pageNum, int pageSize, DataCallback<ReturnDataBean<MemberBean>> callback);
-
-    /**获取我的黑名单*/
-    void getBlacklistPage(int pageNum, int pageSize, DataCallback<ReturnDataBean<MemberBean>> callback);
-
-    /**关注/取消关注*/
-    void attention(long id, boolean isAttention, DataCallback<ReturnEmptyBean> callback);
-
-    /**移出黑名单*/
-    void moveOut(long id, DataCallback<ReturnEmptyBean> callback);
+    /**关注/取消关注 加入/移出黑名单*/
+    void submitAttention(int type, long id, boolean isAttention, DataCallback<ReturnEmptyBean> callback);
 }
