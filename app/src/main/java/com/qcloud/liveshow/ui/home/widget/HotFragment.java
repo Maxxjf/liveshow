@@ -1,8 +1,6 @@
 package com.qcloud.liveshow.ui.home.widget;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,7 +12,8 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.HotAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.BannerBean;
-import com.qcloud.liveshow.beans.LiveShowBean;
+import com.qcloud.liveshow.beans.RoomBean;
+import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.ui.home.presenter.impl.HotPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IHotView;
 import com.qcloud.liveshow.ui.main.widget.WebActivity;
@@ -69,10 +68,11 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
     @Override
     protected void beginLoad() {
         loadData();
+        startLoadingDialog();
     }
 
     private void loadData() {
-        mPresenter.loadData();
+        mPresenter.loadData(pageNum, AppConstants.PAGE_SIZE);
     }
 
     private void initBanner() {
@@ -93,48 +93,16 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
         mRefreshLayout.setOnRefreshListener(new CustomSwipeRefreshLayout.OnRefreshListener(){
             @Override
             public void onRefresh() {
+                pageNum = 1;
                 mRefreshLayout.isMore(true);
-                final Handler handler = new Handler(){
-                    @Override
-                    public void handleMessage(Message msg) {
-                        super.handleMessage(msg);
-                        mRefreshLayout.refreshFinish();
-                    }
-                };
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(1500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        handler.sendEmptyMessage(0);
-                    }
-                }).start();
+                loadData();
             }
         });
         mRefreshLayout.setOnLoadMoreListener(new CustomSwipeRefreshLayout.OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                final Handler handler = new Handler(){
-                    @Override
-                    public void handleMessage(Message msg) {
-                        super.handleMessage(msg);
-                        mRefreshLayout.loadMoreFinish();
-                    }
-                };
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(1500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        handler.sendEmptyMessage(0);
-                    }
-                }).start();
+                pageNum++;
+                loadData();
             }
         });
 
@@ -146,8 +114,6 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
                 RoomActivity.openActivity(getActivity(), i, mAdapter.getList());
             }
         });
-        mPresenter.loadTest();
-        startLoadingDialog();
     }
 
     @Override
@@ -186,22 +152,65 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
     }
 
     @Override
-    public void replaceList(List<LiveShowBean> beans) {
+    public void replaceList(List<RoomBean> beans, boolean isNext) {
         if (isInFragment) {
             stopLoadingDialog();
             if (beans != null && beans.size() > 0) {
-                mAdapter.replaceList(beans);
+                if (mAdapter != null) {
+                    mAdapter.replaceList(beans);
+                }
+                if (mRefreshLayout != null) {
+                    mRefreshLayout.isMore(isNext);
+                }
+                hideEmptyView();
+            } else {
+                showEmptyView();
+            }
+            if (mRefreshLayout != null) {
+                mRefreshLayout.refreshFinish();
             }
         }
     }
 
     @Override
+    public void addListAtEnd(List<RoomBean> beans, boolean isNext) {
+        if (isInFragment) {
+            if (beans != null && beans.size() > 0) {
+                if (mAdapter != null) {
+                    mAdapter.addListAtEnd(beans);
+                }
+                if (mRefreshLayout != null) {
+                    mRefreshLayout.isMore(isNext);
+                }
+            }
+            if (mRefreshLayout != null) {
+                mRefreshLayout.loadMoreFinish();
+            }
+        }
+    }
+
+    @Override
+    public void showEmptyView() {
+        ToastUtils.ToastMessage(getActivity(), "暂无数据");
+    }
+
+    @Override
+    public void hideEmptyView() {
+        Timber.e("隐藏空布局");
+    }
+
+    @Override
     public void loadErr(boolean isShow, String errMsg) {
         if (isInFragment) {
+            stopLoadingDialog();
             if (isShow) {
                 ToastUtils.ToastMessage(mContext, errMsg);
             } else {
                 Timber.e(errMsg);
+            }
+            if (mRefreshLayout != null) {
+                mRefreshLayout.refreshFinish();
+                mRefreshLayout.loadMoreFinish();
             }
         }
     }

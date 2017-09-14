@@ -20,7 +20,7 @@ import com.dou361.ijkplayer.widget.PlayerView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.RoomAdapter;
 import com.qcloud.liveshow.base.BaseActivity;
-import com.qcloud.liveshow.beans.LiveShowBean;
+import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.ui.room.presenter.impl.RoomPresenterImpl;
 import com.qcloud.liveshow.ui.room.view.IRoomView;
 import com.qcloud.qclib.image.GlideUtil;
@@ -57,8 +57,8 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
     private PlayerView mPlayer;
     private String currUrl;
     private String currImage;
-    private List<LiveShowBean> mList;
-    private LiveShowBean mCurrBean;
+    private List<RoomBean> mList;
+    private RoomBean mCurrBean;
 
     @Override
     protected int initLayout() {
@@ -81,10 +81,10 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         mCurrentItem = getIntent().getIntExtra("POSITION", 0);
-        mList = (List<LiveShowBean>) getIntent().getSerializableExtra("LIST");
+        mList = (List<RoomBean>) getIntent().getSerializableExtra("LIST");
         if (mList != null) {
             mCurrBean = mList.get(mCurrentItem);
-            currUrl = mCurrBean.getStream_addr();
+            currUrl = "";
         }
 
         mRoomContainer = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.layout_room_container, null);
@@ -192,10 +192,8 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         }
         if (mList != null) {
             mCurrBean = mList.get(currentItem);
-            currUrl = mCurrBean.getStream_addr();
-            if (mCurrBean.getCreator() != null) {
-                currImage = mList.get(currentItem).getCreator().getPortrait();
-            }
+            currUrl = "";
+            currImage = mList.get(currentItem).getCover();
         }
         if (mRoomFragment != null) {
             mRoomFragment.refreshRoom(mCurrBean);
@@ -242,7 +240,7 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         }
     }
 
-    public static void openActivity(Context context, int position, List<LiveShowBean> list) {
+    public static void openActivity(Context context, int position, List<RoomBean> list) {
         Intent intent = new Intent(context, RoomActivity.class);
         intent.putExtra("POSITION", position);
         intent.putExtra("LIST", (Serializable) list);

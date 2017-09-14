@@ -29,8 +29,10 @@ public class RoomModelImpl implements IRoomModel {
      * @time 2017/9/7 15:28
      */
     @Override
-    public void getHotRoom(DataCallback<HotRoomBean> callback) {
+    public void getHotRoom(int pageNum, int pageSize, DataCallback<HotRoomBean> callback) {
         mParams = OkGoRequest.getAppParams();
+        mParams.put("pageNum", pageNum);
+        mParams.put("pageSize", pageSize);
 
         BaseApi.dispose(IRoomApi.getHotList(mParams), callback);
     }

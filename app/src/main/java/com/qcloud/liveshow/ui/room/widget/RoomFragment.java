@@ -17,7 +17,7 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.RoomFansAdapter;
 import com.qcloud.liveshow.adapter.RoomMessageAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
-import com.qcloud.liveshow.beans.LiveShowBean;
+import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.ui.room.presenter.impl.RoomControlPresenterImpl;
 import com.qcloud.liveshow.ui.room.view.IRoomControlView;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
@@ -81,7 +81,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private RoomMessageAdapter mMessageAdapter;
     /**是否第一次进入房间*/
     private boolean isFirstInRoom = true;
-    private LiveShowBean mCurrBean;
+    private RoomBean mCurrBean;
 
     /**输入消息弹窗*/
     private InputMessageDialog mInputDialog;
@@ -134,7 +134,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     /**
      * 刷新房间
      * */
-    public void refreshRoom(LiveShowBean bean) {
+    public void refreshRoom(RoomBean bean) {
         Timber.e("refreshRoom()");
         mCurrBean = bean;
     }
@@ -148,17 +148,17 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
             return;
         }
         if (mTvTitle != null) {
-            mTvTitle.setText(mCurrBean.getName());
+            mTvTitle.setText(mCurrBean.getNickName());
         }
         if (mTvFans != null) {
-            mTvFans.setText(mCurrBean.getOnline_users()+"");
+            mTvFans.setText(mCurrBean.getWatchNumStr());
         }
         if (mTvId != null) {
-            mTvId.setText(mCurrBean.getId()+"");
+            mTvId.setText(mCurrBean.getRoomId()+"");
         }
         if (mTvNotice != null) {
             mTvNotice.stopScroll();
-            mTvNotice.setText("我就是这么6......");
+            mTvNotice.setText(mCurrBean.getTitle());
             resetNoticeWith();
         }
     }

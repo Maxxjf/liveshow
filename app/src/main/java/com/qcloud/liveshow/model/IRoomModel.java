@@ -10,5 +10,5 @@ import com.qcloud.qclib.callback.DataCallback;
  */
 public interface IRoomModel {
     /**获取热门直播间*/
-    void getHotRoom(DataCallback<HotRoomBean> callback);
+    void getHotRoom(int pageNum, int pageSize, DataCallback<HotRoomBean> callback);
 }

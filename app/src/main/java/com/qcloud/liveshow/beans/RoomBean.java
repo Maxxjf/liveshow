@@ -2,12 +2,14 @@ package com.qcloud.liveshow.beans;
 
 import com.qcloud.qclib.utils.StringUtils;
 
+import java.io.Serializable;
+
 /**
  * 类说明：直播间
  * Author: Kuzan
  * Date: 2017/9/7 15:21.
  */
-public class RoomBean {
+public class RoomBean implements Serializable {
     long roomId;    // 房间id
     String cover;   // 封面url
     String headImg; // 主播头像url
@@ -15,8 +17,9 @@ public class RoomBean {
     String nickName;// 主播昵称
     int sex;        // 性别 0:男 1:女
     String title;   // 房间标题
-    int type;       // 房间类型
-    long watchNum;  // 观看人数
+    String type;    // 房间类型
+    int watchNum;   // 观看人数
+    int rates;      //
 
     public long getRoomId() {
         return roomId;
@@ -71,22 +74,14 @@ public class RoomBean {
     }
 
     public String getTitle() {
-        return title;
+        return StringUtils.isEmptyString(title) ? "" : title;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public long getWatchNum() {
+    public int getWatchNum() {
         return watchNum;
     }
 
@@ -94,8 +89,24 @@ public class RoomBean {
         return String.valueOf(watchNum);
     }
 
-    public void setWatchNum(long watchNum) {
+    public void setWatchNum(int watchNum) {
         this.watchNum = watchNum;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public int getRates() {
+        return rates;
+    }
+
+    public void setRates(int rates) {
+        this.rates = rates;
     }
 
     @Override
@@ -108,8 +119,9 @@ public class RoomBean {
                 ", nickName='" + nickName + '\'' +
                 ", sex=" + sex +
                 ", title='" + title + '\'' +
-                ", type=" + type +
+                ", type='" + type + '\'' +
                 ", watchNum=" + watchNum +
+                ", rates=" + rates +
                 '}';
     }
 }

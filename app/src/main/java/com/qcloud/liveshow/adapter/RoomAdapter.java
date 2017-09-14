@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.beans.LiveShowBean;
+import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.qclib.image.GlideUtil;
 
 import java.util.List;
@@ -21,9 +21,9 @@ import java.util.List;
 public class RoomAdapter extends PagerAdapter {
 
     private Context mContext;
-    private List<LiveShowBean> mList;
+    private List<RoomBean> mList;
 
-    public RoomAdapter(Context context, List<LiveShowBean> list) {
+    public RoomAdapter(Context context, List<RoomBean> list) {
         this.mContext = context;
         this.mList = list;
     }
@@ -42,12 +42,11 @@ public class RoomAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.item_of_view_room, null);
         view.setId(position);
-        final LiveShowBean bean = mList.get(position);
+        final RoomBean bean = mList.get(position);
         ImageView imgAnchor = (ImageView) view.findViewById(R.id.img_anchor);
-        if (bean.getCreator() != null) {
-            GlideUtil.loadImage(mContext, imgAnchor, bean.getCreator().getPortrait()+"?x-oss-process=image/resize,m_fixed,h_320,w_180",
-                    R.drawable.bitmap_user, true);
-        }
+        GlideUtil.loadImage(mContext, imgAnchor, bean.getCover()+"?x-oss-process=image/resize,m_fixed,h_320,w_180",
+                R.drawable.bitmap_user, true);
+
         container.addView(view);
         return view;
     }
