@@ -9,18 +9,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.adapter.MyGiftsAdapter;
+import com.qcloud.liveshow.adapter.GiftMemberAdapter;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
+import com.qcloud.liveshow.beans.GiftBean;
+import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.ui.mine.presenter.impl.MyGiftsPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IMyGiftsView;
-import com.qcloud.liveshow.widget.customview.GiftPagerLayout;
+import com.qcloud.liveshow.widget.customview.MyGiftPagerLayout;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.widget.layoutManager.FullyLinearLayoutManager;
 
+import java.util.List;
+
 import butterknife.Bind;
+import butterknife.BindString;
 import timber.log.Timber;
 
 /**
@@ -33,7 +39,7 @@ public class MyGiftsActivity extends SwipeBaseActivity<IMyGiftsView, MyGiftsPres
     @Bind(R.id.title_bar)
     TitleBar mTitleBar;
     @Bind(R.id.page_gift)
-    GiftPagerLayout mPageGift;
+    MyGiftPagerLayout mPageGift;
     @Bind(R.id.img_gift_profit_title)
     ImageView mImgGiftProfitTitle;
     @Bind(R.id.tv_gift_profit)
@@ -43,7 +49,12 @@ public class MyGiftsActivity extends SwipeBaseActivity<IMyGiftsView, MyGiftsPres
     @Bind(R.id.refresh_view)
     PullRefreshView mRefreshView;
 
-    private MyGiftsAdapter mAdapter;
+    @BindString(R.string.money_str)
+    String moneyStr;
+
+    private GiftMemberAdapter mAdapter;
+
+    private int pageNum = 1;
 
     @Override
     protected int initLayout() {
@@ -64,53 +75,94 @@ public class MyGiftsActivity extends SwipeBaseActivity<IMyGiftsView, MyGiftsPres
     protected void initViewAndData() {
         initGiftPager();
         initRefreshLayout();
+
+        startLoadingDialog();
+        loadData();
+    }
+
+    private void loadData() {
+        mPresenter.loadMyGifts(pageNum, AppConstants.PAGE_SIZE);
     }
 
     private void initGiftPager() {
-        //测试的假数据
-//        ArrayList<String> list = new ArrayList<>();
-//        list.add("1");
-//        list.add("2");
-//        list.add("3");
-//        list.add("4");
-//        list.add("5");
-//        list.add("6");
-//        list.add("7");
-//        list.add("8");
-//        list.add("9");
-//        list.add("10");
-//        list.add("11");
-//        list.add("12");
-//        list.add("13");
-//        list.add("14");
-//        list.add("15");
-//        list.add("16");
-//        list.add("17");
-//        list.add("18");
-
         mPageGift.setCountNum(4, 2);
-        //mPageGift.setData(list);
-
-//        mPageGift.setOnItemClickListener(new DiamondsPagerLayout.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(Object o) {
-//                ToastUtils.ToastMessage(mContext, ((PagerItemBean) o).getIndex() + " ");
-//            }
-//        });
     }
 
     private void initRefreshLayout() {
-        PullRefreshUtil.setRefresh(mRefreshView, false, false);
+        PullRefreshUtil.setRefresh(mRefreshView, true, true);
+        mRefreshView.setOnPullDownRefreshListener(new PullRefreshView.OnPullDownRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pageNum = 1;
+                mRefreshView.isMore(true);
+                loadData();
+            }
+        });
+        mRefreshView.setOnPullUpRefreshListener(new PullRefreshView.OnPullUpRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pageNum++;
+                loadData();
+            }
+        });
         mListGift.setLayoutManager(new FullyLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mListGift.setNestedScrollingEnabled(false);
 
-        mAdapter = new MyGiftsAdapter(this);
+        mAdapter = new GiftMemberAdapter(this);
         mListGift.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void replaceMyGiftList(List<GiftBean> beans) {
+        if (isRunning) {
+            if (beans != null && beans.size() > 0) {
+                mPageGift.setData(beans);
+            }
+        }
+    }
+
+    @Override
+    public void replaceList(List<MemberBean> beans, boolean isNext) {
+        if (isRunning) {
+            stopLoadingDialog();
+            if (beans != null && mAdapter != null) {
+                mAdapter.replaceList(beans);
+            }
+            if (mRefreshView != null) {
+                mRefreshView.refreshFinish();
+                mRefreshView.isMore(isNext);
+            }
+        }
+    }
+
+    @Override
+    public void addListAtEnd(List<MemberBean> beans, boolean isNext) {
+        if (isRunning) {
+            if (beans != null && mAdapter != null) {
+                mAdapter.addListAtEnd(beans);
+            }
+            if (mRefreshView != null) {
+                mRefreshView.refreshFinish();
+                mRefreshView.isMore(isNext);
+            }
+        }
+    }
+
+    @Override
+    public void refreshGiftProfit(double sum) {
+        if (isRunning) {
+            if (mTvGiftProfit != null) {
+                mTvGiftProfit.setText(String.format(moneyStr, sum));
+            }
+        }
     }
 
     @Override
     public void loadErr(boolean isShow, String errMsg) {
         if (isRunning) {
+            if (mRefreshView != null) {
+                mRefreshView.refreshFinish();
+            }
             if (isShow) {
                 ToastUtils.ToastMessage(this, errMsg);
             } else {

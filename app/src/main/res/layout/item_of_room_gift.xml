@@ -13,7 +13,6 @@
         android:id="@+id/img_gift"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="centerInside"
         android:src="@drawable/icon_default_gift"
         myapp:ratio="1"
         myapp:width="80"/>

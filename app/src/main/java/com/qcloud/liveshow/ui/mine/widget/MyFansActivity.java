@@ -92,6 +92,7 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
             @Override
             public void onRefresh() {
                 pageNum = 1;
+                mListMyFans.isMore(true);
                 loadData();
             }
         });

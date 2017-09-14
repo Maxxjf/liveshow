@@ -6,4 +6,5 @@ package com.qcloud.liveshow.ui.mine.presenter;
  * Date: 2017/8/31 11:15.
  */
 public interface IMyGiftsPresenter {
+    void loadMyGifts(int pageNum, int pageSize);
 }

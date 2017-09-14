@@ -36,13 +36,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.qcloud.liveshow.widget.customview.GiftPagerLayout
+                <com.qcloud.liveshow.widget.customview.MyGiftPagerLayout
                     android:id="@+id/page_gift"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin_50"
                     android:background="@drawable/bg_gift_banner"
                     android:orientation="vertical"
-                    android:layout_alignParentTop="true"/>
+                    android:layout_alignParentTop="true"
+                    android:focusableInTouchMode="true"/>
 
                 <LinearLayout
                     android:id="@+id/layout_gift_profit"
