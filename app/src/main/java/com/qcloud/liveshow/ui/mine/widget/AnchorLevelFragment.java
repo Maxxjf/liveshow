@@ -9,12 +9,16 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.LevelNameAdapter;
 import com.qcloud.liveshow.adapter.SubCommissionAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
+import com.qcloud.liveshow.beans.AnchorGradeBean;
+import com.qcloud.liveshow.beans.LevelBean;
 import com.qcloud.liveshow.ui.mine.presenter.impl.AnchorLevelPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IAnchorLevelView;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.toast.ToastUtils;
-import com.qcloud.qclib.widget.customview.CustomProgressBar;
 import com.qcloud.qclib.widget.customview.RatioImageView;
+
+import java.util.List;
 
 import butterknife.Bind;
 import timber.log.Timber;
@@ -29,10 +33,6 @@ public class AnchorLevelFragment extends BaseFragment<IAnchorLevelView, AnchorLe
     RatioImageView mImgUser;
     @Bind(R.id.img_level)
     ImageView mImgLevel;
-    @Bind(R.id.tv_experience)
-    TextView mTvExperience;
-    @Bind(R.id.pb_level)
-    CustomProgressBar mPbLevel;
     @Bind(R.id.list_level)
     RecyclerView mListLevel;
     @Bind(R.id.list_sub_commission)
@@ -61,7 +61,8 @@ public class AnchorLevelFragment extends BaseFragment<IAnchorLevelView, AnchorLe
 
     @Override
     protected void beginLoad() {
-        GlideUtil.loadCircleImage(getActivity(), mImgUser, "", R.drawable.bitmap_user_head, 0, 0, true, false);
+        refreshUser();
+        mPresenter.getAnchorGrade();
     }
 
     private void initLevelNameLayout() {
@@ -76,6 +77,36 @@ public class AnchorLevelFragment extends BaseFragment<IAnchorLevelView, AnchorLe
 
         mSubCommissionAdapter = new SubCommissionAdapter(getActivity());
         mListSubCommission.setAdapter(mSubCommissionAdapter);
+    }
+
+    @Override
+    public void refreshUser() {
+        if (isInFragment && UserInfoUtil.mUser != null) {
+            GlideUtil.loadCircleImage(getActivity(), mImgUser, UserInfoUtil.mUser.getHeadImg(),
+                    R.drawable.bitmap_user_head, 0, 0, true, false);
+        }
+    }
+
+    @Override
+    public void refreshData(AnchorGradeBean bean) {
+        if (isInFragment && bean != null) {
+            GlideUtil.loadCircleImage(getActivity(), mImgLevel, bean.getAnchorGradeIcon(),
+                    R.drawable.icon_anchor_level_1, 0, 0, true, false);
+
+            mTvContactWay.setText(bean.getContact());
+        }
+    }
+
+    @Override
+    public void replaceLevel(List<LevelBean> beans) {
+        if (isInFragment && beans != null) {
+            if (mNameAdapter != null) {
+                mNameAdapter.replaceList(beans);
+            }
+            if (mSubCommissionAdapter != null) {
+                mSubCommissionAdapter.replaceList(beans);
+            }
+        }
     }
 
     @Override

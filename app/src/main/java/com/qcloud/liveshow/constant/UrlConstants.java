@@ -60,6 +60,10 @@ public interface UrlConstants {
     String ATTENTION = URL_PREFIX_APP + "mine/attention";
     /**移出黑名单*/
     String IN_OUT_BLACKLIST = URL_PREFIX_APP + "mine/inOutBlacklist";
+    /**会员等级*/
+    String GET_MEMBER_GRADE = URL_PREFIX_APP + "mine/memberGrade";
+    /**主播等级*/
+    String GET_ANCHOR_GRADE = URL_PREFIX_APP + "mine/anchorGrade";
 
     /**
      * 收益有关

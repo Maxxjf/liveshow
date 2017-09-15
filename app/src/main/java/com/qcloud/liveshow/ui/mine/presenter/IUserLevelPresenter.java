@@ -6,4 +6,6 @@ package com.qcloud.liveshow.ui.mine.presenter;
  * Date: 2017/9/2 17:55.
  */
 public interface IUserLevelPresenter {
+    /**获取会员等级*/
+    void getMemberGrade();
 }

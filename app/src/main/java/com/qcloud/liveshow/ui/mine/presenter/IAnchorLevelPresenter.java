@@ -6,4 +6,6 @@ package com.qcloud.liveshow.ui.mine.presenter;
  * Date: 2017/9/2 17:58.
  */
 public interface IAnchorLevelPresenter {
+    /**加载主播等级*/
+    void getAnchorGrade();
 }

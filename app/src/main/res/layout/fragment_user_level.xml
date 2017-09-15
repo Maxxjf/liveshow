@@ -38,7 +38,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/small_text_size"
-                android:text="Lv.3"/>
+                tools:text="Lv.3"/>
         </FrameLayout>
 
         <LinearLayout
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorStart"
                     android:textSize="@dimen/micro_text_size"
-                    android:text="550"/>
+                    tools:text="550"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -121,6 +121,6 @@
             android:lineSpacingExtra="@dimen/text_padding"
             android:textColor="@color/colorText"
             android:textSize="@dimen/mini_text_size"
-            android:text="每次充值1个钻石币可以获得10个经验值，每天不设上限，快来充值吧！"/>
+            tools:text="每次充值1个钻石币可以获得10个经验值，每天不设上限，快来充值吧！"/>
     </LinearLayout>
 </LinearLayout>

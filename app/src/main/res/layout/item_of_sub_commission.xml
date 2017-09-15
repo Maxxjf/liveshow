@@ -1,41 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/tab_height"
-    android:orientation="horizontal"
-    android:gravity="center_horizontal">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/frame_gray_left_right"
-        android:gravity="center"
-        android:textColor="@color/colorText"
-        android:textSize="@dimen/micro_text_size"
-        android:text="青铜"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/tv_profit"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1.1"
-        android:background="@drawable/frame_gray_left_right"
-        android:gravity="center"
-        android:textColor="@color/colorText"
-        android:textSize="@dimen/micro_text_size"
-        android:text="5%"/>
+        <View
+            style="@style/LineVertical"/>
 
-    <TextView
-        android:id="@+id/tv_top_profit"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1.2"
-        android:background="@drawable/frame_gray_left_right"
-        android:gravity="center"
-        android:textColor="@color/colorText"
-        android:textSize="@dimen/micro_text_size"
-        android:text="10钻石币/分钟"/>
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/micro_text_size"
+            tools:text="青铜"/>
 
+        <View
+            style="@style/LineVertical"/>
+
+        <TextView
+            android:id="@+id/tv_profit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.1"
+            android:gravity="center"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/micro_text_size"
+            tools:text="5%"/>
+
+        <View
+            style="@style/LineVertical"/>
+
+        <TextView
+            android:id="@+id/tv_top_profit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2"
+            android:gravity="center"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/micro_text_size"
+            tools:text="10钻石币/分钟"/>
+
+        <View
+            style="@style/LineVertical"/>
+    </LinearLayout>
+
+    <View
+        style="@style/LineHorizontal"/>
 </LinearLayout>

@@ -2,7 +2,9 @@ package com.qcloud.liveshow.net;
 
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.model.HttpParams;
+import com.qcloud.liveshow.beans.AnchorGradeBean;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.MemberGradeBean;
 import com.qcloud.liveshow.beans.MyGiftsBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.constant.UrlConstants;
@@ -60,5 +62,19 @@ public class IMineApi {
         Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
 
         return OkGoRequest.getRequest(UrlConstants.IN_OUT_BLACKLIST, type, params);
+    }
+
+    /**会员等级*/
+    public static Observable<BaseResponse<MemberGradeBean>> getMemberGrade(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<MemberGradeBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.GET_MEMBER_GRADE, type, params);
+    }
+
+    /**主播等级*/
+    public static Observable<BaseResponse<AnchorGradeBean>> getAnchorGrade(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<AnchorGradeBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.GET_ANCHOR_GRADE, type, params);
     }
 }

@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/bg_user_level_banner">
+            android:background="@drawable/bg_anchor_level_banner">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -40,62 +40,6 @@
                     android:layout_gravity="center|bottom"
                     android:src="@drawable/icon_anchor_level_3"/>
             </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_horizontal"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="@dimen/margin_3">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorText"
-                        android:textSize="@dimen/micro_text_size"
-                        android:text="@string/tag_to_go_up_1"/>
-
-                    <TextView
-                        android:id="@+id/tv_experience"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorStart"
-                        android:textSize="@dimen/micro_text_size"
-                        android:text="550"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorText"
-                        android:textSize="@dimen/micro_text_size"
-                        android:text="@string/tag_to_go_up_2"/>
-                </LinearLayout>
-
-                <com.qcloud.qclib.widget.customview.CustomProgressBar
-                    android:id="@+id/pb_level"
-                    style="@android:style/Widget.ProgressBar.Horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin_1"
-                    android:layout_marginTop="@dimen/margin_2"
-                    android:paddingLeft="@dimen/margin_6"
-                    android:paddingRight="@dimen/margin_6"
-                    android:max="1000"
-                    android:progress="550"
-                    myapp:pb_isCapRounded="true"
-                    myapp:pb_isHiddenText="true"
-                    myapp:pb_mode="horizontal"
-                    myapp:pb_reachedColor="@color/colorStart"
-                    myapp:pb_reachedHeight="@dimen/margin_1"
-                    myapp:pb_textColor="@color/colorStart"
-                    myapp:pb_unReachedColor="@color/colorLineWhite"
-                    myapp:pb_unReachedHeight="2dp"/>
-            </LinearLayout>
         </FrameLayout>
 
         <LinearLayout
@@ -143,35 +87,44 @@
                 android:layout_height="@dimen/tab_height"
                 android:orientation="horizontal">
 
+                <View
+                    style="@style/LineVertical"/>
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/frame_gray_left_right"
                     android:gravity="center"
                     android:textColor="@color/colorText"
                     android:textSize="@dimen/micro_text_size"
                     android:text="@string/tag_level_name"/>
 
+                <View
+                    style="@style/LineVertical"/>
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.1"
-                    android:background="@drawable/frame_gray_left_right"
                     android:gravity="center"
                     android:textColor="@color/colorText"
                     android:textSize="@dimen/micro_text_size"
                     android:text="@string/tag_sub_commission_by_profit"/>
 
+                <View
+                    style="@style/LineVertical"/>
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.2"
-                    android:background="@drawable/frame_gray_left_right"
                     android:gravity="center"
                     android:textColor="@color/colorText"
                     android:textSize="@dimen/micro_text_size"
                     android:text="@string/tag_anchor_top_profit"/>
+
+                <View
+                    style="@style/LineVertical"/>
             </LinearLayout>
 
             <View
@@ -186,7 +139,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="@dimen/layout_margin">
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_marginBottom="@dimen/margin_4">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -201,7 +155,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorText"
                     android:textSize="@dimen/micro_text_size"
-                    android:text="微信454646746"/>
+                    tools:text="微信454646746"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

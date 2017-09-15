@@ -115,7 +115,7 @@ public class UserBean {
     }
 
     public String getMemberGrade() {
-        return StringUtils.isEmptyString(memberGrade)?"" : memberGrade;
+        return StringUtils.isEmptyString(memberGrade)? "Lv.0" : memberGrade;
     }
 
     public void setMemberGrade(String memberGrade) {
@@ -131,7 +131,7 @@ public class UserBean {
     }
 
     public String getAnchorGrade() {
-        return StringUtils.isEmptyString(anchorGrade)?"" : anchorGrade;
+        return StringUtils.isEmptyString(anchorGrade)? "青铜" : anchorGrade;
     }
 
     public void setAnchorGrade(String anchorGrade) {

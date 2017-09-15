@@ -1,7 +1,9 @@
 package com.qcloud.liveshow.model.impl;
 
 import com.lzy.okgo.model.HttpParams;
+import com.qcloud.liveshow.beans.AnchorGradeBean;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.MemberGradeBean;
 import com.qcloud.liveshow.beans.MyGiftsBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.enums.StartFansEnum;
@@ -91,5 +93,29 @@ public class MineModelImpl implements IMineModel {
             mParams.put("isAttention", isAttention);
             BaseApi.dispose(IMineApi.attention(mParams), callback);
         }
+    }
+
+    /**
+     * 会员等级
+     *
+     * @time 2017/9/15 10:07
+     */
+    @Override
+    public void getMemberGrade(DataCallback<MemberGradeBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+
+        BaseApi.dispose(IMineApi.getMemberGrade(mParams), callback);
+    }
+
+    /**
+     * 主播等级
+     *
+     * @time 2017/9/15 10:07
+     */
+    @Override
+    public void getAnchorGrade(DataCallback<AnchorGradeBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+
+        BaseApi.dispose(IMineApi.getAnchorGrade(mParams), callback);
     }
 }

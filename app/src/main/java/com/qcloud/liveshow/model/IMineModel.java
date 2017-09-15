@@ -1,6 +1,8 @@
 package com.qcloud.liveshow.model;
 
+import com.qcloud.liveshow.beans.AnchorGradeBean;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.MemberGradeBean;
 import com.qcloud.liveshow.beans.MyGiftsBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.qclib.beans.ReturnDataBean;
@@ -20,4 +22,10 @@ public interface IMineModel {
 
     /**关注/取消关注 加入/移出黑名单*/
     void submitAttention(int type, long id, boolean isAttention, DataCallback<ReturnEmptyBean> callback);
+
+    /**会员等级*/
+    void getMemberGrade(DataCallback<MemberGradeBean> callback);
+
+    /**主播等级*/
+    void getAnchorGrade(DataCallback<AnchorGradeBean> callback);
 }
