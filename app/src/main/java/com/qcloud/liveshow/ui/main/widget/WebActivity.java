@@ -36,6 +36,8 @@ public class WebActivity extends BaseActivity<IWebView, WebPresenterImpl> implem
     @Bind(R.id.webView)
     BridgeWebView mWebView;
 
+    private int mType = 1;
+
     @Override
     protected int initLayout() {
         return R.layout.activity_web;
@@ -61,7 +63,14 @@ public class WebActivity extends BaseActivity<IWebView, WebPresenterImpl> implem
         initWebView();
 
         mTitleBar.setTitle(getIntent().getStringExtra("TITLE"));
-        displayWeb(getIntent().getStringExtra("WEB_URL"));
+
+        String webUrl = getIntent().getStringExtra("WEB_URL");
+        if (StringUtils.isNotEmptyString(webUrl)) {
+            displayWeb(webUrl);
+        } else {
+            mType = getIntent().getIntExtra("TYPE", 1);
+            mPresenter.getRuleWebUrl(mType);
+        }
     }
 
     /**
@@ -91,13 +100,6 @@ public class WebActivity extends BaseActivity<IWebView, WebPresenterImpl> implem
         });
 
         mWebView.send("hello");
-    }
-
-    public static void openActivity(Context context, String title, String webUrl) {
-        Intent intent = new Intent(context, WebActivity.class);
-        intent.putExtra("TITLE", title);
-        intent.putExtra("WEB_URL", webUrl);
-        context.startActivity(intent);
     }
 
     @Override
@@ -158,5 +160,19 @@ public class WebActivity extends BaseActivity<IWebView, WebPresenterImpl> implem
             mWebView.destroy();
         }
         super.onDestroy();
+    }
+
+    public static void openActivity(Context context, String title, String webUrl) {
+        Intent intent = new Intent(context, WebActivity.class);
+        intent.putExtra("TITLE", title);
+        intent.putExtra("WEB_URL", webUrl);
+        context.startActivity(intent);
+    }
+
+    public static void openActivity(Context context, String title, int type) {
+        Intent intent = new Intent(context, WebActivity.class);
+        intent.putExtra("TITLE", title);
+        intent.putExtra("TYPE", type);
+        context.startActivity(intent);
     }
 }

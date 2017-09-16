@@ -6,4 +6,6 @@ package com.qcloud.liveshow.ui.mine.presenter;
  * Date: 2017/9/9 17:57.
  */
 public interface IProblemPresenter {
+    /**加载数据*/
+    void loadData(int pageNum, int pageSize);
 }

@@ -1,12 +1,15 @@
 package com.qcloud.liveshow.model.impl;
 
 import com.lzy.okgo.model.HttpParams;
+import com.qcloud.liveshow.beans.ContactWayBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.LoginBean;
+import com.qcloud.liveshow.beans.ProblemBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.liveshow.model.IUserModel;
 import com.qcloud.liveshow.net.IUserApi;
+import com.qcloud.qclib.beans.ReturnDataBean;
 import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.network.BaseApi;
 import com.qcloud.qclib.network.OkGoRequest;
@@ -124,5 +127,35 @@ public class UserModelImpl implements IUserModel {
         mParams.put("signature", signature);
 
         BaseApi.dispose(IUserApi.edit(mParams), callback);
+    }
+
+    /**
+     * 获取常见问题
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param callback
+     *
+     * @time 2017/9/16 16:36
+     */
+    @Override
+    public void getProblemList(int pageNum, int pageSize, DataCallback<ReturnDataBean<ProblemBean>> callback) {
+        mParams = OkGoRequest.getAppParams();
+        mParams.put("pageNum", pageNum);
+        mParams.put("pageSize", pageSize);
+
+        BaseApi.dispose(IUserApi.getProblemList(mParams), callback);
+    }
+
+    /**
+     * 获取官方联系方式
+     *
+     * @time 2017/9/16 16:36
+     */
+    @Override
+    public void getContact(DataCallback<ContactWayBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+
+        BaseApi.dispose(IUserApi.getContact(mParams), callback);
     }
 }

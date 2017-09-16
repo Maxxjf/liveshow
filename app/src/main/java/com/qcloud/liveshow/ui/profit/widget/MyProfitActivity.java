@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
+import com.qcloud.liveshow.enums.ClauseRuleEnum;
 import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.liveshow.ui.profit.presenter.impl.MyProfitPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.IMyProfitView;
@@ -96,7 +97,7 @@ public class MyProfitActivity extends SwipeBaseActivity<IMyProfitView, MyProfitP
 
     @Override
     public void onCashRuleClick() {
-        WebActivity.openActivity(this, "提现规则", "http://jiahua.test.qi-cloud.com/fep/app/merchandise/getGoodsMapDetails?id=334699649996685312");
+        WebActivity.openActivity(this, "提现规则", ClauseRuleEnum.WithdrawalsRule.getKey());
     }
 
     @Override
@@ -111,7 +112,7 @@ public class MyProfitActivity extends SwipeBaseActivity<IMyProfitView, MyProfitP
 
     @Override
     public void onCashAgreementClick() {
-        WebActivity.openActivity(this, "用户提现协议", "http://jiahua.test.qi-cloud.com/fep/app/merchandise/getGoodsMapDetails?id=334699649996685312");
+        WebActivity.openActivity(this, "用户提现协议", ClauseRuleEnum.WithdrawalsClause.getKey());
     }
 
     @Override

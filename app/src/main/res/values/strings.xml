@@ -87,6 +87,7 @@
     <string name="tip_no_search_res">没有搜索出来呢，换个关键词试试~</string>
     <string name="tip_no_message">暂时没有消息通知哦~</string>
     <string name="tip_err_request">页面丢失啦，点击图标刷新一下吧~</string>
+    <string name="tip_is_call">是否播号</string>
 
     <string name="input_mobile_hint">请输入手机号</string>
     <string name="input_code_hint">短信验证码</string>

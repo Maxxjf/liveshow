@@ -10,8 +10,10 @@ import android.widget.TextView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseApplication;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
+import com.qcloud.liveshow.enums.ClauseRuleEnum;
 import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.ui.account.widget.LoginActivity;
+import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.liveshow.ui.mine.presenter.impl.SettingPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.ISettingView;
 import com.qcloud.liveshow.utils.UserInfoUtil;
@@ -81,7 +83,7 @@ public class SettingActivity extends SwipeBaseActivity<ISettingView, SettingPres
 
     @Override
     public void onAboutUsClick() {
-        ToastUtils.ToastMessage(this, "关于我们");
+        WebActivity.openActivity(this, "关于我们", ClauseRuleEnum.AboutUs.getKey());
     }
 
     @Override

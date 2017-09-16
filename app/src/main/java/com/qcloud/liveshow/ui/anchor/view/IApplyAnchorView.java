@@ -18,6 +18,9 @@ public interface IApplyAnchorView extends BaseView {
     /**点击提交*/
     void onSubmitClick();
 
+    /**点击免责条款*/
+    void onClauseClick();
+
     /**获取验证码成功*/
     void getCodeSuccess(String code);
 

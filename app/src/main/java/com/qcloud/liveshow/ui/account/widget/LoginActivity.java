@@ -14,6 +14,7 @@ import com.qcloud.liveshow.base.BaseApplication;
 import com.qcloud.liveshow.beans.FacebookUserBean;
 import com.qcloud.liveshow.beans.LoginBean;
 import com.qcloud.liveshow.beans.WeChatUserBean;
+import com.qcloud.liveshow.enums.ClauseRuleEnum;
 import com.qcloud.liveshow.enums.StartMainEnum;
 import com.qcloud.liveshow.enums.ThirdLoginEnum;
 import com.qcloud.liveshow.ui.account.presenter.impl.LoginPresenterImpl;
@@ -177,7 +178,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
 
     @Override
     public void onClauseClick() {
-        WebActivity.openActivity(this, "责任条款", "http://jiahua.test.qi-cloud.com/fep/app/merchandise/getGoodsMapDetails?id=334699649996685312");
+        WebActivity.openActivity(this, "免责条款", ClauseRuleEnum.LoginRule.getKey());
     }
 
     @Override

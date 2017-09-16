@@ -3,6 +3,7 @@ package com.qcloud.liveshow.ui.profit.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -13,11 +14,16 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.DiamondsAdapter;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.beans.DiamondsBean;
+import com.qcloud.liveshow.enums.ClauseRuleEnum;
+import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.liveshow.ui.profit.presenter.impl.MyDiamondsPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.IMyDiamondsView;
+import com.qcloud.liveshow.utils.BasicsUtil;
 import com.qcloud.liveshow.utils.UserInfoUtil;
+import com.qcloud.liveshow.widget.pop.CallPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.LineTextView;
 import com.qcloud.qclib.widget.layoutManager.FullyGridLayoutManager;
@@ -56,6 +62,9 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
 
     private DiamondsAdapter mAdapter;
 
+    private CallPop mCallPop;
+    private String mTelephone;
+
     @Override
     protected int initLayout() {
         return R.layout.activity_my_diamonds;
@@ -83,6 +92,11 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
 
         if (UserInfoUtil.mUser != null) {
             mTvCurrDiamonds.setText(UserInfoUtil.mUser.getVirtualCoinStr());
+        }
+
+        mTelephone = BasicsUtil.mContactWay;
+        if (StringUtils.isNotEmptyString(mTelephone)) {
+            mTvCustomerService.setText(mTelephone);
         }
 
         loadData();
@@ -126,6 +140,13 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
         });
     }
 
+    /**
+     * 显示播打电话弹窗
+     * */
+    private void initCallPop() {
+        mCallPop = new CallPop(this);
+    }
+
     @OnClick({R.id.btn_recharge_agreement, R.id.tv_customer_service})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
@@ -133,12 +154,18 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
 
     @Override
     public void onRechargeClick() {
-
+        WebActivity.openActivity(this, "充值协议", ClauseRuleEnum.RechargeRule.getKey());
     }
 
     @Override
     public void onCustomerServiceClick() {
-
+        if (StringUtils.isNotEmptyString(mTelephone)) {
+            if (mCallPop == null) {
+                initCallPop();
+            }
+            mCallPop.setTelephone(mTelephone);
+            mCallPop.showAtLocation(mTvCustomerService, Gravity.CENTER, 0, 0);
+        }
     }
 
     @Override

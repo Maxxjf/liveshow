@@ -2,12 +2,15 @@ package com.qcloud.liveshow.net;
 
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.model.HttpParams;
+import com.qcloud.liveshow.beans.ContactWayBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.LoginBean;
+import com.qcloud.liveshow.beans.ProblemBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.qclib.beans.BaseResponse;
+import com.qcloud.qclib.beans.ReturnDataBean;
 import com.qcloud.qclib.network.OkGoRequest;
 
 import java.lang.reflect.Type;
@@ -60,5 +63,19 @@ public class IUserApi {
         Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
 
         return OkGoRequest.getRequest(UrlConstants.EDIT_USER, type, params);
+    }
+
+    /**获取常见问题列表*/
+    public static Observable<BaseResponse<ReturnDataBean<ProblemBean>>> getProblemList(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ReturnDataBean<ProblemBean>>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.GET_PROBLEM_LIST, type, params);
+    }
+
+    /**获取联系方式*/
+    public static Observable<BaseResponse<ContactWayBean>> getContact(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ContactWayBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.GET_CONTACT_WAY, type, params);
     }
 }

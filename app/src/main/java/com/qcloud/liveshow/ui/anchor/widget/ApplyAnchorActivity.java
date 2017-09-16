@@ -18,8 +18,10 @@ import android.widget.TextView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.beans.SubmitApplyBean;
+import com.qcloud.liveshow.enums.ClauseRuleEnum;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.ApplyAnchorPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IApplyAnchorView;
+import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.liveshow.widget.pop.SelectPicturePop;
 import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
@@ -263,7 +265,7 @@ public class ApplyAnchorActivity extends BaseActivity<IApplyAnchorView, ApplyAnc
         });
     }
 
-    @OnClick({R.id.btn_get_code, R.id.img_header})
+    @OnClick({R.id.btn_get_code, R.id.img_header, R.id.btn_clause})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
     }
@@ -290,6 +292,11 @@ public class ApplyAnchorActivity extends BaseActivity<IApplyAnchorView, ApplyAnc
         if (check()) {
             mPresenter.submitApply(mApplyBean);
         }
+    }
+
+    @Override
+    public void onClauseClick() {
+        WebActivity.openActivity(this, "免责条款", ClauseRuleEnum.AnchorRule.getKey());
     }
 
     @Override

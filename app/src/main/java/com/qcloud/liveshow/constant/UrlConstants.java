@@ -26,6 +26,14 @@ public interface UrlConstants {
     String LOGOUT = URL_PREFIX_APP + "member/logout";
     /**编辑用户*/
     String EDIT_USER = URL_PREFIX_APP + "member/edit";
+    /**条款协议*/
+    String CLAUSE_RULE = URL_PREFIX_APP + "basics/clauseRule";
+    /**关于我们*/
+    String ABOUT_US = URL_PREFIX_APP + "basics/aboutUs";
+    /**获取常见问题*/
+    String GET_PROBLEM_LIST = URL_PREFIX_APP + "basics/questionList";
+    /**获取官方联系方式*/
+    String GET_CONTACT_WAY = URL_PREFIX_APP + "member/contact";
 
     /**
      * 直播间有关

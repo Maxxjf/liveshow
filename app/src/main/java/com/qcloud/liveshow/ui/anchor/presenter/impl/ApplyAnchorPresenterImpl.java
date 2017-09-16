@@ -43,6 +43,9 @@ public class ApplyAnchorPresenterImpl extends BasePresenter<IApplyAnchorView> im
             case R.id.img_header:
                 mView.onUploadHeaderClick();
                 break;
+            case R.id.btn_clause:
+                mView.onClauseClick();
+                break;
         }
     }
 
