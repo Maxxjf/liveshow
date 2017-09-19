@@ -42,7 +42,6 @@ public class HotAdapter extends CommonRecyclerAdapter<RoomBean> {
 
         RatioImageView imgUser = holder.get(R.id.img_user);
 
-        GlideUtil.loadImage(mContext, imgUser, bean.getCover()+"?x-oss-process=image/resize,m_fixed,h_200,w_200",
-                R.drawable.bitmap_user, true, false);
+        GlideUtil.loadImage(mContext, imgUser, bean.getCover(), R.drawable.bitmap_user, true, false);
     }
 }

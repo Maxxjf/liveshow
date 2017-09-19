@@ -1,6 +1,8 @@
 package com.qcloud.liveshow.model;
 
 import com.qcloud.liveshow.beans.HotRoomBean;
+import com.qcloud.liveshow.beans.RoomBean;
+import com.qcloud.qclib.beans.ReturnDataBean;
 import com.qcloud.qclib.callback.DataCallback;
 
 /**
@@ -11,4 +13,10 @@ import com.qcloud.qclib.callback.DataCallback;
 public interface IRoomModel {
     /**获取热门直播间*/
     void getHotRoom(int pageNum, int pageSize, DataCallback<HotRoomBean> callback);
+
+    /**获取最新直播间*/
+    void getNewestRoom(int pageNum, int pageSize, DataCallback<ReturnDataBean<RoomBean>> callback);
+
+    /**获取关注直播间*/
+    void getFollowRoom(int pageNum, int pageSize, DataCallback<ReturnDataBean<RoomBean>> callback);
 }

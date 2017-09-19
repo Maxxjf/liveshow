@@ -40,6 +40,10 @@ public interface UrlConstants {
      * */
     /**获取热门直播间*/
     String GET_HOT_LIST = URL_PREFIX_APP + "index/hotList";
+    /**获取最新直播间*/
+    String GET_NEWEST_LIST = URL_PREFIX_APP + "index/newList";
+    /**获取关注直播间*/
+    String GET_FOLLOE_LIST = URL_PREFIX_APP + "index/attentionList";
 
     /**
      * 直播有关

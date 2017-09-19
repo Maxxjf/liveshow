@@ -3,17 +3,24 @@ package com.qcloud.liveshow.adapter;
 import android.content.Context;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.RoomBean;
+import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.qclib.adapter.recyclerview.BaseViewHolder;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
+import com.qcloud.qclib.image.GlideUtil;
+import com.qcloud.qclib.widget.customview.RatioImageView;
 
 /**
  * 类说明：
  * Author: Kuzan
  * Date: 2017/8/14 16:55.
  */
-public class FollowAdapter extends CommonRecyclerAdapter<String> {
+public class FollowAdapter extends CommonRecyclerAdapter<RoomBean> {
+    private String watchNumStr;
+
     public FollowAdapter(Context context) {
         super(context);
+        watchNumStr = context.getResources().getString(R.string.tag_watch_num);
     }
 
     @Override
@@ -23,12 +30,19 @@ public class FollowAdapter extends CommonRecyclerAdapter<String> {
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
+        final RoomBean bean = mList.get(position);
 
-    }
+        UserHeadImageView userView = holder.get(R.id.layout_user);
+        userView.loadImage(bean.getHeadImg(), bean.getIcon(), 80);
 
-    @Override
-    public int getItemCount() {
-        return 30;
+        holder.setText(R.id.tv_user_name, bean.getNickName());
+        holder.setImageResource(R.id.img_user_sex, bean.getSex() == 0 ? R.drawable.icon_man : R.drawable.icon_lady);
+        holder.setText(R.id.tv_room, bean.getType());
+        holder.setText(R.id.tv_fans, String.format(watchNumStr, bean.getWatchNum()));
+        holder.setText(R.id.tv_user_desc, bean.getTitle());
 
+        RatioImageView imgUser = holder.get(R.id.img_user);
+
+        GlideUtil.loadImage(mContext, imgUser, bean.getCover(), R.drawable.bitmap_user, true, false);
     }
 }

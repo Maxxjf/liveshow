@@ -6,4 +6,6 @@ package com.qcloud.liveshow.ui.home.presenter;
  * Date: 2017/8/11 11:27.
  */
 public interface INewestPresenter {
+    /**获取最新直播间*/
+    void getNewestList(int pageNum, int pageSize);
 }

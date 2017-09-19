@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/bitmap_user"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         myapp:ratio="1"/>
 
     <TextView
@@ -29,5 +29,5 @@
         android:shadowRadius="1"
         android:shadowDx="3"
         android:shadowDy="3"
-        android:text="Chopper"/>
+        tools:text="Chopper"/>
 </FrameLayout>

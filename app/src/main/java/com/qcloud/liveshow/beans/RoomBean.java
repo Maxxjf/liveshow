@@ -19,7 +19,7 @@ public class RoomBean implements Serializable {
     String title;   // 房间标题
     String type;    // 房间类型
     int watchNum;   // 观看人数
-    int rates;      //
+    int rates;      // 直播间收费标准
 
     public long getRoomId() {
         return roomId;
