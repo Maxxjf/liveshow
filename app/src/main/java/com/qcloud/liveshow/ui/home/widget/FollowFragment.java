@@ -2,6 +2,8 @@ package com.qcloud.liveshow.ui.home.widget;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.FollowAdapter;
@@ -10,7 +12,9 @@ import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.ui.home.presenter.impl.FollowPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IFollowView;
+import com.qcloud.liveshow.ui.room.widget.RoomActivity;
 import com.qcloud.liveshow.widget.customview.EmptyView;
+import com.qcloud.liveshow.widget.customview.NoDataView;
 import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
 import com.qcloud.qclib.swiperefresh.SwipeRecyclerView;
 import com.qcloud.qclib.swiperefresh.SwipeRefreshUtil;
@@ -39,7 +43,7 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
     @BindColor(R.color.colorBg)
     int dividerBg;
 
-    private EmptyView mEmptyView;
+    private NoDataView mEmptyView;
 
     private FollowAdapter mAdapter;
 
@@ -76,6 +80,12 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
 
         mAdapter = new FollowAdapter(getActivity());
         mListFollow.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                RoomActivity.openActivity(getActivity(), i, mAdapter.getList());
+            }
+        });
 
         SwipeRefreshUtil.setLoadMore(mListFollow, true);
         mListFollow.setOnRefreshListener(new CustomSwipeRefreshLayout.OnRefreshListener(){
@@ -94,8 +104,8 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
             }
         });
 
-        mEmptyView = new EmptyView(getActivity());
-        mListFollow.setEmptyView(mEmptyView, Gravity.TOP);
+        mEmptyView = new NoDataView(getActivity());
+        mListFollow.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
         mEmptyView.setOnRefreshListener(new EmptyView.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -128,7 +138,7 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
     public void addListAtEnd(List<RoomBean> beans, boolean isNext) {
         if (isInFragment) {
             if (mListFollow != null) {
-                mListFollow.refreshFinish();
+                mListFollow.loadMoreFinish();
             }
             if (beans != null && beans.size() > 0) {
                 if (mAdapter != null) {
@@ -163,6 +173,9 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
     @Override
     public void loadErr(boolean isShow, String errMsg) {
         if (isInFragment) {
+            if (mListFollow != null) {
+                mListFollow.refreshFinish();
+            }
             if (isShow) {
                 ToastUtils.ToastMessage(mContext, errMsg);
             } else {

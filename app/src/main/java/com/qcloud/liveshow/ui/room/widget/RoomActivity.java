@@ -13,7 +13,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.dou361.ijkplayer.listener.OnPlayerBackListener;
 import com.dou361.ijkplayer.listener.OnShowThumbnailListener;
 import com.dou361.ijkplayer.widget.PlayStateParams;
 import com.dou361.ijkplayer.widget.PlayerView;
@@ -54,7 +53,9 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
     /**是否初始化了Room*/
     private boolean mInit = false;
 
+    /**播放器*/
     private PlayerView mPlayer;
+
     private String currUrl;
     private String currImage;
     private List<RoomBean> mList;
@@ -82,17 +83,14 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
 
         mCurrentItem = getIntent().getIntExtra("POSITION", 0);
         mList = (List<RoomBean>) getIntent().getSerializableExtra("LIST");
-        if (mList != null) {
+        if (mList != null && mCurrentItem < mList.size()) {
             mCurrBean = mList.get(mCurrentItem);
-            currUrl = "";
         }
 
         mRoomContainer = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.layout_room_container, null);
         mFragmentContainer = (FrameLayout) mRoomContainer.findViewById(R.id.fragment_container);
         mRoomFragment = RoomFragment.newInstance();
         mFragmentManager = getSupportFragmentManager();
-
-        //initPlayer();
 
         initViewPager();
     }
@@ -114,18 +112,10 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
                 .showThumbnail(new OnShowThumbnailListener() {
                     @Override
                     public void onShowThumbnail(ImageView ivThumbnail) {
-                        GlideUtil.loadImage(mContext, ivThumbnail, currImage+"?x-oss-process=image/resize,m_fixed,h_320,w_180",
-                                R.drawable.bitmap_user, true);
+                        GlideUtil.loadImage(mContext, ivThumbnail, currImage, R.drawable.bitmap_user, true, false);
                     }
                 })
                 .setPlaySource(currUrl)
-                .setPlayerBackListener(new OnPlayerBackListener() {
-                    @Override
-                    public void onPlayerBack() {
-                        //这里可以简单播放器点击返回键
-                        finish();
-                    }
-                })
                 .startPlay();
         mPlayer.setOnInfoListener(new IMediaPlayer.OnInfoListener() {
             @Override
@@ -143,8 +133,9 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
      * 初始化直播间
      * */
     private void initViewPager() {
-        mRoomAdapter = new RoomAdapter(this, mList);
         Timber.e("mCurrentItem = %d", mCurrentItem);
+
+        mRoomAdapter = new RoomAdapter(this, mList);
         mViewPager.setCurrentItem(mCurrentItem);
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override

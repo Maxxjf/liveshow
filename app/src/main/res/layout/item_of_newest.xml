@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <com.qcloud.qclib.widget.customview.RatioImageView
-        android:id="@+id/img_user"
+        android:id="@+id/img_cover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/bitmap_user"

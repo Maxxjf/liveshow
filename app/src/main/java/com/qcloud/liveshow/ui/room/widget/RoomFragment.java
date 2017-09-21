@@ -17,6 +17,7 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.RoomFansAdapter;
 import com.qcloud.liveshow.adapter.RoomMessageAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
+import com.qcloud.liveshow.beans.AnchorBean;
 import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.ui.room.presenter.impl.RoomControlPresenterImpl;
 import com.qcloud.liveshow.ui.room.view.IRoomControlView;
@@ -54,7 +55,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     private UserHeadImageView mUserHead;
     private TextView mTvTitle;
-    private TextView mTvFans;
+    private TextView mTvWatchNum;
     private TextView mBtnFollow;
     private RecyclerView mListFans;
     private LinearLayout mLayoutTop;
@@ -82,6 +83,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     /**是否第一次进入房间*/
     private boolean isFirstInRoom = true;
     private RoomBean mCurrBean;
+    private AnchorBean mAnchorBean;
 
     /**输入消息弹窗*/
     private InputMessageDialog mInputDialog;
@@ -147,19 +149,39 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         if (mCurrBean == null) {
             return;
         }
-        if (mTvTitle != null) {
-            mTvTitle.setText(mCurrBean.getNickName());
-        }
-        if (mTvFans != null) {
-            mTvFans.setText(mCurrBean.getWatchNumStr());
-        }
-        if (mTvId != null) {
-            mTvId.setText(mCurrBean.getRoomId()+"");
+        mAnchorBean = mCurrBean.getAnchor();
+        refreshAnchor(mAnchorBean);
+
+        if (mTvWatchNum != null) {
+            mTvWatchNum.setText(mCurrBean.getWatchNumStr());
         }
         if (mTvNotice != null) {
             mTvNotice.stopScroll();
             mTvNotice.setText(mCurrBean.getTitle());
             resetNoticeWith();
+        }
+        if (mCurrBean.isAttention()) {
+            mBtnFollow.setVisibility(View.GONE);
+        } else {
+            mBtnFollow.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * 刷新主播员信息
+     * */
+    private void refreshAnchor(AnchorBean bean) {
+        if (bean == null) {
+            return;
+        }
+        if (mUserHead != null) {
+            mUserHead.loadImage(bean.getHeadImg(), bean.getIcon(), 80);
+        }
+        if (mTvTitle != null) {
+            mTvTitle.setText(bean.getNickName());
+        }
+        if (mTvId != null) {
+            mTvId.setText(bean.getIdAccount());
         }
     }
 
@@ -169,7 +191,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private void initView() {
         mUserHead = (UserHeadImageView) mView.findViewById(R.id.layout_user);
         mTvTitle = (TextView) mView.findViewById(R.id.tv_title);
-        mTvFans = (TextView) mView.findViewById(R.id.tv_fans);
+        mTvWatchNum = (TextView) mView.findViewById(R.id.tv_watch_num);
         mBtnFollow = (TextView) mView.findViewById(R.id.btn_follow);
         mListFans = (RecyclerView) mView.findViewById(R.id.list_fans);
         mLayoutTop = (LinearLayout) mView.findViewById(R.id.layout_top);
@@ -402,7 +424,9 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     @Override
     public void onFollowClick() {
-        ToastUtils.ToastMessage(getActivity(), "关注");
+        if (mAnchorBean != null) {
+            mPresenter.submitAttention(mAnchorBean.getId(), true);
+        }
     }
 
     @Override
@@ -462,6 +486,20 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     @Override
     public void onExitClick() {
         getActivity().finish();
+    }
+
+    @Override
+    public void onFollowRes(boolean isSuccess) {
+        if (isInFragment) {
+            if (isSuccess) {
+                if (mBtnFollow != null) {
+                    mBtnFollow.setVisibility(View.GONE);
+                }
+                ToastUtils.ToastMessage(getActivity(), R.string.toast_follow_success);
+            } else {
+                ToastUtils.ToastMessage(getActivity(), R.string.toast_follow_failure);
+            }
+        }
     }
 
     public static RoomFragment newInstance() {

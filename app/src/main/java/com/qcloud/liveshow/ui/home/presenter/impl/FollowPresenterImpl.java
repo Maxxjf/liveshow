@@ -24,7 +24,7 @@ public class FollowPresenterImpl extends BasePresenter<IFollowView> implements I
 
     @Override
     public void getFollowList(int pageNum, int pageSize) {
-        mModel.getNewestRoom(pageNum, pageSize, new DataCallback<ReturnDataBean<RoomBean>>() {
+        mModel.getFollowRoom(pageNum, pageSize, new DataCallback<ReturnDataBean<RoomBean>>() {
             @Override
             public void onSuccess(ReturnDataBean<RoomBean> bean) {
                 if (mView == null) {
@@ -44,7 +44,7 @@ public class FollowPresenterImpl extends BasePresenter<IFollowView> implements I
             @Override
             public void onError(int status, String errMsg) {
                 if (mView != null) {
-                    mView.showEmptyView(errMsg);
+                    mView.loadErr(true, errMsg);
                 }
             }
         });

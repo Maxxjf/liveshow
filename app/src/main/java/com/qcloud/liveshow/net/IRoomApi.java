@@ -37,6 +37,13 @@ public class IRoomApi {
     public static Observable<BaseResponse<ReturnDataBean<RoomBean>>> getFollowList(HttpParams params) {
         Type type = new TypeToken<BaseResponse<ReturnDataBean<RoomBean>>>(){}.getType();
 
-        return OkGoRequest.getRequest(UrlConstants.GET_FOLLOE_LIST, type, params);
+        return OkGoRequest.getRequest(UrlConstants.GET_FOLLOW_LIST, type, params);
+    }
+
+    /**获取搜索直播间*/
+    public static Observable<BaseResponse<ReturnDataBean<RoomBean>>> getSearchList(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ReturnDataBean<RoomBean>>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.GET_SEARCH_LIST, type, params);
     }
 }

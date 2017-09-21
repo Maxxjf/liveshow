@@ -2,6 +2,8 @@ package com.qcloud.liveshow.ui.home.widget;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.NewestAdapter;
@@ -10,6 +12,7 @@ import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.ui.home.presenter.impl.NewestPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.INewestView;
+import com.qcloud.liveshow.ui.room.widget.RoomActivity;
 import com.qcloud.liveshow.widget.customview.EmptyView;
 import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
 import com.qcloud.qclib.swiperefresh.SwipeRecyclerView;
@@ -69,6 +72,12 @@ public class NewestFragment extends BaseFragment<INewestView, NewestPresenterImp
 
         mAdapter = new NewestAdapter(getActivity());
         mListNewest.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                RoomActivity.openActivity(getActivity(), i, mAdapter.getList());
+            }
+        });
 
         SwipeRefreshUtil.setLoadMore(mListNewest, true);
         mListNewest.setOnRefreshListener(new CustomSwipeRefreshLayout.OnRefreshListener(){
@@ -121,7 +130,7 @@ public class NewestFragment extends BaseFragment<INewestView, NewestPresenterImp
     public void addListAtEnd(List<RoomBean> beans, boolean isNext) {
         if (isInFragment) {
             if (mListNewest != null) {
-                mListNewest.refreshFinish();
+                mListNewest.loadMoreFinish();
             }
             if (beans != null && beans.size() > 0) {
                 if (mAdapter != null) {

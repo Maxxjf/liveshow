@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.beans;
 
+import com.qcloud.liveshow.R;
 import com.qcloud.qclib.utils.StringUtils;
 
 /**
@@ -82,6 +83,10 @@ public class UserBean {
         return sex == 0 ? "男" : "女";
     }
 
+    public int getSexIcon() {
+        return sex == 0 ? R.drawable.icon_man : R.drawable.icon_lady;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -131,7 +136,7 @@ public class UserBean {
     }
 
     public String getAnchorGrade() {
-        return StringUtils.isEmptyString(anchorGrade)? "青铜" : anchorGrade;
+        return StringUtils.isEmptyString(anchorGrade)? "" : anchorGrade;
     }
 
     public void setAnchorGrade(String anchorGrade) {
@@ -152,6 +157,10 @@ public class UserBean {
 
     public void setAnchor(boolean anchor) {
         isAnchor = anchor;
+    }
+
+    public String getIcon() {
+        return isAnchor ? anchorGradeIcon : memberGradeIcon;
     }
 
     public long getAttentionNum() {

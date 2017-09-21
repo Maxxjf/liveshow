@@ -66,4 +66,19 @@ public class RoomModelImpl implements IRoomModel {
 
         BaseApi.dispose(IRoomApi.getFollowList(mParams), callback);
     }
+
+    /**
+     * 获取搜索主播间
+     *
+     * @time 2017/9/21 14:15
+     */
+    @Override
+    public void getSearchRoom(String keyword, int pageNum, int pageSize, DataCallback<ReturnDataBean<RoomBean>> callback) {
+        mParams = OkGoRequest.getAppParams();
+        mParams.put("keyword", keyword);
+        mParams.put("pageNum", pageNum);
+        mParams.put("pageSize", pageSize);
+
+        BaseApi.dispose(IRoomApi.getSearchList(mParams), callback);
+    }
 }

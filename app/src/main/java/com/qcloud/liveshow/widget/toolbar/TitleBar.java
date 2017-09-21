@@ -356,7 +356,7 @@ public class TitleBar extends Toolbar {
 
     /**获取搜索内容*/
     public String getSearchValue() {
-        searchValue = mEtSearch.getText().toString();
+        searchValue = mEtSearch.getText().toString().trim();
         return StringUtils.isEmptyString(searchValue) ? "" : searchValue;
     }
 

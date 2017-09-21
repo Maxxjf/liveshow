@@ -43,7 +43,9 @@ public interface UrlConstants {
     /**获取最新直播间*/
     String GET_NEWEST_LIST = URL_PREFIX_APP + "index/newList";
     /**获取关注直播间*/
-    String GET_FOLLOE_LIST = URL_PREFIX_APP + "index/attentionList";
+    String GET_FOLLOW_LIST = URL_PREFIX_APP + "index/attentionList";
+    /**获取搜索主播间*/
+    String GET_SEARCH_LIST = URL_PREFIX_APP + "index/search";
 
     /**
      * 直播有关

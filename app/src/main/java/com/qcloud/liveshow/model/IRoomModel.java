@@ -19,4 +19,7 @@ public interface IRoomModel {
 
     /**获取关注直播间*/
     void getFollowRoom(int pageNum, int pageSize, DataCallback<ReturnDataBean<RoomBean>> callback);
+
+    /**搜索直播间*/
+    void getSearchRoom(String keyword, int pageNum, int pageSize, DataCallback<ReturnDataBean<RoomBean>> callback);
 }

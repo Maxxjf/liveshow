@@ -14,12 +14,16 @@ import java.util.List;
 public interface IHotView extends BaseView {
     /**轮播图*/
     void replaceBanner(List<BannerBean> list);
+
     /**热门直播间*/
     void replaceList(List<RoomBean> beans, boolean isNext);
+
     /**热门直播间*/
     void addListAtEnd(List<RoomBean> beans, boolean isNext);
+
     /**显示空布局*/
     void showEmptyView();
+
     /**隐藏空布局*/
     void hideEmptyView();
 }

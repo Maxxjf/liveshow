@@ -13,21 +13,31 @@
         android:layout_height="match_parent"
         android:scrollbars="none">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <com.qcloud.qclib.widget.customview.banner.CustomBanner
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="true"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/list_hot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorBg"/>
-        </LinearLayout>
+                android:background="@color/colorBg"
+                android:layout_below="@id/banner"/>
+
+            <com.qcloud.liveshow.widget.customview.NoDataView
+                android:id="@+id/empty_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/banner"
+                android:layout_marginTop="@dimen/margin_8"
+                android:visibility="gone"/>
+        </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 </com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout>

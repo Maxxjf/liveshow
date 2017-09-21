@@ -30,4 +30,6 @@ public interface IRoomControlView {
     /**点击退出*/
     void onExitClick();
 
+    /**关注返回*/
+    void onFollowRes(boolean isSuccess);
 }

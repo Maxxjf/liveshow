@@ -30,8 +30,15 @@ public class HotPresenterImpl extends BasePresenter<IHotView> implements IHotPre
                     return;
                 }
                 if (bean != null) {
+                    // 轮播图
                     mView.replaceBanner(bean.getImgList());
-                    mView.replaceList(bean.getRoomList(), false);
+
+                    // 热门主播列表
+                    if (bean.getPageNum() == 1) {
+                        mView.replaceList(bean.getList(), bean.isNext());
+                    } else {
+                        mView.addListAtEnd(bean.getList(), bean.isNext());
+                    }
                 }
             }
 

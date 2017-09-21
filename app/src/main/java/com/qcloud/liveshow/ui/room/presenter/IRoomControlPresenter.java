@@ -8,4 +8,6 @@ import com.qcloud.qclib.base.BtnClickPresenter;
  * Date: 2017/8/23 11:43.
  */
 public interface IRoomControlPresenter extends BtnClickPresenter {
+    /**关注该主播员*/
+    void submitAttention(long id, boolean isAttention);
 }

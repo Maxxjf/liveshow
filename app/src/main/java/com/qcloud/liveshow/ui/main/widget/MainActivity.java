@@ -104,20 +104,6 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
                         }
                     }
                 });
-
-//        manager.requestEach(PERMISSIONS)
-//                .subscribe(new Consumer<PermissionBean>() {
-//                    @Override
-//                    public void accept(@NonNull PermissionBean bean) throws Exception {
-//                        if (bean.granted) {
-//                            // 用户已经同意该权限
-//                        } else if (bean.shouldShowRequestPermissionRationale) {
-//                            // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
-//                        } else {
-//                            // 用户拒绝了该权限，并且选中『不再询问』，提醒用户手动打开权限
-//                        }
-//                    }
-//                });
     }
 
     /**

@@ -144,11 +144,7 @@ public class UserInfoActivity extends SwipeBaseActivity<IUserInfoView, UserInfoP
             GlideUtil.loadImage(this, mImgUser, mUser.getHeadImg(), R.drawable.bitmap_user, 0, 0, true, false);
 
             mTvUserName.setText(bean.getName());
-            if (bean.getSex() == 0) {
-                mImgUserSex.setImageResource(R.drawable.icon_man);
-            } else {
-                mImgUserSex.setImageResource(R.drawable.icon_lady);
-            }
+            mImgUserSex.setImageResource(bean.getSexIcon());
             if (StringUtils.isNotEmptyString(bean.getAnchorGradeIcon())) {
                 mImgAnchorLevel.setVisibility(VISIBLE);
                 GlideUtil.loadCircleImage(this, mImgAnchorLevel, bean.getAnchorGradeIcon(), R.drawable.icon_anchor_level_1,

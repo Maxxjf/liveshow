@@ -18,6 +18,7 @@ import com.qcloud.liveshow.ui.home.presenter.impl.HotPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IHotView;
 import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.liveshow.ui.room.widget.RoomActivity;
+import com.qcloud.liveshow.widget.customview.NoDataView;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
 import com.qcloud.qclib.swiperefresh.SwipeRefreshUtil;
@@ -42,6 +43,8 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
     CustomBanner mBanner;
     @Bind(R.id.list_hot)
     RecyclerView mListHot;
+    @Bind(R.id.empty_view)
+    NoDataView mEmptyView;
     @Bind(R.id.refresh_layout)
     CustomSwipeRefreshLayout mRefreshLayout;
 
@@ -80,6 +83,39 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
         ViewGroup.LayoutParams lp = mBanner.getLayoutParams();
         lp.height = width * 320 / 690;
         mBanner.setLayoutParams(lp);
+
+        mBanner.setPages(new CustomBanner.ViewCreator<BannerBean>() {
+            @Override
+            public View createView(Context context, int position) {
+                ImageView imageView = new ImageView(context);
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                imageView.setPadding(0, 0, 0, 0);
+                return imageView;
+            }
+
+            @Override
+            public void UpdateUI(Context context, View view, int position, BannerBean bean) {
+                ImageView imageView = (ImageView) view;
+                imageView.setImageBitmap(null);
+                if (bean != null) {
+                    GlideUtil.loadImage(context, imageView, bean.getImg(), R.drawable.bitmap_banner, true, false);
+                }
+            }
+        })
+                //设置两个点图片作为翻页指示器，不设置则没有指示器，可以根据自己需求自行配合自己的指示器,不需要圆点指示器可用不设
+                .setIndicatorRes(R.drawable.banner_point_select, R.drawable.banner_point_unselect)
+                //设置指示器的方向
+                .setIndicatorGravity(CustomBanner.IndicatorGravity.CENTER_HORIZONTAL)
+                //设置翻页的效果，不需要翻页效果可用不设
+                .startTurning(5000);
+
+        mBanner.setOnPageClickListener(new CustomBanner.OnPageClickListener() {
+            @Override
+            public void onPageClick(int position, Object o) {
+                BannerBean bean = (BannerBean) o;
+                WebActivity.openActivity(mContext, "热门活动", bean.getHandleUrl());
+            }
+        });
     }
 
     private void initRefreshLayout() {
@@ -118,37 +154,14 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
 
     @Override
     public void replaceBanner(List<BannerBean> list) {
-        mBanner.setPages(new CustomBanner.ViewCreator<BannerBean>() {
-            @Override
-            public View createView(Context context, int position) {
-                ImageView imageView = new ImageView(context);
-                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                imageView.setPadding(0, 0, 0, 0);
-                return imageView;
+        if (isInFragment) {
+            if (list != null && !list.isEmpty()) {
+                mBanner.setVisibility(View.VISIBLE);
+                mBanner.replaceData(list);
+            } else {
+                mBanner.setVisibility(View.GONE);
             }
-
-            @Override
-            public void UpdateUI(Context context, View view, int position, BannerBean bean) {
-                ImageView imageView = (ImageView) view;
-                imageView.setImageBitmap(null);
-                if (bean != null) {
-                    GlideUtil.loadImage(context, imageView, bean.getImg(), R.drawable.bitmap_banner, true, false);
-                }
-            }
-        }, list)
-                //设置两个点图片作为翻页指示器，不设置则没有指示器，可以根据自己需求自行配合自己的指示器,不需要圆点指示器可用不设
-                .setIndicatorRes(R.drawable.banner_point_select, R.drawable.banner_point_unselect)
-                //设置指示器的方向
-                .setIndicatorGravity(CustomBanner.IndicatorGravity.CENTER_HORIZONTAL)
-                //设置翻页的效果，不需要翻页效果可用不设
-                .startTurning(5000);
-        mBanner.setOnPageClickListener(new CustomBanner.OnPageClickListener() {
-            @Override
-            public void onPageClick(int position, Object o) {
-                BannerBean bean = (BannerBean) o;
-                WebActivity.openActivity(mContext, "热门活动", bean.getHandleUrl());
-            }
-        });
+        }
     }
 
     @Override
@@ -182,6 +195,11 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
                 if (mRefreshLayout != null) {
                     mRefreshLayout.isMore(isNext);
                 }
+            } else {
+                ToastUtils.ToastMessage(getActivity(), R.string.toast_no_more_data);
+                if (mRefreshLayout != null) {
+                    mRefreshLayout.isMore(false);
+                }
             }
             if (mRefreshLayout != null) {
                 mRefreshLayout.loadMoreFinish();
@@ -191,12 +209,22 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
 
     @Override
     public void showEmptyView() {
-        ToastUtils.ToastMessage(getActivity(), "暂无数据");
+        if (mListHot != null) {
+            mListHot.setVisibility(View.GONE);
+        }
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void hideEmptyView() {
-        Timber.e("隐藏空布局");
+        if (mListHot != null) {
+            mListHot.setVisibility(View.VISIBLE);
+        }
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.GONE);
+        }
     }
 
     @Override

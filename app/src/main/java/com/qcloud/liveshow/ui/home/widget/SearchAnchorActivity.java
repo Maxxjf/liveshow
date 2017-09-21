@@ -2,24 +2,30 @@ package com.qcloud.liveshow.ui.home.widget;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.SearchAnchorAdapter;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
+import com.qcloud.liveshow.beans.RoomBean;
+import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.ui.home.presenter.impl.SearchAnchorPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.ISearchAnchorView;
+import com.qcloud.liveshow.ui.room.widget.RoomActivity;
+import com.qcloud.liveshow.widget.customview.NoSearchResView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
 import com.qcloud.qclib.toast.ToastUtils;
 
+import java.util.List;
+
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -34,7 +40,12 @@ public class SearchAnchorActivity extends SwipeBaseActivity<ISearchAnchorView, S
     @Bind(R.id.list_search_res)
     PullRefreshRecyclerView mListSearchRes;
 
+    private NoSearchResView mEmptyView;
+
     private SearchAnchorAdapter mAdapter;
+
+    private String keyword = "";
+    private int pageNum = 1;
 
     @Override
     protected int initLayout() {
@@ -63,14 +74,18 @@ public class SearchAnchorActivity extends SwipeBaseActivity<ISearchAnchorView, S
         initListView();
     }
 
+    private void loadData() {
+        mPresenter.getSearchList(keyword, pageNum, AppConstants.PAGE_SIZE);
+    }
+
     private void initTitleBar() {
         mTitleBar.setSearchHint(R.string.input_search_anchor_hint);
         mTitleBar.setOnBtnListener(new TitleBar.OnBtnListener() {
             @Override
             public void onBtnClick(View view) {
                 if (view.getId() == R.id.btn_search) {
-                    String keyWord = mTitleBar.getSearchValue().trim();
-                    ToastUtils.ToastMessage(SearchAnchorActivity.this, keyWord+"");
+                    keyword = mTitleBar.getSearchValue();
+                    loadData();
                 } else {
                     finish();
                 }
@@ -85,24 +100,95 @@ public class SearchAnchorActivity extends SwipeBaseActivity<ISearchAnchorView, S
         mListSearchRes.setOnPullDownRefreshListener(new PullRefreshView.OnPullDownRefreshListener() {
             @Override
             public void onRefresh() {
-                mListSearchRes.refreshFinish();
+                pageNum = 1;
+                mListSearchRes.isMore(true);
+                loadData();
             }
         });
         mListSearchRes.setOnPullUpRefreshListener(new PullRefreshView.OnPullUpRefreshListener() {
             @Override
             public void onRefresh() {
-                mListSearchRes.refreshFinish();
+                pageNum++;
+                loadData();
             }
         });
 
         mAdapter = new SearchAnchorAdapter(this);
         mListSearchRes.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                RoomActivity.openActivity(mContext, i, mAdapter.getList());
+            }
+        });
 
+        mEmptyView = new NoSearchResView(this);
+        mListSearchRes.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
+        showEmptyView();
+    }
+
+    @Override
+    public void replaceList(List<RoomBean> beans, boolean isNext) {
+        if (isRunning) {
+            if (mListSearchRes != null) {
+                mListSearchRes.refreshFinish();
+            }
+            if (beans != null && !beans.isEmpty()) {
+                hideEmptyView();
+                if (mAdapter != null) {
+                    mAdapter.replaceList(beans);
+                }
+                if (mListSearchRes != null) {
+                    mListSearchRes.isMore(isNext);
+                }
+            } else {
+                showEmptyView();
+            }
+        }
+    }
+
+    @Override
+    public void addListAtEnd(List<RoomBean> beans, boolean isNext) {
+        if (isRunning) {
+            if (mListSearchRes != null) {
+                mListSearchRes.refreshFinish();
+            }
+            if (beans != null) {
+                if (mAdapter != null) {
+                    mAdapter.addListAtEnd(beans);
+                }
+                if (mListSearchRes != null) {
+                    mListSearchRes.isMore(isNext);
+                }
+            } else {
+                ToastUtils.ToastMessage(this, R.string.toast_no_more_data);
+                if (mListSearchRes != null) {
+                    mListSearchRes.isMore(false);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void showEmptyView() {
+        if (mListSearchRes != null) {
+            mListSearchRes.showEmptyView();
+        }
+    }
+
+    @Override
+    public void hideEmptyView() {
+        if (mListSearchRes != null) {
+            mListSearchRes.hideEmptyView();
+        }
     }
 
     @Override
     public void loadErr(boolean isShow, String errMsg) {
         if (isRunning) {
+            if (mListSearchRes != null) {
+                mListSearchRes.refreshFinish();
+            }
             if (isShow) {
                 ToastUtils.ToastMessage(this, errMsg);
             } else {
@@ -113,12 +199,5 @@ public class SearchAnchorActivity extends SwipeBaseActivity<ISearchAnchorView, S
 
     public static void openActivity(Context context) {
         context.startActivity(new Intent(context, SearchAnchorActivity.class));
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }
