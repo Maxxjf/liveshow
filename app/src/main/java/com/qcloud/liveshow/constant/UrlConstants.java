@@ -58,6 +58,10 @@ public interface UrlConstants {
     String SUBMIT_APPLY = URL_PREFIX_APP + "anchor/apply";
     /**创建直播间*/
     String CREATE_LIVE = URL_PREFIX_APP + "room/create";
+    /**获取我的守护列表*/
+    String GET_GUARD_LIST = URL_PREFIX_APP + "room/guardList";
+    /**添加守护/取消守护*/
+    String IN_OUT_GRARD = URL_PREFIX_APP + "room/inOutGuard";
 
     /**
      * 我的有关

@@ -54,7 +54,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private ClearScreenHelper mClearScreenHelper;
 
     private UserHeadImageView mUserHead;
-    private TextView mTvTitle;
+    private TextView mTvName;
     private TextView mTvWatchNum;
     private TextView mBtnFollow;
     private RecyclerView mListFans;
@@ -177,8 +177,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         if (mUserHead != null) {
             mUserHead.loadImage(bean.getHeadImg(), bean.getIcon(), 80);
         }
-        if (mTvTitle != null) {
-            mTvTitle.setText(bean.getNickName());
+        if (mTvName != null) {
+            mTvName.setText(bean.getNickName());
         }
         if (mTvId != null) {
             mTvId.setText(bean.getIdAccount());
@@ -190,7 +190,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * */
     private void initView() {
         mUserHead = (UserHeadImageView) mView.findViewById(R.id.layout_user);
-        mTvTitle = (TextView) mView.findViewById(R.id.tv_title);
+        mTvName = (TextView) mView.findViewById(R.id.tv_name);
         mTvWatchNum = (TextView) mView.findViewById(R.id.tv_watch_num);
         mBtnFollow = (TextView) mView.findViewById(R.id.btn_follow);
         mListFans = (RecyclerView) mView.findViewById(R.id.list_fans);

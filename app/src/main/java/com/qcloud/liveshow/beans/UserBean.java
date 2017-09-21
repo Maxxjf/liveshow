@@ -112,7 +112,7 @@ public class UserBean {
     }
 
     public String getIdAccount() {
-        return idAccount;
+        return StringUtils.isEmptyString(idAccount) ? "" : idAccount;
     }
 
     public void setIdAccount(String idAccount) {

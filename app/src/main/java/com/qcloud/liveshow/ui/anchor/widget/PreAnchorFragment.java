@@ -133,12 +133,22 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mInputDialog.setOnFinishInputListener(new InputDialog.OnFinishInputListener() {
             @Override
             public void onFinishInput(String message) {
+                mInputDialog.dismiss();
+            }
+        });
+        mInputDialog.setOnTextChangeListener(new InputDialog.OnTextChangeListener() {
+            @Override
+            public void onTextChange(String message) {
                 if (isInputTitle) {
-                    mTvTitle.setText(message);
-                    mImgTitleClear.setVisibility(View.VISIBLE);
+                    mTvTitle.append(message);
+                    if (mImgTitleClear.getVisibility() != View.VISIBLE) {
+                        mImgTitleClear.setVisibility(View.VISIBLE);
+                    }
                 } else {
-                    mTvNotice.setText(message);
-                    mImgNoticeClear.setVisibility(View.VISIBLE);
+                    mTvNotice.append(message);
+                    if (mImgNoticeClear.getVisibility() != View.VISIBLE) {
+                        mImgNoticeClear.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
@@ -165,6 +175,12 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
                 } else if (view.getId() == R.id.btn_album) {
                     ImageSelectUtil.openPhoto(getActivity(), REQUEST_CODE, false);
                 }
+            }
+        });
+        mPicturePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -407,10 +423,10 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
             ToastUtils.ToastMessage(getActivity(), R.string.toast_input_live_title);
             return false;
         }
-        if (StringUtils.isEmptyString(mNotice)) {
-            ToastUtils.ToastMessage(getActivity(), R.string.toast_input_live_notice);
-            return false;
-        }
+//        if (StringUtils.isEmptyString(mNotice)) {
+//            ToastUtils.ToastMessage(getActivity(), R.string.toast_input_live_notice);
+//            return false;
+//        }
         if (StringUtils.isEmptyString(mCover)) {
             ToastUtils.ToastMessage(getActivity(), R.string.toast_input_live_cover);
             return false;

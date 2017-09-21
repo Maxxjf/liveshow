@@ -4,9 +4,11 @@ import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.ApplyStatusBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.qclib.beans.BaseResponse;
+import com.qcloud.qclib.beans.ReturnDataBean;
 import com.qcloud.qclib.network.OkGoRequest;
 
 import java.lang.reflect.Type;
@@ -45,5 +47,19 @@ public class IAnchorApi {
         Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
 
         return OkGoRequest.getRequest(UrlConstants.CREATE_LIVE, type, params);
+    }
+
+    /**获取我的守护列表*/
+    public static Observable<BaseResponse<ReturnDataBean<MemberBean>>> getGuardList(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ReturnDataBean<MemberBean>>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.GET_GUARD_LIST, type, params);
+    }
+
+    /**添加守护/取消守护*/
+    public static Observable<BaseResponse<ReturnEmptyBean>> inOutGuard(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.IN_OUT_GRARD, type, params);
     }
 }

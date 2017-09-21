@@ -8,4 +8,12 @@ import com.qcloud.qclib.base.BtnClickPresenter;
  * Date: 2017/9/2 15:49.
  */
 public interface IAnchorControlPresenter extends BtnClickPresenter {
+    /**获取守护列表*/
+    void getGuardList();
+
+    /**添加守护和取消守护*/
+    void setGuard(long memberId, boolean isGuard);
+
+    /**添加黑名单*/
+    void addBlacklist(long id, boolean isBlacklist);
 }

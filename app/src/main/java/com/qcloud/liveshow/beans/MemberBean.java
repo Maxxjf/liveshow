@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.beans;
 
+import com.qcloud.liveshow.R;
 import com.qcloud.qclib.utils.StringUtils;
 
 /**
@@ -53,6 +54,10 @@ public class MemberBean {
         return sex == 0 ? "男" : "女";
     }
 
+    public int getSexIcon() {
+        return sex == 0 ? R.drawable.icon_man : R.drawable.icon_lady;
+    }
+
     public void setSex(int sex) {
         this.sex = sex;
     }
@@ -95,6 +100,10 @@ public class MemberBean {
 
     public void setMemberGradeIcon(String memberGradeIcon) {
         this.memberGradeIcon = memberGradeIcon;
+    }
+
+    public String getIcon() {
+        return isAnchor ? anchorGradeIcon : memberGradeIcon;
     }
 
     public double getMemberSum() {

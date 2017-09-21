@@ -9,9 +9,12 @@ import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.GuarderAdapter;
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
+
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -32,6 +35,7 @@ public class GuarderPop extends BasePopupWindow {
     @Bind(R.id.refresh_view)
     PullRefreshView mRefreshView;
 
+    private List<MemberBean> mList;
     private GuarderAdapter mAdapter;
 
     public GuarderPop(Context context) {
@@ -50,7 +54,7 @@ public class GuarderPop extends BasePopupWindow {
 
     @Override
     protected void initAfterViews() {
-        PullRefreshUtil.setRefresh(mRefreshView, true, true);
+        PullRefreshUtil.setRefresh(mRefreshView, false, false);
         mRefreshView.setOnPullDownRefreshListener(new PullRefreshView.OnPullDownRefreshListener() {
             @Override
             public void onRefresh() {
@@ -83,4 +87,10 @@ public class GuarderPop extends BasePopupWindow {
         setPopWindowBg(1.0f);
     }
 
+    public void replaceList(List<MemberBean> beans) {
+        this.mList = beans;
+        if (mList != null && mAdapter != null) {
+            mAdapter.replaceList(mList);
+        }
+    }
 }

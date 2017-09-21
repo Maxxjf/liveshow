@@ -80,5 +80,6 @@ public class FansInfoPop extends BasePopupWindow {
         if (mViewClick != null) {
             mViewClick.onViewClick(mBtnManager);
         }
+        dismiss();
     }
 }

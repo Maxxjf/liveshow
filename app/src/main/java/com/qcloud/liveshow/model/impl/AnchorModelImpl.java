@@ -5,11 +5,13 @@ import android.support.annotation.NonNull;
 import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.ApplyStatusBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.SubmitApplyBean;
 import com.qcloud.liveshow.beans.SubmitStartLiveBean;
 import com.qcloud.liveshow.model.IAnchorModel;
 import com.qcloud.liveshow.net.IAnchorApi;
+import com.qcloud.qclib.beans.ReturnDataBean;
 import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.network.BaseApi;
 import com.qcloud.qclib.network.OkGoRequest;
@@ -97,5 +99,31 @@ public class AnchorModelImpl implements IAnchorModel {
         mParams.put("feeEndTime", bean.getFeeEndTime());
 
         BaseApi.dispose(IAnchorApi.createLive(mParams), callback);
+    }
+
+    /**
+     * 获取守护列表
+     *
+     * @time 2017/9/21 16:58
+     */
+    @Override
+    public void getGuardList(DataCallback<ReturnDataBean<MemberBean>> callback) {
+        mParams = OkGoRequest.getAppParams();
+
+        BaseApi.dispose(IAnchorApi.getGuardList(mParams), callback);
+    }
+
+    /**
+     * 添加守护/取消守护
+     *
+     * @time 2017/9/21 17:03
+     */
+    @Override
+    public void inOutGuard(long memberId, boolean isGuard, DataCallback<ReturnEmptyBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+        mParams.put("memberId", memberId);
+        mParams.put("isGuard", isGuard);
+
+        BaseApi.dispose(IAnchorApi.inOutGuard(mParams), callback);
     }
 }

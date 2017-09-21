@@ -7,7 +7,9 @@ import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -45,6 +47,7 @@ public class InputDialog extends Dialog {
     private String mMessage;
 
     private OnFinishInputListener mListener;
+    private OnTextChangeListener mChangeListener;
 
     public InputDialog(@NonNull Context context) {
         this(context, R.style.InputDialog);
@@ -78,6 +81,24 @@ public class InputDialog extends Dialog {
         mEtMessage.setInputType(InputType.TYPE_CLASS_TEXT);
         //修改下划线颜色
         mEtMessage.getBackground().setColorFilter(ContextCompat.getColor(mContext, R.color.transparent), PorterDuff.Mode.CLEAR);
+        mEtMessage.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (mChangeListener != null) {
+                    mChangeListener.onTextChange(editable.toString());
+                }
+            }
+        });
 
         //监听键盘
         mEtMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -178,5 +199,13 @@ public class InputDialog extends Dialog {
 
     public interface OnFinishInputListener {
         void onFinishInput(String message);
+    }
+
+    public void setOnTextChangeListener(OnTextChangeListener listener) {
+        this.mChangeListener = listener;
+    }
+
+    public interface OnTextChangeListener {
+        void onTextChange(String message);
     }
 }

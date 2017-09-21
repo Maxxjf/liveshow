@@ -4,9 +4,11 @@ import android.support.annotation.NonNull;
 
 import com.qcloud.liveshow.beans.ApplyStatusBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.SubmitApplyBean;
 import com.qcloud.liveshow.beans.SubmitStartLiveBean;
+import com.qcloud.qclib.beans.ReturnDataBean;
 import com.qcloud.qclib.callback.DataCallback;
 
 /**
@@ -26,4 +28,10 @@ public interface IAnchorModel {
 
     /**创建直播间*/
     void createLive(@NonNull SubmitStartLiveBean bean, DataCallback<ReturnEmptyBean> callback);
+
+    /**获取我的守护列表*/
+    void getGuardList(DataCallback<ReturnDataBean<MemberBean>> callback);
+
+    /**添加守护/取消守护*/
+    void inOutGuard(long memberId, boolean isGuard, DataCallback<ReturnEmptyBean> callback);
 }

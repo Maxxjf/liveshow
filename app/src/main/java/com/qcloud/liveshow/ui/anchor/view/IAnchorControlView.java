@@ -1,6 +1,9 @@
 package com.qcloud.liveshow.ui.anchor.view;
 
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.qclib.base.BaseView;
+
+import java.util.List;
 
 /**
  * 类说明：直播间控制页面
@@ -28,4 +31,7 @@ public interface IAnchorControlView extends BaseView {
 
     /**点击退出*/
     void onExitClick();
+
+    /**刷新守护列表*/
+    void replaceGuardList(List<MemberBean> been);
 }

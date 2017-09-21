@@ -16,17 +16,25 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.RoomFansAdapter;
 import com.qcloud.liveshow.adapter.RoomMessageAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
+import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.AnchorControlPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IAnchorControlView;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.liveshow.widget.dialog.InputMessageDialog;
 import com.qcloud.liveshow.widget.pop.FansInfoPop;
+import com.qcloud.liveshow.widget.pop.FansManagerPop;
+import com.qcloud.liveshow.widget.pop.GuarderPop;
 import com.qcloud.liveshow.widget.pop.MessageListPop;
 import com.qcloud.liveshow.widget.pop.SharePop;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
+import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.MarqueeView;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -43,8 +51,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     UserHeadImageView mLayoutUser;
     @Bind(R.id.tv_time)
     TextView mTvTime;
-    @Bind(R.id.tv_fans)
-    TextView mTvFans;
+    @Bind(R.id.tv_watch_num)
+    TextView mTvWatchNum;
     @Bind(R.id.list_fans)
     RecyclerView mListFans;
     @Bind(R.id.layout_top)
@@ -78,28 +86,26 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     @Bind(R.id.btn_exit)
     ImageView mBtnExit;
 
+    private UserBean mUserBean;
+
     private RoomFansAdapter mFansAdapter;
     private RoomMessageAdapter mMessageAdapter;
 
     /**fragment点击事件回调*/
     private OnFragmentClickListener mListener;
 
-    /**
-     * 输入消息弹窗
-     */
+    /** 输入消息弹窗 */
     private InputMessageDialog mInputDialog;
-    /**
-     * 粉丝信息弹窗
-     */
+    /** 粉丝信息弹窗 */
     private FansInfoPop mFansPop;
-    /**
-     * 消息列表弹窗
-     */
+    /** 消息列表弹窗 */
     private MessageListPop mMessagePop;
-    /**
-     * 分享弹窗
-     */
+    /** 分享弹窗 */
     private SharePop mSharePop;
+    /**粉丝管理弹窗*/
+    private FansManagerPop mManagerPop;
+    /**守护者弹窗*/
+    private GuarderPop mGuarderPop;
 
     @Override
     protected int getLayoutId() {
@@ -115,6 +121,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     protected void initViewAndData() {
         initFansLayout();
         initMessageLayout();
+        SystemBarUtil.hideNavBar(getActivity());
     }
 
     @Override
@@ -128,16 +135,31 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     private void refreshAndLoadData() {
         Timber.e("refreshAndLoadData()");
 
-        if (mTvFans != null) {
-            mTvFans.setText("1234");
-        }
-        if (mTvId != null) {
-            mTvId.setText("3399366");
+        refreshUserInfo();
+
+        if (mTvWatchNum != null) {
+            mTvWatchNum.setText("1234");
         }
         if (mTvNotice != null) {
             mTvNotice.stopScroll();
             mTvNotice.setText("看我直播，不要睡觉~");
             resetNoticeWith();
+        }
+    }
+
+    /**
+     * 刷新主播员信息
+     * */
+    private void refreshUserInfo() {
+        mUserBean = UserInfoUtil.mUser;
+        if (mUserBean == null) {
+            return;
+        }
+        if (mLayoutUser != null) {
+            mLayoutUser.loadImage(mUserBean.getHeadImg(), mUserBean.getIcon(), 80);
+        }
+        if (mTvId != null) {
+            mTvId.setText(mUserBean.getIdAccount());
         }
     }
 
@@ -188,6 +210,17 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      * */
     private void initFansPop() {
         mFansPop = new FansInfoPop(mContext);
+        mFansPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                if (view.getId() == R.id.btn_manager) {
+                    if (mManagerPop == null) {
+                        initFansManagerPop();
+                    }
+                    mManagerPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+                }
+            }
+        });
         mFansPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -215,6 +248,52 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     private void initSharePop() {
         mSharePop = new SharePop(mContext);
         mSharePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemBarUtil.hideNavBar(getActivity());
+            }
+        });
+    }
+
+    /**
+     * 初始化消息列表弹窗
+     * */
+    private void initFansManagerPop() {
+        mManagerPop = new FansManagerPop(mContext);
+        mManagerPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                switch (view.getId()) {
+                    case R.id.btn_set_guarder:
+
+                        break;
+                    case R.id.btn_my_guarder_list:
+                        mPresenter.getGuardList();
+                        startLoadingDialog();
+                        break;
+                    case R.id.btn_gag:
+
+                        break;
+                    case R.id.btn_add_blacklist:
+
+                        break;
+                }
+            }
+        });
+        mManagerPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                SystemBarUtil.hideNavBar(getActivity());
+            }
+        });
+    }
+
+    /**
+     * 初始化粉守护者弹窗
+     * */
+    private void initGuarderPop() {
+        mGuarderPop = new GuarderPop(mContext);
+        mGuarderPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 SystemBarUtil.hideNavBar(getActivity());
@@ -313,6 +392,18 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     public void onExitClick() {
         AnchorFinishActivity.openActivity(getActivity());
         getActivity().finish();
+    }
+
+    @Override
+    public void replaceGuardList(List<MemberBean> been) {
+        if (isInFragment) {
+            stopLoadingDialog();
+            if (mGuarderPop == null) {
+                initGuarderPop();
+            }
+            mGuarderPop.replaceList(been);
+            mGuarderPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+        }
     }
 
     @Override
