@@ -90,6 +90,8 @@ public interface UrlConstants {
     String GET_PAY_MEAL_LIST = URL_PREFIX_APP + "basics/payMealList";
     /**获取礼物列表*/
     String GET_GIFT_LIST = URL_PREFIX_APP + "basics/giftList";
+    /**是否已设置提现密码*/
+    String IS_SET_PASSWORD = URL_PREFIX_APP + "member/isSetWithdrawPassword";
     /**设置提现密码获取验证码*/
     String GET_CODE_BY_SET_PASSWORD = URL_PREFIX_APP + "member/settingSendCode";
     /**设置提现密码*/
@@ -98,6 +100,10 @@ public interface UrlConstants {
     String GET_CODE_BY_RESET_PASSWORD = URL_PREFIX_APP + "member/resetSendCode";
     /**重置提现密码*/
     String RESET_WITHDRAW_CASH_PASSWORD = URL_PREFIX_APP + "member/resetWithdrawPassword";
+    /**获取我的收益*/
+    String GET_MY_PROFIT = URL_PREFIX_APP + "mine/myEarnings";
+    /**获取我的收益记录*/
+    String GET_PROFTI_RECORD = URL_PREFIX_APP + "mine/earningsDetail";
 
     /**
      * 文件有关

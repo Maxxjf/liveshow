@@ -4,21 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
+import android.view.Gravity;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.ProfitRecordAdapter;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
+import com.qcloud.liveshow.beans.ProfitRecordBean;
+import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.ui.profit.presenter.impl.ProfitRecordPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.IProfitRecordView;
+import com.qcloud.liveshow.widget.customview.EmptyView;
+import com.qcloud.liveshow.widget.customview.NoDataView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
+import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
 import com.qcloud.qclib.toast.ToastUtils;
-import com.qcloud.qclib.widget.layoutManager.FullyLinearLayoutManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -31,17 +33,15 @@ import timber.log.Timber;
  */
 public class ProfitRecordActivity extends SwipeBaseActivity<IProfitRecordView, ProfitRecordPresenterImpl> implements IProfitRecordView {
 
-
     @Bind(R.id.title_bar)
     TitleBar mTitleBar;
-    @Bind(R.id.tv_profit_account)
-    TextView mTvProfitAccount;
     @Bind(R.id.list_profit_record)
-    RecyclerView mListProfitRecord;
-    @Bind(R.id.refresh_view)
-    PullRefreshView mRefreshView;
+    PullRefreshRecyclerView mListProfitRecord;
 
     private ProfitRecordAdapter mAdapter;
+
+    private int pageNum = 1;
+    private NoDataView mEmptyView;
 
     @Override
     protected int initLayout() {
@@ -67,42 +67,112 @@ public class ProfitRecordActivity extends SwipeBaseActivity<IProfitRecordView, P
     protected void initViewAndData() {
         initRefreshLayout();
 
+        loadData();
+        startLoadingDialog();
+    }
 
+    private void loadData() {
+        mPresenter.getProfitRecord(pageNum, AppConstants.PAGE_SIZE);
     }
 
     private void initRefreshLayout() {
-        FullyLinearLayoutManager manager = new FullyLinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        manager.setSmoothScrollbarEnabled(true);
+        PullRefreshUtil.setRefresh(mListProfitRecord, true, true);
+        mListProfitRecord.setOnPullDownRefreshListener(new PullRefreshView.OnPullDownRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pageNum = 1;
+                mListProfitRecord.isMore(true);
+                loadData();
+            }
+        });
+
+        mListProfitRecord.setOnPullUpRefreshListener(new PullRefreshView.OnPullUpRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pageNum++;
+                loadData();
+            }
+        });
+
+        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mListProfitRecord.setLayoutManager(manager);
         mAdapter = new ProfitRecordAdapter(this);
         mListProfitRecord.setAdapter(mAdapter);
 
-        List<String> list = new ArrayList<>();
-        for (int i=0; i<20; i++) {
-            list.add("收益" + i);
-        }
-        mAdapter.replaceList(list);
-
-
-        PullRefreshUtil.setRefresh(mRefreshView, true, true);
-        mRefreshView.setOnPullDownRefreshListener(new PullRefreshView.OnPullDownRefreshListener() {
+        mEmptyView = new NoDataView(this);
+        mListProfitRecord.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
+        mEmptyView.setOnRefreshListener(new EmptyView.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mRefreshView.refreshFinish();
-            }
-        });
-
-        mRefreshView.setOnPullUpRefreshListener(new PullRefreshView.OnPullUpRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mRefreshView.refreshFinish();
+                loadData();
             }
         });
     }
 
     @Override
+    public void replaceList(List<ProfitRecordBean> beans, boolean isNext) {
+        if (isRunning) {
+            stopLoadingDialog();
+            if (mListProfitRecord != null) {
+                mListProfitRecord.refreshFinish();
+            }
+            if (beans != null && beans.size() > 0) {
+                if (mAdapter != null) {
+                    mAdapter.replaceList(beans);
+                }
+                if (mListProfitRecord != null) {
+                    mListProfitRecord.isMore(isNext);
+                }
+                hideEmptyView();
+            } else {
+                showEmptyView("暂无数据");
+            }
+        }
+    }
+
+    @Override
+    public void addListAtEnd(List<ProfitRecordBean> beans, boolean isNext) {
+        if (isRunning) {
+            if (mListProfitRecord != null) {
+                mListProfitRecord.refreshFinish();
+            }
+            if (beans != null && beans.size() > 0) {
+                if (mAdapter != null) {
+                    mAdapter.addListAtEnd(beans);
+                }
+                if (mListProfitRecord != null) {
+                    mListProfitRecord.isMore(isNext);
+                }
+            } else {
+                ToastUtils.ToastMessage(this, R.string.toast_no_more_data);
+                if (mListProfitRecord != null) {
+                    mListProfitRecord.isMore(false);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void showEmptyView(String tip) {
+        if (mListProfitRecord != null) {
+            mListProfitRecord.showEmptyView();
+        }
+    }
+
+    @Override
+    public void hideEmptyView() {
+        if (mListProfitRecord != null) {
+            mListProfitRecord.hideEmptyView();
+        }
+    }
+
+    @Override
     public void loadErr(boolean isShow, String errMsg) {
         if (isRunning) {
+            stopLoadingDialog();
+            if (mListProfitRecord != null) {
+                mListProfitRecord.refreshFinish();
+            }
             if (isShow) {
                 ToastUtils.ToastMessage(this, errMsg);
             } else {

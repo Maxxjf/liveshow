@@ -3,11 +3,11 @@ package com.qcloud.liveshow.ui.profit.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
+import com.qcloud.liveshow.beans.ProfitBean;
 import com.qcloud.liveshow.enums.ClauseRuleEnum;
 import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.liveshow.ui.profit.presenter.impl.MyProfitPresenterImpl;
@@ -18,6 +18,7 @@ import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.LineTextView;
 
 import butterknife.Bind;
+import butterknife.BindString;
 import butterknife.OnClick;
 import timber.log.Timber;
 
@@ -34,8 +35,6 @@ public class MyProfitActivity extends SwipeBaseActivity<IMyProfitView, MyProfitP
     TextView mTvCurrProfit;
     @Bind(R.id.btn_rule)
     LineTextView mBtnRule;
-    @Bind(R.id.layout_profit_account)
-    LinearLayout mLayoutProfitAccount;
     @Bind(R.id.tv_profit_account)
     TextView mTvProfitAccount;
     @Bind(R.id.tv_profit_gift)
@@ -46,10 +45,11 @@ public class MyProfitActivity extends SwipeBaseActivity<IMyProfitView, MyProfitP
     TextView mTvProfitPercent;
     @Bind(R.id.btn_confirm_cash)
     TextView mBtnConfirmCash;
-    @Bind(R.id.btn_buy_diamonds)
-    TextView mBtnBuyDiamonds;
     @Bind(R.id.btn_cash_agreement)
     LineTextView mBtnCashAgreement;
+
+    @BindString(R.string.money)
+    String moneyStr;
 
     @Override
     protected int initLayout() {
@@ -75,6 +75,9 @@ public class MyProfitActivity extends SwipeBaseActivity<IMyProfitView, MyProfitP
 
         mBtnRule.setText(getString(R.string.tag_cash_rules), LineTextView.BOTTOM);
         mBtnCashAgreement.setText(getString(R.string.tag_cash_agreement), LineTextView.BOTTOM);
+
+        startLoadingDialog();
+        mPresenter.getMyProfit();
     }
 
     private void initTitleBar() {
@@ -90,7 +93,7 @@ public class MyProfitActivity extends SwipeBaseActivity<IMyProfitView, MyProfitP
         });
     }
 
-    @OnClick({R.id.btn_rule, R.id.btn_confirm_cash, R.id.btn_buy_diamonds, R.id.btn_cash_agreement})
+    @OnClick({R.id.btn_rule, R.id.btn_confirm_cash, R.id.btn_cash_agreement})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
     }
@@ -102,12 +105,7 @@ public class MyProfitActivity extends SwipeBaseActivity<IMyProfitView, MyProfitP
 
     @Override
     public void onConfirmCashClick() {
-        WithdrawCashActivity.openActivity(this);
-    }
-
-    @Override
-    public void onBuyDiamondsClick() {
-        ToastUtils.ToastMessage(this, "买钻石币");
+        mPresenter.isSetPassword();
     }
 
     @Override
@@ -116,8 +114,34 @@ public class MyProfitActivity extends SwipeBaseActivity<IMyProfitView, MyProfitP
     }
 
     @Override
+    public void getMyProfitSuccess(ProfitBean bean) {
+        if (isRunning) {
+            stopLoadingDialog();
+            if (bean != null) {
+                mTvCurrProfit.setText(bean.getNowEarningsStr());
+                mTvProfitAccount.setText(String.format(moneyStr, bean.getSumEarnings()));
+                mTvProfitGift.setText(String.format(moneyStr, bean.getGiftEarnings()));
+                mTvProfitExtension.setText(String.format(moneyStr, bean.getGeneralizeEarnings()));
+                mTvProfitPercent.setText(bean.getGainSharing());
+            }
+        }
+    }
+
+    @Override
+    public void isSetPassword(boolean isSet) {
+        if (isRunning) {
+            if (isSet) {
+                WithdrawCashActivity.openActivity(this);
+            } else {
+                SetCashPasswordActivity.openActivity(this);
+            }
+        }
+    }
+
+    @Override
     public void loadErr(boolean isShow, String errMsg) {
         if (isRunning) {
+            stopLoadingDialog();
             if (isShow) {
                 ToastUtils.ToastMessage(this, errMsg);
             } else {

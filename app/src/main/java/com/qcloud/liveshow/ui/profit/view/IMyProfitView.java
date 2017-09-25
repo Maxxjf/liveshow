@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.ui.profit.view;
 
+import com.qcloud.liveshow.beans.ProfitBean;
 import com.qcloud.qclib.base.BaseView;
 
 /**
@@ -14,9 +15,12 @@ public interface IMyProfitView extends BaseView {
     /**确认提现*/
     void onConfirmCashClick();
 
-    /**买钻石币*/
-    void onBuyDiamondsClick();
-
     /**用户提现协议*/
     void onCashAgreementClick();
+
+    /**获取我的收益成功*/
+    void getMyProfitSuccess(ProfitBean bean);
+
+    /**是否设置提现密码*/
+    void isSetPassword(boolean isSet);
 }

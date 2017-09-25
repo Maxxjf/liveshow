@@ -37,7 +37,7 @@ public class ResetCashPasswordPresenterImpl extends BasePresenter<IResetCashPass
 
     @Override
     public void getCode(String phone) {
-        mModel.getCodeBySetPassword(phone, new DataCallback<GetCodeResBean>() {
+        mModel.getCodeByResetPassword(phone, new DataCallback<GetCodeResBean>() {
             @Override
             public void onSuccess(GetCodeResBean bean) {
                 if (mView != null) {
@@ -58,7 +58,7 @@ public class ResetCashPasswordPresenterImpl extends BasePresenter<IResetCashPass
 
     @Override
     public void setWithdrawCashPassword(String phone, String code, String withdrawPassword) {
-        mModel.setWithdrawCashPassword(phone, code, withdrawPassword, new DataCallback<ReturnEmptyBean>() {
+        mModel.resetWithdrawCashPassword(phone, code, withdrawPassword, new DataCallback<ReturnEmptyBean>() {
             @Override
             public void onSuccess(ReturnEmptyBean returnEmptyBean) {
                 if (mView != null) {

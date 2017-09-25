@@ -20,74 +20,9 @@
     <View
         style="@style/LineHorizontal"/>
 
-    <com.qcloud.qclib.pullrefresh.PullRefreshView
-        android:id="@+id/refresh_view"
+    <com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView
+        android:id="@+id/list_profit_record"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.qcloud.qclib.widget.customview.SupportScrollview
-            style="@style/ScrollViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/layout_profit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@color/white"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="@dimen/margin_4"
-                    android:paddingBottom="@dimen/margin_4"
-                    android:focusableInTouchMode="true">
-
-                    <TextView
-                        android:id="@+id/tv_profit_account"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorTitle"
-                        android:textSize="@dimen/large_text_size"
-                        android:textStyle="bold"
-                        android:text="120000"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center">
-
-                        <ImageView
-                            android:layout_width="@dimen/margin_5"
-                            android:layout_height="@dimen/margin_5"
-                            android:layout_marginLeft="@dimen/layout_margin"
-                            android:src="@drawable/icon_gold"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/draw_padding"
-                            android:textColor="@color/colorTitle"
-                            android:textSize="@dimen/small_text_size"
-                            android:text="@string/tag_all_profit"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/list_profit_record"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout_profit"
-                    android:background="@color/white"
-                    android:layout_marginTop="@dimen/layout_margin"/>
-
-            </RelativeLayout>
-        </com.qcloud.qclib.widget.customview.SupportScrollview>
-    </com.qcloud.qclib.pullrefresh.PullRefreshView>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

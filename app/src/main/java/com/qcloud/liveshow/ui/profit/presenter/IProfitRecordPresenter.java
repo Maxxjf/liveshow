@@ -6,4 +6,6 @@ package com.qcloud.liveshow.ui.profit.presenter;
  * Date: 2017/8/18 16:05.
  */
 public interface IProfitRecordPresenter {
+    /**获取收益记录*/
+    void getProfitRecord(int pageNum, int pageSize);
 }

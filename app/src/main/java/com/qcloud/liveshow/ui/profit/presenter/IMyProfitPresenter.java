@@ -8,4 +8,9 @@ import com.qcloud.qclib.base.BtnClickPresenter;
  * Date: 2017/8/18 14:23.
  */
 public interface IMyProfitPresenter extends BtnClickPresenter {
+    /**获取我的收益*/
+    void getMyProfit();
+
+    /**是否设置提现密码*/
+    void isSetPassword();
 }

@@ -250,5 +250,6 @@
     <string name="tag_x_num">X%d</string><!--x100-->
     <string name="tag_get_profit">%.1f</string>
     <string name="tag_top_profit">%d钻石币/分钟</string>
+    <string name="tag_brand_code">银行卡：%s</string>
 
 </resources>

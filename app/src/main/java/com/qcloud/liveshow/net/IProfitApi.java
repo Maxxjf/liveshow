@@ -5,7 +5,10 @@ import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.DiamondsBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.GiftBean;
+import com.qcloud.liveshow.beans.ProfitBean;
+import com.qcloud.liveshow.beans.ProfitRecordBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.beans.ReturnSuccessBean;
 import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.qclib.beans.BaseResponse;
 import com.qcloud.qclib.beans.ReturnDataBean;
@@ -35,6 +38,13 @@ public class IProfitApi {
         return OkGoRequest.getRequest(UrlConstants.GET_GIFT_LIST, type, params);
     }
 
+    /**是否已设置提现密码*/
+    public static Observable<BaseResponse<ReturnSuccessBean>> isSetPassword(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ReturnSuccessBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.IS_SET_PASSWORD, type, params);
+    }
+
     /**设置提现密码获取验证码*/
     public static Observable<BaseResponse<GetCodeResBean>> getCodeBySetPassword(HttpParams params) {
         Type type = new TypeToken<BaseResponse<GetCodeResBean>>(){}.getType();
@@ -61,5 +71,19 @@ public class IProfitApi {
         Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
 
         return OkGoRequest.getRequest(UrlConstants.RESET_WITHDRAW_CASH_PASSWORD, type, params);
+    }
+
+    /**我的收益*/
+    public static Observable<BaseResponse<ProfitBean>> getMyProfit(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ProfitBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.GET_MY_PROFIT, type, params);
+    }
+
+    /**收益记录*/
+    public static Observable<BaseResponse<ReturnDataBean<ProfitRecordBean>>> getProfitRecord(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ReturnDataBean<ProfitRecordBean>>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.GET_PROFTI_RECORD, type, params);
     }
 }

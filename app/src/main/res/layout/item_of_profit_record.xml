@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorTitle"
                 android:textSize="@dimen/small_text_size"
-                android:text="直播收益"/>
+                tools:text="直播收益"/>
 
             <TextView
                 android:id="@+id/tv_time"
@@ -36,20 +36,36 @@
                 android:layout_marginTop="@dimen/margin_1"
                 android:textColor="@color/colorText"
                 android:textSize="@dimen/micro_text_size"
-                android:text="2017-08-18 16:24"/>
+                tools:text="2017-08-18 16:24"/>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_profit"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="right|center_vertical"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/layout_margin"
-            android:textColor="@color/colorStart"
-            android:textSize="@dimen/medium_text_size"
-            android:textStyle="bold"
-            android:text="+500"/>
+            android:layout_marginRight="@dimen/layout_margin">
+
+
+            <TextView
+                android:id="@+id/tv_profit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorStart"
+                android:textSize="@dimen/medium_text_size"
+                android:textStyle="bold"
+                tools:text="+500"/>
+
+            <TextView
+                android:id="@+id/tv_brand_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/micro_text_size"
+                tools:text="@string/tag_brand_code"/>
+        </LinearLayout>
 
     </RelativeLayout>
 

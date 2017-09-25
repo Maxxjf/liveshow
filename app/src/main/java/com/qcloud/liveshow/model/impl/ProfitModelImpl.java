@@ -4,7 +4,10 @@ import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.DiamondsBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.GiftBean;
+import com.qcloud.liveshow.beans.ProfitBean;
+import com.qcloud.liveshow.beans.ProfitRecordBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.beans.ReturnSuccessBean;
 import com.qcloud.liveshow.model.IProfitModel;
 import com.qcloud.liveshow.net.IProfitApi;
 import com.qcloud.qclib.beans.ReturnDataBean;
@@ -53,6 +56,18 @@ public class ProfitModelImpl implements IProfitModel {
         mParams = OkGoRequest.getAppParams();
 
         BaseApi.dispose(IProfitApi.getGiftsList(mParams), callback);
+    }
+
+    /**
+     * 是否设置提现密码
+     *
+     * @time 2017/9/25 14:21
+     */
+    @Override
+    public void isSetPassword(DataCallback<ReturnSuccessBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+
+        BaseApi.dispose(IProfitApi.isSetPassword(mParams), callback);
     }
 
     /**
@@ -125,5 +140,35 @@ public class ProfitModelImpl implements IProfitModel {
         mParams.put("withdrawPassword", withdrawPassword);
 
         BaseApi.dispose(IProfitApi.resetWithdrawCashPassword(mParams), callback);
+    }
+
+    /**
+     * 获取我的收益
+     *
+     * @time 2017/9/25 11:53
+     */
+    @Override
+    public void getMyProfit(DataCallback<ProfitBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+
+        BaseApi.dispose(IProfitApi.getMyProfit(mParams), callback);
+    }
+
+    /**
+     * 获取收益记录
+     *
+     * @param pageNum
+     * @param pageSize
+     * @param callback
+     *
+     * @time 2017/9/25 11:54
+     */
+    @Override
+    public void getProfitRecord(int pageNum, int pageSize, DataCallback<ReturnDataBean<ProfitRecordBean>> callback) {
+        mParams = OkGoRequest.getAppParams();
+        mParams.put("pageNum", pageNum);
+        mParams.put("pageSize", pageSize);
+
+        BaseApi.dispose(IProfitApi.getProfitRecord(mParams), callback);
     }
 }
