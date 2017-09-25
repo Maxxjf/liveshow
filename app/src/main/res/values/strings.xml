@@ -51,7 +51,7 @@
     <string name="behavior_footer_depend">com.qcloud.liveshow.widget.behavior.ScrollHideBehavior</string>
 
     <string name="toast_exit_app">再按一次退出应用</string>
-    <string name="toast_input_not_null">input can not be empty!</string>
+    <string name="toast_input_not_null">输入内容不能为空!</string>
     <string name="toast_get_picture_failure">获取图片失败</string>
     <string name="toast_permission_open">权限已开启</string>
     <string name="toast_permission_refuse">权限被拒绝，请在设置里面开启相应权限，若无相应权限会影响使用</string>
@@ -78,6 +78,11 @@
     <string name="toast_input_live_cover">请选择一张图片作为封面</string>
     <string name="toast_follow_success">关注成功</string>
     <string name="toast_follow_failure">关注失败</string>
+    <string name="toast_set_withdraw_cash_password_success">设置提现密码成功</string>
+    <string name="toast_reset_withdraw_cash_password_success">重置提现密码成功</string>
+    <string name="toast_input_password">请输入密码</string>
+    <string name="toast_login_out_of_date">您的登录信息过时，请重新登录</string>
+    <string name="toast_account_with_no_mobile">您的账号还未绑定手机，请先绑定</string>
 
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>

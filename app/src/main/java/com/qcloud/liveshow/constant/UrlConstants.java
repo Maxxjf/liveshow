@@ -90,6 +90,14 @@ public interface UrlConstants {
     String GET_PAY_MEAL_LIST = URL_PREFIX_APP + "basics/payMealList";
     /**获取礼物列表*/
     String GET_GIFT_LIST = URL_PREFIX_APP + "basics/giftList";
+    /**设置提现密码获取验证码*/
+    String GET_CODE_BY_SET_PASSWORD = URL_PREFIX_APP + "member/settingSendCode";
+    /**设置提现密码*/
+    String SET_WITHDRAW_CASH_PASSWORD = URL_PREFIX_APP + "member/settingWithdrawPassword";
+    /**重置提现密码获取验证码*/
+    String GET_CODE_BY_RESET_PASSWORD = URL_PREFIX_APP + "member/resetSendCode";
+    /**重置提现密码*/
+    String RESET_WITHDRAW_CASH_PASSWORD = URL_PREFIX_APP + "member/resetWithdrawPassword";
 
     /**
      * 文件有关

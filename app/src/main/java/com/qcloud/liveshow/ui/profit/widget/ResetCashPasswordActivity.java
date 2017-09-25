@@ -7,6 +7,7 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -15,15 +16,28 @@ import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
-import com.qcloud.liveshow.ui.profit.presenter.impl.SetCashPasswordPresenterImpl;
-import com.qcloud.liveshow.ui.profit.view.ISetCashPasswordView;
+import com.qcloud.liveshow.ui.profit.presenter.impl.ResetCashPasswordPresenterImpl;
+import com.qcloud.liveshow.ui.profit.view.IResetCashPasswordView;
+import com.qcloud.liveshow.utils.UserInfoUtil;
+import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.StringUtils;
+import com.qcloud.qclib.utils.ValidateUtil;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.BindString;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -31,7 +45,7 @@ import timber.log.Timber;
  * Author: Kuzan
  * Date: 2017/8/31 14:13.
  */
-public class ResetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswordView, SetCashPasswordPresenterImpl> implements ISetCashPasswordView {
+public class ResetCashPasswordActivity extends SwipeBaseActivity<IResetCashPasswordView, ResetCashPasswordPresenterImpl> implements IResetCashPasswordView {
 
     @Bind(R.id.title_bar)
     TitleBar mTitleBar;
@@ -54,6 +68,18 @@ public class ResetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswor
 
     @BindString(R.string.tag_input_contact_way)
     String contactWay;
+    @BindString(R.string.btn_get_code)
+    String getCode;
+    @BindString(R.string.btn_get_code_after_second)
+    String getCodeAfter;
+    @BindString(R.string.btn_get_code_again)
+    String getCodeAgain;
+
+    private Disposable mDisposable;
+
+    private String mobile;
+    private String code;
+    private String password;
 
     @Override
     protected int initLayout() {
@@ -61,8 +87,8 @@ public class ResetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswor
     }
 
     @Override
-    protected SetCashPasswordPresenterImpl initPresenter() {
-        return new SetCashPasswordPresenterImpl();
+    protected ResetCashPasswordPresenterImpl initPresenter() {
+        return new ResetCashPasswordPresenterImpl();
     }
 
     @Override
@@ -79,7 +105,11 @@ public class ResetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswor
     protected void initViewAndData() {
         initTagWidth();
 
-        mTvContactWay.setText(String.format(contactWay, "158***990"));
+        if (UserInfoUtil.mUser != null) {
+            mobile = ValidateUtil.setMobileToPassword(UserInfoUtil.mUser.getPhone());
+        }
+
+        mTvContactWay.setText(String.format(contactWay, mobile));
     }
 
     /**
@@ -126,12 +156,51 @@ public class ResetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswor
 
     @Override
     public void onGetCodeClick() {
-
+        if (checkMobile()) {
+            mPresenter.getCode(mobile);
+            mBtnGetCode.setEnabled(false);
+            startTimer();
+        }
     }
 
     @Override
     public void onConfirmClick() {
+        if (check()) {
+            mPresenter.setWithdrawCashPassword(mobile, code, password);
+        }
+    }
 
+    @Override
+    public void getCodeSuccess(String code) {
+        if (isRunning) {
+            //ToastUtils.ToastMessage(this, String.format(hasBeenSendTo, mobile));
+            TipsPop pop = new TipsPop(this);
+            pop.setTips("验证码为" + code);
+            pop.showCancel(false);
+            pop.showAtLocation(mBtnGetCode, Gravity.CENTER, 0, 0);
+        }
+    }
+
+    @Override
+    public void getCodeFailure(String errMsg) {
+        if (isRunning) {
+            ToastUtils.ToastMessage(mContext, errMsg);
+            if (mDisposable != null && !mDisposable.isDisposed()) {
+                mDisposable.dispose();
+            }
+            if (mBtnGetCode != null) {
+                mBtnGetCode.setText(getCode);
+                mBtnGetCode.setEnabled(true);
+            }
+        }
+    }
+
+    @Override
+    public void resetPasswordSuccess() {
+        if (isRunning) {
+            ToastUtils.ToastMessage(this, R.string.toast_reset_withdraw_cash_password_success);
+            finish();
+        }
     }
 
     @Override
@@ -145,7 +214,95 @@ public class ResetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswor
         }
     }
 
+    private boolean check() {
+        code = mEtVerificationCode.getText().toString().trim();
+        password = mEtSetPassword.getText().toString().trim();
+
+        if (!checkMobile()) {
+            return false;
+        }
+
+        if (StringUtils.isEmptyString(code)) {
+            ToastUtils.ToastMessage(this, R.string.toast_input_code);
+            mEtVerificationCode.requestFocus();
+            return false;
+        }
+
+        if (StringUtils.isEmptyString(password)) {
+            ToastUtils.ToastMessage(this, R.string.toast_input_password);
+            mEtSetPassword.requestFocus();
+            return false;
+        }
+
+        if (!ValidateUtil.isNumPasswordAndSix(password)) {
+            ToastUtils.ToastMessage(this, R.string.input_six_number_hint);
+            mEtSetPassword.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean checkMobile() {
+        if (StringUtils.isEmptyString(mobile)) {
+            ToastUtils.ToastMessage(this, R.string.toast_account_with_no_mobile);
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 启动定时器
+     * */
+    private void startTimer() {
+        Observable observable = Observable.interval(1, TimeUnit.SECONDS).take(60).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        mDisposable = observable.doOnDispose(new Action() {
+            @Override
+            public void run() throws Exception {
+                if (mBtnGetCode != null) {
+                    mBtnGetCode.setText(getCode);
+                    mBtnGetCode.setEnabled(true);
+                }
+            }
+        }).subscribe(new Consumer<Long>() {
+            @Override
+            public void accept(@NonNull Long aLong) throws Exception {
+                if (mBtnGetCode != null) {
+                    mBtnGetCode.setText(String.format(getCodeAfter, (60 - aLong)));
+                }
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                if (mBtnGetCode != null) {
+                    mBtnGetCode.setText(getCodeAgain);
+                    mBtnGetCode.setEnabled(true);
+                }
+            }
+        }, new Action() {
+            @Override
+            public void run() throws Exception {
+                Timber.e("onComplete");
+                if (mBtnGetCode != null) {
+                    mBtnGetCode.setText(getCodeAgain);
+                    mBtnGetCode.setEnabled(true);
+                }
+            }
+        });
+    }
+
     public static void openActivity(Context context) {
         context.startActivity(new Intent(context, ResetCashPasswordActivity.class));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
+        }
     }
 }

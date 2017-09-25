@@ -8,4 +8,9 @@ import com.qcloud.qclib.base.BtnClickPresenter;
  * Date: 2017/8/31 14:11.
  */
 public interface IResetCashPasswordPresenter extends BtnClickPresenter {
+    /**获取验证码*/
+    void getCode(String phone);
+
+    /**重置提现密码*/
+    void resetWithdrawCashPassword(String phone, String code, String withdrawPassword);
 }

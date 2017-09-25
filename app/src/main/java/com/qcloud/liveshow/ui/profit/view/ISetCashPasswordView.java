@@ -13,4 +13,13 @@ public interface ISetCashPasswordView extends BaseView {
 
     /**点击设置提现密码*/
     void onConfirmClick();
+
+    /**获取验证码成功*/
+    void getCodeSuccess(String code);
+
+    /**获取验证码失败*/
+    void getCodeFailure(String errMsg);
+
+    /**设置提现密码成功*/
+    void setPasswordSuccess();
 }

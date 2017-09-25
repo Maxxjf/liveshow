@@ -88,7 +88,7 @@ public class UserBean {
     }
 
     public String getPhone() {
-        return phone;
+        return StringUtils.isEmptyString(phone) ? "" : phone;
     }
 
     public void setPhone(String phone) {

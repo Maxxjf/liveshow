@@ -7,6 +7,7 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -17,8 +18,11 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.ui.profit.presenter.impl.SetCashPasswordPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.ISetCashPasswordView;
+import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.StringUtils;
+import com.qcloud.qclib.utils.ValidateUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -71,6 +75,10 @@ public class SetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswordV
     String getCodeAgain;
 
     private Disposable mDisposable;
+
+    private String mobile;
+    private String code;
+    private String password;
 
     @Override
     protected int initLayout() {
@@ -142,14 +150,50 @@ public class SetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswordV
 
     @Override
     public void onGetCodeClick() {
-        mBtnGetCode.setEnabled(false);
-        startTimer();
+        if (checkMobile()) {
+            mPresenter.getCode(mobile);
+            mBtnGetCode.setEnabled(false);
+            startTimer();
+        }
     }
 
     @Override
     public void onConfirmClick() {
-        if (mDisposable != null && !mDisposable.isDisposed()) {
-            mDisposable.dispose();
+        if (check()) {
+            mPresenter.setWithdrawCashPassword(mobile, code, password);
+        }
+    }
+
+    @Override
+    public void getCodeSuccess(String code) {
+        if (isRunning) {
+            //ToastUtils.ToastMessage(this, String.format(hasBeenSendTo, mobile));
+            TipsPop pop = new TipsPop(this);
+            pop.setTips("验证码为" + code);
+            pop.showCancel(false);
+            pop.showAtLocation(mBtnGetCode, Gravity.CENTER, 0, 0);
+        }
+    }
+
+    @Override
+    public void getCodeFailure(String errMsg) {
+        if (isRunning) {
+            ToastUtils.ToastMessage(mContext, errMsg);
+            if (mDisposable != null && !mDisposable.isDisposed()) {
+                mDisposable.dispose();
+            }
+            if (mBtnGetCode != null) {
+                mBtnGetCode.setText(getCode);
+                mBtnGetCode.setEnabled(true);
+            }
+        }
+    }
+
+    @Override
+    public void setPasswordSuccess() {
+        if (isRunning) {
+            ToastUtils.ToastMessage(this, R.string.toast_set_withdraw_cash_password_success);
+            finish();
         }
     }
 
@@ -162,6 +206,53 @@ public class SetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswordV
                 Timber.e(errMsg);
             }
         }
+    }
+
+    private boolean check() {
+        code = mEtVerificationCode.getText().toString().trim();
+        password = mEtSetPassword.getText().toString().trim();
+
+        if (!checkMobile()) {
+            return false;
+        }
+
+        if (StringUtils.isEmptyString(code)) {
+            ToastUtils.ToastMessage(this, R.string.toast_input_code);
+            mEtVerificationCode.requestFocus();
+            return false;
+        }
+
+        if (StringUtils.isEmptyString(password)) {
+            ToastUtils.ToastMessage(this, R.string.toast_input_password);
+            mEtSetPassword.requestFocus();
+            return false;
+        }
+
+        if (!ValidateUtil.isNumPasswordAndSix(password)) {
+            ToastUtils.ToastMessage(this, R.string.input_six_number_hint);
+            mEtSetPassword.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean checkMobile() {
+        mobile = mEtContactWay.getText().toString().trim();
+
+        if (StringUtils.isEmptyString(mobile)) {
+            ToastUtils.ToastMessage(this, R.string.input_mobile_hint);
+            mEtContactWay.requestFocus();
+            return false;
+        }
+
+        if (!ValidateUtil.isMobilePhone(mobile)) {
+            ToastUtils.ToastMessage(this, R.string.toast_right_mobile_phone);
+            mEtContactWay.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 
     /**
