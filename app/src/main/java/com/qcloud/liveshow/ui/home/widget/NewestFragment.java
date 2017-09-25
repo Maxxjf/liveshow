@@ -14,6 +14,7 @@ import com.qcloud.liveshow.ui.home.presenter.impl.NewestPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.INewestView;
 import com.qcloud.liveshow.ui.room.widget.RoomActivity;
 import com.qcloud.liveshow.widget.customview.EmptyView;
+import com.qcloud.liveshow.widget.customview.NoDataView;
 import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
 import com.qcloud.qclib.swiperefresh.SwipeRecyclerView;
 import com.qcloud.qclib.swiperefresh.SwipeRefreshUtil;
@@ -35,7 +36,7 @@ public class NewestFragment extends BaseFragment<INewestView, NewestPresenterImp
     @Bind(R.id.list_newest)
     SwipeRecyclerView mListNewest;
 
-    private EmptyView mEmptyView;
+    private NoDataView mEmptyView;
 
     private NewestAdapter mAdapter;
 
@@ -96,8 +97,8 @@ public class NewestFragment extends BaseFragment<INewestView, NewestPresenterImp
             }
         });
 
-        mEmptyView = new EmptyView(getActivity());
-        mListNewest.setEmptyView(mEmptyView, Gravity.TOP);
+        mEmptyView = new NoDataView(getActivity());
+        mListNewest.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
         mEmptyView.setOnRefreshListener(new EmptyView.OnRefreshListener() {
             @Override
             public void onRefresh() {

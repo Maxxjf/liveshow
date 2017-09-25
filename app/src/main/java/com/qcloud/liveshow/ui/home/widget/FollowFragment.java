@@ -14,7 +14,7 @@ import com.qcloud.liveshow.ui.home.presenter.impl.FollowPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IFollowView;
 import com.qcloud.liveshow.ui.room.widget.RoomActivity;
 import com.qcloud.liveshow.widget.customview.EmptyView;
-import com.qcloud.liveshow.widget.customview.NoDataView;
+import com.qcloud.liveshow.widget.customview.NoFollowView;
 import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
 import com.qcloud.qclib.swiperefresh.SwipeRecyclerView;
 import com.qcloud.qclib.swiperefresh.SwipeRefreshUtil;
@@ -43,7 +43,7 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
     @BindColor(R.color.colorBg)
     int dividerBg;
 
-    private NoDataView mEmptyView;
+    private NoFollowView mEmptyView;
 
     private FollowAdapter mAdapter;
 
@@ -104,7 +104,7 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
             }
         });
 
-        mEmptyView = new NoDataView(getActivity());
+        mEmptyView = new NoFollowView(getActivity());
         mListFollow.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
         mEmptyView.setOnRefreshListener(new EmptyView.OnRefreshListener() {
             @Override

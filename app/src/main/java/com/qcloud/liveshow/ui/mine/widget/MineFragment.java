@@ -11,7 +11,7 @@ import com.qcloud.liveshow.ui.mine.presenter.impl.MinePresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IMineView;
 import com.qcloud.liveshow.ui.profit.widget.MyDiamondsActivity;
 import com.qcloud.liveshow.ui.profit.widget.MyProfitActivity;
-import com.qcloud.liveshow.ui.profit.widget.ResetCashPasswordActivity;
+import com.qcloud.liveshow.ui.profit.widget.SetCashPasswordActivity;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.customview.ItemLayout;
 import com.qcloud.liveshow.widget.customview.UserInfoLayout;
@@ -148,7 +148,7 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
     @Override
     public void onExtensionCodeClick() {
         ToastUtils.ToastMessage(getActivity(), R.string.tag_user_center_extension_code);
-        ResetCashPasswordActivity.openActivity(getActivity());
+        SetCashPasswordActivity.openActivity(getActivity());
     }
 
     @Override

@@ -71,7 +71,6 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
     @Override
     protected void beginLoad() {
         loadData();
-        startLoadingDialog();
     }
 
     private void loadData() {
@@ -167,7 +166,6 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
     @Override
     public void replaceList(List<RoomBean> beans, boolean isNext) {
         if (isInFragment) {
-            stopLoadingDialog();
             if (beans != null && beans.size() > 0) {
                 if (mAdapter != null) {
                     mAdapter.replaceList(beans);
@@ -230,7 +228,6 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
     @Override
     public void loadErr(boolean isShow, String errMsg) {
         if (isInFragment) {
-            stopLoadingDialog();
             if (isShow) {
                 ToastUtils.ToastMessage(mContext, errMsg);
             } else {
