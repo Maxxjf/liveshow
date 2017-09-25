@@ -10,4 +10,7 @@ import com.qcloud.qclib.base.BtnClickPresenter;
 public interface IMainPresenter extends BtnClickPresenter {
     /**获取主播申请状态*/
     void getApplyStatus();
+
+    /**提交绑定分佣关系*/
+    void submitBinding(String code);
 }

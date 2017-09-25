@@ -171,4 +171,17 @@ public class ProfitModelImpl implements IProfitModel {
 
         BaseApi.dispose(IProfitApi.getProfitRecord(mParams), callback);
     }
+
+    /**
+     * 绑定分佣关系
+     *
+     * @time 2017/9/25 15:11
+     */
+    @Override
+    public void submitBinding(String code, DataCallback<ReturnEmptyBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+        mParams.put("code", code);
+
+        BaseApi.dispose(IProfitApi.submitBinding(mParams), callback);
+    }
 }

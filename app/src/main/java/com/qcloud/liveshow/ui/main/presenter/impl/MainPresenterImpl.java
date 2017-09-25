@@ -2,9 +2,11 @@ package com.qcloud.liveshow.ui.main.presenter.impl;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.ApplyStatusBean;
+import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.enums.ApplyStatusEnum;
 import com.qcloud.liveshow.model.IAnchorModel;
 import com.qcloud.liveshow.model.impl.AnchorModelImpl;
+import com.qcloud.liveshow.model.impl.ProfitModelImpl;
 import com.qcloud.liveshow.ui.main.presenter.IMainPresenter;
 import com.qcloud.liveshow.ui.main.view.IMainView;
 import com.qcloud.qclib.base.BasePresenter;
@@ -70,6 +72,28 @@ public class MainPresenterImpl extends BasePresenter<IMainView> implements IMain
                     }
                 } else {
                     mView.loadErr(true, "获取主播申请状态失败，请重试");
+                }
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+                if (mView != null) {
+                    mView.loadErr(true, errMsg);
+                }
+            }
+        });
+    }
+
+    /**
+     * 绑定分佣关系
+     * */
+    @Override
+    public void submitBinding(String code) {
+        new ProfitModelImpl().submitBinding(code, new DataCallback<ReturnEmptyBean>() {
+            @Override
+            public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+                if (mView != null) {
+                    mView.bindingSuccess();
                 }
             }
 

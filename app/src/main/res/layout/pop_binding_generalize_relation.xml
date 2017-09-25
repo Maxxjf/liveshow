@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_tips_radius">
+
+    <LinearLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/medium_text_size"
+            android:text="@string/tip_input_recommend_code"/>
+
+        <View android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/colorLine"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/dialog_tips_min_height"
+        android:paddingLeft="@dimen/margin_3"
+        android:paddingRight="@dimen/margin_3"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <com.qcloud.qclib.widget.customview.ClearEditText
+            android:id="@+id/et_code"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            android:background="@drawable/frame_gray_circular"
+            android:paddingLeft="@dimen/margin_2"
+            android:paddingRight="@dimen/margin_2"
+            android:gravity="center_vertical"
+            android:imeOptions="actionDone"
+            android:lines="1"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/small_text_size"
+            android:hint="@string/tip_input_recommend_code"
+            android:textColorHint="@color/colorHint"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@color/colorLine"
+        android:layout_marginTop="@dimen/margin_2"/>
+
+    <LinearLayout
+        android:id="@+id/layout_btn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/layout_cancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/medium_text_size"
+                android:text="@string/tip_ignore"/>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="2px"
+            android:layout_height="match_parent"
+            android:background="@color/colorLine"/>
+
+        <LinearLayout
+            android:id="@+id/layout_ok"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/btn_ok"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorBlue"
+                android:textSize="@dimen/medium_text_size"
+                android:text="@string/tip_confirm"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

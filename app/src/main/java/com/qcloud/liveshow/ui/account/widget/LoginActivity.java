@@ -14,6 +14,7 @@ import com.qcloud.liveshow.base.BaseApplication;
 import com.qcloud.liveshow.beans.FacebookUserBean;
 import com.qcloud.liveshow.beans.LoginBean;
 import com.qcloud.liveshow.beans.WeChatUserBean;
+import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.enums.ClauseRuleEnum;
 import com.qcloud.liveshow.enums.StartMainEnum;
 import com.qcloud.liveshow.enums.ThirdLoginEnum;
@@ -26,6 +27,7 @@ import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.network.BaseApi;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.ConstantUtil;
 import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.utils.TokenUtil;
 import com.qcloud.qclib.utils.ValidateUtil;
@@ -188,6 +190,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
                 TokenUtil.saveToken(bean.getToken());
                 ToastUtils.ToastMessage(this, R.string.toast_login_success);
                 UserInfoUtil.loadUserInfo();
+                ConstantUtil.writeBoolean(AppConstants.IS_FIRST_LOGIN, bean.isFirst());
                 toMain();
             } else {
                 ToastUtils.ToastMessage(this, R.string.toast_login_failure);

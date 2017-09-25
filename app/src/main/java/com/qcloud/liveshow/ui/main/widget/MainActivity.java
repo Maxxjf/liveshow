@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.base.BaseApplication;
+import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.enums.StartHomeEnum;
 import com.qcloud.liveshow.enums.StartMainEnum;
 import com.qcloud.liveshow.ui.anchor.widget.AnchorActivity;
@@ -21,10 +22,13 @@ import com.qcloud.liveshow.ui.main.presenter.impl.MainPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.IMainView;
 import com.qcloud.liveshow.ui.mine.widget.MineFragment;
 import com.qcloud.liveshow.utils.BasicsUtil;
+import com.qcloud.liveshow.widget.pop.BindingGeneralizeRelationPop;
 import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.permission.PermissionsManager;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.ConstantUtil;
+import com.qcloud.qclib.utils.StringUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -51,6 +55,9 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     private MineFragment mMineFragment;
 
     private long exitTime = 0;
+
+    private BindingGeneralizeRelationPop mBindingPop;
+    private String bindCode;
 
     @Override
     protected int initLayout() {
@@ -84,6 +91,13 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
 
         requestPermission();
         loadBasicData();
+        mBtnLiveShow.post(new Runnable() {
+            @Override
+            public void run() {
+                bindingGeneralizeRelation();
+            }
+        });
+
     }
 
     /**
@@ -113,6 +127,39 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         BasicsUtil.loadDiamonds();
         BasicsUtil.loadGift();
         BasicsUtil.getContactWay();
+    }
+
+    /**
+     * 绑定分佣关系
+     * */
+    private void bindingGeneralizeRelation() {
+        boolean isFirst = ConstantUtil.getBoolean(AppConstants.IS_FIRST_LOGIN, false);
+        if (isFirst) {
+            if (mBindingPop == null) {
+                initBindingPop();
+            }
+            mBindingPop.showAtLocation(mBtnLiveShow, Gravity.CENTER, 0, 0);
+        }
+    }
+
+    private void initBindingPop() {
+        mBindingPop = new BindingGeneralizeRelationPop(this);
+        mBindingPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                if (view.getId() == R.id.btn_ok) {
+                    bindCode = mBindingPop.getCode();
+                    if (StringUtils.isEmptyString(bindCode)) {
+                        ToastUtils.ToastMessage(mContext, R.string.tip_input_recommend_code);
+                    } else {
+                        mBindingPop.dismiss();
+                        mPresenter.submitBinding(bindCode);
+                    }
+                } else {
+                    mBindingPop.dismiss();
+                }
+            }
+        });
     }
 
     @OnClick({R.id.btn_home, R.id.btn_live_show, R.id.btn_mine})
@@ -209,6 +256,13 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
             pop.setTips(R.string.toast_apply_disable);
             pop.showCancel(false);
             pop.showAtLocation(mBtnLiveShow, Gravity.CENTER, 0, 0);
+        }
+    }
+
+    @Override
+    public void bindingSuccess() {
+        if (isRunning) {
+            ToastUtils.ToastMessage(this, R.string.toast_binding_success);
         }
     }
 

@@ -83,10 +83,12 @@
     <string name="toast_input_password">请输入密码</string>
     <string name="toast_login_out_of_date">您的登录信息过时，请重新登录</string>
     <string name="toast_account_with_no_mobile">您的账号还未绑定手机，请先绑定</string>
+    <string name="toast_binding_success">绑定成功</string>
 
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>
     <string name="tip_confirm">确定</string>
+    <string name="tip_ignore">忽略</string>
     <string name="tip_confirm_to_logout">您确定要退出登录吗?</string>
     <string name="tip_confirm_to_exit_room">您确定要退出房间吗?</string>
     <string name="tip_no_follow">你还没有关注的主播呢~</string>
@@ -96,6 +98,7 @@
     <string name="tip_no_any_data">oh，没有数据吖~</string>
     <string name="tip_err_request">页面丢失啦，点击图标刷新一下吧~</string>
     <string name="tip_is_call">是否播号</string>
+    <string name="tip_input_recommend_code">请输入推荐人推广码</string>
 
     <string name="input_mobile_hint">请输入手机号</string>
     <string name="input_code_hint">短信验证码</string>

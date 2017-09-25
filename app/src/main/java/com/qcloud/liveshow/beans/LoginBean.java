@@ -6,8 +6,9 @@ package com.qcloud.liveshow.beans;
  * Date: 2017/8/8 15:34.
  */
 public class LoginBean {
-    private int loginState; // 登录状态
-    private String token;   // token
+    private int loginState;     // 登录状态
+    private String token;       // token
+    private boolean isFirst;    // 是否第一次登录
 
     public int getLoginState() {
         return loginState;
@@ -25,11 +26,20 @@ public class LoginBean {
         this.token = token;
     }
 
+    public boolean isFirst() {
+        return isFirst;
+    }
+
+    public void setFirst(boolean first) {
+        isFirst = first;
+    }
+
     @Override
     public String toString() {
         return "LoginBean{" +
                 "loginState=" + loginState +
                 ", token='" + token + '\'' +
+                ", isFirst=" + isFirst +
                 '}';
     }
 }

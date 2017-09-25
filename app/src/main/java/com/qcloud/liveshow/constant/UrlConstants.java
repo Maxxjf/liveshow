@@ -104,6 +104,8 @@ public interface UrlConstants {
     String GET_MY_PROFIT = URL_PREFIX_APP + "mine/myEarnings";
     /**获取我的收益记录*/
     String GET_PROFTI_RECORD = URL_PREFIX_APP + "mine/earningsDetail";
+    /**绑定分佣关系*/
+    String SUBMIT_BINDING = URL_PREFIX_APP + "index/bindingGeneralizeRelation";
 
     /**
      * 文件有关

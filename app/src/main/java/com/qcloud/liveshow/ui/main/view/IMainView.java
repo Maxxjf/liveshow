@@ -31,4 +31,7 @@ public interface IMainView extends BaseView {
 
     /**显示禁用*/
     void showDisable();
+
+    /**绑定分佣关系成功*/
+    void bindingSuccess();
 }

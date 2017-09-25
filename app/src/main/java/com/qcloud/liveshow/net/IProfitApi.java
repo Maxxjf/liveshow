@@ -86,4 +86,11 @@ public class IProfitApi {
 
         return OkGoRequest.getRequest(UrlConstants.GET_PROFTI_RECORD, type, params);
     }
+
+    /**绑定分佣关系*/
+    public static Observable<BaseResponse<ReturnEmptyBean>> submitBinding(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.SUBMIT_BINDING, type, params);
+    }
 }

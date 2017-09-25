@@ -42,4 +42,8 @@ public interface IProfitModel {
 
     /**我的收益记录*/
     void getProfitRecord(int pageNum, int pageSize, DataCallback<ReturnDataBean<ProfitRecordBean>> callback);
+
+    /**绑定分佣关系*/
+    void submitBinding(String code, DataCallback<ReturnEmptyBean> callback);
+
 }
