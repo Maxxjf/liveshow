@@ -73,7 +73,12 @@ dependencies {
     compile 'com.dou361.ijkplayer-arm64:jjdxm-ijkplayer-arm64:1.0.0'
     compile 'com.dou361.ijkplayer-x86:jjdxm-ijkplayer-x86:1.0.0'
     compile 'com.dou361.ijkplayer-x86_64:jjdxm-ijkplayer-x86_64:1.0.0'
-    compile project(':rtmp-library')
+    // 直播
+    compile 'com.ksyun.media:libksylive-java:2.4.2'
+    compile 'com.ksyun.media:libksylive-armv7a:2.4.2'
+    compile 'com.ksyun.media:libksylive-arm64:2.4.2'
+    compile 'com.ksyun.media:libksylive-x86:2.4.2'
+
     // 友盟分享
     compile files('libs/open_sdk_r5788_lite.jar')
     compile files('libs/SocialSDK_WeChat_Simplify.jar')

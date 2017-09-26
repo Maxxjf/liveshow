@@ -40,14 +40,15 @@
                 android:layout_marginLeft="@dimen/margin_1"
                 android:layout_marginRight="@dimen/margin_1">
 
-                <TextView
-                    android:id="@+id/tv_time"
+                <Chronometer
+                    android:id="@+id/chronometer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:lines="1"
+                    android:layout_gravity="center"
+                    android:format="%s"
+                    android:gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/micro_text_size"
-                    tools:text="00:01:55"/>
+                    android:textSize="@dimen/micro_text_size" />
 
                 <TextView
                     android:id="@+id/tv_watch_num"

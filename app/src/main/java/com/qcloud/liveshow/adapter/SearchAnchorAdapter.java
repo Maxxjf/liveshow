@@ -27,7 +27,7 @@ public class SearchAnchorAdapter extends CommonRecyclerAdapter<RoomBean> {
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         final RoomBean bean = mList.get(position);
-        final AnchorBean anchorBean = bean.getAnchor();
+        final AnchorBean anchorBean = bean.getMember();
 
         UserHeadImageView userView = holder.get(R.id.layout_user);
         if (anchorBean != null) {

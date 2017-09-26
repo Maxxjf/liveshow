@@ -49,7 +49,9 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA,
-            Manifest.permission.CALL_PHONE};
+            Manifest.permission.CALL_PHONE,
+            Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
+            Manifest.permission.RECORD_AUDIO};
 
     private HomeFragment mHomeFragment;
     private MineFragment mMineFragment;
@@ -179,6 +181,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     @Override
     public void onLiveShowClick() {
         if (BaseApplication.loginAuth()) {
+            //AnchorActivity.openActivity(this);
             mPresenter.getApplyStatus();
             startLoadingDialog();
         }

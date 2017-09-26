@@ -1,11 +1,13 @@
 package com.qcloud.liveshow.ui.anchor.widget;
 
 import android.content.DialogInterface;
+import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -31,7 +33,6 @@ import com.qcloud.liveshow.widget.pop.SharePop;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
-import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.MarqueeView;
 
 import java.util.List;
@@ -49,8 +50,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     @Bind(R.id.layout_user)
     UserHeadImageView mLayoutUser;
-    @Bind(R.id.tv_time)
-    TextView mTvTime;
+    @Bind(R.id.chronometer)
+    Chronometer mChronometer;
     @Bind(R.id.tv_watch_num)
     TextView mTvWatchNum;
     @Bind(R.id.list_fans)
@@ -121,7 +122,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     protected void initViewAndData() {
         initFansLayout();
         initMessageLayout();
-        SystemBarUtil.hideNavBar(getActivity());
+        //SystemBarUtil.hideNavBar(getActivity());
     }
 
     @Override
@@ -200,7 +201,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         mInputDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -224,7 +225,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         mFansPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -237,7 +238,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         mMessagePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -250,7 +251,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         mSharePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -283,7 +284,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         mManagerPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -296,7 +297,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         mGuarderPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -328,6 +329,26 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mListMessage.setLayoutManager(manager);
         mListMessage.setAdapter(mMessageAdapter);
+    }
+
+    /**
+     * 开始计时
+     * */
+    public void startChronometer() {
+        if (mChronometer != null) {
+            mChronometer.setBase(SystemClock.elapsedRealtime());
+            mChronometer.start();
+        }
+    }
+
+    /**
+     * 停止计时
+     * */
+    public void stopChronometer() {
+        if (mChronometer != null) {
+            mChronometer.setBase(SystemClock.elapsedRealtime());
+            mChronometer.stop();
+        }
     }
 
     @OnClick({R.id.btn_notice, R.id.btn_send_message, R.id.btn_receive_message, R.id.btn_flash,
@@ -390,8 +411,11 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     @Override
     public void onExitClick() {
-        AnchorFinishActivity.openActivity(getActivity());
-        getActivity().finish();
+//        AnchorFinishActivity.openActivity(getActivity());
+//        getActivity().finish();
+        if (mListener != null) {
+            mListener.onBtnClick(mBtnExit);
+        }
     }
 
     @Override
@@ -431,6 +455,9 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         }
         if (mSharePop != null && mSharePop.isShowing()) {
             mSharePop.dismiss();
+        }
+        if (mChronometer != null) {
+            mChronometer.stop();
         }
     }
 

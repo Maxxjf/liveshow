@@ -12,6 +12,11 @@ public interface UrlConstants {
     String URL_PREFIX_APP = URL_PREFIX + "app/";
 
     /**
+     * 直播url
+     * */
+    String STREAM_URL = "rtmp://10.10.22.120:1935/room/";
+
+    /**
      * 用户有关
      * */
     /**获取验证码*/
@@ -62,6 +67,8 @@ public interface UrlConstants {
     String GET_GUARD_LIST = URL_PREFIX_APP + "room/guardList";
     /**添加守护/取消守护*/
     String IN_OUT_GRARD = URL_PREFIX_APP + "room/inOutGuard";
+    /**结束直播*/
+    String FINISH_LIVE = URL_PREFIX_APP + "room/finish";
 
     /**
      * 我的有关

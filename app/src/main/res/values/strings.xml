@@ -84,6 +84,7 @@
     <string name="toast_login_out_of_date">您的登录信息过时，请重新登录</string>
     <string name="toast_account_with_no_mobile">您的账号还未绑定手机，请先绑定</string>
     <string name="toast_binding_success">绑定成功</string>
+    <string name="toast_does_not_support_beauty">当前机型不支持该滤镜</string>
 
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>

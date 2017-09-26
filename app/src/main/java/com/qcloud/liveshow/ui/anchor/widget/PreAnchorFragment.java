@@ -27,7 +27,6 @@ import com.qcloud.qclib.imageselect.utils.ImageSelectUtil;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.DateUtils;
 import com.qcloud.qclib.utils.StringUtils;
-import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.RatioImageView;
 import com.qcloud.qclib.widget.customview.wheelview.DateTimePicker;
 import com.qcloud.qclib.widget.customview.wheelview.TimePicker;
@@ -155,7 +154,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mInputDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -180,7 +179,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mPicturePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -196,7 +195,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mTollPicker.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -244,7 +243,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mStartPicker.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -290,7 +289,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mEndPicker.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }

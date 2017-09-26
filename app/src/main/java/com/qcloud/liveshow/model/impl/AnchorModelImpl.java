@@ -126,4 +126,16 @@ public class AnchorModelImpl implements IAnchorModel {
 
         BaseApi.dispose(IAnchorApi.inOutGuard(mParams), callback);
     }
+
+    /**
+     * 结束直播
+     *
+     * @time 2017/9/26 15:47
+     */
+    @Override
+    public void finishLive(DataCallback<ReturnEmptyBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+
+        BaseApi.dispose(IAnchorApi.finishLive(mParams), callback);
+    }
 }

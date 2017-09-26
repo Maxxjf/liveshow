@@ -20,10 +20,10 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.RoomAdapter;
 import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.beans.RoomBean;
+import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.liveshow.ui.room.presenter.impl.RoomPresenterImpl;
 import com.qcloud.liveshow.ui.room.view.IRoomView;
 import com.qcloud.qclib.image.GlideUtil;
-import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.VerticalViewPager;
 
 import java.io.Serializable;
@@ -78,7 +78,7 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
 
     @Override
     protected void initViewAndData() {
-        SystemBarUtil.hideNavBar(this);
+        //SystemBarUtil.hideNavBar(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         mCurrentItem = getIntent().getIntExtra("POSITION", 0);
@@ -183,7 +183,9 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         }
         if (mList != null) {
             mCurrBean = mList.get(currentItem);
-            currUrl = "";
+            if (mCurrBean != null && mCurrBean.getMember() != null) {
+                currUrl = initStreamUrl(mCurrBean.getMember().getIdAccount());
+            }
             currImage = mList.get(currentItem).getCover();
         }
         if (mRoomFragment != null) {
@@ -197,6 +199,14 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         initPlayer();
         viewGroup.addView(mRoomContainer);
         mRoomId = currentItem;
+    }
+
+    private String initStreamUrl(String id) {
+        StringBuffer url = new StringBuffer();
+        url.append(UrlConstants.STREAM_URL);
+        url.append(id);
+
+        return url.toString();
     }
 
     @Override

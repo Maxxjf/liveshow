@@ -62,4 +62,11 @@ public class IAnchorApi {
 
         return OkGoRequest.getRequest(UrlConstants.IN_OUT_GRARD, type, params);
     }
+
+    /**结束直播*/
+    public static Observable<BaseResponse<ReturnEmptyBean>> finishLive(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.FINISH_LIVE, type, params);
+    }
 }

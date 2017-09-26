@@ -5,16 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.anchor.widget.AnchorActivity">
 
-    <net.ossrs.yasea.SrsCameraView
-        android:id="@+id/camera_view"
+    <android.opengl.GLSurfaceView
+        android:id="@+id/camera_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:layout_alignParentTop="true" />
+
+    <com.qcloud.liveshow.widget.cameraview.CameraHintView
+        android:id="@+id/camera_hint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true" />
 
     <FrameLayout
         android:id="@+id/fragment_container"

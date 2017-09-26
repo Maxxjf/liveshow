@@ -34,4 +34,8 @@ public interface IAnchorModel {
 
     /**添加守护/取消守护*/
     void inOutGuard(long memberId, boolean isGuard, DataCallback<ReturnEmptyBean> callback);
+
+    /**结束直播间*/
+    void finishLive(DataCallback<ReturnEmptyBean> callback);
+
 }

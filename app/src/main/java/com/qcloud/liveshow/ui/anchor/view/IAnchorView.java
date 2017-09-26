@@ -9,6 +9,9 @@ public interface IAnchorView {
     /**切换镜头*/
     void onSwitchCameraClick();
 
+    /**打开闪光灯*/
+    void onFlashClick();
+
     /**开始直播*/
     void onBeginAnchorClick();
 }

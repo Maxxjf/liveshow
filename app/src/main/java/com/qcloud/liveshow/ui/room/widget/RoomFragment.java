@@ -34,7 +34,6 @@ import com.qcloud.liveshow.widget.pop.SystemMessagePop;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
-import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.MarqueeView;
 import com.qcloud.qclib.widget.customview.clearscreen.ClearScreenHelper;
 import com.qcloud.qclib.widget.customview.clearscreen.IClearEvent;
@@ -149,7 +148,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         if (mCurrBean == null) {
             return;
         }
-        mAnchorBean = mCurrBean.getAnchor();
+        mAnchorBean = mCurrBean.getMember();
         refreshAnchor(mAnchorBean);
 
         if (mTvWatchNum != null) {
@@ -274,7 +273,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mInputDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -287,7 +286,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mDiamondsPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -300,7 +299,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mGiftPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -326,7 +325,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mFansPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -355,7 +354,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mMessagePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -382,7 +381,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mSharePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                SystemBarUtil.hideNavBar(getActivity());
+                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }

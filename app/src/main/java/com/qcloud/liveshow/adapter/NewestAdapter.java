@@ -29,7 +29,7 @@ public class NewestAdapter extends CommonRecyclerAdapter<RoomBean> {
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         final RoomBean bean = mList.get(position);
-        final AnchorBean anchorBean = bean.getAnchor();
+        final AnchorBean anchorBean = bean.getMember();
         RatioImageView imgCover = holder.get(R.id.img_cover);
 
         GlideUtil.loadImage(mContext, imgCover, bean.getCover(), R.drawable.bitmap_user, 0, 0, true, false);

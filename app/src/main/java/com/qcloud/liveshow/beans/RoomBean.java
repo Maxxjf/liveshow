@@ -17,7 +17,7 @@ public class RoomBean implements Serializable {
     int watchNum;           // 观看人数
     int rates;              // 直播间收费标准
     boolean isAttention;    // 是否关注了该主播员
-    AnchorBean anchor;      // 主播员信息
+    AnchorBean member;      // 主播员信息
 
     public long getRoomId() {
         return roomId;
@@ -83,12 +83,12 @@ public class RoomBean implements Serializable {
         isAttention = attention;
     }
 
-    public AnchorBean getAnchor() {
-        return anchor;
+    public AnchorBean getMember() {
+        return member;
     }
 
-    public void setAnchor(AnchorBean anchor) {
-        this.anchor = anchor;
+    public void setMember(AnchorBean member) {
+        this.member = member;
     }
 
     @Override
@@ -101,7 +101,7 @@ public class RoomBean implements Serializable {
                 ", watchNum=" + watchNum +
                 ", rates=" + rates +
                 ", isAttention=" + isAttention +
-                ", anchor=" + anchor +
+                ", member=" + member +
                 '}';
     }
 }
