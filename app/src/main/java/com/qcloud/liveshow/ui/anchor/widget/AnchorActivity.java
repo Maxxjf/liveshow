@@ -169,7 +169,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         /**设置编码性能*/
         mStreamer.setVideoEncodeProfile(CameraConstants.ENCODE_PROFILE);
         /**设置单双声道*/
-        mStreamer.setAudioChannels(1);
+        mStreamer.setAudioChannels(2);
 
         /**信息打印*/
         mStreamer.setOnInfoListener(mOnInfoListener);
