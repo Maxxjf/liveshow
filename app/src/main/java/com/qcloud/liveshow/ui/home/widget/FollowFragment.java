@@ -88,6 +88,7 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
         });
 
         SwipeRefreshUtil.setLoadMore(mListFollow, true);
+        SwipeRefreshUtil.setRefreshImage(getActivity(), mListFollow, R.drawable.icon_refresh_icon, CustomSwipeRefreshLayout.ANIM_IN_LEFT);
         mListFollow.setOnRefreshListener(new CustomSwipeRefreshLayout.OnRefreshListener(){
             @Override
             public void onRefresh() {

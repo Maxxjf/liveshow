@@ -81,6 +81,7 @@ public class NewestFragment extends BaseFragment<INewestView, NewestPresenterImp
         });
 
         SwipeRefreshUtil.setLoadMore(mListNewest, true);
+        SwipeRefreshUtil.setRefreshImage(getActivity(), mListNewest, R.drawable.icon_refresh_icon, CustomSwipeRefreshLayout.ANIM_IN_LEFT);
         mListNewest.setOnRefreshListener(new CustomSwipeRefreshLayout.OnRefreshListener(){
             @Override
             public void onRefresh() {

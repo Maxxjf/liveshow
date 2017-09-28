@@ -2,6 +2,7 @@ package com.qcloud.liveshow.ui.anchor.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Camera;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.view.KeyEvent;
@@ -11,6 +12,7 @@ import android.view.WindowManager;
 import com.ksyun.media.streamer.capture.CameraCapture;
 import com.ksyun.media.streamer.capture.ViewCapture;
 import com.ksyun.media.streamer.capture.camera.CameraTouchHelper;
+import com.ksyun.media.streamer.filter.imgtex.ImgFilterBase;
 import com.ksyun.media.streamer.filter.imgtex.ImgTexFilterBase;
 import com.ksyun.media.streamer.filter.imgtex.ImgTexFilterMgt;
 import com.ksyun.media.streamer.kit.KSYStreamer;
@@ -25,6 +27,8 @@ import com.qcloud.liveshow.ui.anchor.view.IAnchorView;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.cameraview.CameraHintView;
 import com.qcloud.qclib.toast.ToastUtils;
+
+import java.util.List;
 
 import butterknife.Bind;
 import timber.log.Timber;
@@ -45,12 +49,8 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     private KSYStreamer mStreamer;
     private Handler mMainHandler;
 
-    /**
-     * 是否自动推流
-     */
+    /** 是否自动推流 */
     private boolean mAutoStart;
-    private boolean mIsLandscape;
-    private boolean mPrintDebugInfo = false;
     private boolean mRecording = false;
     private boolean mIsFileRecording = false;
     private boolean mIsFlashOpened = false;
@@ -62,13 +62,14 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     private String mBgImagePath = "assets://bg.jpg";
     private String mRecordUrl = "/sdcard/rec_test.mp4";
 
-    /**
-     * 直播前准备页面
-     */
+    /**是否支持硬编*/
+    private boolean mHWEncoderUnsupported;
+    /**是否支持软编*/
+    private boolean mSWEncoderUnsupported;
+
+    /** 直播前准备页面 */
     private PreAnchorFragment mPreFragment;
-    /**
-     * 直播控制页面
-     */
+    /** 直播控制页面 */
     private AnchorFragment mControlFragment;
 
     @Override
@@ -145,7 +146,14 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
                         ImgTexFilterMgt.KSY_FILTER_BEAUTY_DISABLE);
             }
         });
-        /**设置采集帧率为15*/
+        List<ImgFilterBase> filters = mStreamer.getImgTexFilterMgt().getFilter();
+        if (filters != null && !filters.isEmpty()) {
+            final ImgFilterBase filter = filters.get(0);
+            filter.setGrindRatio(1.0f);     // 磨皮0~1.0f
+            filter.setWhitenRatio(1.0f);    // 美白0~1.0f
+            filter.setRuddyRatio(0.5f);     // 红润0~1.0f
+        }
+        /**设置采集帧率为24*/
         mStreamer.setPreviewFps(CameraConstants.FRAME_RATE);
         mStreamer.setTargetFps(CameraConstants.FRAME_RATE);
         /**设置视频码率(Max)为800*/
@@ -185,9 +193,6 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         /**设置相机提示视图显示焦点矩形和缩放比例*/
         cameraTouchHelper.setCameraHintView(mCameraHint);
 
-        /**动画支持*/
-        //mAnimatedImageCapture = new AnimatedImageCapture(mStreamer.getGLRender());
-
         startCameraPreview();
     }
 
@@ -220,29 +225,6 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     }
 
     /**
-     * 开始录制到本地文件
-     * */
-    private void startRecord() {
-        if (mIsFileRecording) {
-            return;
-        }
-        //录制开始成功后会发送StreamerConstants.KSY_STREAMER_OPEN_FILE_SUCCESS消息
-        mStreamer.startRecord(mRecordUrl);
-        //mRecordingText.setText(STOP_RECORDING);
-        //mRecordingText.postInvalidate();
-        mIsFileRecording = true;
-    }
-
-    /**
-     * 暂停录制
-     * */
-    private void stopRecord() {
-        //录制结束为异步接口，录制结束后，
-        //会发送StreamerConstants.KSY_STREAMER_FILE_RECORD_STOPPED消息，在这里再处理UI恢复工作
-        mStreamer.stopRecord();
-    }
-
-    /**
      * 开始计时
      * */
     private void startChronometer() {
@@ -263,6 +245,9 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         }
     }
 
+    /**
+     * 初始化直播前的准备页面
+     * */
     private void initPreFragment() {
         mPreFragment = PreAnchorFragment.newInstance();
         mPreFragment.setOnFragmentClickListener(new OnFragmentClickListener() {
@@ -280,6 +265,9 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         });
     }
 
+    /**
+     * 初始化直播中的控制页面
+     * */
     private void initControlFragment() {
         mControlFragment = AnchorFragment.newInstance();
         mControlFragment.setOnFragmentClickListener(new OnFragmentClickListener() {
@@ -300,6 +288,9 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         });
     }
 
+    /**
+     * 选择直播前的准备页面
+     * */
     private void switchPreFragment() {
         if (mPreFragment == null) {
             initPreFragment();
@@ -307,6 +298,9 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         replaceFragment(mPreFragment, R.id.fragment_container, false);
     }
 
+    /**
+     * 点击切换镜头
+     * */
     @Override
     public void onSwitchCameraClick() {
         if (isRunning) {
@@ -315,6 +309,9 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         }
     }
 
+    /**
+     * 点击闪光灯
+     * */
     @Override
     public void onFlashClick() {
         if (isRunning) {
@@ -328,6 +325,9 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         }
     }
 
+    /**
+     * 点击开始直播
+     * */
     @Override
     public void onBeginAnchorClick() {
         if (mControlFragment == null) {
@@ -348,7 +348,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     };
 
     /**
-     * 信息监听
+     * 直播中摄像头信息监听
      */
     KSYStreamer.OnInfoListener mOnInfoListener = new KSYStreamer.OnInfoListener() {
         @Override
@@ -356,13 +356,11 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
             switch (what) {
                 case StreamerConstants.KSY_STREAMER_CAMERA_INIT_DONE:
                     Timber.d("KSY_STREAMER_CAMERA_INIT_DONE");
-//                    setCameraAntiBanding50Hz();
+                    setCameraAntiBanding50Hz();
                     break;
                 case StreamerConstants.KSY_STREAMER_OPEN_STREAM_SUCCESS:
                     Timber.d("KSY_STREAMER_OPEN_STREAM_SUCCESS");
-//                    mShootingText.setText(STOP_STRING);
                     startChronometer();
-//                    beginInfoUploadTimer();
                     break;
                 case StreamerConstants.KSY_STREAMER_OPEN_FILE_SUCCESS:
                     Timber.d("KSY_STREAMER_OPEN_FILE_SUCCESS");
@@ -370,9 +368,6 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
                     break;
                 case StreamerConstants.KSY_STREAMER_FILE_RECORD_STOPPED:
                     Timber.d("KSY_STREAMER_FILE_RECORD_STOPPED");
-//                    mRecordingText.setText(START_RECORDING);
-//                    mRecordingText.postInvalidate();
-//                    mIsFileRecording = false;
                     stopChronometer();
                     break;
                 case StreamerConstants.KSY_STREAMER_FRAME_SEND_SLOW:
@@ -441,7 +436,6 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
                 case StreamerConstants.KSY_STREAMER_CAMERA_ERROR_SERVER_DIED:
                     Timber.d("KSY_STREAMER_CAMERA_ERROR_SERVER_DIED");
                     break;
-                //Camera was disconnected due to use by higher priority user.
                 case StreamerConstants.KSY_STREAMER_CAMERA_ERROR_EVICTED:
                     Timber.d("KSY_STREAMER_CAMERA_ERROR_EVICTED");
                     break;
@@ -464,51 +458,80 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
                 case StreamerConstants.KSY_STREAMER_FILE_PUBLISHER_OPEN_FAILED:
                 case StreamerConstants.KSY_STREAMER_FILE_PUBLISHER_FORMAT_NOT_SUPPORTED:
                 case StreamerConstants.KSY_STREAMER_FILE_PUBLISHER_WRITE_FAILED:
-//                    stopRecordord();
                     break;
                 case StreamerConstants.KSY_STREAMER_VIDEO_ENCODER_ERROR_UNSUPPORTED:
                 case StreamerConstants.KSY_STREAMER_VIDEO_ENCODER_ERROR_UNKNOWN: {
-//                    handleEncodeError();
-//                    if (mRecording) {
-//                        stopStream();
-//                        mMainHandler.postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                startStream();
-//                            }
-//                        }, 3000);
-//                    }
-//                    if (mIsFileRecording) {
-//                        stopRecord();
-//                        mMainHandler.postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                startRecord();
-//                            }
-//                        }, 50);
-//                    }
+                    handleEncodeError();
+                    if (mRecording) {
+                        stopStream();
+                        mMainHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                startStream();
+                            }
+                        }, 3000);
+                    }
                 }
                 break;
                 default:
-//                    if(mStreamer.getEnableAutoRestart()) {
-//                        mShootingText.setText(START_STRING);
-//                        mShootingText.postInvalidate();
-//                        mRecording = false;
-//                        stopChronometer();
-//                    } else {
-//                        stopStream();
-//                        mMainHandler.postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                startStream();
-//                            }
-//                        }, 3000);
-//                    }
+                    if(mStreamer.getEnableAutoRestart()) {
+                        mRecording = false;
+                        stopChronometer();
+                    } else {
+                        stopStream();
+                        mMainHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                startStream();
+                            }
+                        }, 3000);
+                    }
                     break;
             }
         }
     };
 
+    /**
+     * 处理与相机相关的操作
+     * */
+    private void setCameraAntiBanding50Hz() {
+        Camera.Parameters parameters = mStreamer.getCameraCapture().getCameraParameters();
+        if (parameters != null) {
+            parameters.setAntibanding(Camera.Parameters.ANTIBANDING_50HZ);
+            mStreamer.getCameraCapture().setCameraParameters(parameters);
+        }
+    }
+
+    /**
+     * 处理编码错误
+     * */
+    private void handleEncodeError() {
+        if (mStreamer == null) return;
+        int encodeMethod = mStreamer.getVideoEncodeMethod();
+        if (encodeMethod == StreamerConstants.ENCODE_METHOD_HARDWARE) {
+            mHWEncoderUnsupported = true;
+            if (mSWEncoderUnsupported) {
+                mStreamer.setEncodeMethod(StreamerConstants.ENCODE_METHOD_SOFTWARE_COMPAT);
+                Timber.e("Got HW encoder error, switch to SOFTWARE_COMPAT mode");
+            } else {
+                mStreamer.setEncodeMethod(StreamerConstants.ENCODE_METHOD_SOFTWARE);
+                Timber.e("Got HW encoder error, switch to SOFTWARE mode");
+            }
+        } else if (encodeMethod == StreamerConstants.ENCODE_METHOD_SOFTWARE) {
+            mSWEncoderUnsupported = true;
+            if (mHWEncoderUnsupported) {
+                mStreamer.setEncodeMethod(StreamerConstants.ENCODE_METHOD_SOFTWARE_COMPAT);
+                Timber.e("Got SW encoder error, switch to SOFTWARE_COMPAT mode");
+            } else {
+                mStreamer.setEncodeMethod(StreamerConstants.ENCODE_METHOD_HARDWARE);
+                Timber.e("Got SW encoder error, switch to HARDWARE mode");
+            }
+        }
+    }
+
+    /**
+     * 结束直播
+     * */
     private void finishLive() {
         mPresenter.finishLive();
         finish();
@@ -517,30 +540,16 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     @Override
     protected void onPause() {
         super.onPause();
-//        if (mOrientationEventListener != null) {
-//            mOrientationEventListener.disable();
-//        }
         mStreamer.onPause();
-
-        // disable audio low delay in background
-//        if (mAudioLDCheckBox.isChecked()) {
-//            mStreamer.setEnableAudioLowDelay(false);
-//        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //stopPaintViewCapture();
-        // stop animated logo if needed
-        //mAnimatedImageCapture.stop();
         if (mMainHandler != null) {
             mMainHandler.removeCallbacksAndMessages(null);
             mMainHandler = null;
         }
-//        if (mTimer != null) {
-//            mTimer.cancel();
-//        }
         mStreamer.setOnLogEventListener(null);
         mStreamer.release();
     }

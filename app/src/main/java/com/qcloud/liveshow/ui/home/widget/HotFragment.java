@@ -125,6 +125,7 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
         mListHot.setNestedScrollingEnabled(false);
 
         SwipeRefreshUtil.setLoadMore(mRefreshLayout, true);
+        SwipeRefreshUtil.setRefreshImage(getActivity(), mRefreshLayout, R.drawable.icon_refresh_icon, CustomSwipeRefreshLayout.ANIM_IN_LEFT);
         mRefreshLayout.setOnRefreshListener(new CustomSwipeRefreshLayout.OnRefreshListener(){
             @Override
             public void onRefresh() {
