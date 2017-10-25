@@ -54,7 +54,7 @@
         </meta-data>
 
         <activity
-            android:name=".ui.account.widget.LoginActivity"
+            android:name=".ui.main.widget.LaunchActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
@@ -71,6 +71,9 @@
         <activity android:name=".ui.main.widget.WebActivity"
                   android:launchMode="singleTask"
                   android:label="@string/title_web"/>
+        <activity android:name=".ui.account.widget.LoginActivity"
+                  android:launchMode="singleTask"
+                  android:label="@string/title_login"/>
 
         <!--直播间有关-->
         <activity android:name=".ui.room.widget.RoomActivity"

@@ -130,19 +130,19 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
      * 显示或隐藏标题栏
      * */
     private void showOrHideTitle(boolean isShow) {
-        if (mLayoutTitle != null) {
-            if (isShow) {
-                restartTitleAnimator(mLayoutTitle, 0f);
-                if (mLayoutTitle.getVisibility() == View.GONE) {
-                    mLayoutTitle.setVisibility(View.VISIBLE);
-                }
-            } else {
-                restartTitleAnimator(mLayoutTitle, -mLayoutTitle.getHeight());
-                if (mLayoutTitle.getVisibility() == View.VISIBLE) {
-                    mLayoutTitle.setVisibility(View.GONE);
-                }
-            }
-        }
+//        if (mLayoutTitle != null) {
+//            if (isShow) {
+//                restartTitleAnimator(mLayoutTitle, 0f);
+//                if (mLayoutTitle.getVisibility() == View.GONE) {
+//                    mLayoutTitle.setVisibility(View.VISIBLE);
+//                }
+//            } else {
+//                restartTitleAnimator(mLayoutTitle, -mLayoutTitle.getHeight());
+//                if (mLayoutTitle.getVisibility() == View.VISIBLE) {
+//                    mLayoutTitle.setVisibility(View.GONE);
+//                }
+//            }
+//        }
     }
 
     private void restartTitleAnimator(View target, float value) {

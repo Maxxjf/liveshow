@@ -28,14 +28,8 @@ public class MainPresenterImpl extends BasePresenter<IMainView> implements IMain
     @Override
     public void onBtnClick(int viewId) {
         switch (viewId) {
-            case R.id.btn_home:
-                mView.onHomeClick();
-                break;
             case R.id.btn_live_show:
                 mView.onLiveShowClick();
-                break;
-            case R.id.btn_mine:
-                mView.onMineClick();
                 break;
         }
     }

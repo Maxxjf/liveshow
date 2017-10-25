@@ -1,6 +1,5 @@
 package com.qcloud.liveshow.ui.main.widget;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
@@ -9,6 +8,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.base.BaseApplication;
@@ -25,36 +26,25 @@ import com.qcloud.liveshow.utils.BasicsUtil;
 import com.qcloud.liveshow.widget.pop.BindingGeneralizeRelationPop;
 import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.base.BasePopupWindow;
-import com.qcloud.qclib.permission.PermissionsManager;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.ConstantUtil;
 import com.qcloud.qclib.utils.StringUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
-public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> implements IMainView {
+public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> implements IMainView, BottomNavigationBar.OnTabSelectedListener {
 
-    @Bind(R.id.btn_home)
-    ImageView mBtnHome;
+    @Bind(R.id.bottom_navigation_bar)
+    BottomNavigationBar mNavigationBar;
     @Bind(R.id.btn_live_show)
     ImageView mBtnLiveShow;
-    @Bind(R.id.btn_mine)
-    ImageView mBtnMine;
-
-    private String[] PERMISSIONS = new String[] {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA,
-            Manifest.permission.CALL_PHONE,
-            Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
-            Manifest.permission.RECORD_AUDIO};
 
     private HomeFragment mHomeFragment;
     private MineFragment mMineFragment;
+
+    private int lastSelectedPosition = 0;
 
     private long exitTime = 0;
 
@@ -88,10 +78,10 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
 
     @Override
     protected void initViewAndData() {
-        int startEnum = getIntent().getIntExtra("START_ENUM", 1);
+        initBottomNavBar();
+        int startEnum = getIntent().getIntExtra("START_ENUM", 0);
         switchStart(startEnum);
 
-        requestPermission();
         loadBasicData();
         mBtnLiveShow.post(new Runnable() {
             @Override
@@ -100,26 +90,6 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
             }
         });
 
-    }
-
-    /**
-     * 申请应用需要的权限
-     * */
-    private void requestPermission() {
-        PermissionsManager manager = new PermissionsManager(this);
-        manager.setLogging(true);
-        manager.request(PERMISSIONS)
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(@NonNull Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
-                            // 所有权限都开启aBoolean才为true，否则为false
-                            Timber.e(getString(R.string.toast_permission_open));
-                        } else {
-                            ToastUtils.ToastMessage(MainActivity.this, R.string.toast_permission_refuse);
-                        }
-                    }
-                });
     }
 
     /**
@@ -144,6 +114,24 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         }
     }
 
+    private void initBottomNavBar() {
+        mNavigationBar.setMode(BottomNavigationBar.MODE_FIXED_NO_TITLE);
+        mNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
+        BottomNavigationItem homeItem = new BottomNavigationItem(R.drawable.icon_home_select, R.string.tab_home);
+        homeItem.setInactiveIconResource(R.drawable.icon_home_normal);
+        BottomNavigationItem liveItem = new BottomNavigationItem(R.drawable.icon_live_show, R.string.tab_live_show);
+        liveItem.setInactiveIconResource(R.drawable.icon_live_show);
+        BottomNavigationItem mineItem = new BottomNavigationItem(R.drawable.icon_mine_select, R.string.tab_mine);
+        mineItem.setInactiveIconResource(R.drawable.icon_mine_normal);
+        mNavigationBar.addItem(homeItem)
+                .addItem(liveItem)
+                .addItem(mineItem)
+                .setFirstSelectedPosition(lastSelectedPosition > 2 ? 2 : lastSelectedPosition)
+                .initialise();
+
+        mNavigationBar.setTabSelectedListener(this);
+    }
+
     private void initBindingPop() {
         mBindingPop = new BindingGeneralizeRelationPop(this);
         mBindingPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
@@ -164,7 +152,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         });
     }
 
-    @OnClick({R.id.btn_home, R.id.btn_live_show, R.id.btn_mine})
+    @OnClick({R.id.btn_live_show})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
     }
@@ -175,7 +163,6 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
             mHomeFragment = HomeFragment.newInstance(StartHomeEnum.StartHot.getKey());
         }
         replaceFragment(mHomeFragment, R.id.fragment_container, false);
-        clearEffect(mBtnHome);
     }
 
     @Override
@@ -193,7 +180,6 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
             mMineFragment = new MineFragment();
         }
         replaceFragment(mMineFragment, R.id.fragment_container, false);
-        clearEffect(mBtnMine);
     }
 
     @Override
@@ -281,6 +267,25 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         }
     }
 
+    /**
+     * 底部导航栏
+     */
+    @Override
+    public void onTabSelected(int position) {
+        lastSelectedPosition = position;
+        switchStart(position);
+    }
+
+    @Override
+    public void onTabUnselected(int position) {
+
+    }
+
+    @Override
+    public void onTabReselected(int position) {
+
+    }
+
     private void switchStart(int startEnum) {
         if (startEnum == StartMainEnum.StartHome.getKey()) {
             onHomeClick();
@@ -290,19 +295,6 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
             onMineClick();
         } else {
             onHomeClick();
-        }
-    }
-
-    private void clearEffect(ImageView btnTab) {
-        if (btnTab == mBtnHome) {
-            mBtnHome.setImageResource(R.drawable.icon_home_select);
-            mBtnMine.setImageResource(R.drawable.icon_mine_normal);
-        } else if (btnTab == mBtnMine) {
-            mBtnHome.setImageResource(R.drawable.icon_home_normal);
-            mBtnMine.setImageResource(R.drawable.icon_mine_select);
-        } else {
-            mBtnHome.setImageResource(R.drawable.icon_home_select);
-            mBtnMine.setImageResource(R.drawable.icon_mine_normal);
         }
     }
 
