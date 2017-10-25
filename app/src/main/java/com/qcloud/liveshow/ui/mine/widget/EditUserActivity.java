@@ -243,6 +243,7 @@ public class EditUserActivity extends BaseActivity<IEditUserView, EditUserPresen
             ToastUtils.ToastMessage(this, R.string.toast_edit_success);
             UserInfoUtil.loadUserInfo();
             isEdit = true;
+            finish();
         }
     }
 

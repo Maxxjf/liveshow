@@ -26,6 +26,8 @@ import com.qcloud.liveshow.ui.anchor.presenter.impl.AnchorPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IAnchorView;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.cameraview.CameraHintView;
+import com.qcloud.liveshow.widget.pop.TipsPop;
+import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
 
 import java.util.List;
@@ -533,9 +535,18 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
      * 结束直播
      * */
     private void finishLive() {
-        mPresenter.finishLive();
-        finish();
+        TipsPop pop = new TipsPop(this);
+        pop.setTips(R.string.toast_exit_anchor);
+        pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                mPresenter.finishLive();
+                AnchorFinishActivity.openActivity(AnchorActivity.this);
+                finish();
+            }
+        });
     }
+
 
     @Override
     protected void onPause() {

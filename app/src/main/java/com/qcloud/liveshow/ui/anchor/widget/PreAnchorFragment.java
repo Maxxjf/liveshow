@@ -1,10 +1,8 @@
 package com.qcloud.liveshow.ui.anchor.widget;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -160,10 +158,6 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     }
 
     private void initSelectPicturePop() {
-        DisplayMetrics dm = new DisplayMetrics();
-        ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
-        final int screenW = dm.widthPixels * 9 / 10;   // 获取分辨率宽度
-
         mPicturePop = new SelectPicturePop(getActivity());
         mPicturePop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
             @Override
@@ -387,6 +381,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     @Override
     public void uploadSuccess(UploadFileBean bean) {
         if (isInFragment && bean != null) {
+            Timber.e(bean.toString());
             mCover = bean.getFileId();
         }
     }
