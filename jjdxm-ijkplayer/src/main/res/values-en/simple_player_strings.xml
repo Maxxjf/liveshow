@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ijkplayer_simple</string>
+    <string name="app_name">AV8D</string>
     <string name="giraffe_player_url_empty">Please specify the address for playing video.</string>
     <string name="small_problem">A minor problem has occurred. Try again later.</string>
     <string name="can_not_play">This video cannot be played.</string>
