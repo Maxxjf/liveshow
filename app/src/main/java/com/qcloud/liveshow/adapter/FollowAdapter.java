@@ -30,11 +30,11 @@ public class FollowAdapter extends CommonRecyclerAdapter<RoomBean> {
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position) {
+    public void onBindViewHolder(BaseViewHolder holder, final int position) {
         final RoomBean bean = mList.get(position);
         final AnchorBean anchorBean = bean.getMember();
 
-        UserHeadImageView userView = holder.get(R.id.layout_user);
+        final UserHeadImageView userView = holder.get(R.id.layout_user);
         if (anchorBean != null) {
             userView.loadImage(anchorBean.getHeadImg(), anchorBean.getIcon(), 80);
 

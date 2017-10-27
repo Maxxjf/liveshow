@@ -14,4 +14,7 @@ public interface IPreAnchorPresenter extends BtnClickPresenter {
 
     /**创建直播间*/
     void createLive(SubmitStartLiveBean bean);
+
+    /**创建直播间前获取信息*/
+    void getLiveinfo();
 }

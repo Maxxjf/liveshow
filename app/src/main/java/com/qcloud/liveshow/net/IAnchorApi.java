@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.ApplyStatusBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
+import com.qcloud.liveshow.beans.LiveInfoBean;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.constant.UrlConstants;
@@ -68,5 +69,12 @@ public class IAnchorApi {
         Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
 
         return OkGoRequest.getRequest(UrlConstants.FINISH_LIVE, type, params);
+    }
+
+    /**开始直播前获取直播消息*/
+    public static Observable<BaseResponse<LiveInfoBean>> getLiveinfo(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<LiveInfoBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.GET_LIVEINFO, type, params);
     }
 }
