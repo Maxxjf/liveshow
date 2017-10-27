@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/LiveShow.iml" filepath="$PROJECT_DIR$/LiveShow.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/jjdxm-ijkplayer/jjdxm-ijkplayer.iml" filepath="$PROJECT_DIR$/jjdxm-ijkplayer/jjdxm-ijkplayer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/liveshow-android.iml" filepath="$PROJECT_DIR$/liveshow-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/liveshow.iml" filepath="$PROJECT_DIR$/liveshow.iml" />
       <module fileurl="file://$PROJECT_DIR$/../qcloudLib-android/qclib/qclib.iml" filepath="$PROJECT_DIR$/../qcloudLib-android/qclib/qclib.iml" />
       <module fileurl="file://$PROJECT_DIR$/../qcloudLib-android/qcloudLib-android.iml" filepath="$PROJECT_DIR$/../qcloudLib-android/qcloudLib-android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/rtmp-library/rtmp-library.iml" filepath="$PROJECT_DIR$/rtmp-library/rtmp-library.iml" />
     </modules>
   </component>
 </project>
