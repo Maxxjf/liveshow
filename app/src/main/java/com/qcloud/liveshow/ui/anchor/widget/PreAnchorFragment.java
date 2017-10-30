@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseFragment;
+import com.qcloud.liveshow.beans.LiveInfoBean;
 import com.qcloud.liveshow.beans.SubmitStartLiveBean;
+import com.qcloud.liveshow.ui.anchor.presenter.impl.AnchorPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.PreAnchorPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IPreAnchorView;
 import com.qcloud.liveshow.widget.dialog.InputDialog;
@@ -38,6 +40,9 @@ import butterknife.BindString;
 import butterknife.OnClick;
 import timber.log.Timber;
 
+import static com.qcloud.liveshow.R.id.img_cover;
+import static com.qcloud.liveshow.R.id.tv_toll_standard;
+
 /**
  * 类说明：主播前的准备
  * Author: Kuzan
@@ -49,7 +54,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     ImageView mBtnExit;
     @Bind(R.id.btn_switch_camera)
     ImageView mBtnSwitchCamera;
-    @Bind(R.id.img_cover)
+    @Bind(img_cover)
     RatioImageView mImgCover;
     @Bind(R.id.layout_change_cover)
     FrameLayout mLayoutChangeCover;
@@ -61,7 +66,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     TextView mTvNotice;
     @Bind(R.id.img_notice_clear)
     ImageView mImgNoticeClear;
-    @Bind(R.id.tv_toll_standard)
+    @Bind(tv_toll_standard)
     TextView mTvTollStandard;
     @Bind(R.id.tv_toll_standard_remark)
     TextView mTvTollStandardRemark;
@@ -93,11 +98,13 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     private String mTitle;
     private String mNotice;
     private String mDiamonds = "0";
-    private String mCover;
+    private String mCover; //我的直播id
     private SubmitStartLiveBean mSubmitBean;
 
     private InputDialog mInputDialog;
     private boolean isInputTitle = true;
+
+    private int upperLimit;//设置收费最大值
 
     @Override
     protected int getLayoutId() {
@@ -113,6 +120,9 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     protected void initViewAndData() {
         mStartTime = DateUtils.getCurrTime("HH:mm");
         mBtnTimeStart.setText(mStartTime);
+        new AnchorPresenterImpl().finishLive();//结束直播
+        mPresenter.getLiveinfo();
+
     }
 
     @Override
@@ -290,7 +300,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
 
     @OnClick({R.id.btn_exit, R.id.btn_switch_camera, R.id.btn_begin, R.id.layout_change_cover,
             R.id.tv_title, R.id.tv_notice, R.id.img_title_clear, R.id.img_notice_clear,
-            R.id.tv_toll_standard, R.id.btn_time_start, R.id.btn_time_end})
+            tv_toll_standard, R.id.btn_time_start, R.id.btn_time_end})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
     }
@@ -350,7 +360,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         if (mTollPicker == null) {
             initTollPicker();
         }
-        mTollPicker.refreshData(20);
+        mTollPicker.refreshData(upperLimit+1);
         mTollPicker.showAtLocation(mTvTollStandard, Gravity.BOTTOM, 0, 0);
     }
 
@@ -394,6 +404,26 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
                 mListener.onBtnClick(mBtnBegin);
             }
         }
+    }
+
+    @Override
+    public void getLiveInfoSuccess(LiveInfoBean bean) {
+        GlideUtil.loadImage(getActivity(),mImgCover,bean.getCoverUrl());
+        mTvTitle.setText(bean.getTitle());
+        mTvNotice.setText(bean.getNotice());
+//        mBtnTimeStart.setText(bean.getRatesStartTime());
+//        mBtnTimeEnd.setText(bean.getRatesEndTime());
+        mTvTollStandard.setText(""+bean.getRates());
+        upperLimit=bean.getUpperLimit();
+        mCover = bean.getCover();
+//        mTollPicker.setOffset(bean.getUpperLimit());
+//        mTollPicker.set
+    }
+
+    @Override
+    public void getLiveInfoError(String errMsg) {
+        ToastUtils.ToastMessage(getActivity(),errMsg);
+        getActivity().finish();
     }
 
     @Override

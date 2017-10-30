@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.ApplyStatusBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
+import com.qcloud.liveshow.beans.LiveInfoBean;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.SubmitApplyBean;
@@ -137,5 +138,17 @@ public class AnchorModelImpl implements IAnchorModel {
         mParams = OkGoRequest.getAppParams();
 
         BaseApi.dispose(IAnchorApi.finishLive(mParams), callback);
+    }
+
+   /**
+    *  直播前获取直播信息
+    * @anthor iceberg
+    * time: 2017/10/27  13:58
+    */
+    @Override
+    public void getLiveinfo(DataCallback<LiveInfoBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+
+        BaseApi.dispose(IAnchorApi.getLiveinfo(mParams), callback);
     }
 }

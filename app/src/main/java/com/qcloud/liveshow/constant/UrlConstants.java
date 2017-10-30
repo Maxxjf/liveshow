@@ -69,6 +69,8 @@ public interface UrlConstants {
     String IN_OUT_GRARD = URL_PREFIX_APP + "room/inOutGuard";
     /**结束直播*/
     String FINISH_LIVE = URL_PREFIX_APP + "room/finish";
+    /**开始直播前获取直播消息*/
+    String GET_LIVEINFO = URL_PREFIX_APP + "room/beginCreate";
 
     /**
      * 我的有关

@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.ui.anchor.view;
 
+import com.qcloud.liveshow.beans.LiveInfoBean;
 import com.qcloud.qclib.base.BaseView;
 import com.qcloud.qclib.beans.UploadFileBean;
 
@@ -47,4 +48,8 @@ public interface IPreAnchorView extends BaseView {
 
     /**创建直播间成功*/
     void createLiveSuccess();
+
+    void getLiveInfoSuccess(LiveInfoBean bean);
+
+    void getLiveInfoError(String errMsg);
 }

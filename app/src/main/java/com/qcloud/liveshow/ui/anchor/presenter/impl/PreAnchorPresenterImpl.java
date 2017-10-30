@@ -2,6 +2,7 @@ package com.qcloud.liveshow.ui.anchor.presenter.impl;
 
 import com.lzy.okgo.model.Progress;
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.LiveInfoBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.SubmitStartLiveBean;
 import com.qcloud.liveshow.model.IAnchorModel;
@@ -133,5 +134,24 @@ public class PreAnchorPresenterImpl extends BasePresenter<IPreAnchorView> implem
                 }
             }
         });
+    }
+
+    @Override
+    public void getLiveinfo() {
+       mModel.getLiveinfo(new DataCallback<LiveInfoBean>() {
+           @Override
+           public void onSuccess(LiveInfoBean bean) {
+               if (mView!=null){
+                   mView.getLiveInfoSuccess(bean);
+               }
+           }
+
+           @Override
+           public void onError(int status, String errMsg) {
+               if (mView!=null){
+                   mView.getLiveInfoError(errMsg);
+               }
+           }
+       });
     }
 }
