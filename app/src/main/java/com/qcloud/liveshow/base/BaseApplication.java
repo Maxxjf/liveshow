@@ -12,6 +12,7 @@ import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.qcloud.liveshow.BuildConfig;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.constant.AppConstants;
+import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.ui.account.widget.LoginActivity;
 import com.qcloud.liveshow.utils.FileLoggingTree;
 import com.qcloud.liveshow.utils.UserInfoUtil;
@@ -32,6 +33,8 @@ import java.util.logging.Level;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
@@ -53,7 +56,11 @@ public class BaseApplication extends Application {
         mApplication = this;
         mAppManager = AppManager.getInstance();
 
+        // 初始化网络框架
         initOkGo();
+
+        // 初始化Realm
+        initRealm();
 
         // 初始化缓存
         ConstantUtil.initSharedPreferences(mApplication);
@@ -118,6 +125,18 @@ public class BaseApplication extends Application {
             //验证主机名是否匹配
             return true;
         }
+    }
+
+    /**
+     * 初始化Realm
+     * */
+    private void initRealm() {
+        Realm.init(this);
+        RealmConfiguration configuration = new RealmConfiguration.Builder()
+                .name(RealmHelper.DB_NAME)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(configuration);
     }
 
     public static BaseApplication getInstance() {
