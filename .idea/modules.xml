@@ -8,7 +8,6 @@
       <module fileurl="file://$PROJECT_DIR$/liveshow-android.iml" filepath="$PROJECT_DIR$/liveshow-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/../qcloudLib-android/qclib/qclib.iml" filepath="$PROJECT_DIR$/../qcloudLib-android/qclib/qclib.iml" />
       <module fileurl="file://$PROJECT_DIR$/../qcloudLib-android/qcloudLib-android.iml" filepath="$PROJECT_DIR$/../qcloudLib-android/qcloudLib-android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/rtmp-library/rtmp-library.iml" filepath="$PROJECT_DIR$/rtmp-library/rtmp-library.iml" />
     </modules>
   </component>
 </project>
