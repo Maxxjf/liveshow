@@ -21,6 +21,7 @@ import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.DataCleanManager;
 import com.qcloud.qclib.utils.TokenUtil;
 
 import butterknife.Bind;
@@ -63,7 +64,11 @@ public class SettingActivity extends SwipeBaseActivity<ISettingView, SettingPres
 
     @Override
     protected void initViewAndData() {
-
+        try {
+            mTvCache.setText(DataCleanManager.getTotalCacheSize(this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @OnClick({R.id.layout_blacklist, R.id.layout_about_us, R.id.layout_clear_cache,
@@ -88,7 +93,13 @@ public class SettingActivity extends SwipeBaseActivity<ISettingView, SettingPres
 
     @Override
     public void onClearCacheClick() {
-        ToastUtils.ToastMessage(this, "清除缓存");
+        try {
+            DataCleanManager.clearAllCache(this);
+            mTvCache.setText(DataCleanManager.getTotalCacheSize(this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ToastUtils.ToastMessage(this, "清除成功");
     }
 
     @Override
