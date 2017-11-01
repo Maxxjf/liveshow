@@ -216,6 +216,7 @@
     <string name="tag_recharge_has_problem">若充值遇到问题请联系客服：</string>
     <string name="tag_change_cover">更换页面</string>
     <string name="tag_title">标题：</string>
+    <string name="tag_answer">答案：</string>
     <string name="tag_notice">公告：</string>
     <string name="tag_toll_standard_title">收费标准</string>
     <string name="tag_toll_standard">收费标准\t(必填)\t:</string>

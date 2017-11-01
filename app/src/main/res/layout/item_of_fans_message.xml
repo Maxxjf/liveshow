@@ -44,11 +44,13 @@
             android:background="@drawable/bg_receive_message"
             android:layout_marginLeft="@dimen/layout_margin"
             android:lineSpacingExtra="@dimen/text_padding"
+            android:paddingTop="@dimen/margin_1"
+            android:paddingBottom="@dimen/margin_1"
             android:paddingLeft="@dimen/margin_2"
             android:paddingRight="@dimen/margin_2"
             android:textColor="@color/colorText"
             android:textSize="@dimen/micro_text_size"
-            android:text="不知不觉关注了你，成为了你的粉丝，去打个招呼吧~"/>
+            android:text="不知不觉关注了你，在未来的日子，我将成为你的最好的朋友，欢迎关注我，我只是测试一下行数过多会如何成为了你的粉丝，去打个招呼吧~"/>
     </LinearLayout>
 
     <LinearLayout
@@ -76,6 +78,8 @@
             android:background="@drawable/bg_send_message"
             android:layout_marginRight="@dimen/layout_margin"
             android:lineSpacingExtra="@dimen/text_padding"
+            android:paddingTop="@dimen/margin_1"
+            android:paddingBottom="@dimen/margin_1"
             android:paddingLeft="@dimen/margin_2"
             android:paddingRight="@dimen/margin_2"
             android:textColor="@color/white"

@@ -12,8 +12,6 @@ import com.qcloud.liveshow.adapter.ProblemAdapter;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.beans.ProblemBean;
 import com.qcloud.liveshow.constant.AppConstants;
-import com.qcloud.liveshow.enums.ClauseRuleEnum;
-import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.liveshow.ui.mine.presenter.impl.ProblemPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IProblemView;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
@@ -98,7 +96,7 @@ public class ProblemActivity extends SwipeBaseActivity<IProblemView, ProblemPres
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 ProblemBean bean = mAdapter.getList().get(i);
-                WebActivity.openActivity(mContext, bean.getQuestion(), ClauseRuleEnum.AboutUs.getKey());
+                PrombleDetailActivity.openActivity(mContext, bean.getQuestion(), bean.getAnswer());
             }
         });
     }

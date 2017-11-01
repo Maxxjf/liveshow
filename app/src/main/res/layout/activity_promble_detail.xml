@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBg"
+    >
+
+    <com.qcloud.liveshow.widget.toolbar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        toolbar:is_title="true"
+        toolbar:title_text="@string/title_profit_record"
+        toolbar:is_left="true"
+        toolbar:left_icon="@drawable/icon_normal_back"/>
+
+    <View
+        style="@style/LineHorizontal"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_question"
+                android:padding="@dimen/margin_1"
+                android:textSize="@dimen/micro_text_size"
+                android:textColor="@color/black"
+                android:text="@string/tag_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_answer"
+                android:padding="@dimen/margin_1"
+                android:textSize="@dimen/micro_text_size"
+                android:text="@string/tag_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
