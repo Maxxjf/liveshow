@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.hardware.Camera;
 import android.opengl.GLSurfaceView;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -537,6 +538,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     private void finishLive() {
         TipsPop pop = new TipsPop(this);
         pop.setTips(R.string.toast_exit_anchor);
+        pop.showAtLocation(mCameraPreview, Gravity.CENTER,0,0);
         pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
             @Override
             public void onViewClick(View view) {

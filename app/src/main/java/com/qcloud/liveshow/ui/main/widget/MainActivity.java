@@ -232,7 +232,20 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         // 未提交审核
         Timber.e("未提交审核");
         stopLoadingDialog();
-        ApplyAnchorActivity.openActivity(MainActivity.this);
+        final TipsPop pop=new TipsPop(this);
+        pop.setTips(R.string.toast_apply_none);
+        pop.showAtLocation(mBtnLiveShow,Gravity.CENTER,0,0);
+        pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                if (view.getId() == R.id.btn_ok) {
+                    ApplyAnchorActivity.openActivity(MainActivity.this);
+                } else {
+                    pop.dismiss();
+                }
+            }
+        });
+
     }
 
     @Override

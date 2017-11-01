@@ -6,6 +6,7 @@ import com.qcloud.liveshow.model.IMineModel;
 import com.qcloud.liveshow.model.impl.MineModelImpl;
 import com.qcloud.liveshow.ui.mine.presenter.IMyFansPresenter;
 import com.qcloud.liveshow.ui.mine.view.IMyFansView;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.base.BasePresenter;
 import com.qcloud.qclib.beans.ReturnDataBean;
 import com.qcloud.qclib.callback.DataCallback;
@@ -69,6 +70,7 @@ public class MyFansPresenterImpl extends BasePresenter<IMyFansView> implements I
         mModel.submitAttention(type, id, isAttention, new DataCallback<ReturnEmptyBean>() {
             @Override
             public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+                UserInfoUtil.loadUserInfo();
                 if (mView != null) {
                     mView.isAttentionSuccess();
                 }

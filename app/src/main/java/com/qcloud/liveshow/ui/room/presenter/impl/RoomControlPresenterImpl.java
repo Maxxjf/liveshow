@@ -7,6 +7,7 @@ import com.qcloud.liveshow.model.IMineModel;
 import com.qcloud.liveshow.model.impl.MineModelImpl;
 import com.qcloud.liveshow.ui.room.presenter.IRoomControlPresenter;
 import com.qcloud.liveshow.ui.room.view.IRoomControlView;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.base.BasePresenter;
 import com.qcloud.qclib.callback.DataCallback;
 
@@ -58,6 +59,7 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
         mModel.submitAttention(StartFansEnum.MyFans.getKey(), id, isAttention, new DataCallback<ReturnEmptyBean>() {
             @Override
             public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+                UserInfoUtil.loadUserInfo();
                 if (mView != null) {
                     mView.onFollowRes(true);
                 }

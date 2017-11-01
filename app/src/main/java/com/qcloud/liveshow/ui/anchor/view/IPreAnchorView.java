@@ -19,11 +19,11 @@ public interface IPreAnchorView extends BaseView {
     /**点击更改封面*/
     void onChangeCoverClick();
 
-    /**点击输入标题*/
-    void onInputTitleClick();
-
-    /**点击输入公告*/
-    void onInputNoticeClick();
+//    /**点击输入标题*/
+//    void onInputTitleClick();
+//
+//    /**点击输入公告*/
+//    void onInputNoticeClick();
 
     /**点击清除标题*/
     void onClearTitleClick();
@@ -49,7 +49,9 @@ public interface IPreAnchorView extends BaseView {
     /**创建直播间成功*/
     void createLiveSuccess();
 
+    /**成功得到信息*/
     void getLiveInfoSuccess(LiveInfoBean bean);
 
+    /**失败得到信息*/
     void getLiveInfoError(String errMsg);
 }

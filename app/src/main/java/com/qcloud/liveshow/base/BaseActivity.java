@@ -10,7 +10,11 @@ import android.util.Log;
 import android.util.TypedValue;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.ui.account.widget.LoginActivity;
+import com.qcloud.qclib.AppManager;
 import com.qcloud.qclib.base.BasePresenter;
+import com.qcloud.qclib.beans.RxBusEvent;
+import com.qcloud.qclib.network.BaseApi;
 import com.qcloud.qclib.rxbus.Bus;
 import com.qcloud.qclib.rxbus.BusProvider;
 import com.qcloud.qclib.utils.SystemBarUtil;
@@ -20,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -65,7 +71,21 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         isRunning = true;
 
         initViewAndData();
+        checkLogin();
     }
+
+    public  void checkLogin(){
+        mEventBus.registerSubscriber(this,mEventBus.obtainSubscriber(RxBusEvent.class, new Consumer<RxBusEvent>() {
+            @Override
+            public void accept(@NonNull RxBusEvent rxBusEvent) throws Exception {
+                switch (rxBusEvent.getType()){
+                    case BaseApi.NOT_LOGIN_STATUS_TYPE:
+                        AppManager.getInstance().killAllActivity();
+                        LoginActivity.openActivity(mContext);
+                }
+            }
+        }));
+    };
 
     public void addFragment(BaseFragment fragment) {
         if (fragment != null) {

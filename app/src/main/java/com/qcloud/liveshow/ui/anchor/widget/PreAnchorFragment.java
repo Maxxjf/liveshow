@@ -1,10 +1,10 @@
 package com.qcloud.liveshow.ui.anchor.widget;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -17,7 +17,6 @@ import com.qcloud.liveshow.beans.SubmitStartLiveBean;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.AnchorPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.PreAnchorPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IPreAnchorView;
-import com.qcloud.liveshow.widget.dialog.InputDialog;
 import com.qcloud.liveshow.widget.pop.SelectPicturePop;
 import com.qcloud.liveshow.widget.pop.TollStandardPicker;
 import com.qcloud.qclib.base.BasePopupWindow;
@@ -58,12 +57,12 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     RatioImageView mImgCover;
     @Bind(R.id.layout_change_cover)
     FrameLayout mLayoutChangeCover;
-    @Bind(R.id.tv_title)
-    TextView mTvTitle;
+    @Bind(R.id.et_title)
+    EditText mEtTitle;
     @Bind(R.id.img_title_clear)
     ImageView mImgTitleClear;
-    @Bind(R.id.tv_notice)
-    TextView mTvNotice;
+    @Bind(R.id.et_notice)
+    EditText mEtNotice;
     @Bind(R.id.img_notice_clear)
     ImageView mImgNoticeClear;
     @Bind(tv_toll_standard)
@@ -101,7 +100,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     private String mCover; //我的直播id
     private SubmitStartLiveBean mSubmitBean;
 
-    private InputDialog mInputDialog;
+//    private InputDialog mInputDialog;
     private boolean isInputTitle = true;
 
     private int upperLimit;//设置收费最大值
@@ -135,37 +134,37 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     /**
      * 初始化输入消息弹窗
      * */
-    private void initInputDialog() {
-        mInputDialog = new InputDialog(getActivity());
-        mInputDialog.setOnFinishInputListener(new InputDialog.OnFinishInputListener() {
-            @Override
-            public void onFinishInput(String message) {
-                mInputDialog.dismiss();
-            }
-        });
-        mInputDialog.setOnTextChangeListener(new InputDialog.OnTextChangeListener() {
-            @Override
-            public void onTextChange(String message) {
-                if (isInputTitle) {
-                    mTvTitle.append(message);
-                    if (mImgTitleClear.getVisibility() != View.VISIBLE) {
-                        mImgTitleClear.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    mTvNotice.append(message);
-                    if (mImgNoticeClear.getVisibility() != View.VISIBLE) {
-                        mImgNoticeClear.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-        mInputDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                //SystemBarUtil.hideNavBar(getActivity());
-            }
-        });
-    }
+//    private void initInputDialog() {
+//        mInputDialog = new InputDialog(getActivity());
+//        mInputDialog.setOnFinishInputListener(new InputDialog.OnFinishInputListener() {
+//            @Override
+//            public void onFinishInput(String message) {
+//                mInputDialog.dismiss();
+//            }
+//        });
+//        mInputDialog.setOnTextChangeListener(new InputDialog.OnTextChangeListener() {
+//            @Override
+//            public void onTextChange(String message) {
+//                if (isInputTitle) {
+//                    mTvTitle.append(message);
+//                    if (mImgTitleClear.getVisibility() != View.VISIBLE) {
+//                        mImgTitleClear.setVisibility(View.VISIBLE);
+//                    }
+//                } else {
+//                    mTvNotice.append(message);
+//                    if (mImgNoticeClear.getVisibility() != View.VISIBLE) {
+//                        mImgNoticeClear.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//            }
+//        });
+//        mInputDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//            @Override
+//            public void onDismiss(DialogInterface dialogInterface) {
+//                //SystemBarUtil.hideNavBar(getActivity());
+//            }
+//        });
+//    }
 
     private void initSelectPicturePop() {
         mPicturePop = new SelectPicturePop(getActivity());
@@ -299,7 +298,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     }
 
     @OnClick({R.id.btn_exit, R.id.btn_switch_camera, R.id.btn_begin, R.id.layout_change_cover,
-            R.id.tv_title, R.id.tv_notice, R.id.img_title_clear, R.id.img_notice_clear,
+            R.id.img_title_clear, R.id.img_notice_clear,
             tv_toll_standard, R.id.btn_time_start, R.id.btn_time_end})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
@@ -325,33 +324,33 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mPicturePop.showAtLocation(mImgCover, Gravity.BOTTOM, 0, 0);
     }
 
-    @Override
-    public void onInputTitleClick() {
-        isInputTitle = true;
-        if (mInputDialog == null) {
-            initInputDialog();
-        }
-        mInputDialog.show();
-    }
-
-    @Override
-    public void onInputNoticeClick() {
-        isInputTitle = false;
-        if (mInputDialog == null) {
-            initInputDialog();
-        }
-        mInputDialog.show();
-    }
+//    @Override
+//    public void onInputTitleClick() {
+//        isInputTitle = true;
+//        if (mInputDialog == null) {
+//            initInputDialog();
+//        }
+//        mInputDialog.show();
+//    }
+//
+//    @Override
+//    public void onInputNoticeClick() {
+//        isInputTitle = false;
+//        if (mInputDialog == null) {
+//            initInputDialog();
+//        }
+//        mInputDialog.show();
+//    }
 
     @Override
     public void onClearTitleClick() {
-        mTvTitle.setText("");
+        mEtTitle.setText("");
         mImgTitleClear.setVisibility(View.GONE);
     }
 
     @Override
     public void onClearNoticeClick() {
-        mTvNotice.setText("");
+        mEtNotice.setText("");
         mImgNoticeClear.setVisibility(View.GONE);
     }
 
@@ -409,8 +408,8 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     @Override
     public void getLiveInfoSuccess(LiveInfoBean bean) {
         GlideUtil.loadImage(getActivity(),mImgCover,bean.getCoverUrl());
-        mTvTitle.setText(bean.getTitle());
-        mTvNotice.setText(bean.getNotice());
+        mEtTitle.setText(bean.getTitle());
+        mEtNotice.setText(bean.getNotice());
 //        mBtnTimeStart.setText(bean.getRatesStartTime());
 //        mBtnTimeEnd.setText(bean.getRatesEndTime());
         mTvTollStandard.setText(""+bean.getRates());
@@ -439,8 +438,8 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     }
 
     private boolean check() {
-        mTitle = mTvTitle.getText().toString().trim();
-        mNotice = mTvNotice.getText().toString().trim();
+        mTitle = mEtTitle.getText().toString().trim();
+        mNotice = mEtNotice.getText().toString().trim();
         mDiamonds = mTvTollStandard.getText().toString().trim();
 
         if (StringUtils.isEmptyString(mTitle)) {
