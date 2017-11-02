@@ -1,7 +1,10 @@
 package com.qcloud.liveshow.netty.handler;
 
 import com.google.gson.JsonElement;
+import com.qcloud.liveshow.beans.NettyAuthBean;
+import com.qcloud.liveshow.model.impl.IMModelImpl;
 import com.qcloud.liveshow.netty.callback.ResponseListener;
+import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.rxutil.RxScheduler;
 import com.qcloud.qclib.rxutil.task.IOTask;
 
@@ -24,6 +27,9 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -109,6 +115,8 @@ public class NettyClient extends ClientImpl {
                 mSocketChannel = (SocketChannel) future.channel();
                 Timber.i("SocketChannel 连接成功");
                 Timber.i("SocketChannel.host = %s, SocketChannel.port = %d", host, port);
+                //连接成功后鉴权
+                authe();
             } else {
                 try {
                     //预防连接数超出系统上线
@@ -127,6 +135,25 @@ public class NettyClient extends ClientImpl {
             //重置,重启
             reconnect();
         }
+    }
+
+    public  void authe(){
+        Observable.timer(1,TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
+            @Override
+            public void accept(@NonNull Long aLong) throws Exception {
+              new IMModelImpl().auth(new DataCallback<NettyAuthBean>() {
+                  @Override
+                  public void onSuccess(NettyAuthBean nettyAuthBean) {
+                        Timber.d("鉴权成功");
+                  }
+
+                  @Override
+                  public void onError(int status, String errMsg) {
+                      Timber.d("鉴权失败:"+errMsg);
+                  }
+              });
+            }
+        });
     }
 
     /**

@@ -29,7 +29,7 @@ public interface IIMModel {
     void sendGroupNotice(DataCallback<NettyNoticeBean> callback);
 
     /**加入群聊*/
-    void joinGroup(String roomNum, String userId, DataCallback<NettyGroupBean> callback);
+    void joinGroup(String roomNum, DataCallback<NettyGroupBean> callback);
 
     /**退出群聊*/
     void outGroup(String roomNum, String userId, DataCallback<NettyNoticeBean> callback);

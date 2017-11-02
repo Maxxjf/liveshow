@@ -9,6 +9,7 @@ import com.qcloud.liveshow.beans.NettyGroupBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveSingleBean;
 import com.qcloud.liveshow.beans.NettyRequestBean;
+import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.liveshow.enums.NettyActionType;
 import com.qcloud.liveshow.model.IIMModel;
 import com.qcloud.liveshow.netty.NettyClientBus;
@@ -119,8 +120,18 @@ public class IMModelImpl implements IIMModel {
      * @time 2017/11/2 10:28
      */
     @Override
-    public void joinGroup(String roomNum, String userId, DataCallback<NettyGroupBean> callback) {
+    public void joinGroup(String roomNum,  DataCallback<NettyGroupBean> callback) {
+        NettyGroupBean bean = new NettyGroupBean();
+        bean.setToken(TokenUtil.getToken());
+        bean.setRoom_number(roomNum);
 
+        NettyRequestBean<NettyGroupBean> requestBean = new NettyRequestBean<>();
+        requestBean.setAction_type(NettyActionType.IN_ROOM.getKey());
+        requestBean.setUuid(DateUtils.getTimeStamp());
+        requestBean.setData(bean);
+
+        Type type = new TypeToken<NettyRequestBean<UserBean>>(){}.getType();
+        NettyClientBus.request(mGson.toJson(requestBean), callback, type);
     }
 
     /**

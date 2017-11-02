@@ -1,6 +1,5 @@
 package com.qcloud.liveshow.ui.home.presenter.impl;
 
-import com.qcloud.liveshow.beans.NettyAuthBean;
 import com.qcloud.liveshow.beans.NettyChatListBean;
 import com.qcloud.liveshow.model.IIMModel;
 import com.qcloud.liveshow.model.impl.IMModelImpl;
@@ -25,29 +24,7 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
         mHelper = new RealmHelper();
     }
 
-    /**
-     * 鉴权
-     *
-     * @time 2017/11/2 11:01
-     */
-    @Override
-    public void auth() {
-        mModel.auth(new DataCallback<NettyAuthBean>() {
-            @Override
-            public void onSuccess(NettyAuthBean nettyAuthBean) {
-                if (mView != null) {
-                    mView.authSuccess("鉴权成功");
-                }
-            }
 
-            @Override
-            public void onError(int status, String errMsg) {
-                if (mView != null) {
-                    mView.loadErr(true, errMsg);
-                }
-            }
-        });
-    }
 
     /**
      * 获取会话列表

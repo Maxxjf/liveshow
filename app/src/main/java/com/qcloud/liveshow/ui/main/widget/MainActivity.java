@@ -16,6 +16,7 @@ import com.qcloud.liveshow.base.BaseApplication;
 import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.enums.StartHomeEnum;
 import com.qcloud.liveshow.enums.StartMainEnum;
+import com.qcloud.liveshow.netty.NettyClientBus;
 import com.qcloud.liveshow.ui.anchor.widget.AnchorActivity;
 import com.qcloud.liveshow.ui.anchor.widget.ApplyAnchorActivity;
 import com.qcloud.liveshow.ui.home.widget.HomeFragment;
@@ -89,6 +90,19 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
                 bindingGeneralizeRelation();
             }
         });
+        connectIM();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        NettyClientBus.Recycle();
+    }
+
+    public void connectIM(){
+        // 初始化Netty
+        NettyClientBus.Initialization(this, "token", AppConstants.NETTY_HOST, AppConstants.NETTY_PORT);
 
     }
 

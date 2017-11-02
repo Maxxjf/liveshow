@@ -59,7 +59,7 @@ public class ResponseHandler<T> implements ResponseListener<JsonElement> {
                 if (mType == null) {
                     mType = new TypeToken<NettyBaseResponse<T>>() {}.getType();
                 }
-
+                    Timber.e(""+jsonStr.toString());
                 NettyBaseResponse<T> data = new Gson().fromJson(jsonStr, mType);
                 return data;
             }
@@ -76,18 +76,19 @@ public class ResponseHandler<T> implements ResponseListener<JsonElement> {
                     public void onNext(@NonNull NettyBaseResponse<T> bean) {
                         Timber.e("onNext");
                         switch (bean.getCode()) {
-                            case 0:
+                            case 0://成功
                                 Timber.e("" + bean);
                                 callback.onSuccess(bean.getData());
                                 break;
-                            case 2:
+                            case 1://失败
+                            case 2://鉴权失败
+                                Timber.e("鉴权失败");
                                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_auth_fail)
                                         .setObj(NettyResponseCode.AUTH_FAIL.getValue()).build());
                                 callback.onError(NettyResponseCode.AUTH_FAIL.getKey(), NettyResponseCode.AUTH_FAIL.getValue());
                                 break;
-                            case 1:
-                            case 3:
-                            case 4:
+                            case 3://数据格式错误
+                            case 4://缺少必要参数
                                 callback.onError(bean.getCode(), NettyResponseCode.valueOf(bean.getCode()).getValue());
                                 break;
                         }
