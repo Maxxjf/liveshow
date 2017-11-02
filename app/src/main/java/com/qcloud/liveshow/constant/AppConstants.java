@@ -15,4 +15,8 @@ public interface AppConstants {
     /**微信appId和appSecret*/
     String WX_APP_ID = "wx8d335bf844b9c273";
     String WX_APP_SECRET = "c23c1d9c477a29088e91ab1c72650be0";
+
+    /**Netty 服务器*/
+    String NETTY_HOST = "10.10.22.123";
+    int NETTY_PORT = 2071;
 }

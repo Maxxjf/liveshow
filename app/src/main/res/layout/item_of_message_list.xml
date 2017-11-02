@@ -36,16 +36,16 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_fans_name"
+                    android:id="@+id/tv_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorTitle"
                     android:textSize="@dimen/micro_text_size"
                     android:textStyle="bold"
-                    android:text="Chopper"/>
+                    tools:text="Chopper"/>
 
                 <ImageView
-                    android:id="@+id/img_fans_sex"
+                    android:id="@+id/img_user_sex"
                     android:layout_width="@dimen/margin_3"
                     android:layout_height="@dimen/margin_3"
                     android:layout_marginLeft="@dimen/layout_margin"
@@ -60,14 +60,13 @@
                 android:layout_marginTop="@dimen/text_padding">
 
                 <TextView
-                    android:id="@+id/tv_message"
+                    android:id="@+id/tv_signature"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/colorText"
                     android:textSize="@dimen/micro_text_size"
-                    android:text="@string/tag_live_show_desc"/>
-
+                    tools:text="@string/tag_live_show_desc"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -80,7 +79,7 @@
             android:layout_marginRight="@dimen/layout_margin"
             android:textColor="@color/colorText"
             android:textSize="@dimen/micro_text_size"
-            android:text="15:43"/>
+            tools:text="15:43"/>
     </RelativeLayout>
 
     <View
