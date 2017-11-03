@@ -9,7 +9,7 @@ import com.qcloud.liveshow.beans.NettyGroupBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveSingleBean;
 import com.qcloud.liveshow.beans.NettyRequestBean;
-import com.qcloud.liveshow.beans.UserBean;
+import com.qcloud.liveshow.beans.NettyRoomNum;
 import com.qcloud.liveshow.enums.NettyActionType;
 import com.qcloud.liveshow.model.IIMModel;
 import com.qcloud.liveshow.netty.NettyClientBus;
@@ -130,7 +130,7 @@ public class IMModelImpl implements IIMModel {
         requestBean.setUuid(DateUtils.getTimeStamp());
         requestBean.setData(bean);
 
-        Type type = new TypeToken<NettyRequestBean<UserBean>>(){}.getType();
+        Type type = new TypeToken<NettyRequestBean<NettyRoomNum>>(){}.getType();
         NettyClientBus.request(mGson.toJson(requestBean), callback, type);
     }
 
