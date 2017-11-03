@@ -6,8 +6,6 @@ package com.qcloud.liveshow.ui.home.presenter;
  * Date: 2017/8/30 11:21.
  */
 public interface IMessageListPresenter {
-    /**鉴权*/
-    void auth();
 
     void getChatList();
 }

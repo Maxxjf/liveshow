@@ -93,6 +93,15 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         mFragmentManager = getSupportFragmentManager();
 
         initViewPager();
+
+       intoRoom();
+    }
+
+    /**
+     * 进入群聊，返回用户列表
+     */
+    private void intoRoom(){
+        mPresenter.joinGroup(""+mCurrBean.getRoomId());
     }
 
     /**

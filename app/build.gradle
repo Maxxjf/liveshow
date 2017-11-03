@@ -83,7 +83,7 @@ dependencies {
     compile 'com.github.lzyzsd:jsbridge:1.0.4'
     // 上拉隐藏底部bar
     compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.2'
-
+    compile 'com.android.support:multidex:1.0.1'
     compile project(':jjdxm-ijkplayer')
     compile rootProject.ext.jjdxm_v7
     // 根据需要支持去拓展，在jjdxm-ijkplayer中默认加入了armv7a的了

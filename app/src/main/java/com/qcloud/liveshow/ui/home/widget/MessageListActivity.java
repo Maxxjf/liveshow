@@ -11,7 +11,6 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.MessageListAdapter;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.beans.NettyMemberBean;
-import com.qcloud.liveshow.netty.NettyClientBus;
 import com.qcloud.liveshow.ui.home.presenter.impl.MessageListPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IMessageListView;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
@@ -20,12 +19,8 @@ import com.qcloud.qclib.pullrefresh.PullRefreshView;
 import com.qcloud.qclib.toast.ToastUtils;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
-import io.reactivex.Observable;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -62,18 +57,6 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
 
     @Override
     protected void initViewAndData() {
-        // 初始化Netty
-        NettyClientBus.Initialization(this, "token", "10.10.100.169", 2071);
-
-        // 测试用，先等5秒，等Netty初始化成功
-        Observable.timer(5, TimeUnit.SECONDS)
-                .subscribe(new Consumer<Long>() {
-                    @Override
-                    public void accept(@NonNull Long aLong) throws Exception {
-                        mPresenter.auth();
-                    }
-                });
-
         initListView();
     }
 
@@ -102,15 +85,9 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
                 FansMessageActivity.openActivity(MessageListActivity.this);
             }
         });
+        mPresenter.getChatList();
     }
 
-    @Override
-    public void authSuccess(String msg) {
-        if (isRunning) {
-            ToastUtils.ToastMessage(this, msg);
-            mPresenter.getChatList();
-        }
-    }
 
     @Override
     public void replaceList(List<NettyMemberBean> beans) {
@@ -135,7 +112,7 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NettyClientBus.Recycle();
+
     }
 
     public static void openActivity(Context context) {

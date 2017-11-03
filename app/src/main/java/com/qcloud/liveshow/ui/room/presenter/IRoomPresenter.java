@@ -8,4 +8,6 @@ import com.qcloud.qclib.base.BtnClickPresenter;
  * Date: 2017/8/22 10:53.
  */
 public interface IRoomPresenter extends BtnClickPresenter {
+
+    void joinGroup(String roomNumber);
 }
