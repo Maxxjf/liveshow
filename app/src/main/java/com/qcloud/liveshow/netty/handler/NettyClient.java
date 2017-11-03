@@ -48,6 +48,9 @@ public class NettyClient extends ClientImpl {
     /**服务器端口*/
     private int port;
 
+    /**
+     * @param isConnect 网络连接状态
+     * */
     @Override
     public void onConnectChange(boolean isConnect) {
         if (!getConnectState() && isConnect) {

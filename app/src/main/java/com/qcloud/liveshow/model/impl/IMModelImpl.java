@@ -77,7 +77,7 @@ public class IMModelImpl implements IIMModel {
      * 发送私聊消息
      *
      * @param userId 接收者用户
-     * @param content 发送消息内容
+     * @param content 发送消息
      * @param callback 返回对方私聊内容
      *
      * @time 2017/11/2 10:25

@@ -63,7 +63,7 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
     @Override
     protected void initViewAndData() {
         // 初始化Netty
-        NettyClientBus.Initialization(this, "token", "10.10.22.123", 2071);
+        NettyClientBus.Initialization(this, "token", "10.10.100.169", 2071);
 
         // 测试用，先等5秒，等Netty初始化成功
         Observable.timer(5, TimeUnit.SECONDS)
