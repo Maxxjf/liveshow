@@ -16,6 +16,12 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
     }
 
 
@@ -54,6 +60,7 @@ android {
     }
 
 
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {
@@ -108,4 +115,5 @@ repositories {
     // ...
     maven { url "https://jitpack.io" }
 
+    google()
 }

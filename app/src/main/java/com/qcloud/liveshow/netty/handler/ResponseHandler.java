@@ -4,8 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.NettyAuthBean;
 import com.qcloud.liveshow.beans.NettyBaseResponse;
-import com.qcloud.liveshow.enums.NettyResponseCode;
+import com.qcloud.liveshow.beans.NettyChatListBean;
 import com.qcloud.liveshow.netty.callback.ResponseListener;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.callback.DataCallback;
@@ -14,13 +15,7 @@ import com.qcloud.qclib.rxbus.BusProvider;
 import java.lang.reflect.Type;
 
 import io.netty.channel.ChannelHandlerContext;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -28,88 +23,76 @@ import timber.log.Timber;
  * Author: Kuzan
  * Date: 2017/11/1 13:42.
  */
-public class ResponseHandler<T> implements ResponseListener<JsonElement> {
-    private static Disposable mDisposable;
-    private DataCallback<T> mCallback;
-    private Type mType;
-
-    public ResponseHandler(DataCallback<T> callback, Type type) {
-        this.mCallback = callback;
-        this.mType = type;
-    }
+public class ResponseHandler implements ResponseListener {
 
     @Override
     public boolean channelRead(ChannelHandlerContext ctx, JsonElement msgConfig) throws Exception {
         Timber.i("Read Message: " + msgConfig);
         if (msgConfig != null && msgConfig.isJsonObject()) {
-            dispose(msgConfig, mCallback);
+            dispose(msgConfig);
             return true;
         }
         return false;
     }
 
     /**
-     * 数据处理
+     * 数据处理，初步解析
      * */
-    private <T> void dispose(@NonNull JsonElement jsonStr, @NonNull final DataCallback<T> callback) {
-
-        Observable.just(jsonStr).map(new Function<JsonElement, NettyBaseResponse<T>>() {
-            @Override
-            public NettyBaseResponse<T> apply(@NonNull JsonElement jsonStr) throws Exception {
-                if (mType == null) {
-                    mType = new TypeToken<NettyBaseResponse<T>>() {}.getType();
-                }
-                    Timber.e(""+jsonStr.toString());
-                NettyBaseResponse<T> data = new Gson().fromJson(jsonStr, mType);
-                return data;
+    private void dispose(@NonNull JsonElement jsonStr) {
+        Type type = new TypeToken<NettyBaseResponse>(){}.getType();
+        NettyBaseResponse data = new Gson().fromJson(jsonStr, type);
+        if (data != null) {
+            Timber.i("action_type = %d", data.getAction_type());
+            switch (data.getAction_type()) {
+                case 0:
+                    disposeAuth(jsonStr);
+                    break;
+                case 104:
+                    disposeChatList(jsonStr);
+                    break;
             }
-        }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<NettyBaseResponse<T>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        Timber.e("onSubscribe");
-                        mDisposable = d;
-                    }
-
-                    @Override
-                    public void onNext(@NonNull NettyBaseResponse<T> bean) {
-                        Timber.e("onNext");
-                        switch (bean.getCode()) {
-                            case 0://成功
-                                Timber.e("" + bean);
-                                callback.onSuccess(bean.getData());
-                                break;
-                            case 1://失败
-                            case 2://鉴权失败
-                                Timber.e("鉴权失败");
-                                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_auth_fail)
-                                        .setObj(NettyResponseCode.AUTH_FAIL.getValue()).build());
-                                callback.onError(NettyResponseCode.AUTH_FAIL.getKey(), NettyResponseCode.AUTH_FAIL.getValue());
-                                break;
-                            case 3://数据格式错误
-                            case 4://缺少必要参数
-                                callback.onError(bean.getCode(), NettyResponseCode.valueOf(bean.getCode()).getValue());
-                                break;
-                        }
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Timber.e("onError");
-                        callback.onError(1, "数据处理失败");
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Timber.e("onComplete");
-                    }
-                });
+        }
     }
 
-    public static void onDestroy() {
-        if (mDisposable != null && !mDisposable.isDisposed()) {
-            mDisposable.dispose();
-        }
+    /**
+     * 鉴权
+     *
+     * @time 2017/11/4 10:19
+     */
+    private void disposeAuth(JsonElement msgConfig) {
+        Type type = new TypeToken<NettyBaseResponse<NettyAuthBean>>(){}.getType();
+        NettyDispose.dispose(msgConfig, type, new DataCallback<NettyAuthBean>() {
+            @Override
+            public void onSuccess(NettyAuthBean nettyAuthBean) {
+                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_auth_success).build());
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_auth_failure)
+                        .setObj(errMsg).build());
+            }
+        });
+    }
+
+    /**
+     * 处理会话列表
+     * */
+    private void disposeChatList(JsonElement msgConfig) {
+        Type type = new TypeToken<NettyBaseResponse<NettyChatListBean>>(){}.getType();
+        NettyDispose.dispose(msgConfig, type, new DataCallback<NettyChatListBean>() {
+            @Override
+            public void onSuccess(NettyChatListBean bean) {
+                Timber.e(bean+"");
+                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_get_chat_list_success)
+                        .setObj(bean).build());
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_get_chat_list_failure)
+                        .setObj(errMsg).build());
+            }
+        });
     }
 }

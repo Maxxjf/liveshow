@@ -4,16 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.qcloud.liveshow.beans.NettyAuthBean;
 import com.qcloud.liveshow.beans.NettyBaseResponse;
-import com.qcloud.liveshow.beans.NettyChatListBean;
 import com.qcloud.liveshow.beans.NettyGroupBean;
-import com.qcloud.liveshow.beans.NettyNoticeBean;
-import com.qcloud.liveshow.beans.NettyReceiveSingleBean;
 import com.qcloud.liveshow.beans.NettyRequestBean;
-import com.qcloud.liveshow.beans.NettyRoomNum;
 import com.qcloud.liveshow.enums.NettyActionType;
 import com.qcloud.liveshow.model.IIMModel;
 import com.qcloud.liveshow.netty.NettyClientBus;
-import com.qcloud.qclib.callback.DataCallback;
+import com.qcloud.liveshow.netty.callback.ResponseListener;
 import com.qcloud.qclib.utils.DateUtils;
 import com.qcloud.qclib.utils.TokenUtil;
 
@@ -35,12 +31,10 @@ public class IMModelImpl implements IIMModel {
     /**
      * 鉴权
      *
-     * @param callback 返回鉴权信息
-     *
      * @time 2017/11/2 10:24
      */
     @Override
-    public void auth(DataCallback<NettyAuthBean> callback) {
+    public void auth() {
         NettyAuthBean bean = new NettyAuthBean();
         bean.setToken(TokenUtil.getToken());
 
@@ -50,18 +44,18 @@ public class IMModelImpl implements IIMModel {
         requestBean.setData(bean);
 
         Type type = new TypeToken<NettyBaseResponse<NettyAuthBean>>(){}.getType();
-        NettyClientBus.request(mGson.toJson(requestBean), callback, type);
+        NettyClientBus.request(mGson.toJson(requestBean));
     }
 
     /**
      * 获取会话列表
      *
-     * @param callback 返回会话列表
+     * @param listener 返回会话列表
      *
      * @time 2017/11/2 10:25
      */
     @Override
-    public void getChatList(DataCallback<NettyChatListBean> callback) {
+    public void getChatList() {
         NettyAuthBean bean = new NettyAuthBean();
         bean.setToken(TokenUtil.getToken());
 
@@ -70,8 +64,8 @@ public class IMModelImpl implements IIMModel {
         requestBean.setUuid(DateUtils.getTimeStamp());
         requestBean.setData(bean);
 
-        Type type = new TypeToken<NettyBaseResponse<NettyChatListBean>>(){}.getType();
-        NettyClientBus.request(mGson.toJson(requestBean), callback, type);
+        //Type type = new TypeToken<NettyBaseResponse<NettyChatListBean>>(){}.getType();
+        NettyClientBus.request(mGson.toJson(requestBean));
     }
 
     /**
@@ -79,48 +73,43 @@ public class IMModelImpl implements IIMModel {
      *
      * @param userId 接收者用户
      * @param content 发送消息
-     * @param callback 返回对方私聊内容
      *
      * @time 2017/11/2 10:25
      */
     @Override
-    public void sendSingleChat(String userId, String content, DataCallback<NettyReceiveSingleBean> callback) {
+    public void sendSingleChat(String userId, String content) {
 
     }
 
     /**
      * 发送群聊消息
      *
-     * @param callback 返回群聊内容
+     * @param listener 返回群聊内容
      *
      * @time 2017/11/2 10:26
      */
     @Override
-    public void sendGroupChat(DataCallback<NettyGroupBean> callback) {
+    public void sendGroupChat() {
 
     }
 
     /**
      * 发送群聊公告
      *
-     * @param callback 返回群聊公告
-     *
      * @time 2017/11/2 10:27
      */
     @Override
-    public void sendGroupNotice(DataCallback<NettyNoticeBean> callback) {
+    public void sendGroupNotice() {
 
     }
 
     /**
      * 加入群聊
      *
-     * @param callback 返回群聊消息
-     *
      * @time 2017/11/2 10:28
      */
     @Override
-    public void joinGroup(String roomNum,  DataCallback<NettyGroupBean> callback) {
+    public void joinGroup(String roomNum) {
         NettyGroupBean bean = new NettyGroupBean();
         bean.setToken(TokenUtil.getToken());
         bean.setRoom_number(roomNum);
@@ -130,19 +119,17 @@ public class IMModelImpl implements IIMModel {
         requestBean.setUuid(DateUtils.getTimeStamp());
         requestBean.setData(bean);
 
-        Type type = new TypeToken<NettyRequestBean<NettyRoomNum>>(){}.getType();
-        NettyClientBus.request(mGson.toJson(requestBean), callback, type);
+        //Type type = new TypeToken<NettyRequestBean<NettyRoomNum>>(){}.getType();
+        NettyClientBus.request(mGson.toJson(requestBean));
     }
 
     /**
      * 退出群聊
      *
-     * @param callback 退出群聊公告
-     *
      * @time 2017/11/2 10:28
      */
     @Override
-    public void outGroup(String roomNum, String userId, DataCallback<NettyNoticeBean> callback) {
+    public void outGroup(String roomNum, String userId) {
 
     }
 }

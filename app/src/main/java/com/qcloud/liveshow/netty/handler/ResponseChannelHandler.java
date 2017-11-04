@@ -15,14 +15,14 @@ import timber.log.Timber;
  * Date: 2017/11/1 11:48.
  */
 public class ResponseChannelHandler extends ChannelHandlerSuper {
-    private ResponseListener<? super JsonElement> mResponseHandler;
+    private ResponseListener mListener;
 
     protected ResponseChannelHandler() {
-        mResponseHandler = new privateResponseListener();
+        mListener = new privateResponseListener();
     }
 
-    public ResponseChannelHandler addListener(ResponseListener<? super JsonElement> ResponseHandler) {
-        this.mResponseHandler = ResponseHandler;
+    public ResponseChannelHandler addListener(ResponseListener listener) {
+        this.mListener = listener;
         return this;
     }
 
@@ -85,13 +85,12 @@ public class ResponseChannelHandler extends ChannelHandlerSuper {
         isGetPacketFromData=false;
     }
 
-
     protected boolean ObservableNotify(ChannelHandlerContext ctx, JsonElement msg) throws Exception {
         Timber.i("notify msg:" + msg);
-        return mResponseHandler.channelRead(ctx, msg);
+        return mListener.channelRead(ctx, msg);
     }
 
-    private class privateResponseListener implements ResponseListener<JsonElement> {
+    private class privateResponseListener implements ResponseListener {
         @Override
         public boolean channelRead(ChannelHandlerContext ctx, JsonElement msg) throws Exception {
             return false;

@@ -112,7 +112,7 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        mPresenter.onDestory();
     }
 
     public static void openActivity(Context context) {

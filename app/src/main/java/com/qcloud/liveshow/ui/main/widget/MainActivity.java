@@ -97,12 +97,13 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NettyClientBus.Recycle();
+        NettyClientBus.recycle();
     }
+
 
     public void connectIM(){
         // 初始化Netty
-        NettyClientBus.Initialization(this, "token", AppConstants.NETTY_HOST, AppConstants.NETTY_PORT);
+        NettyClientBus.Initialization(this, AppConstants.NETTY_HOST, AppConstants.NETTY_PORT);
 
     }
 

@@ -15,12 +15,14 @@
     <item name="revice_websock" type="id"/>
 
     <!--Netty有关-->
-    <!--成功-->
-    <item name="netty_success" type="id"/>
+    <!--获取会话列表成功-->
+    <item name="netty_get_chat_list_success" type="id"/>
+    <item name="netty_get_chat_list_failure" type="id"/>
     <!--失败-->
     <item name="netty_fail" type="id"/>
     <!--鉴权失败-->
-    <item name="netty_auth_fail" type="id"/>
+    <item name="netty_auth_success" type="id"/>
+    <item name="netty_auth_failure" type="id"/>
     <!--数据格式错误-->
     <item name="netty_data_error" type="id"/>
     <!--缺少必要参数-->

@@ -1,6 +1,5 @@
 package com.qcloud.liveshow.netty.handler;
 
-import com.google.gson.JsonElement;
 import com.qcloud.liveshow.netty.callback.ConnectCallBack;
 import com.qcloud.liveshow.netty.callback.ResponseListener;
 
@@ -50,7 +49,7 @@ public abstract class ClientImpl implements ConnectCallBack {
      * @param response
      * @return ClientImpl
      */
-    public abstract ClientImpl addResponseListener(ResponseListener<? super JsonElement> response);
+    public abstract ClientImpl addResponseListener(ResponseListener response);
 
     /**
      * 添加响应事件监听，在Initialization前添加

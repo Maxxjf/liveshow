@@ -1,12 +1,5 @@
 package com.qcloud.liveshow.model;
 
-import com.qcloud.liveshow.beans.NettyAuthBean;
-import com.qcloud.liveshow.beans.NettyChatListBean;
-import com.qcloud.liveshow.beans.NettyGroupBean;
-import com.qcloud.liveshow.beans.NettyNoticeBean;
-import com.qcloud.liveshow.beans.NettyReceiveSingleBean;
-import com.qcloud.qclib.callback.DataCallback;
-
 /**
  * 类说明：IM通讯有关
  * Author: Kuzan
@@ -14,25 +7,25 @@ import com.qcloud.qclib.callback.DataCallback;
  */
 public interface IIMModel {
     /**鉴权*/
-    void auth(DataCallback<NettyAuthBean> callback);
+    void auth();
 
     /**获取会话列表*/
-    void getChatList(DataCallback<NettyChatListBean> callback);
+    void getChatList();
 
     /**发送私聊消息*/
-    void sendSingleChat(String userId, String content, DataCallback<NettyReceiveSingleBean> callback);
+    void sendSingleChat(String userId, String content);
 
     /**发送群聊消息*/
-    void sendGroupChat(DataCallback<NettyGroupBean> callback);
+    void sendGroupChat();
 
     /**发送群聊公告*/
-    void sendGroupNotice(DataCallback<NettyNoticeBean> callback);
+    void sendGroupNotice();
 
     /**加入群聊*/
-    void joinGroup(String roomNum, DataCallback<NettyGroupBean> callback);
+    void joinGroup(String roomNum);
 
     /**退出群聊*/
-    void outGroup(String roomNum, String userId, DataCallback<NettyNoticeBean> callback);
+    void outGroup(String roomNum, String userId);
 
     /**拉黑某用户*/
 
