@@ -6,6 +6,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.PopupWindow;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.MyFansAdapter;
@@ -13,12 +15,15 @@ import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.enums.StartFansEnum;
+import com.qcloud.liveshow.ui.home.widget.FansMessageActivity;
 import com.qcloud.liveshow.ui.mine.presenter.impl.MyFansPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IMyFansView;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.customview.NoFollowView;
+import com.qcloud.liveshow.widget.pop.FansInfoPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
+import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
@@ -50,6 +55,12 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
     private int pageNum = 1;
     private MemberBean currBean;
     private int currPosition = -1;
+
+    /**
+     * 粉丝信息弹窗
+     */
+    private FansInfoPop mFansPop;
+
 
     @Override
     protected int initLayout() {
@@ -116,7 +127,19 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
                 mPresenter.submitAttention(type, memberBean.getId(), memberBean.isAttention());
             }
         });
-
+        mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                currBean = mAdapter.getList().get(position);
+                currPosition = position;
+                Timber.d("currBean:"+currBean);
+                if (mFansPop == null) {
+                    initFansPop();
+                }
+                mFansPop.setBean(currBean);
+                mFansPop.showAtLocation(mListMyFans, Gravity.BOTTOM, 0, 0);
+            }
+        });
         mEmptyView = new NoFollowView(this);
         mListMyFans.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
     }
@@ -140,6 +163,35 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
                 showEmptyView();
             }
         }
+    }
+
+    /**
+     * 初始化粉丝信息弹窗
+     */
+    private void initFansPop() {
+        mFansPop = new FansInfoPop(mContext);
+        mFansPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                switch (view.getId()) {
+                    case R.id.btn_letter:
+                        FansMessageActivity.openActivity(mContext);
+                        ToastUtils.ToastMessage(MyFansActivity.this, "发私信");
+                        break;
+                    case R.id.btn_follow:
+                        currBean.refreshAttention();
+                        mPresenter.submitAttention(type, currBean.getId(), currBean.isAttention());
+                        ToastUtils.ToastMessage(MyFansActivity.this, "关注");
+                        break;
+                }
+            }
+        });
+        mFansPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                //SystemBarUtil.hideNavBar(getActivity());
+            }
+        });
     }
 
     @Override

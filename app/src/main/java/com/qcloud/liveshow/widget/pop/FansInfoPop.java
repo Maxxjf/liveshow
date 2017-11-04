@@ -3,12 +3,16 @@ package com.qcloud.liveshow.widget.pop;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.qclib.base.BasePopupWindow;
+import com.qcloud.qclib.image.GlideUtil;
+import com.qcloud.qclib.widget.customview.RatioImageView;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -41,6 +45,14 @@ public class FansInfoPop extends BasePopupWindow {
     TextView mBtnFollow;
     @Bind(R.id.btn_letter)
     TextView mBtnLetter;
+    @Bind(R.id.img_user_head)
+    RatioImageView imgUserHead;
+    @Bind(R.id.img_anchor_level)
+    ImageView imgAnchorLevel;
+    @Bind(R.id.layout_user)
+    FrameLayout layoutUser;
+
+    String isAttention;
 
     public FansInfoPop(Context context) {
         super(context);
@@ -75,11 +87,40 @@ public class FansInfoPop extends BasePopupWindow {
         setPopWindowBg(1.0f);
     }
 
-    @OnClick(R.id.btn_manager)
-    void onManagerClick() {
+    @OnClick({R.id.btn_manager,R.id.btn_letter,R.id.btn_follow})
+    void onManagerClick(View view) {
         if (mViewClick != null) {
-            mViewClick.onViewClick(mBtnManager);
+            switch (view.getId()){
+                case R.id.btn_manager:
+                    mViewClick.onViewClick(mBtnManager);
+                    break;
+                case R.id.btn_letter:
+                    mViewClick.onViewClick(mBtnLetter);
+                    break;
+                case R.id.btn_follow:
+                    mViewClick.onViewClick(mBtnFollow);
+                    break;
+            }
+
         }
         dismiss();
+    }
+
+    public void setBean(MemberBean bean) {
+        if (bean != null) {
+            mTvFansId.setText("" + bean.getIdAccount());
+            GlideUtil.loadCircleImage(mContext, imgUserHead, bean.getHeadImg(),
+                    R.drawable.bitmap_user_head, 0, 0, true, false);
+            mTvFansName.setText(bean.getNickName());
+            mImgFansSex.setImageResource(bean.getSexIcon());
+            GlideUtil.loadCircleImage(mContext, imgAnchorLevel, bean.getIcon(),
+                    R.drawable.icon_anchor_level_1, 0, 0, true, false);
+            mTvFansSignature.setText(bean.getSignature());
+            mTvFans.setText(""+bean.getFansNum());
+            mTvFollow.setText(""+bean.getAttentionNum());
+            mBtnFollow.setText(bean.isAttention()?R.string.tag_un_follow:R.string.tag_follow);
+        } else {
+            throw new NullPointerException("实体类不可为空");
+        }
     }
 }

@@ -35,7 +35,6 @@ import timber.log.Timber;
  * Date: 2017/11/1 11:50.
  */
 public class NettyClient extends ClientImpl {
-
     /**连接Socket*/
     private SocketChannel mSocketChannel;
     /**发送数据线程池*/
@@ -43,7 +42,7 @@ public class NettyClient extends ClientImpl {
     /**响应数据处理*/
     private ResponseChannelHandler mHandler;
     /**添加数据队列*/
-    private BlockingDeque<String> mMessageSupers;
+    private BlockingDeque<String> mMessageSupers ;
     /**是否已清*/
     private boolean isDestroy = false;
     /**服务器ip*/
@@ -51,9 +50,6 @@ public class NettyClient extends ClientImpl {
     /**服务器端口*/
     private int port;
 
-    /**
-     * @param isConnect 网络连接状态
-     * */
     @Override
     public void onConnectChange(boolean isConnect) {
         if (!getConnectState() && isConnect) {
