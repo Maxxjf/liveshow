@@ -60,10 +60,9 @@ public class ResponseChannelHandler extends ChannelHandlerSuper {
             return;
         }
         isGetPacketFromData=true;
-        StringBuilder stringBuilderReader=new StringBuilder(result);//解析的长度
         //用来接收一条完整的json的
-        for (int i=0;i<stringBuilderReader.length();i++){
-            indexString=stringBuilderReader.substring(i,i+1);
+        while (result.length()!=0){
+            indexString=result.substring(0,1);
             result.delete(0,1);
             jsonStr.append(indexString);
             if (indexString.equals("{")){
@@ -82,6 +81,7 @@ public class ResponseChannelHandler extends ChannelHandlerSuper {
         if (jsonStr.length()!=0){
             result.append(jsonStr);
         }
+        result.append(jsonStr);
         isGetPacketFromData=false;
     }
 
