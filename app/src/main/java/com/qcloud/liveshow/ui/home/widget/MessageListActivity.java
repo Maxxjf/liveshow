@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -13,6 +14,9 @@ import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.beans.NettyMemberBean;
 import com.qcloud.liveshow.ui.home.presenter.impl.MessageListPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IMessageListView;
+import com.qcloud.liveshow.utils.NettyUtil;
+import com.qcloud.liveshow.widget.customview.EmptyView;
+import com.qcloud.liveshow.widget.customview.NoDataView;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
@@ -34,6 +38,8 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
     PullRefreshRecyclerView mListMessage;
 
     private MessageListAdapter mAdapter;
+
+    private NoDataView mEmptyView;
 
     @Override
     protected int initLayout() {
@@ -58,22 +64,18 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
     @Override
     protected void initViewAndData() {
         initListView();
+
+        loadData();
     }
 
     private void initListView() {
-        PullRefreshUtil.setRefresh(mListMessage, true, true);
+        PullRefreshUtil.setRefresh(mListMessage, true, false);
 
         mListMessage.setLayoutManager(new LinearLayoutManager(this));
         mListMessage.setOnPullDownRefreshListener(new PullRefreshView.OnPullDownRefreshListener() {
             @Override
             public void onRefresh() {
-                mListMessage.refreshFinish();
-            }
-        });
-        mListMessage.setOnPullUpRefreshListener(new PullRefreshView.OnPullUpRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mListMessage.refreshFinish();
+                loadData();
             }
         });
 
@@ -85,16 +87,53 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
                 FansMessageActivity.openActivity(MessageListActivity.this);
             }
         });
-        mPresenter.getChatList();
+
+        mEmptyView = new NoDataView(this);
+        mListMessage.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
+        mEmptyView.setOnRefreshListener(new EmptyView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+            }
+        });
     }
 
+    private void loadData() {
+        if (NettyUtil.isAuth()) {
+            mPresenter.getChatList();
+        } else {
+            showEmptyView(getResources().getString(R.string.tip_no_data));
+        }
+    }
 
     @Override
     public void replaceList(List<NettyMemberBean> beans) {
         if (isRunning) {
-            if (beans != null && mAdapter != null) {
-                mAdapter.replaceList(beans);
+            if (mListMessage != null) {
+                mListMessage.refreshFinish();
             }
+            if (beans != null && beans.size() > 0) {
+                if (mAdapter != null) {
+                    mAdapter.replaceList(beans);
+                }
+                hideEmptyView();
+            } else {
+                showEmptyView(getResources().getString(R.string.tip_no_data));
+            }
+        }
+    }
+
+    @Override
+    public void showEmptyView(String tip) {
+        if (mListMessage != null) {
+            mListMessage.showEmptyView();
+        }
+    }
+
+    @Override
+    public void hideEmptyView() {
+        if (mListMessage != null) {
+            mListMessage.hideEmptyView();
         }
     }
 
@@ -112,7 +151,7 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.onDestory();
+        mPresenter.onDestroy();
     }
 
     public static void openActivity(Context context) {

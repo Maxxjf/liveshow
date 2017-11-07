@@ -23,6 +23,10 @@ public class RoomBean implements Serializable {
         return roomId;
     }
 
+    public String getRoomIdStr() {
+        return String.valueOf(roomId);
+    }
+
     public void setRoomId(long roomId) {
         this.roomId = roomId;
     }

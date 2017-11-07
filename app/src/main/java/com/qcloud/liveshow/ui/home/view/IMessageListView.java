@@ -14,4 +14,10 @@ public interface IMessageListView extends BaseView {
 
     /**获取会话列表成功*/
     void replaceList(List<NettyMemberBean> beans);
+
+    /**显示空布局*/
+    void showEmptyView(String tip);
+
+    /**隐藏空布局*/
+    void hideEmptyView();
 }

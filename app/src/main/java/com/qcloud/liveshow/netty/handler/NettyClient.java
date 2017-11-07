@@ -98,10 +98,11 @@ public class NettyClient extends ClientImpl {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ch.pipeline().addLast(new IdleStateHandler(60, 60, 90));
                             // 编解码格式
-                            ch.pipeline().addLast("encoder", new StringEncoder(CharsetUtil.UTF_8));
                             ch.pipeline().addLast("decoder", new StringDecoder(CharsetUtil.UTF_8));
-                            // 处理黏包
-                            ch.pipeline().addLast("framer", new DelimiterBasedFrameDecoder(1024*1024,  Delimiters.lineDelimiter()));
+                            ch.pipeline().addLast("encoder", new StringEncoder(CharsetUtil.UTF_8));
+
+                            // 处理粘包
+                            ch.pipeline().addLast("framer", new DelimiterBasedFrameDecoder(1024*10,  Delimiters.lineDelimiter()));
                             ch.pipeline().addLast(new CloseChannelHandler(NettyClient.this));
                             ch.pipeline().addLast(mHandler);
                         }
@@ -133,6 +134,9 @@ public class NettyClient extends ClientImpl {
         }
     }
 
+    /**
+     * 鉴权
+     * */
     public  void auth(){
         Observable.timer(1,TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
             @Override

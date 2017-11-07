@@ -8,6 +8,7 @@ import com.qcloud.liveshow.beans.NettyAuthBean;
 import com.qcloud.liveshow.beans.NettyBaseResponse;
 import com.qcloud.liveshow.beans.NettyChatListBean;
 import com.qcloud.liveshow.netty.callback.ResponseListener;
+import com.qcloud.liveshow.utils.NettyUtil;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.rxbus.BusProvider;
@@ -23,11 +24,14 @@ import timber.log.Timber;
  * Author: Kuzan
  * Date: 2017/11/1 13:42.
  */
-public class ResponseHandler implements ResponseListener {
+public class ResponseHandler implements ResponseListener , IResponseMethod {
 
+    /**
+     * 从服务器返回的消息
+     * */
     @Override
     public boolean channelRead(ChannelHandlerContext ctx, JsonElement msgConfig) throws Exception {
-        Timber.i("Read Message: " + msgConfig);
+        Timber.e("Read Message: " + msgConfig);
         if (msgConfig != null && msgConfig.isJsonObject()) {
             dispose(msgConfig);
             return true;
@@ -41,14 +45,27 @@ public class ResponseHandler implements ResponseListener {
     private void dispose(@NonNull JsonElement jsonStr) {
         Type type = new TypeToken<NettyBaseResponse>(){}.getType();
         NettyBaseResponse data = new Gson().fromJson(jsonStr, type);
+        Timber.e("notify msg = " + data);
         if (data != null) {
             Timber.i("action_type = %d", data.getAction_type());
             switch (data.getAction_type()) {
-                case 0:
+                case 0: // 鉴权
                     disposeAuth(jsonStr);
+                    break;
+                case 1: // 群聊
+
+                    break;
+                case 2: // 私聊
+
+                    break;
+                case 3: // 送礼物
+
                     break;
                 case 104:
                     disposeChatList(jsonStr);
+                    break;
+                case 204:
+
                     break;
             }
         }
@@ -59,25 +76,45 @@ public class ResponseHandler implements ResponseListener {
      *
      * @time 2017/11/4 10:19
      */
-    private void disposeAuth(JsonElement msgConfig) {
+    @Override
+    public void disposeAuth(JsonElement msgConfig) {
         Type type = new TypeToken<NettyBaseResponse<NettyAuthBean>>(){}.getType();
         NettyDispose.dispose(msgConfig, type, new DataCallback<NettyAuthBean>() {
             @Override
             public void onSuccess(NettyAuthBean nettyAuthBean) {
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_auth_success).build());
+                NettyUtil.saveIsAuth(true);
             }
 
             @Override
             public void onError(int status, String errMsg) {
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_auth_failure)
                         .setObj(errMsg).build());
+                NettyUtil.clearIsAuth();
             }
         });
     }
 
     /**
+     * 群聊
+     *
+     * @time 2017/11/6 14:02
+     */
+    @Override
+    public void disposeGroup(JsonElement msgConfig) {
+
+    }
+
+    @Override
+    public void disposePrivate(JsonElement msgConfig) {
+
+    }
+
+    /**
      * 处理会话列表
-     * */
+     *
+     * @time 2017/11/6 13:49
+     */
     private void disposeChatList(JsonElement msgConfig) {
         Type type = new TypeToken<NettyBaseResponse<NettyChatListBean>>(){}.getType();
         NettyDispose.dispose(msgConfig, type, new DataCallback<NettyChatListBean>() {

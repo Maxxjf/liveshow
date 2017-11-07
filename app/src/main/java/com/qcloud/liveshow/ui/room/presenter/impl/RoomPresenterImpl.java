@@ -12,9 +12,10 @@ import com.qcloud.qclib.base.BasePresenter;
  * Date: 2017/8/22 10:54.
  */
 public class RoomPresenterImpl extends BasePresenter<IRoomView> implements IRoomPresenter {
-    IIMModel imModel;
+    private IIMModel mModel;
+
     public RoomPresenterImpl() {
-        imModel=new IMModelImpl();
+        mModel=new IMModelImpl();
     }
 
     @Override
@@ -24,16 +25,6 @@ public class RoomPresenterImpl extends BasePresenter<IRoomView> implements IRoom
 
     @Override
     public void joinGroup(String roomNumber) {
-//        imModel.joinGroup(roomNumber, new DataCallback<NettyGroupBean>() {
-//            @Override
-//            public void onSuccess(NettyGroupBean nettyGroupBean) {
-//
-//            }
-//
-//            @Override
-//            public void onError(int status, String errMsg) {
-//
-//            }
-//        });
+        mModel.joinGroup(roomNumber);
     }
 }

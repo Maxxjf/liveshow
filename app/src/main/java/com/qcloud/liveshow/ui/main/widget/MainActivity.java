@@ -24,6 +24,7 @@ import com.qcloud.liveshow.ui.main.presenter.impl.MainPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.IMainView;
 import com.qcloud.liveshow.ui.mine.widget.MineFragment;
 import com.qcloud.liveshow.utils.BasicsUtil;
+import com.qcloud.liveshow.utils.NettyUtil;
 import com.qcloud.liveshow.widget.pop.BindingGeneralizeRelationPop;
 import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.base.BasePopupWindow;
@@ -91,20 +92,6 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
             }
         });
         connectIM();
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        NettyClientBus.recycle();
-    }
-
-
-    public void connectIM(){
-        // 初始化Netty
-        NettyClientBus.Initialization(this, AppConstants.NETTY_HOST, AppConstants.NETTY_PORT);
-
     }
 
     /**
@@ -127,6 +114,13 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
             }
             mBindingPop.showAtLocation(mBtnLiveShow, Gravity.CENTER, 0, 0);
         }
+    }
+
+    /**
+     * 初始化Netty
+     * */
+    public void connectIM(){
+        NettyClientBus.Initialization(this, AppConstants.NETTY_HOST, AppConstants.NETTY_PORT);
     }
 
     private void initBottomNavBar() {
@@ -337,6 +331,13 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra("START_ENUM", startEnum);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        NettyClientBus.recycle();
+        NettyUtil.clearIsAuth();
     }
 
     @Override

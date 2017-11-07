@@ -118,7 +118,7 @@ public class BaseApplication extends Application {
                 .setOkHttpClient(builder.build())               //建议设置OkHttpClient，不设置会使用默认的
                 .setCacheMode(CacheMode.NO_CACHE)               //全局统一缓存模式，默认不使用缓存，可以不传
                 .setCacheTime(CacheEntity.CACHE_NEVER_EXPIRE)   //全局统一缓存时间，默认永不过期，可以不传
-                .setRetryCount(2);                              //全局统一超时重连次数，不需要可以设置为0
+                .setRetryCount(0);                              //全局统一超时重连次数，不需要可以设置为0
     }
 
     private class SafeHostnameVerifier implements HostnameVerifier {

@@ -16,6 +16,7 @@ import com.qcloud.liveshow.ui.account.widget.LoginActivity;
 import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.liveshow.ui.mine.presenter.impl.SettingPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.ISettingView;
+import com.qcloud.liveshow.utils.NettyUtil;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
@@ -117,6 +118,7 @@ public class SettingActivity extends SwipeBaseActivity<ISettingView, SettingPres
         ToastUtils.ToastMessage(this, R.string.toast_logout_success);
         UserInfoUtil.mUser = null;
         TokenUtil.clearToken();
+        NettyUtil.clearIsAuth();
         BaseApplication.getInstance().getAppManager().killAllActivity();
         LoginActivity.openActivity(this);
     }
