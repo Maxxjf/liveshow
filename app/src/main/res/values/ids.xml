@@ -27,5 +27,7 @@
     <item name="netty_data_error" type="id"/>
     <!--缺少必要参数-->
     <item name="netty_parameter_missing" type="id"/>
+    <!--通知有看直播成员加入-->
+    <item name="netty_room_member_join" type="id"/>
 
 </resources>

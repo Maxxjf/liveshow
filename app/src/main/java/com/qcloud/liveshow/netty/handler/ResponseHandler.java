@@ -7,6 +7,7 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.NettyAuthBean;
 import com.qcloud.liveshow.beans.NettyBaseResponse;
 import com.qcloud.liveshow.beans.NettyChatListBean;
+import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.netty.callback.ResponseListener;
 import com.qcloud.liveshow.utils.NettyUtil;
 import com.qcloud.qclib.beans.RxBusEvent;
@@ -24,7 +25,7 @@ import timber.log.Timber;
  * Author: Kuzan
  * Date: 2017/11/1 13:42.
  */
-public class ResponseHandler implements ResponseListener , IResponseMethod {
+public class ResponseHandler implements ResponseListener, IResponseMethod {
 
     /**
      * 从服务器返回的消息
@@ -45,14 +46,13 @@ public class ResponseHandler implements ResponseListener , IResponseMethod {
     private void dispose(@NonNull JsonElement jsonStr) {
         Type type = new TypeToken<NettyBaseResponse>(){}.getType();
         NettyBaseResponse data = new Gson().fromJson(jsonStr, type);
-        Timber.e("notify msg = " + data);
         if (data != null) {
             Timber.i("action_type = %d", data.getAction_type());
             switch (data.getAction_type()) {
                 case 0: // 鉴权
                     disposeAuth(jsonStr);
                     break;
-                case 1: // 群聊
+                case 12: // 看直播成员
 
                     break;
                 case 2: // 私聊
@@ -61,11 +61,11 @@ public class ResponseHandler implements ResponseListener , IResponseMethod {
                 case 3: // 送礼物
 
                     break;
-                case 104:
+                case 104:   // 获取私聊列表
                     disposeChatList(jsonStr);
                     break;
-                case 204:
-
+                case 204:   // 有用户加入直播室群聊
+                    disposeGroupMember(jsonStr);
                     break;
             }
         }
@@ -91,6 +91,27 @@ public class ResponseHandler implements ResponseListener , IResponseMethod {
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_auth_failure)
                         .setObj(errMsg).build());
                 NettyUtil.clearIsAuth();
+            }
+        });
+    }
+
+    /**
+     * 看直播成员
+     *
+     * @time 2017/11/7 19:53
+     */
+    @Override
+    public void disposeGroupMember(JsonElement msgConfig) {
+        Type type = new TypeToken<NettyBaseResponse<NettyRoomMemberBean>>(){}.getType();
+        NettyDispose.dispose(msgConfig, type, new DataCallback<NettyRoomMemberBean>() {
+            @Override
+            public void onSuccess(NettyRoomMemberBean bean) {
+                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_room_member_join).setObj(bean).build());
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+                Timber.e(errMsg);
             }
         });
     }

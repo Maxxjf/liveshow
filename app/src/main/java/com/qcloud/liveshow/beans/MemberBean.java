@@ -21,30 +21,9 @@ public class MemberBean {
     double memberSum;   // 该会员贡献总收益
     String signature;   // 个性签名
     boolean isAttention = true;// 是否关注 默认为true是黑名单里使用
-    int attentionNum;//关注的人
-    int fansNum;//粉丝数量
-    String idAccount;//id名字
-
-    @Override
-    public String toString() {
-        return "MemberBean{" +
-                "id=" + id +
-                ", nickName='" + nickName + '\'' +
-                ", headImg='" + headImg + '\'' +
-                ", sex=" + sex +
-                ", isAnchor=" + isAnchor +
-                ", anchorGrade='" + anchorGrade + '\'' +
-                ", anchorGradeIcon='" + anchorGradeIcon + '\'' +
-                ", memberGrade='" + memberGrade + '\'' +
-                ", memberGradeIcon='" + memberGradeIcon + '\'' +
-                ", memberSum=" + memberSum +
-                ", signature='" + signature + '\'' +
-                ", isAttention=" + isAttention +
-                ", attentionNum=" + attentionNum +
-                ", fansNum=" + fansNum +
-                ", idAccount='" + idAccount + '\'' +
-                '}';
-    }
+    int attentionNum;   // 关注的人
+    int fansNum;        // 粉丝数量
+    String idAccount;   // 直播id
 
     public String getIdAccount() {
         return idAccount;
@@ -180,6 +159,27 @@ public class MemberBean {
 
     public void refreshAttention() {
         isAttention = !isAttention;
+    }
+
+    @Override
+    public String toString() {
+        return "MemberBean{" +
+                "id=" + id +
+                ", nickName='" + nickName + '\'' +
+                ", headImg='" + headImg + '\'' +
+                ", sex=" + sex +
+                ", isAnchor=" + isAnchor +
+                ", anchorGrade='" + anchorGrade + '\'' +
+                ", anchorGradeIcon='" + anchorGradeIcon + '\'' +
+                ", memberGrade='" + memberGrade + '\'' +
+                ", memberGradeIcon='" + memberGradeIcon + '\'' +
+                ", memberSum=" + memberSum +
+                ", signature='" + signature + '\'' +
+                ", isAttention=" + isAttention +
+                ", attentionNum=" + attentionNum +
+                ", fansNum=" + fansNum +
+                ", idAccount='" + idAccount + '\'' +
+                '}';
     }
 
 }

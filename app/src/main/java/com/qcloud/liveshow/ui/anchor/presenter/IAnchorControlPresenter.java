@@ -16,4 +16,7 @@ public interface IAnchorControlPresenter extends BtnClickPresenter {
 
     /**添加黑名单*/
     void addBlacklist(long id, boolean isBlacklist);
+
+    /**发送群聊消息*/
+    void sendGroupMessage(String roomNum, String content);
 }

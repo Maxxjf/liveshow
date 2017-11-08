@@ -19,6 +19,7 @@ import com.qcloud.liveshow.adapter.RoomFansAdapter;
 import com.qcloud.liveshow.adapter.RoomMessageAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.AnchorControlPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IAnchorControlView;
@@ -310,9 +311,9 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mListFans.setLayoutManager(manager);
         mListFans.setAdapter(mFansAdapter);
-        mFansAdapter.setOnHolderClick(new CommonRecyclerAdapter.ViewHolderClick<String>() {
+        mFansAdapter.setOnHolderClick(new CommonRecyclerAdapter.ViewHolderClick<MemberBean>() {
             @Override
-            public void onViewClick(View view, String s, int position) {
+            public void onViewClick(View view, MemberBean bean, int position) {
                 if (mFansPop == null) {
                     initFansPop();
                 }
@@ -427,6 +428,18 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
             }
             mGuarderPop.replaceList(been);
             mGuarderPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+        }
+    }
+
+    /**
+     * 看直播成员加入
+     * */
+    @Override
+    public void addMember(NettyRoomMemberBean bean) {
+        if (isInFragment) {
+            if (bean != null && bean.getUser() != null && mFansAdapter != null) {
+                mFansAdapter.addListBeanAtEnd(bean.getUser());
+            }
         }
     }
 

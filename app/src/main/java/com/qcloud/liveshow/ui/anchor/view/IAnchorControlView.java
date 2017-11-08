@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.ui.anchor.view;
 
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.qclib.base.BaseView;
 
 import java.util.List;
@@ -34,4 +35,7 @@ public interface IAnchorControlView extends BaseView {
 
     /**刷新守护列表*/
     void replaceGuardList(List<MemberBean> been);
+
+    /**通知成员加入*/
+    void addMember(NettyRoomMemberBean bean);
 }

@@ -10,4 +10,7 @@ import com.qcloud.qclib.base.BtnClickPresenter;
 public interface IRoomControlPresenter extends BtnClickPresenter {
     /**关注该主播员*/
     void submitAttention(long id, boolean isAttention);
+
+    /**发送群聊消息*/
+    void sendGroupMessage(String roomNum, String content);
 }

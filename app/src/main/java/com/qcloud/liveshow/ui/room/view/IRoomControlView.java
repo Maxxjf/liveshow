@@ -1,5 +1,7 @@
 package com.qcloud.liveshow.ui.room.view;
 
+import com.qcloud.liveshow.beans.NettyRoomMemberBean;
+
 /**
  * 类说明：直播间
  * Author: Kuzan
@@ -32,4 +34,7 @@ public interface IRoomControlView {
 
     /**关注返回*/
     void onFollowRes(boolean isSuccess);
+
+    /**通知成员加入*/
+    void addMember(NettyRoomMemberBean bean);
 }

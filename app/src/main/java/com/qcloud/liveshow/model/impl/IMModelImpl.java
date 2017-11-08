@@ -2,6 +2,7 @@ package com.qcloud.liveshow.model.impl;
 
 import com.google.gson.Gson;
 import com.qcloud.liveshow.beans.NettyAuthBean;
+import com.qcloud.liveshow.beans.NettyContentBean;
 import com.qcloud.liveshow.beans.NettyGroupBean;
 import com.qcloud.liveshow.beans.NettyRequestBean;
 import com.qcloud.liveshow.beans.NettySendSingleBean;
@@ -86,8 +87,17 @@ public class IMModelImpl implements IIMModel {
      * @time 2017/11/2 10:26
      */
     @Override
-    public void sendGroupChat() {
+    public void sendGroupChat(String roomNum, String content) {
+        NettyContentBean contentBean = new NettyContentBean(content);
+        NettyGroupBean bean = new NettyGroupBean();
+        bean.setRoom_number(roomNum);
+        bean.setToken(TokenUtil.getToken());
+        bean.setContent(contentBean);
 
+        NettyRequestBean<NettyGroupBean> requestBean = new NettyRequestBean<>();
+        requestBean.setAction_type(NettyActionType.GROUP_CHAT.getKey());
+        requestBean.setUuid(DateUtils.getTimeStamp());
+        NettyClientBus.request(mGson.toJson(requestBean));
     }
 
     /**

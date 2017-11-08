@@ -10,6 +10,14 @@ import com.qcloud.qclib.utils.StringUtils;
 public class NettyContentBean {
     String text;
 
+    public NettyContentBean() {
+
+    }
+
+    public NettyContentBean(String text) {
+        this.text = text;
+    }
+
     public String getText() {
         return StringUtils.isEmptyString(text)?"":text;
     }

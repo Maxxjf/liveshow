@@ -16,7 +16,7 @@ public interface IIMModel {
     void sendSingleChat(String userId, String content);
 
     /**发送群聊消息*/
-    void sendGroupChat();
+    void sendGroupChat(String roomNum, String content);
 
     /**发送群聊公告*/
     void sendGroupNotice();

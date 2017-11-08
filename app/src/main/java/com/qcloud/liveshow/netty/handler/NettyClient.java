@@ -6,9 +6,7 @@ import com.qcloud.qclib.rxutil.RxScheduler;
 import com.qcloud.qclib.rxutil.task.IOTask;
 
 import java.util.concurrent.BlockingDeque;
-import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import io.netty.bootstrap.Bootstrap;
@@ -25,7 +23,7 @@ import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
 import io.reactivex.Observable;
-import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
@@ -37,12 +35,14 @@ import timber.log.Timber;
 public class NettyClient extends ClientImpl {
     /**连接Socket*/
     private SocketChannel mSocketChannel;
-    /**发送数据线程池*/
-    private ScheduledExecutorService mService;
+    /**重连Timber*/
+    private Disposable mDisposable;
+    /**线程池*/
+    private NioEventLoopGroup mEventLoopGroup;
     /**响应数据处理*/
     private ResponseChannelHandler mHandler;
     /**添加数据队列*/
-    private BlockingDeque<String> mMessageSupers ;
+    private BlockingDeque<String> mMessageSupers = new LinkedBlockingDeque<>();
     /**是否已清*/
     private boolean isDestroy = false;
     /**服务器ip*/
@@ -62,9 +62,8 @@ public class NettyClient extends ClientImpl {
     }
 
     private NettyClient() {
-        mService = Executors.newSingleThreadScheduledExecutor();
+        mEventLoopGroup = new NioEventLoopGroup();
         mHandler = new ResponseChannelHandler();
-        mMessageSupers = new LinkedBlockingDeque<>();
         request();
     }
 
@@ -86,11 +85,13 @@ public class NettyClient extends ClientImpl {
         }
 
         Bootstrap bootstrap = new Bootstrap();
-        NioEventLoopGroup eventLoopGroup = new NioEventLoopGroup();
+        if (mEventLoopGroup == null) {
+            mEventLoopGroup = new NioEventLoopGroup();
+        }
         try {
             bootstrap
                     .channel(NioSocketChannel.class)
-                    .group(eventLoopGroup)
+                    .group(mEventLoopGroup)
                     .option(ChannelOption.SO_KEEPALIVE, true)
                     .remoteAddress(host, port)
                     .handler(new ChannelInitializer<SocketChannel>() {
@@ -114,12 +115,16 @@ public class NettyClient extends ClientImpl {
                 Timber.i("SocketChannel.host = %s, SocketChannel.port = %d", host, port);
                 //连接成功后鉴权
                 auth();
+
+                if (mDisposable != null && !mDisposable.isDisposed()) {
+                    mDisposable.dispose();
+                }
             } else {
                 try {
                     //预防连接数超出系统上线
                     future.channel().disconnect();
                     future.channel().close();
-                    eventLoopGroup.rebuildSelectors();
+                    mEventLoopGroup.rebuildSelectors();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -137,11 +142,11 @@ public class NettyClient extends ClientImpl {
     /**
      * 鉴权
      * */
-    public  void auth(){
-        Observable.timer(1,TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
+    public  void auth() {
+        RxScheduler.doOnIOThread(new IOTask<Void>() {
             @Override
-            public void accept(@NonNull Long aLong) throws Exception {
-              new IMModelImpl().auth();
+            public void doOnIOThread() {
+                new IMModelImpl().auth();
             }
         });
     }
@@ -202,6 +207,12 @@ public class NettyClient extends ClientImpl {
     public void onDestroy() {
         isDestroy = true;
         mMessageSupers.clear();
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
+        }
+        if (mEventLoopGroup != null) {
+            mEventLoopGroup.rebuildSelectors();
+        }
         reset();
     }
 
@@ -234,13 +245,16 @@ public class NettyClient extends ClientImpl {
      * 重连
      * */
     private void reconnect() {
-        Timber.i("socket 连接2s后建立");
-        mService.schedule(new Runnable() {
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            return;
+        }
+        mDisposable = Observable.interval(2, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
             @Override
-            public void run() {
+            public void accept(Long aLong) throws Exception {
+                Timber.i("socket 连接2s后建立");
                 InitializationWithWorkThread();
             }
-        }, 2, TimeUnit.SECONDS);
+        });
     }
 
     public static ClientImpl newInstances() {

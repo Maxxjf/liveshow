@@ -18,6 +18,8 @@ import com.qcloud.liveshow.adapter.RoomFansAdapter;
 import com.qcloud.liveshow.adapter.RoomMessageAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.AnchorBean;
+import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.ui.room.presenter.impl.RoomControlPresenterImpl;
 import com.qcloud.liveshow.ui.room.view.IRoomControlView;
@@ -394,9 +396,9 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mListFans.setLayoutManager(manager);
         mListFans.setAdapter(mFansAdapter);
-        mFansAdapter.setOnHolderClick(new CommonRecyclerAdapter.ViewHolderClick<String>() {
+        mFansAdapter.setOnHolderClick(new CommonRecyclerAdapter.ViewHolderClick<MemberBean>() {
             @Override
-            public void onViewClick(View view, String s, int position) {
+            public void onViewClick(View view, MemberBean bean, int position) {
                 if (mFansPop == null) {
                     initFansPop();
                 }
@@ -501,6 +503,18 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         }
     }
 
+    /**
+     * 添加看直播成员
+     * */
+    @Override
+    public void addMember(NettyRoomMemberBean bean) {
+        if (isInFragment) {
+            if (bean != null && bean.getUser() != null && mFansAdapter != null) {
+                mFansAdapter.addListBeanAtEnd(bean.getUser());
+            }
+        }
+    }
+
     public static RoomFragment newInstance() {
         Bundle args = new Bundle();
         RoomFragment fragment = new RoomFragment();
@@ -529,5 +543,11 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         if (mSharePop != null && mSharePop.isShowing()) {
             mSharePop.dismiss();
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mPresenter.onDestroy();
     }
 }
