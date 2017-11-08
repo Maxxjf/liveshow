@@ -125,6 +125,7 @@
     <string name="btn_edit_info">编辑资料</string>
     <string name="btn_check_detail">查看明细</string>
     <string name="btn_confirm_cash">确认提现</string>
+    <string name="btn_send_message">发送消息</string>
     <string name="btn_buy_diamonds">买钻石币</string>
     <string name="btn_logout">退出登录</string>
     <string name="btn_send">发送</string>

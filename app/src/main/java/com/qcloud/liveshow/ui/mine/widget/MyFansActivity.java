@@ -21,6 +21,7 @@ import com.qcloud.liveshow.ui.mine.view.IMyFansView;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.customview.NoFollowView;
 import com.qcloud.liveshow.widget.pop.FansInfoPop;
+import com.qcloud.liveshow.widget.pop.FansManagerPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
 import com.qcloud.qclib.base.BasePopupWindow;
@@ -60,7 +61,8 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
      * 粉丝信息弹窗
      */
     private FansInfoPop mFansPop;
-
+    /**粉丝管理弹窗*/
+    private FansManagerPop mManagerPop;
 
     @Override
     protected int initLayout() {
@@ -133,11 +135,12 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
                 currBean = mAdapter.getList().get(position);
                 currPosition = position;
                 Timber.d("currBean:"+currBean);
-                if (mFansPop == null) {
-                    initFansPop();
-                }
-                mFansPop.refreshData(currBean);
-                mFansPop.showAtLocation(mListMyFans, Gravity.BOTTOM, 0, 0);
+                FansInfoActivity.openActivity(mContext,currBean);
+//                if (mFansPop == null) {
+//                    initFansPop();
+//                }
+//                mFansPop.setBean(currBean);
+//                mFansPop.showAtLocation(mListMyFans, Gravity.BOTTOM, 0, 0);
             }
         });
         mEmptyView = new NoFollowView(this);
@@ -174,14 +177,18 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
             @Override
             public void onViewClick(View view) {
                 switch (view.getId()) {
+                    case R.id.btn_manager:
+                        if (mManagerPop == null) {
+                            initFansManagerPop();
+                        }
+                        mManagerPop.showAtLocation(mListMyFans, Gravity.BOTTOM, 0, 0);
+                        break;
                     case R.id.btn_letter:
                         FansMessageActivity.openActivity(mContext);
-                        ToastUtils.ToastMessage(MyFansActivity.this, "发私信");
                         break;
                     case R.id.btn_follow:
                         currBean.refreshAttention();
                         mPresenter.submitAttention(type, currBean.getId(), currBean.isAttention());
-                        ToastUtils.ToastMessage(MyFansActivity.this, "关注");
                         break;
                 }
             }
@@ -193,7 +200,37 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
             }
         });
     }
+    /**
+     * 初始化消息列表弹窗
+     * */
+    private void initFansManagerPop() {
+        mManagerPop = new FansManagerPop(mContext);
+        mManagerPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                switch (view.getId()) {
+                    case R.id.btn_set_guarder:
 
+                        break;
+                    case R.id.btn_my_guarder_list:
+
+                        break;
+                    case R.id.btn_gag:
+
+                        break;
+                    case R.id.btn_add_blacklist:
+                        mPresenter.submitAttention(StartFansEnum.Blacklist.getKey(),currBean.getId(),true);
+                        break;
+                }
+            }
+        });
+        mManagerPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                //SystemBarUtil.hideNavBar(getActivity());
+            }
+        });
+    }
     @Override
     public void addListAtEnd(List<MemberBean> beans, boolean isNext) {
         if (isRunning) {

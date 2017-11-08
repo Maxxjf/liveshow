@@ -69,6 +69,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".TestActivity">
+
+        </activity>
         <activity
             android:name=".ui.main.widget.MainActivity"
             android:label="@string/title_main"
@@ -145,6 +149,11 @@
             android:launchMode="singleTask"
             android:theme="@style/AppSwipeBackTheme" />
         <activity
+            android:name=".ui.mine.widget.FansInfoActivity"
+            android:label="@string/title_user_info"
+            android:launchMode="singleTask"
+            android:theme="@style/AppSwipeBackTheme" />
+        <activity
             android:name=".ui.mine.widget.EditUserActivity"
             android:label="@string/title_edit_user"
             android:launchMode="singleTask"
@@ -211,9 +220,10 @@
             android:label="@string/title_my_diamonds"
             android:launchMode="singleTask"
             android:theme="@style/AppSwipeBackTheme" />
-        <activity android:name=".ui.mine.widget.PrombleDetailActivity"
+        <activity
+            android:name=".ui.mine.widget.PrombleDetailActivity"
             android:launchMode="singleTask"
-            android:theme="@style/AppSwipeBackTheme"></activity>
+            android:theme="@style/AppSwipeBackTheme" />
         <activity
             android:name=".ui.profit.widget.DiamondsRecordActivity"
             android:label="@string/title_diamonds_record"
