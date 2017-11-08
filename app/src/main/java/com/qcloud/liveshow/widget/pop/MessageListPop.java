@@ -9,9 +9,12 @@ import android.widget.AdapterView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.PopMessageAdapter;
+import com.qcloud.liveshow.beans.NettyMemberBean;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -86,6 +89,12 @@ public class MessageListPop extends BasePopupWindow {
     public void showAtLocation(View parent, int gravity, int x, int y) {
         super.showAtLocation(parent, gravity, x, y);
         setPopWindowBg(1.0f);
+    }
+
+    public void replaceList(List<NettyMemberBean> beans) {
+        if (beans != null && mAdapter != null) {
+            mAdapter.replaceList(beans);
+        }
     }
 
     @OnClick(R.id.btn_ignore_message)

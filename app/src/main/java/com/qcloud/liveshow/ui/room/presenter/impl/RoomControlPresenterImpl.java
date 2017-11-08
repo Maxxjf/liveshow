@@ -1,7 +1,10 @@
 package com.qcloud.liveshow.ui.room.presenter.impl;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.NettyChatListBean;
+import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
+import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.enums.StartFansEnum;
@@ -45,6 +48,10 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
             public void accept(@NonNull RxBusEvent rxBusEvent) throws Exception {
                 if (mView != null) {
                     switch (rxBusEvent.getType()) {
+                        case R.id.netty_get_chat_list_success:
+                            NettyChatListBean bean = (NettyChatListBean) rxBusEvent.getObj();
+                            mView.replaceChatList(bean.getList());
+                            break;
                         case R.id.netty_room_member_join:
                             // 成员加入
                             mView.addMember((NettyRoomMemberBean) rxBusEvent.getObj());
@@ -55,6 +62,11 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                             break;
                         case R.id.netty_private_chat:
                             // 私聊消息
+                            mView.addPrivateChat((NettyReceivePrivateBean) rxBusEvent.getObj());
+                            break;
+                        case R.id.netty_notice_out_group:
+                            // 通知
+                            mView.userOutGroup((NettyNoticeBean) rxBusEvent.getObj());
                             break;
                     }
                 }
@@ -110,6 +122,24 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                 }
             }
         });
+    }
+
+    /**
+     * 获取会话列表
+     *
+     * @time 2017/11/8 16:15
+     */
+    @Override
+    public void getChatList() {
+        mIMModel.getChatList();
+    }
+
+    /**
+     * 加入群聊
+     * */
+    @Override
+    public void joinGroup(String roomNumber) {
+        mIMModel.joinGroup(roomNumber);
     }
 
     /**

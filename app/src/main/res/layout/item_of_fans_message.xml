@@ -14,7 +14,8 @@
         android:gravity="center"
         android:textColor="@color/colorLightGray"
         android:textSize="@dimen/micro_text_size"
-        android:text="2017-09-11 10:15"/>
+        android:text="2017-09-11 10:15"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/layout_receive"
@@ -24,7 +25,8 @@
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/layout_margin"
         android:paddingRight="@dimen/layout_margin"
-        android:layout_marginBottom="@dimen/layout_margin">
+        android:layout_marginBottom="@dimen/margin_1"
+        android:layout_marginTop="@dimen/margin_1">
 
         <com.qcloud.qclib.widget.customview.RatioImageView
             android:id="@+id/img_fans_header"
@@ -62,7 +64,8 @@
         android:paddingLeft="@dimen/layout_margin"
         android:paddingRight="@dimen/layout_margin"
         android:visibility="visible"
-        android:layout_marginBottom="@dimen/layout_margin">
+        android:layout_marginBottom="@dimen/margin_1"
+        android:layout_marginTop="@dimen/margin_1">
 
         <View
             android:layout_width="0dp"

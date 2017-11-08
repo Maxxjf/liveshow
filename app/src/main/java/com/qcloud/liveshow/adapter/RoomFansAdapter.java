@@ -9,6 +9,7 @@ import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.qclib.adapter.recyclerview.BaseViewHolder;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
 import com.qcloud.qclib.base.BaseLinearLayout;
+import com.qcloud.qclib.utils.StringUtils;
 
 /**
  * 类说明：直播房间的粉丝
@@ -39,5 +40,19 @@ public class RoomFansAdapter extends CommonRecyclerAdapter<MemberBean> {
                 }
             }
         });
+    }
+
+    /**
+     * 删除用户
+     * */
+    public void removeBeanByUserId(String userId) {
+        if (mList != null) {
+            for (MemberBean bean : mList) {
+                if (StringUtils.isEquals(userId, bean.getIdStr())) {
+                    remove(bean);
+                    break;
+                }
+            }
+        }
     }
 }

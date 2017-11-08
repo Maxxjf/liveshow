@@ -93,17 +93,6 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         mFragmentManager = getSupportFragmentManager();
 
         initViewPager();
-
-        intoRoom();
-    }
-
-    /**
-     * 进入群聊，返回用户列表
-     */
-    private void intoRoom() {
-        if (mCurrBean != null) {
-            mPresenter.joinGroup( mCurrBean.getRoomIdStr());
-        }
     }
 
     /**
@@ -238,6 +227,9 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
 
     @Override
     protected void onDestroy() {
+        if (mCurrBean != null) {
+            mPresenter.outGroup(mCurrBean.getRoomIdStr());
+        }
         super.onDestroy();
         if (mPlayer != null) {
             mPlayer.onDestroy();

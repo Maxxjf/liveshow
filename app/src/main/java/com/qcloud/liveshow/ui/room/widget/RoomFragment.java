@@ -17,6 +17,8 @@ import com.qcloud.liveshow.adapter.RoomMessageAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.AnchorBean;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyMemberBean;
+import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
@@ -41,6 +43,8 @@ import com.qcloud.qclib.widget.customview.clearscreen.ClearScreenHelper;
 import com.qcloud.qclib.widget.customview.clearscreen.IClearEvent;
 import com.qcloud.qclib.widget.customview.clearscreen.IClearRootView;
 import com.qcloud.qclib.widget.customview.clearscreen.view.RelativeClearLayout;
+
+import java.util.List;
 
 import butterknife.OnClick;
 import timber.log.Timber;
@@ -124,6 +128,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
         initFansLayout();
         initMessageLayout();
+        initMessagePop();
     }
 
     @Override
@@ -142,6 +147,15 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     public void refreshRoom(RoomBean bean) {
         Timber.e("refreshRoom()");
         mCurrBean = bean;
+    }
+
+    /**
+     * 进入群聊，返回用户列表
+     */
+    private void intoRoom() {
+        if (mCurrBean != null) {
+            mPresenter.joinGroup( mCurrBean.getRoomIdStr());
+        }
     }
 
     /**
@@ -168,6 +182,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         } else {
             mBtnFollow.setVisibility(View.VISIBLE);
         }
+
+        intoRoom();
     }
 
     /**
@@ -480,6 +496,18 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     }
 
     /**
+     * 会话列表
+     * */
+    @Override
+    public void replaceChatList(List<NettyMemberBean> beans) {
+        if (isInFragment) {
+            if (beans != null && mMessagePop != null) {
+                mMessagePop.replaceList(beans);
+            }
+        }
+    }
+
+    /**
      * 添加看直播成员
      * */
     @Override
@@ -511,6 +539,18 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         if (isInFragment) {
             if (bean != null && mFansMessagePop != null) {
                 mFansMessagePop.addMessage(bean);
+            }
+        }
+    }
+
+    /**
+     * 用户退出群聊
+     * */
+    @Override
+    public void userOutGroup(NettyNoticeBean bean) {
+        if (isInFragment) {
+            if (bean != null && mFansAdapter != null) {
+                mFansAdapter.removeBeanByUserId(bean.getUser_id());
             }
         }
     }

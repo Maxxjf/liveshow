@@ -8,8 +8,15 @@ import com.qcloud.qclib.base.BtnClickPresenter;
  * Date: 2017/8/23 11:43.
  */
 public interface IRoomControlPresenter extends BtnClickPresenter {
+
     /**关注该主播员*/
     void submitAttention(long id, boolean isAttention);
+
+    /**获取会话列表*/
+    void getChatList();
+
+    /**加入群聊*/
+    void joinGroup(String roomNumber);
 
     /**发送群聊消息*/
     void sendGroupMessage(String roomNum, String content);

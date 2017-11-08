@@ -33,5 +33,7 @@
     <item name="netty_group_chat" type="id"/>
     <!--私聊消息-->
     <item name="netty_private_chat" type="id"/>
+    <!--通知-->
+    <item name="netty_notice_out_group" type="id"/>
 
 </resources>

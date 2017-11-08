@@ -5,14 +5,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.FansMessageAdapter;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyContentBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.model.impl.IMModelImpl;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
@@ -23,6 +26,7 @@ import com.qcloud.qclib.widget.customview.ClearEditText;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * 类说明：粉丝消息弹窗
@@ -116,6 +120,15 @@ public class FansMessagePop extends BasePopupWindow {
      * */
     public void addMessage(NettyReceivePrivateBean bean) {
         if (mAdapter != null && bean != null) {
+            if (bean.getContent() != null) {
+                // 接收消息
+                Timber.e(bean.toString());
+            } else {
+                // 发送消息
+                NettyContentBean contentBean = new NettyContentBean(mMessage);
+                bean.setFrom_user_id(UserInfoUtil.mUser.getIdStr());
+                bean.setContent(contentBean);
+            }
             mAdapter.addListBeanAtStart(bean);
         }
     }
@@ -138,6 +151,8 @@ public class FansMessagePop extends BasePopupWindow {
         if (currMember != null) {
             if (check()) {
                 new IMModelImpl().sendPrivateChat(currMember.getIdStr(), mMessage);
+                mEtMessage.setText("");
+                hideInput();
             }
         }
     }
@@ -149,5 +164,10 @@ public class FansMessagePop extends BasePopupWindow {
             return false;
         }
         return true;
+    }
+
+    public void hideInput() {
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mEtMessage.getWindowToken(), 0);
     }
 }

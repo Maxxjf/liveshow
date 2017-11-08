@@ -38,22 +38,21 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
         mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, new Consumer<RxBusEvent>() {
             @Override
             public void accept(@NonNull RxBusEvent rxBusEvent) throws Exception {
-                switch (rxBusEvent.getType()) {
-                    case R.id.netty_get_chat_list_success:
-                        if (mView == null) {
-                            return;
-                        }
-                        NettyChatListBean bean = (NettyChatListBean) rxBusEvent.getObj();
-                        Timber.e(bean.toString());
-                        if (bean != null && bean.getList() != null) {
-                            mView.replaceList(bean.getList());
-                        } else {
-                            mView.showEmptyView("暂无数据");
-                        }
-                        break;
-                    case R.id.netty_get_chat_list_failure:
-                        mView.showEmptyView((String) rxBusEvent.getObj());
-                        break;
+                if (mView != null) {
+                    switch (rxBusEvent.getType()) {
+                        case R.id.netty_get_chat_list_success:
+                            NettyChatListBean bean = (NettyChatListBean) rxBusEvent.getObj();
+                            Timber.e(bean.toString());
+                            if (bean != null && bean.getList() != null) {
+                                mView.replaceList(bean.getList());
+                            } else {
+                                mView.showEmptyView("暂无数据");
+                            }
+                            break;
+                        case R.id.netty_get_chat_list_failure:
+                            mView.showEmptyView((String) rxBusEvent.getObj());
+                            break;
+                    }
                 }
             }
         }));

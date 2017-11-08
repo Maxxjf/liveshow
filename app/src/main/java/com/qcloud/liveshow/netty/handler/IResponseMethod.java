@@ -16,9 +16,15 @@ public interface IResponseMethod {
     /**群聊*/
     void disposeGroup(@NonNull JsonElement msgConfig);
 
-    /**看直播成员*/
-    void disposeGroupMember(@NonNull JsonElement msgConfig);
-
     /**私聊*/
     void disposePrivate(@NonNull JsonElement msgConfig);
+
+    /**私聊会话列表*/
+    void disposeChatList(@NonNull JsonElement msgConfig);
+
+    /**通知*/
+    void disposeNotice(@NonNull JsonElement msgConfig, int actionType);
+
+    /**看直播成员*/
+    void disposeGroupMember(@NonNull JsonElement msgConfig);
 }

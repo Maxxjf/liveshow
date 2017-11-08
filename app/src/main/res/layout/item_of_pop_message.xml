@@ -35,16 +35,16 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_fans_name"
+                    android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:textSize="@dimen/micro_text_size"
                     android:textStyle="bold"
-                    android:text="Chopper"/>
+                    tools:text="Chopper"/>
 
                 <ImageView
-                    android:id="@+id/img_fans_sex"
+                    android:id="@+id/img_sex"
                     android:layout_width="@dimen/margin_3"
                     android:layout_height="@dimen/margin_3"
                     android:layout_marginLeft="@dimen/layout_margin"
@@ -65,7 +65,7 @@
                     android:layout_weight="1"
                     android:textColor="@color/colorLightGray"
                     android:textSize="@dimen/micro_text_size"
-                    android:text="半夜不睡觉，起来嗨"/>
+                    tools:text="半夜不睡觉，起来嗨"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -79,7 +79,7 @@
             android:layout_marginRight="@dimen/layout_margin"
             android:textColor="@color/white"
             android:textSize="@dimen/micro_text_size"
-            android:text="15:43"/>
+            tools:text="15:43"/>
     </RelativeLayout>
 
     <View

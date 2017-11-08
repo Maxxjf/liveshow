@@ -25,7 +25,7 @@ public interface IIMModel {
     void joinGroup(String roomNum);
 
     /**退出群聊*/
-    void outGroup(String roomNum, String userId);
+    void outGroup(String roomNum);
 
     /**拉黑某用户*/
 

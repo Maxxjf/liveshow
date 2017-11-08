@@ -140,7 +140,16 @@ public class IMModelImpl implements IIMModel {
      * @time 2017/11/2 10:28
      */
     @Override
-    public void outGroup(String roomNum, String userId) {
+    public void outGroup(String roomNum) {
+        NettyGroupBean bean = new NettyGroupBean();
+        bean.setToken(TokenUtil.getToken());
+        bean.setRoom_number(roomNum);
 
+        NettyRequestBean<NettyGroupBean> requestBean = new NettyRequestBean<>();
+        requestBean.setAction_type(NettyActionType.OUT_ROOM.getKey());
+        requestBean.setUuid(DateUtils.getTimeStamp());
+        requestBean.setData(bean);
+
+        NettyClientBus.request(mGson.toJson(requestBean));
     }
 }

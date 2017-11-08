@@ -62,6 +62,8 @@ public class FansMessageAdapter extends CommonRecyclerAdapter<NettyReceivePrivat
 
             if (contentBean != null) {
                 mTvSendMessage.setText(contentBean.getText());
+            } else {
+                mLayoutSend.setVisibility(View.GONE);
             }
         } else {
             // 接收消息
@@ -70,6 +72,8 @@ public class FansMessageAdapter extends CommonRecyclerAdapter<NettyReceivePrivat
             GlideUtil.loadCircleImage(mContext, mImgFansHead, mMemberBean.getHeadImg(), R.drawable.bitmap_user_head, 0, 0, true, false);
             if (contentBean != null) {
                 mTvReceiveMessage.setText(contentBean.getText());
+            } else {
+                mLayoutReceive.setVisibility(View.GONE);
             }
         }
     }

@@ -12,10 +12,10 @@ import com.qcloud.qclib.base.BasePresenter;
  * Date: 2017/8/22 10:54.
  */
 public class RoomPresenterImpl extends BasePresenter<IRoomView> implements IRoomPresenter {
-    private IIMModel mModel;
+    private IIMModel mIModel;
 
     public RoomPresenterImpl() {
-        mModel=new IMModelImpl();
+        mIModel=new IMModelImpl();
     }
 
     @Override
@@ -23,8 +23,13 @@ public class RoomPresenterImpl extends BasePresenter<IRoomView> implements IRoom
 
     }
 
+    /**
+     * 退出群聊
+     *
+     * @time 2017/11/8 16:23
+     */
     @Override
-    public void joinGroup(String roomNumber) {
-        mModel.joinGroup(roomNumber);
+    public void outGroup(String roomNum) {
+        mIModel.outGroup(roomNum);
     }
 }

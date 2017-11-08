@@ -60,6 +60,8 @@
             android:layout_weight="1"
             android:background="@drawable/frame_gray_radius"
             android:inputType="text"
+            android:paddingLeft="@dimen/layout_margin"
+            android:paddingRight="@dimen/layout_margin"
             android:imeOptions="actionUnspecified"
             android:textColor="@color/colorText"
             android:textSize="@dimen/micro_text_size"
