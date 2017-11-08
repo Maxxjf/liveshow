@@ -7,6 +7,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -41,7 +42,7 @@ import timber.log.Timber;
  * Author: Kuzan
  * Date: 2017/9/1 17:21.
  */
-public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImpl> implements IAnchorView {
+public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImpl> implements IAnchorView, SurfaceHolder.Callback {
 
     @Bind(R.id.camera_preview)
     GLSurfaceView mCameraPreview;
@@ -98,13 +99,16 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         initStreamUrl();
 
         switchPreFragment();
+        mMainHandler = new Handler();
 
+        mStreamer = new KSYStreamer(this);
         initCamera();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        mCameraPreview.setVisibility(View.VISIBLE);
         mStreamer.setDisplayPreview(mCameraPreview);
         mStreamer.onResume();
         mCameraHint.hideAll();
@@ -116,13 +120,40 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         }
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Timber.e("onStop");
+
+
+    }
+    /**
+     * 关闭摄像头
+     */
+    protected void stopSurface(){
+        if (mCameraPreview!=null){
+            mCameraPreview.setVisibility(View.GONE);
+            mStreamer.stopCameraPreview();
+            mStreamer.stopStream();
+        }
+    }
+    /**
+     * 打开摄像头
+     */
+    protected void startSurface(){
+        if (mCameraPreview!=null){
+            mCameraPreview.setVisibility(View.VISIBLE);
+            mStreamer.startCameraPreview();
+            mStreamer.startStream();
+        }
+    }
+
     /**
      * 初始化摄像头
      */
     private void initCamera() {
-        mMainHandler = new Handler();
 
-        mStreamer = new KSYStreamer(this);
 
         /**设置推流URL*/
         mStreamer.setUrl(mUrl);
@@ -213,7 +244,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     /**
      * 开始直播
      * */
-    private void startStream() {
+    protected void startStream() {
         mStreamer.startStream();
         mRecording = true;
     }
@@ -221,7 +252,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     /**
      * 停止直播
      * */
-    private void stopStream() {
+    protected void stopStream() {
         mStreamer.stopStream();
         mRecording = false;
         stopChronometer();
@@ -588,5 +619,20 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        Timber.e("摄像头创建");
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        Timber.e("摄像头改变");
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        Timber.e("摄像头摧毁");
     }
 }

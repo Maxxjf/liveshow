@@ -1,7 +1,9 @@
 package com.qcloud.liveshow.ui.anchor.widget;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -167,13 +169,17 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
 //    }
 
     private void initSelectPicturePop() {
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity) mContext).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        final int screenW = dm.widthPixels * 9 / 10;   // 获取分辨率宽度
         mPicturePop = new SelectPicturePop(getActivity());
         mPicturePop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
             @Override
             public void onViewClick(View view) {
                 if (view.getId() == R.id.btn_take_a_picture) {
-                    ToastUtils.ToastMessage(getActivity(), "暂时不支持照相，敬请期待~");
-                    //ImageSelectUtil.startCamera(getActivity(), REQUEST_CODE, screenW, screenW);
+//                    ToastUtils.ToastMessage(getActivity(), "暂时不支持照相，敬请期待~");
+                    ((AnchorActivity)getActivity()).stopSurface();
+                            ImageSelectUtil.startCamera(getActivity(), REQUEST_CODE, screenW, screenW);
                 } else if (view.getId() == R.id.btn_album) {
                     ImageSelectUtil.openPhoto(getActivity(), REQUEST_CODE, false);
                 }
@@ -468,6 +474,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        ((AnchorActivity)getActivity()).startSurface();
         if (data != null) {
             if (requestCode == REQUEST_CODE) {
                 ArrayList<String> images = data.getStringArrayListExtra(ImageSelectUtil.SELECT_RESULT);
