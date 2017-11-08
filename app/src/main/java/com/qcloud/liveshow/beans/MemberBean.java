@@ -1,14 +1,21 @@
 package com.qcloud.liveshow.beans;
 
+import android.os.Parcel;
+
 import com.qcloud.liveshow.R;
 import com.qcloud.qclib.utils.StringUtils;
+
+import java.io.Serializable;
 
 /**
  * 类说明：粉丝成员
  * Author: Kuzan
  * Date: 2017/9/12 15:03.
  */
-public class MemberBean {
+public class MemberBean implements Serializable {
+
+    private static final long serialVersionUID = -7060210544600464481L;
+
     long id;            // 会员id
     String nickName;    // 昵称
     String headImg;     // 头像
@@ -24,6 +31,26 @@ public class MemberBean {
     int attentionNum;   // 关注的人
     int fansNum;        // 粉丝数量
     String idAccount;   // 直播id
+
+
+    protected MemberBean(Parcel in) {
+        id = in.readLong();
+        nickName = in.readString();
+        headImg = in.readString();
+        sex = in.readInt();
+        isAnchor = in.readByte() != 0;
+        anchorGrade = in.readString();
+        anchorGradeIcon = in.readString();
+        memberGrade = in.readString();
+        memberGradeIcon = in.readString();
+        memberSum = in.readDouble();
+        signature = in.readString();
+        isAttention = in.readByte() != 0;
+        attentionNum = in.readInt();
+        fansNum = in.readInt();
+        idAccount = in.readString();
+    }
+
 
     public String getIdAccount() {
         return StringUtils.isEmptyString(idAccount)? "" : idAccount;
