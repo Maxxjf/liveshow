@@ -13,11 +13,11 @@ public interface IResponseMethod {
     /**鉴权*/
     void disposeAuth(@NonNull JsonElement msgConfig);
 
-    /**看直播成员*/
-    void disposeGroupMember(@NonNull JsonElement msgConfig);
-
     /**群聊*/
     void disposeGroup(@NonNull JsonElement msgConfig);
+
+    /**看直播成员*/
+    void disposeGroupMember(@NonNull JsonElement msgConfig);
 
     /**私聊*/
     void disposePrivate(@NonNull JsonElement msgConfig);

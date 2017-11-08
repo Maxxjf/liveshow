@@ -26,7 +26,7 @@ public class MemberBean {
     String idAccount;   // 直播id
 
     public String getIdAccount() {
-        return idAccount;
+        return StringUtils.isEmptyString(idAccount)? "" : idAccount;
     }
 
     public void setIdAccount(String idAccount) {
@@ -37,6 +37,10 @@ public class MemberBean {
         return attentionNum;
     }
 
+    public String getAttentionNumStr() {
+        return String.valueOf(attentionNum);
+    }
+
     public void setAttentionNum(int attentionNum) {
         this.attentionNum = attentionNum;
     }
@@ -45,12 +49,20 @@ public class MemberBean {
         return fansNum;
     }
 
+    public String getFansNumStr() {
+        return String.valueOf(fansNum);
+    }
+
     public void setFansNum(int fansNum) {
         this.fansNum = fansNum;
     }
 
     public long getId() {
         return id;
+    }
+
+    public String getIdStr() {
+        return String.valueOf(id);
     }
 
     public void setId(long id) {

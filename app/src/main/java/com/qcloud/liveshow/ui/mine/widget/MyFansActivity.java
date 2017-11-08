@@ -136,7 +136,7 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
                 if (mFansPop == null) {
                     initFansPop();
                 }
-                mFansPop.setBean(currBean);
+                mFansPop.refreshData(currBean);
                 mFansPop.showAtLocation(mListMyFans, Gravity.BOTTOM, 0, 0);
             }
         });

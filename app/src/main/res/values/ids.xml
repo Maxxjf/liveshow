@@ -29,5 +29,9 @@
     <item name="netty_parameter_missing" type="id"/>
     <!--通知有看直播成员加入-->
     <item name="netty_room_member_join" type="id"/>
+    <!--群聊消息-->
+    <item name="netty_group_chat" type="id"/>
+    <!--私聊消息-->
+    <item name="netty_private_chat" type="id"/>
 
 </resources>

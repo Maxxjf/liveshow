@@ -13,7 +13,7 @@ public interface IIMModel {
     void getChatList();
 
     /**发送私聊消息*/
-    void sendSingleChat(String userId, String content);
+    void sendPrivateChat(String userId, String content);
 
     /**发送群聊消息*/
     void sendGroupChat(String roomNum, String content);

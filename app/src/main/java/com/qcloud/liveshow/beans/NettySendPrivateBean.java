@@ -5,7 +5,7 @@ package com.qcloud.liveshow.beans;
  * Author: Kuzan
  * Date: 2017/11/2 9:42.
  */
-public class NettySendSingleBean {
+public class NettySendPrivateBean {
     String to_user_id;          // 接收者
     String token;
     NettyContentBean content;   // 发送文本消息内容

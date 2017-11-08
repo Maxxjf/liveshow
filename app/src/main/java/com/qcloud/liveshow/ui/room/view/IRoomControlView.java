@@ -1,5 +1,7 @@
 package com.qcloud.liveshow.ui.room.view;
 
+import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
+import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 
 /**
@@ -37,4 +39,10 @@ public interface IRoomControlView {
 
     /**通知成员加入*/
     void addMember(NettyRoomMemberBean bean);
+
+    /**群聊消息*/
+    void addGroupChat(NettyReceiveGroupBean bean);
+
+    /**私聊消息*/
+    void addPrivateChat(NettyReceivePrivateBean bean);
 }

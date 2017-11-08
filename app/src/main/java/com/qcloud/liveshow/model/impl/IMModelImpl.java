@@ -5,7 +5,7 @@ import com.qcloud.liveshow.beans.NettyAuthBean;
 import com.qcloud.liveshow.beans.NettyContentBean;
 import com.qcloud.liveshow.beans.NettyGroupBean;
 import com.qcloud.liveshow.beans.NettyRequestBean;
-import com.qcloud.liveshow.beans.NettySendSingleBean;
+import com.qcloud.liveshow.beans.NettySendPrivateBean;
 import com.qcloud.liveshow.enums.NettyActionType;
 import com.qcloud.liveshow.model.IIMModel;
 import com.qcloud.liveshow.netty.NettyClientBus;
@@ -70,13 +70,17 @@ public class IMModelImpl implements IIMModel {
      * @time 2017/11/2 10:25
      */
     @Override
-    public void sendSingleChat(String userId, String content) {
-        NettySendSingleBean bean =new NettySendSingleBean();
+    public void sendPrivateChat(String userId, String content) {
+        NettyContentBean contentBean = new NettyContentBean(content);
+        NettySendPrivateBean bean =new NettySendPrivateBean();
         bean.setToken(TokenUtil.getToken());
+        bean.setTo_user_id(userId);
+        bean.setContent(contentBean);
 
-        NettyRequestBean<NettySendSingleBean> requestBean=new NettyRequestBean<>();
+        NettyRequestBean<NettySendPrivateBean> requestBean=new NettyRequestBean<>();
         requestBean.setAction_type(NettyActionType.PRIVATE_CHAT.getKey());
         requestBean.setUuid(DateUtils.getTimeStamp());
+        requestBean.setData(bean);
         NettyClientBus.request(mGson.toJson(requestBean));
 
     }
@@ -97,6 +101,7 @@ public class IMModelImpl implements IIMModel {
         NettyRequestBean<NettyGroupBean> requestBean = new NettyRequestBean<>();
         requestBean.setAction_type(NettyActionType.GROUP_CHAT.getKey());
         requestBean.setUuid(DateUtils.getTimeStamp());
+        requestBean.setData(bean);
         NettyClientBus.request(mGson.toJson(requestBean));
     }
 

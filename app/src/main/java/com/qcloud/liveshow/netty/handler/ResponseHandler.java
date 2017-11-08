@@ -7,6 +7,8 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.NettyAuthBean;
 import com.qcloud.liveshow.beans.NettyBaseResponse;
 import com.qcloud.liveshow.beans.NettyChatListBean;
+import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
+import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.netty.callback.ResponseListener;
 import com.qcloud.liveshow.utils.NettyUtil;
@@ -52,11 +54,11 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                 case 0: // 鉴权
                     disposeAuth(jsonStr);
                     break;
-                case 12: // 看直播成员
-
+                case 1: // 群聊
+                    disposeGroup(jsonStr);
                     break;
                 case 2: // 私聊
-
+                    disposePrivate(jsonStr);
                     break;
                 case 3: // 送礼物
 
@@ -96,6 +98,48 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
     }
 
     /**
+     * 群聊
+     *
+     * @time 2017/11/6 14:02
+     */
+    @Override
+    public void disposeGroup(JsonElement msgConfig) {
+        Type type = new TypeToken<NettyBaseResponse<NettyReceiveGroupBean>>(){}.getType();
+        NettyDispose.dispose(msgConfig, type, new DataCallback<NettyReceiveGroupBean>() {
+            @Override
+            public void onSuccess(NettyReceiveGroupBean bean) {
+                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_group_chat).setObj(bean).build());
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+                Timber.e(errMsg);
+            }
+        });
+    }
+
+    /**
+     * 私聊
+     *
+     * @time 2017/11/8 14:45
+     */
+    @Override
+    public void disposePrivate(JsonElement msgConfig) {
+        Type type = new TypeToken<NettyBaseResponse<NettyReceivePrivateBean>>(){}.getType();
+        NettyDispose.dispose(msgConfig, type, new DataCallback<NettyReceivePrivateBean>() {
+            @Override
+            public void onSuccess(NettyReceivePrivateBean bean) {
+                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_private_chat).setObj(bean).build());
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+                Timber.e(errMsg);
+            }
+        });
+    }
+
+    /**
      * 看直播成员
      *
      * @time 2017/11/7 19:53
@@ -114,21 +158,6 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                 Timber.e(errMsg);
             }
         });
-    }
-
-    /**
-     * 群聊
-     *
-     * @time 2017/11/6 14:02
-     */
-    @Override
-    public void disposeGroup(JsonElement msgConfig) {
-
-    }
-
-    @Override
-    public void disposePrivate(JsonElement msgConfig) {
-
     }
 
     /**

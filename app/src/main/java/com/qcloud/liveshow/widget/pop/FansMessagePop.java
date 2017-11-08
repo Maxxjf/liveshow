@@ -10,10 +10,15 @@ import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.FansMessageAdapter;
+import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
+import com.qcloud.liveshow.model.impl.IMModelImpl;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
+import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.widget.customview.ClearEditText;
 
 import butterknife.Bind;
@@ -33,6 +38,9 @@ public class FansMessagePop extends BasePopupWindow {
     ClearEditText mEtMessage;
     @Bind(R.id.btn_emoticon)
     ImageView mBtnEmoticon;
+
+    private MemberBean currMember;
+    private String mMessage;
 
     private FansMessageAdapter mAdapter;
 
@@ -71,7 +79,7 @@ public class FansMessagePop extends BasePopupWindow {
                 switch (actionId) {
                     case KeyEvent.KEYCODE_ENDCALL:
                     case KeyEvent.KEYCODE_ENTER:
-                        //onSendClick();
+                        onSendClick();
                         return true;
                     case KeyEvent.KEYCODE_BACK:
                         dismiss();
@@ -91,6 +99,27 @@ public class FansMessagePop extends BasePopupWindow {
         setHeight(height);
     }
 
+    /**
+     * 刷新用户信息
+     * */
+    public void refreshMemberInfo(MemberBean bean) {
+        if (bean != null) {
+            currMember = bean;
+            mTvTitle.setText(bean.getNickName());
+            mAdapter.refreshMember(bean);
+            mAdapter.replaceList(null);
+        }
+    }
+
+    /**
+     * 刷新消息
+     * */
+    public void addMessage(NettyReceivePrivateBean bean) {
+        if (mAdapter != null && bean != null) {
+            mAdapter.addListBeanAtStart(bean);
+        }
+    }
+
     @Override
     public void showAtLocation(View parent, int gravity, int x, int y) {
         super.showAtLocation(parent, gravity, x, y);
@@ -100,5 +129,25 @@ public class FansMessagePop extends BasePopupWindow {
     @OnClick(R.id.btn_back)
     void onBackClick() {
         dismiss();
+    }
+
+    /**
+     * 发送消息
+     * */
+    public void onSendClick() {
+        if (currMember != null) {
+            if (check()) {
+                new IMModelImpl().sendPrivateChat(currMember.getIdStr(), mMessage);
+            }
+        }
+    }
+
+    private boolean check() {
+        mMessage = mEtMessage.getText().toString();
+        if (StringUtils.isEmptyString(mMessage)) {
+            ToastUtils.ToastMessage(mContext, R.string.input_content_hint);
+            return false;
+        }
+        return true;
     }
 }

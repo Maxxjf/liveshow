@@ -1,15 +1,13 @@
 package com.qcloud.liveshow.beans;
 
-import com.qcloud.qclib.utils.DateUtils;
-
 /**
  * 类说明：接收私聊数据
  * Author: Kuzan
  * Date: 2017/11/2 9:47.
  */
-public class NettyReceiveSingleBean {
+public class NettyReceivePrivateBean {
     String from_user_id;        // 发送者
-    long date_time;
+    String chat_id;
     NettyContentBean content;   // 发送文本消息内容
 
     public String getFrom_user_id() {
@@ -20,20 +18,12 @@ public class NettyReceiveSingleBean {
         this.from_user_id = from_user_id;
     }
 
-    public long getDate_time() {
-        return date_time;
+    public String getChat_id() {
+        return chat_id;
     }
 
-    public String getDate_time_str() {
-        if (date_time > 0) {
-            return DateUtils.getCurrTime("yy-MM-dd HH:mm:ss");
-        } else {
-            return DateUtils.longToString(date_time, "yy-MM-dd HH:mm:ss");
-        }
-    }
-
-    public void setDate_time(long date_time) {
-        this.date_time = date_time;
+    public void setChat_id(String chat_id) {
+        this.chat_id = chat_id;
     }
 
     public NettyContentBean getContent() {
@@ -46,9 +36,9 @@ public class NettyReceiveSingleBean {
 
     @Override
     public String toString() {
-        return "NettyReceiveSingleBean{" +
+        return "NettyReceivePrivateBean{" +
                 "from_user_id='" + from_user_id + '\'' +
-                ", date_time=" + date_time +
+                ", chat_id='" + chat_id + '\'' +
                 ", content=" + content +
                 '}';
     }

@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.ui.room.presenter.impl;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.enums.StartFansEnum;
@@ -45,8 +46,15 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                 if (mView != null) {
                     switch (rxBusEvent.getType()) {
                         case R.id.netty_room_member_join:
-                            NettyRoomMemberBean bean = (NettyRoomMemberBean) rxBusEvent.getObj();
-                            mView.addMember(bean);
+                            // 成员加入
+                            mView.addMember((NettyRoomMemberBean) rxBusEvent.getObj());
+                            break;
+                        case R.id.netty_group_chat:
+                            // 群聊消息
+                            mView.addGroupChat((NettyReceiveGroupBean) rxBusEvent.getObj());
+                            break;
+                        case R.id.netty_private_chat:
+                            // 私聊消息
                             break;
                     }
                 }

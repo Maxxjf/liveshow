@@ -1,19 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:gravity="center_vertical"
     android:layout_marginTop="@dimen/margin_1"
     android:paddingLeft="@dimen/layout_margin"
     android:paddingRight="@dimen/layout_margin"
     android:background="@drawable/bg_black_alpha_20_circular_small">
 
+    <ImageView
+        android:id="@+id/img_anchor_level"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/margin_4"
+        android:src="@drawable/icon_member_level_1"
+        android:scaleType="centerInside"/>
+
+    <ImageView
+        android:id="@+id/img_is_fans"
+        android:layout_width="@dimen/margin_4"
+        android:layout_height="@dimen/margin_4"
+        android:layout_marginLeft="@dimen/draw_padding"
+        android:src="@drawable/icon_fans"
+        android:scaleType="centerInside"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/tv_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_1"
+        android:lines="1"
+        android:textColor="@color/colorStart"
+        android:textSize="@dimen/micro_text_size"
+        tools:text="库赞:"/>
+
     <TextView
         android:id="@+id/tv_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_1"
+        android:lines="1"
         android:textColor="@color/white"
         android:textSize="@dimen/micro_text_size"
-        android:text="@string/tag_message_eg"/>
+        tools:text="@string/tag_message_eg"/>
 </LinearLayout>

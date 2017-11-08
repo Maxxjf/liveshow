@@ -52,7 +52,8 @@ public class FansInfoPop extends BasePopupWindow {
     @Bind(R.id.layout_user)
     FrameLayout layoutUser;
 
-    String isAttention;
+    private String isAttention;
+    private MemberBean mCurrMember;
 
     public FansInfoPop(Context context) {
         super(context);
@@ -106,9 +107,13 @@ public class FansInfoPop extends BasePopupWindow {
         dismiss();
     }
 
-    public void setBean(MemberBean bean) {
+    /**
+     * 设置数据
+     * */
+    public void refreshData(MemberBean bean) {
         if (bean != null) {
-            mTvFansId.setText("" + bean.getIdAccount());
+            mCurrMember = bean;
+            mTvFansId.setText(bean.getIdAccount());
             GlideUtil.loadCircleImage(mContext, imgUserHead, bean.getHeadImg(),
                     R.drawable.bitmap_user_head, 0, 0, true, false);
             mTvFansName.setText(bean.getNickName());
@@ -116,11 +121,18 @@ public class FansInfoPop extends BasePopupWindow {
             GlideUtil.loadCircleImage(mContext, imgAnchorLevel, bean.getIcon(),
                     R.drawable.icon_anchor_level_1, 0, 0, true, false);
             mTvFansSignature.setText(bean.getSignature());
-            mTvFans.setText(""+bean.getFansNum());
-            mTvFollow.setText(""+bean.getAttentionNum());
+            mTvFans.setText(bean.getFansNumStr());
+            mTvFollow.setText(bean.getAttentionNumStr());
             mBtnFollow.setText(bean.isAttention()?R.string.tag_un_follow:R.string.tag_follow);
         } else {
             throw new NullPointerException("实体类不可为空");
         }
+    }
+
+    /**
+     * 获取当前成员信息
+     * */
+    public MemberBean getCurrMember() {
+        return mCurrMember;
     }
 }

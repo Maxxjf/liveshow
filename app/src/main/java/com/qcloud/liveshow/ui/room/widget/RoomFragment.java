@@ -1,6 +1,5 @@
 package com.qcloud.liveshow.ui.room.widget;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,6 +17,8 @@ import com.qcloud.liveshow.adapter.RoomMessageAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.AnchorBean;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
+import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.ui.room.presenter.impl.RoomControlPresenterImpl;
@@ -85,6 +85,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private boolean isFirstInRoom = true;
     private RoomBean mCurrBean;
     private AnchorBean mAnchorBean;
+
+    private MemberBean mCurrMember;
 
     /**输入消息弹窗*/
     private InputMessageDialog mInputDialog;
@@ -269,13 +271,9 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mInputDialog.setOnMessageSendListener(new InputMessageDialog.OnMessageSendListener() {
             @Override
             public void onMessageSend(String message, boolean isNotice) {
-                ToastUtils.ToastMessage(getActivity(), message);
-            }
-        });
-        mInputDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                //SystemBarUtil.hideNavBar(getActivity());
+                if (mCurrBean != null) {
+                    mPresenter.sendGroupMessage(mCurrBean.getRoomIdStr(), message);
+                }
             }
         });
     }
@@ -285,12 +283,6 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * */
     private void initDiamondsPop() {
         mDiamondsPop = new BuyDiamondsPop(mContext);
-        mDiamondsPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                //SystemBarUtil.hideNavBar(getActivity());
-            }
-        });
     }
 
     /**
@@ -298,12 +290,6 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * */
     private void initGiftPop() {
         mGiftPop = new SendGiftPop(mContext);
-        mGiftPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                //SystemBarUtil.hideNavBar(getActivity());
-            }
-        });
     }
 
     /**
@@ -319,15 +305,16 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
                         initGuarderPop();
                     }
                     mGuarderPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
-                } else {
+                } else if (view.getId() == R.id.btn_letter) {
+                    if (mFansMessagePop == null) {
+                        initFansMessagePop();
+                    }
+                    mFansMessagePop.refreshMemberInfo(mFansPop.getCurrMember());
+                    mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
+                }
+                else {
                     mFansPop.dismiss();
                 }
-            }
-        });
-        mFansPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                //SystemBarUtil.hideNavBar(getActivity());
             }
         });
     }
@@ -353,12 +340,6 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
                 mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
             }
         });
-        mMessagePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                //SystemBarUtil.hideNavBar(getActivity());
-            }
-        });
     }
 
     /**
@@ -380,12 +361,6 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * */
     private void initSharePop() {
         mSharePop = new SharePop(mContext);
-        mSharePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                //SystemBarUtil.hideNavBar(getActivity());
-            }
-        });
     }
 
     /**
@@ -402,6 +377,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
                 if (mFansPop == null) {
                     initFansPop();
                 }
+                mFansPop.refreshData(bean);
                 mFansPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
             }
         });
@@ -511,6 +487,30 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         if (isInFragment) {
             if (bean != null && bean.getUser() != null && mFansAdapter != null) {
                 mFansAdapter.addListBeanAtEnd(bean.getUser());
+            }
+        }
+    }
+
+    /**
+     * 群聊消息
+     * */
+    @Override
+    public void addGroupChat(NettyReceiveGroupBean bean) {
+        if (isInFragment) {
+            if (bean != null && mMessageAdapter != null) {
+                mMessageAdapter.addListBeanAtStart(bean);
+            }
+        }
+    }
+
+    /**
+     * 私聊消息
+     * */
+    @Override
+    public void addPrivateChat(NettyReceivePrivateBean bean) {
+        if (isInFragment) {
+            if (bean != null && mFansMessagePop != null) {
+                mFansMessagePop.addMessage(bean);
             }
         }
     }

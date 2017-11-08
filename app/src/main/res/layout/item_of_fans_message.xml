@@ -50,7 +50,7 @@
             android:paddingRight="@dimen/margin_2"
             android:textColor="@color/colorText"
             android:textSize="@dimen/micro_text_size"
-            android:text="不知不觉关注了你，在未来的日子，我将成为你的最好的朋友，欢迎关注我，我只是测试一下行数过多会如何成为了你的粉丝，去打个招呼吧~"/>
+            tools:text="不知不觉关注了你，在未来的日子，我将成为你的最好的朋友，欢迎关注我，我只是测试一下行数过多会如何成为了你的粉丝，去打个招呼吧~"/>
     </LinearLayout>
 
     <LinearLayout
@@ -84,7 +84,7 @@
             android:paddingRight="@dimen/margin_2"
             android:textColor="@color/white"
             android:textSize="@dimen/micro_text_size"
-            android:text="直播看心情啦"/>
+            tools:text="直播看心情啦"/>
 
         <com.qcloud.qclib.widget.customview.RatioImageView
             android:id="@+id/img_user_header"
