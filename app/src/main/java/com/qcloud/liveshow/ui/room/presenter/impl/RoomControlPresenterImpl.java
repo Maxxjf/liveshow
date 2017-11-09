@@ -8,8 +8,10 @@ import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.enums.StartFansEnum;
+import com.qcloud.liveshow.model.IAnchorModel;
 import com.qcloud.liveshow.model.IIMModel;
 import com.qcloud.liveshow.model.IMineModel;
+import com.qcloud.liveshow.model.impl.AnchorModelImpl;
 import com.qcloud.liveshow.model.impl.IMModelImpl;
 import com.qcloud.liveshow.model.impl.MineModelImpl;
 import com.qcloud.liveshow.ui.room.presenter.IRoomControlPresenter;
@@ -30,7 +32,7 @@ import io.reactivex.functions.Consumer;
  * Date: 2017/8/23 11:43.
  */
 public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> implements IRoomControlPresenter {
-
+    private IAnchorModel anchorModel;
     private IMineModel mModel;
     private IIMModel mIMModel;
     private Bus mEventBus = BusProvider.getInstance();
@@ -38,6 +40,7 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
     public RoomControlPresenterImpl() {
         mModel = new MineModelImpl();
         mIMModel = new IMModelImpl();
+        anchorModel=new AnchorModelImpl();
         mEventBus.register(this);
         initRxBusEvent();
     }
@@ -105,23 +108,39 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
     }
 
     @Override
-    public void submitAttention(long id, boolean isAttention) {
-        mModel.submitAttention(StartFansEnum.MyFans.getKey(), id, isAttention, new DataCallback<ReturnEmptyBean>() {
-            @Override
-            public void onSuccess(ReturnEmptyBean returnEmptyBean) {
-                UserInfoUtil.loadUserInfo();
-                if (mView != null) {
-                    mView.onFollowRes(true);
+    public void submitAttention(int type,long id, boolean isAttention) {
+        if (type==StartFansEnum.Blacklist.getKey()){
+            mModel.submitAttention(StartFansEnum.Blacklist.getKey(), id, isAttention, new DataCallback<ReturnEmptyBean>() {
+                @Override
+                public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+                    if (mView!=null){
+                        mView.backListSuccess();
+                    }
                 }
-            }
 
-            @Override
-            public void onError(int status, String errMsg) {
-                if (mView != null) {
-                    mView.onFollowRes(false);
+                @Override
+                public void onError(int status, String errMsg) {
+
                 }
-            }
-        });
+            });
+        }else {
+            mModel.submitAttention(StartFansEnum.MyFans.getKey(), id, isAttention, new DataCallback<ReturnEmptyBean>() {
+                @Override
+                public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+                    UserInfoUtil.loadUserInfo();
+                    if (mView != null) {
+                        mView.onFollowRes(true);
+                    }
+                }
+
+                @Override
+                public void onError(int status, String errMsg) {
+                    if (mView != null) {
+                        mView.onFollowRes(false);
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -133,6 +152,8 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
     public void getChatList() {
         mIMModel.getChatList();
     }
+
+
 
     /**
      * 加入群聊
@@ -150,6 +171,31 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
     @Override
     public void sendGroupMessage(String roomNum, String content) {
         mIMModel.sendGroupChat(roomNum, content);
+    }
+
+    /**
+     * 设置/取消守护
+     * @param memberId
+     * @param isGuard
+     */
+    @Override
+    public void inOutGuard(long memberId, boolean isGuard) {
+        anchorModel.inOutGuard(memberId, isGuard, new DataCallback<ReturnEmptyBean>() {
+            @Override
+            public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+                mView.inOutGuardSuccess();
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+                mView.inOutGuardError(errMsg);
+            }
+        });
+    }
+
+    @Override
+    public void shutUp(String roomNumber, String memberId, boolean isForbidden) {
+        mIMModel.shutUp(roomNumber,memberId,isForbidden);
     }
 
     public void onDestroy() {

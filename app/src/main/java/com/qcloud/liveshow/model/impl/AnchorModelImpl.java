@@ -10,6 +10,7 @@ import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.SubmitApplyBean;
 import com.qcloud.liveshow.beans.SubmitStartLiveBean;
+import com.qcloud.liveshow.beans.UserStatusBean;
 import com.qcloud.liveshow.model.IAnchorModel;
 import com.qcloud.liveshow.net.IAnchorApi;
 import com.qcloud.qclib.beans.ReturnDataBean;
@@ -150,5 +151,13 @@ public class AnchorModelImpl implements IAnchorModel {
         mParams = OkGoRequest.getAppParams();
 
         BaseApi.dispose(IAnchorApi.getLiveinfo(mParams), callback);
+    }
+
+    @Override
+    public void getUserStatus(String memberId, String roomId, DataCallback<UserStatusBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+        mParams.put("memberId", memberId);
+        mParams.put("roomId", roomId);
+        BaseApi.dispose(IAnchorApi.getUserStatus(mParams), callback);
     }
 }

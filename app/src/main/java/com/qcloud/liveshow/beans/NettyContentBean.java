@@ -3,12 +3,14 @@ package com.qcloud.liveshow.beans;
 import com.qcloud.qclib.utils.DateUtils;
 import com.qcloud.qclib.utils.StringUtils;
 
+import io.realm.RealmObject;
+
 /**
  * 类说明：聊天内容
  * Author: Kuzan
  * Date: 2017/11/2 9:43.
  */
-public class NettyContentBean {
+public class NettyContentBean  extends RealmObject {
     String text;
     long date_time;
 

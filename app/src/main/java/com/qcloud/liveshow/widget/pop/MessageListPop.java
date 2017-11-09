@@ -9,7 +9,7 @@ import android.widget.AdapterView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.PopMessageAdapter;
-import com.qcloud.liveshow.beans.NettyMemberBean;
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
@@ -91,7 +91,7 @@ public class MessageListPop extends BasePopupWindow {
         setPopWindowBg(1.0f);
     }
 
-    public void replaceList(List<NettyMemberBean> beans) {
+    public void replaceList(List<MemberBean> beans) {
         if (beans != null && mAdapter != null) {
             mAdapter.replaceList(beans);
         }

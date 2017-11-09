@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.realm;
 
+import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.RealmTestBean;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class RealmHelper {
     private RealmAsyncTask mDelTask;
 
     public RealmHelper() {
+
         mRealm = Realm.getDefaultInstance();
     }
 
@@ -81,6 +83,69 @@ public class RealmHelper {
 
         // 增序排列
         list = list.sort("id");
+
+        return mRealm.copyFromRealm(list);
+    }
+    /**
+     *
+     *      新增与更新私聊消息
+     * */
+    public void addOrUpdateNettyReceivePrivateBean(final NettyReceivePrivateBean bean) {
+        mTask = mRealm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealmOrUpdate(bean);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Timber.e("添加或更新成功");
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                Timber.e("添加或更新失败");
+            }
+        });
+    }
+
+    /**
+     *
+     *      删除私聊消息
+     * */
+    public void delNettyReceivePrivateBeanById(final long from_user_id) {
+        if (from_user_id < 0) {
+            return;
+        }
+        NettyReceivePrivateBean bean = mRealm.where(NettyReceivePrivateBean.class).
+                equalTo("from_user_id", from_user_id).findFirst();
+
+        if (bean != null) {
+            mRealm.beginTransaction();
+            bean.deleteFromRealm();
+            mRealm.commitTransaction();
+        }
+    }
+
+    /**
+     *
+     *      根据id查找私聊消息
+     *
+     * @param from_user_id*/
+    public List<NettyReceivePrivateBean> queryNettyReceivePrivateBeanById(final String from_user_id) {
+      RealmResults<NettyReceivePrivateBean> list=  mRealm.where(NettyReceivePrivateBean.class).equalTo("from_user_id", from_user_id).findAll();
+        return mRealm.copyFromRealm(list);
+    }
+
+    /**
+     *
+     *      查找所有私聊消息
+     * */
+    public List<NettyReceivePrivateBean> queryNettyReceivePrivateBean() {
+        RealmResults<NettyReceivePrivateBean> list = mRealm.where(NettyReceivePrivateBean.class).findAll();
+
+        // 增序排列
+        list = list.sort("from_user_id");
 
         return mRealm.copyFromRealm(list);
     }

@@ -3,7 +3,7 @@ package com.qcloud.liveshow.adapter;
 import android.content.Context;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.beans.NettyMemberBean;
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.qclib.adapter.recyclerview.BaseViewHolder;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
@@ -13,7 +13,7 @@ import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
  * Author: Kuzan
  * Date: 2017/8/30 11:29.
  */
-public class MessageListAdapter extends CommonRecyclerAdapter<NettyMemberBean> {
+public class MessageListAdapter extends CommonRecyclerAdapter<MemberBean> {
     public MessageListAdapter(Context context) {
         super(context);
     }
@@ -25,12 +25,12 @@ public class MessageListAdapter extends CommonRecyclerAdapter<NettyMemberBean> {
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-        final NettyMemberBean bean = mList.get(position);
+        final MemberBean bean = mList.get(position);
 
         UserHeadImageView userView = holder.get(R.id.layout_user);
-        userView.loadImage(bean.getHead_img(), bean.getIcon(), 80);
+        userView.loadImage(bean.getHeadImg(), bean.getIcon(), 80);
 
-        holder.setText(R.id.tv_user_name, bean.getNick_name());
+        holder.setText(R.id.tv_user_name, bean.getNickName());
         holder.setImageResource(R.id.img_user_sex, bean.getSexIcon());
         holder.setText(R.id.tv_signature, bean.getSignature());
         holder.setText(R.id.tv_time, bean.getLast_send_message_datetime());

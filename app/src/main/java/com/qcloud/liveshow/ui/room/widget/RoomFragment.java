@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,18 +18,20 @@ import com.qcloud.liveshow.adapter.RoomMessageAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.AnchorBean;
 import com.qcloud.liveshow.beans.MemberBean;
-import com.qcloud.liveshow.beans.NettyMemberBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.RoomBean;
+import com.qcloud.liveshow.beans.UserBean;
+import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.ui.room.presenter.impl.RoomControlPresenterImpl;
 import com.qcloud.liveshow.ui.room.view.IRoomControlView;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.liveshow.widget.dialog.InputMessageDialog;
 import com.qcloud.liveshow.widget.pop.BuyDiamondsPop;
 import com.qcloud.liveshow.widget.pop.FansInfoPop;
+import com.qcloud.liveshow.widget.pop.FansManagerPop;
 import com.qcloud.liveshow.widget.pop.FansMessagePop;
 import com.qcloud.liveshow.widget.pop.GuarderPop;
 import com.qcloud.liveshow.widget.pop.MessageListPop;
@@ -90,7 +93,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private RoomBean mCurrBean;
     private AnchorBean mAnchorBean;
 
-    private MemberBean mCurrMember;
+    private MemberBean mMemberBean;
 
     /**输入消息弹窗*/
     private InputMessageDialog mInputDialog;
@@ -110,6 +113,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private FansMessagePop mFansMessagePop;
     /**分享弹窗*/
     private SharePop mSharePop;
+    /**粉丝管理弹窗*/
+    private FansManagerPop mManagerPop;
 
     @Override
     protected int getLayoutId() {
@@ -317,10 +322,10 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
             @Override
             public void onViewClick(View view) {
                 if (view.getId() == R.id.btn_manager) {
-                    if (mGuarderPop == null) {
-                        initGuarderPop();
+                    if (mManagerPop == null) {
+                        initFansManagerPop();
                     }
-                    mGuarderPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+                    mManagerPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
                 } else if (view.getId() == R.id.btn_letter) {
                     if (mFansMessagePop == null) {
                         initFansMessagePop();
@@ -334,7 +339,41 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
             }
         });
     }
+    /**
+     * 初始化消息列表弹窗
+     * */
+    private void initFansManagerPop() {
+        mManagerPop = new FansManagerPop(mContext);
+        mManagerPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                switch (view.getId()) {
+                    case R.id.btn_set_guarder:
+                        mPresenter.inOutGuard(mMemberBean.getId(),true);
+                        break;
+                    case R.id.btn_my_guarder_list:
 
+                        if (mGuarderPop==null){
+                            initGuarderPop();
+                        }
+                        mGuarderPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+                        break;
+                    case R.id.btn_gag:
+                        mPresenter.shutUp(mCurrBean.getRoomIdStr(),mMemberBean.getIdStr(),true);
+                        break;
+                    case R.id.btn_add_blacklist:
+                        mPresenter.submitAttention(StartFansEnum.Blacklist.getKey(), mMemberBean.getId(),true);
+                        break;
+                }
+            }
+        });
+        mManagerPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                //SystemBarUtil.hideNavBar(getActivity());
+            }
+        });
+    }
     /**
      * 初始化粉守护者弹窗
      * */
@@ -391,6 +430,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
             @Override
             public void onViewClick(View view, MemberBean bean, int position) {
                 if (mFansPop == null) {
+                    mMemberBean =bean;
                     initFansPop();
                 }
                 mFansPop.refreshData(bean);
@@ -418,7 +458,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     @Override
     public void onFollowClick() {
         if (mAnchorBean != null) {
-            mPresenter.submitAttention(mAnchorBean.getId(), true);
+            mPresenter.submitAttention(StartFansEnum.MyFans.getKey(),mAnchorBean.getId(), true);
         }
     }
 
@@ -499,7 +539,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * 会话列表
      * */
     @Override
-    public void replaceChatList(List<NettyMemberBean> beans) {
+    public void replaceChatList(List<MemberBean> beans) {
         if (isInFragment) {
             if (beans != null && mMessagePop != null) {
                 mMessagePop.replaceList(beans);
@@ -555,6 +595,21 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         }
     }
 
+    @Override
+    public void backListSuccess() {
+        ToastUtils.ToastMessage(mContext,"成功拉入黑名单");
+    }
+
+    @Override
+    public void inOutGuardSuccess() {
+        ToastUtils.ToastMessage(mContext,"设置成功");
+    }
+
+    @Override
+    public void inOutGuardError(String msg) {
+        ToastUtils.ToastMessage(mContext,msg);
+    }
+
     public static RoomFragment newInstance() {
         Bundle args = new Bundle();
         RoomFragment fragment = new RoomFragment();
@@ -582,6 +637,9 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         }
         if (mSharePop != null && mSharePop.isShowing()) {
             mSharePop.dismiss();
+        }
+        if (mFansMessagePop != null && mFansMessagePop.isShowing()) {
+            mFansMessagePop.dismiss();
         }
     }
 

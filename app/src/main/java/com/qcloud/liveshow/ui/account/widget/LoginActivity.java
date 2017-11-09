@@ -196,6 +196,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
         }
     }
 
+
     @Override
     public void getCodeSuccess(String code) {
         if (isRunning) {

@@ -1,6 +1,6 @@
 package com.qcloud.liveshow.ui.home.view;
 
-import com.qcloud.liveshow.beans.NettyMemberBean;
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.qclib.base.BaseView;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 public interface IMessageListView extends BaseView {
 
     /**获取会话列表成功*/
-    void replaceList(List<NettyMemberBean> beans);
+    void replaceList(List<MemberBean> beans);
 
     /**显示空布局*/
     void showEmptyView(String tip);

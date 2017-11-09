@@ -32,9 +32,9 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 /**
- * 类说明：个人信息
- * Author: Kuzan
- * Date: 2017/8/15 9:29.
+ * 类说明：粉丝信息
+ * Author: iceberg
+ * Date: 2017/11/9 9:26.
  */
 public class FansInfoActivity extends SwipeBaseActivity<IFansInfoView, FansInfoPresenterImpl> implements IFansInfoView {
 
@@ -96,7 +96,6 @@ public class FansInfoActivity extends SwipeBaseActivity<IFansInfoView, FansInfoP
         /**解决状态栏与内容重叠*/
         SystemBarUtil.remeasureTitleBar(this, titleBar);
         MemberBean mMemberBean = (MemberBean) getIntent().getSerializableExtra("mMemberBean");
-        Timber.e("mMemberBean:" + mMemberBean);
         if (mMemberBean != null) {
             refreshUserInfo(mMemberBean);
         } else {

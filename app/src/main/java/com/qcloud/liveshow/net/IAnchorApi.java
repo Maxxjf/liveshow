@@ -7,6 +7,7 @@ import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.LiveInfoBean;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.beans.UserStatusBean;
 import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.qclib.beans.BaseResponse;
 import com.qcloud.qclib.beans.ReturnDataBean;
@@ -76,5 +77,12 @@ public class IAnchorApi {
         Type type = new TypeToken<BaseResponse<LiveInfoBean>>(){}.getType();
 
         return OkGoRequest.getRequest(UrlConstants.GET_LIVEINFO, type, params);
+    }
+
+    /**开始直播前获取直播消息*/
+    public static Observable<BaseResponse<UserStatusBean>> getUserStatus(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<UserStatusBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.GET_USER_STATUS, type, params);
     }
 }

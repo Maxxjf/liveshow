@@ -95,7 +95,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     protected void initViewAndData() {
         //SystemBarUtil.hideNavBar(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
+        mPresenter.finishLive();//一进来结束直播
         initStreamUrl();
 
         switchPreFragment();
@@ -368,6 +368,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
             initControlFragment();
         }
         replaceFragment(mControlFragment, R.id.fragment_container, false);
+        mPreFragment.detach();//解决BUG：2个Fargment复用的情况
         startStream();
     }
 
@@ -594,6 +595,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
             mMainHandler.removeCallbacksAndMessages(null);
             mMainHandler = null;
         }
+        mPresenter.finishLive();
         mStreamer.setOnLogEventListener(null);
         mStreamer.release();
     }

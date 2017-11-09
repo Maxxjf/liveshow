@@ -14,7 +14,6 @@ import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.adapter.recyclerview.BaseViewHolder;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
 import com.qcloud.qclib.image.GlideUtil;
-import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.widget.customview.RatioImageView;
 
 /**
@@ -53,7 +52,7 @@ public class FansMessageAdapter extends CommonRecyclerAdapter<NettyReceivePrivat
         RatioImageView mImgMineHead = holder.get(R.id.img_user_header);
         TextView mTvSendMessage = holder.get(R.id.tv_send_message);
 
-        if (StringUtils.isEquals(bean.getFrom_user_id(), mUserBean.getIdStr())) {
+        if (bean.isSend()) {
             // 发送消息
             mLayoutReceive.setVisibility(View.GONE);
             mLayoutSend.setVisibility(View.VISIBLE);

@@ -2,6 +2,7 @@ package com.qcloud.liveshow.ui.home.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.FansMessageAdapter;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
+import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.ui.home.presenter.impl.FansMessagePresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IFansMessageView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
@@ -19,6 +22,8 @@ import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.widget.customview.ClearEditText;
+
+import java.util.List;
 
 import butterknife.Bind;
 import timber.log.Timber;
@@ -40,7 +45,6 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     ImageView mBtnEmoticon;
 
     private FansMessageAdapter mAdapter;
-
     @Override
     protected int initLayout() {
         return R.layout.activity_fans_message;
@@ -82,6 +86,21 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
                 }
             }
         });
+        initDate();
+    }
+
+    private void initDate() {
+        MemberBean mMemberBean = (MemberBean) getIntent().getSerializableExtra("formUser");
+        Timber.e("formUser:"+mMemberBean);
+        if (mMemberBean!=null){
+            mAdapter.refreshMember(mMemberBean);
+            String fromUserId=mMemberBean.getIdStr();
+            if (mPresenter!=null){
+                mPresenter.getChars(fromUserId);
+            }
+        }
+
+
     }
 
     private void initRefreshList() {
@@ -97,7 +116,35 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
         mAdapter = new FansMessageAdapter(mContext);
         mListMessage.setAdapter(mAdapter);
     }
+    @Override
+    public void replaceList(List<NettyReceivePrivateBean> beans) {
+        if (isRunning) {
+            if (mListMessage != null) {
+                mListMessage.refreshFinish();
+            }
+            if (beans != null && beans.size() > 0) {
+                if (mAdapter != null) {
+                    mAdapter.replaceList(beans);
+                }
+            } else {
+                showEmptyView(getResources().getString(R.string.tip_no_data));
+            }
+        }
+    }
 
+    @Override
+    public void showEmptyView(String tip) {
+        if (mListMessage != null) {
+            mListMessage.showEmptyView();
+        }
+    }
+
+    @Override
+    public void hideEmptyView() {
+        if (mListMessage != null) {
+            mListMessage.hideEmptyView();
+        }
+    }
     @Override
     public void loadErr(boolean isShow, String errMsg) {
         if (isRunning) {
@@ -111,6 +158,14 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
 
     public static void openActivity(Context context) {
         Intent intent = new Intent(context, FansMessageActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void openActivity(Context context, MemberBean fromUserId) {
+        Intent intent = new Intent(context, FansMessageActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("formUser",fromUserId);
+        intent.putExtras(bundle);
         context.startActivity(intent);
     }
 }

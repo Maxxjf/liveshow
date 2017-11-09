@@ -8,13 +8,13 @@ import java.util.List;
  * Date: 2017/11/2 10:00.
  */
 public class NettyChatListBean {
-    List<NettyMemberBean> list;
+    List<MemberBean> list;
 
-    public List<NettyMemberBean> getList() {
+    public List<MemberBean> getList() {
         return list;
     }
 
-    public void setList(List<NettyMemberBean> list) {
+    public void setList(List<MemberBean> list) {
         this.list = list;
     }
 

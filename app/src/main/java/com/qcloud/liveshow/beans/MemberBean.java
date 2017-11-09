@@ -1,7 +1,5 @@
 package com.qcloud.liveshow.beans;
 
-import android.os.Parcel;
-
 import com.qcloud.liveshow.R;
 import com.qcloud.qclib.utils.StringUtils;
 
@@ -31,26 +29,15 @@ public class MemberBean implements Serializable {
     int attentionNum;   // 关注的人
     int fansNum;        // 粉丝数量
     String idAccount;   // 直播id
+    String last_send_message_datetime;//最后一次接受私聊信息时间
 
-
-    protected MemberBean(Parcel in) {
-        id = in.readLong();
-        nickName = in.readString();
-        headImg = in.readString();
-        sex = in.readInt();
-        isAnchor = in.readByte() != 0;
-        anchorGrade = in.readString();
-        anchorGradeIcon = in.readString();
-        memberGrade = in.readString();
-        memberGradeIcon = in.readString();
-        memberSum = in.readDouble();
-        signature = in.readString();
-        isAttention = in.readByte() != 0;
-        attentionNum = in.readInt();
-        fansNum = in.readInt();
-        idAccount = in.readString();
+    public String getLast_send_message_datetime() {
+        return last_send_message_datetime;
     }
 
+    public void setLast_send_message_datetime(String last_send_message_datetime) {
+        this.last_send_message_datetime = last_send_message_datetime;
+    }
 
     public String getIdAccount() {
         return StringUtils.isEmptyString(idAccount)? "" : idAccount;
@@ -218,6 +205,7 @@ public class MemberBean implements Serializable {
                 ", attentionNum=" + attentionNum +
                 ", fansNum=" + fansNum +
                 ", idAccount='" + idAccount + '\'' +
+                ", last_send_message_datetime='" + last_send_message_datetime + '\'' +
                 '}';
     }
 

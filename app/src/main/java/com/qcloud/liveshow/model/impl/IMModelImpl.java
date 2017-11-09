@@ -6,6 +6,7 @@ import com.qcloud.liveshow.beans.NettyContentBean;
 import com.qcloud.liveshow.beans.NettyGroupBean;
 import com.qcloud.liveshow.beans.NettyRequestBean;
 import com.qcloud.liveshow.beans.NettySendPrivateBean;
+import com.qcloud.liveshow.beans.NettyShupUpBean;
 import com.qcloud.liveshow.enums.NettyActionType;
 import com.qcloud.liveshow.model.IIMModel;
 import com.qcloud.liveshow.netty.NettyClientBus;
@@ -152,4 +153,20 @@ public class IMModelImpl implements IIMModel {
 
         NettyClientBus.request(mGson.toJson(requestBean));
     }
+
+    @Override
+    public void shutUp(String roomNum, String memberId, boolean isForbidden) {
+        NettyShupUpBean bean=new NettyShupUpBean();
+        bean.setRoom_number(roomNum);
+        bean.setMember_id(memberId);
+        bean.setIs_forbidden(isForbidden);
+
+        NettyRequestBean<NettyShupUpBean> requestBean = new NettyRequestBean<>();
+        requestBean.setAction_type(NettyActionType.NO_SPEAKING.getKey());
+        requestBean.setUuid(DateUtils.getTimeStamp());
+        requestBean.setData(bean);
+
+        NettyClientBus.request(mGson.toJson(requestBean));
+    }
+
 }

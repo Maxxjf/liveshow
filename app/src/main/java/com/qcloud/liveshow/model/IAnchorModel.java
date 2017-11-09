@@ -9,6 +9,7 @@ import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.SubmitApplyBean;
 import com.qcloud.liveshow.beans.SubmitStartLiveBean;
+import com.qcloud.liveshow.beans.UserStatusBean;
 import com.qcloud.qclib.beans.ReturnDataBean;
 import com.qcloud.qclib.callback.DataCallback;
 
@@ -42,4 +43,6 @@ public interface IAnchorModel {
     /**直播前获取直播消息*/
     void getLiveinfo(DataCallback<LiveInfoBean> callback);
 
+
+    void getUserStatus(String memberId, String roomId, DataCallback<UserStatusBean> callback);
 }

@@ -13,12 +13,14 @@ import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.enums.NettyActionType;
 import com.qcloud.liveshow.netty.callback.ResponseListener;
+import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.utils.NettyUtil;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.rxbus.BusProvider;
 
 import java.lang.reflect.Type;
+import java.util.List;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.reactivex.annotations.NonNull;
@@ -30,10 +32,11 @@ import timber.log.Timber;
  * Date: 2017/11/1 13:42.
  */
 public class ResponseHandler implements ResponseListener, IResponseMethod {
+    RealmHelper realmHelper;
 
     /**
      * 从服务器返回的消息
-     * */
+     */
     @Override
     public boolean channelRead(ChannelHandlerContext ctx, JsonElement msgConfig) throws Exception {
         Timber.e("Read Message: " + msgConfig);
@@ -44,11 +47,13 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         return false;
     }
 
+
     /**
      * 数据处理，初步解析
-     * */
+     */
     private void dispose(@NonNull JsonElement jsonStr) {
-        Type type = new TypeToken<NettyBaseResponse>(){}.getType();
+        Type type = new TypeToken<NettyBaseResponse>() {
+        }.getType();
         NettyBaseResponse data = new Gson().fromJson(jsonStr, type);
         if (data != null) {
             Timber.i("action_type = %d", data.getAction_type());
@@ -82,7 +87,8 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
      */
     @Override
     public void disposeAuth(JsonElement msgConfig) {
-        Type type = new TypeToken<NettyBaseResponse<NettyAuthBean>>(){}.getType();
+        Type type = new TypeToken<NettyBaseResponse<NettyAuthBean>>() {
+        }.getType();
         NettyDispose.dispose(msgConfig, type, new DataCallback<NettyAuthBean>() {
             @Override
             public void onSuccess(NettyAuthBean nettyAuthBean) {
@@ -106,7 +112,8 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
      */
     @Override
     public void disposeGroup(JsonElement msgConfig) {
-        Type type = new TypeToken<NettyBaseResponse<NettyReceiveGroupBean>>(){}.getType();
+        Type type = new TypeToken<NettyBaseResponse<NettyReceiveGroupBean>>() {
+        }.getType();
         NettyDispose.dispose(msgConfig, type, new DataCallback<NettyReceiveGroupBean>() {
             @Override
             public void onSuccess(NettyReceiveGroupBean bean) {
@@ -127,10 +134,17 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
      */
     @Override
     public void disposePrivate(JsonElement msgConfig) {
-        Type type = new TypeToken<NettyBaseResponse<NettyReceivePrivateBean>>(){}.getType();
+        Type type = new TypeToken<NettyBaseResponse<NettyReceivePrivateBean>>() {
+        }.getType();
         NettyDispose.dispose(msgConfig, type, new DataCallback<NettyReceivePrivateBean>() {
             @Override
             public void onSuccess(NettyReceivePrivateBean bean) {
+                if (realmHelper == null) {
+                    realmHelper = new RealmHelper();
+                }
+                bean.setSend(false);
+                realmHelper.addOrUpdateNettyReceivePrivateBean(bean);//添加到本地数据
+                List<NettyReceivePrivateBean> s = realmHelper.queryNettyReceivePrivateBean();
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_private_chat).setObj(bean).build());
             }
 
@@ -148,11 +162,12 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
      */
     @Override
     public void disposeChatList(JsonElement msgConfig) {
-        Type type = new TypeToken<NettyBaseResponse<NettyChatListBean>>(){}.getType();
+        Type type = new TypeToken<NettyBaseResponse<NettyChatListBean>>() {
+        }.getType();
         NettyDispose.dispose(msgConfig, type, new DataCallback<NettyChatListBean>() {
             @Override
             public void onSuccess(NettyChatListBean bean) {
-                Timber.e(bean+"");
+                Timber.e(bean + "");
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_get_chat_list_success)
                         .setObj(bean).build());
             }
@@ -172,7 +187,8 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
      */
     @Override
     public void disposeNotice(JsonElement msgConfig, final int actionType) {
-        Type type = new TypeToken<NettyBaseResponse<NettyNoticeBean>>(){}.getType();
+        Type type = new TypeToken<NettyBaseResponse<NettyNoticeBean>>() {
+        }.getType();
         NettyDispose.dispose(msgConfig, type, new DataCallback<NettyNoticeBean>() {
             @Override
             public void onSuccess(NettyNoticeBean bean) {
@@ -195,7 +211,8 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
      */
     @Override
     public void disposeGroupMember(JsonElement msgConfig) {
-        Type type = new TypeToken<NettyBaseResponse<NettyRoomMemberBean>>(){}.getType();
+        Type type = new TypeToken<NettyBaseResponse<NettyRoomMemberBean>>() {
+        }.getType();
         NettyDispose.dispose(msgConfig, type, new DataCallback<NettyRoomMemberBean>() {
             @Override
             public void onSuccess(NettyRoomMemberBean bean) {

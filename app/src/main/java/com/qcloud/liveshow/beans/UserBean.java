@@ -31,6 +31,8 @@ public class UserBean {
     private double money;   // 收益余额
 
 
+
+
     public long getId() {
         return id;
     }

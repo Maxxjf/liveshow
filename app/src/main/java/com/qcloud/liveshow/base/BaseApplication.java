@@ -13,6 +13,7 @@ import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.qcloud.liveshow.BuildConfig;
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.ui.account.widget.LoginActivity;
@@ -48,7 +49,7 @@ import timber.log.Timber;
 public class BaseApplication extends Application {
     private static BaseApplication mApplication;
     private static AppManager mAppManager; // Activity 管理器
-
+    public  static UserBean userBean;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -61,8 +62,6 @@ public class BaseApplication extends Application {
         // 初始化网络框架
         initOkGo();
 
-        // 初始化Realm
-        initRealm();
 
         // 初始化缓存
         ConstantUtil.initSharedPreferences(mApplication);
@@ -132,10 +131,14 @@ public class BaseApplication extends Application {
     /**
      * 初始化Realm
      * */
-    private void initRealm() {
+    public  void initRealm() {
+        String user_id="";
+        if (userBean!=null){
+             user_id=getUserBean().getIdStr();
+        }
         Realm.init(this);
         RealmConfiguration configuration = new RealmConfiguration.Builder()
-                .name(RealmHelper.DB_NAME)
+                .name(RealmHelper.DB_NAME+user_id)
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(configuration);
@@ -163,6 +166,17 @@ public class BaseApplication extends Application {
     public static boolean isLogin() {
         return StringUtils.isNotEmptyString(TokenUtil.getToken());
     }
+
+
+    /**
+     * 得到当前用户信息
+     *
+     * @return
+     */
+    public static UserBean getUserBean() {
+        return userBean;
+    }
+
 
     /**
      * 登录验证

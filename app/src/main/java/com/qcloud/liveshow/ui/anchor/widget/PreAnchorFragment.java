@@ -16,7 +16,6 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.LiveInfoBean;
 import com.qcloud.liveshow.beans.SubmitStartLiveBean;
-import com.qcloud.liveshow.ui.anchor.presenter.impl.AnchorPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.PreAnchorPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IPreAnchorView;
 import com.qcloud.liveshow.widget.pop.SelectPicturePop;
@@ -121,7 +120,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     protected void initViewAndData() {
         mStartTime = DateUtils.getCurrTime("HH:mm");
         mBtnTimeStart.setText(mStartTime);
-        new AnchorPresenterImpl().finishLive();//结束直播
+//        new AnchorPresenterImpl().finishLive();//已经在Activity那结束直播了
         mPresenter.getLiveinfo();
 
     }

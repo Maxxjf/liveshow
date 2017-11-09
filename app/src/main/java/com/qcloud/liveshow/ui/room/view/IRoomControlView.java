@@ -1,6 +1,6 @@
 package com.qcloud.liveshow.ui.room.view;
 
-import com.qcloud.liveshow.beans.NettyMemberBean;
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
@@ -42,7 +42,7 @@ public interface IRoomControlView {
     void onFollowRes(boolean isSuccess);
 
     /**获取会话列表*/
-    void replaceChatList(List<NettyMemberBean> beans);
+    void replaceChatList(List<MemberBean> beans);
 
     /**通知成员加入*/
     void addMember(NettyRoomMemberBean bean);
@@ -55,4 +55,13 @@ public interface IRoomControlView {
 
     /**有用户退出群聊*/
     void userOutGroup(NettyNoticeBean bean);
+
+    /**成功拉入黑名单*/
+    void backListSuccess();
+
+    /**成功设置守护*/
+    void inOutGuardSuccess();
+
+    /**成功设置守护*/
+    void inOutGuardError(String msg);
 }

@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.utils;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.base.BaseApplication;
 import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.liveshow.model.impl.UserModelImpl;
 import com.qcloud.qclib.beans.RxBusEvent;
@@ -23,6 +24,7 @@ public class UserInfoUtil {
             public void onSuccess(UserBean userBean) {
                 if (userBean != null) {
                     mUser = userBean;
+                    BaseApplication.getInstance().userBean=userBean;
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.get_user_info_success).setObj(userBean).build());
                 } else {
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.get_user_info_error).setObj("获取有户信息失败").build());

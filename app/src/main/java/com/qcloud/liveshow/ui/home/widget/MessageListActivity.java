@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.MessageListAdapter;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
-import com.qcloud.liveshow.beans.NettyMemberBean;
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.ui.home.presenter.impl.MessageListPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IMessageListView;
 import com.qcloud.liveshow.utils.NettyUtil;
@@ -40,6 +40,7 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
     private MessageListAdapter mAdapter;
 
     private NoDataView mEmptyView;
+    private List<MemberBean> beans;
 
     @Override
     protected int initLayout() {
@@ -84,7 +85,9 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
         mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                FansMessageActivity.openActivity(MessageListActivity.this);
+                MemberBean userBean=beans.get(i);
+                String fromUserId=userBean.getIdStr();
+                FansMessageActivity.openActivity(MessageListActivity.this,userBean);
             }
         });
 
@@ -107,13 +110,14 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
     }
 
     @Override
-    public void replaceList(List<NettyMemberBean> beans) {
+    public void replaceList(List<MemberBean> beans) {
         if (isRunning) {
             if (mListMessage != null) {
                 mListMessage.refreshFinish();
             }
             if (beans != null && beans.size() > 0) {
                 if (mAdapter != null) {
+                    this.beans=beans;
                     mAdapter.replaceList(beans);
                 }
                 hideEmptyView();

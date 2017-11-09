@@ -71,6 +71,8 @@ public interface UrlConstants {
     String FINISH_LIVE = URL_PREFIX_APP + "room/finish";
     /**开始直播前获取直播消息*/
     String GET_LIVEINFO = URL_PREFIX_APP + "room/beginCreate";
+    /**判断该用户身份(主播,守护,观众)*/
+    String GET_USER_STATUS = URL_PREFIX_APP + "room/estimateIdentity";
 
     /**
      * 我的有关
