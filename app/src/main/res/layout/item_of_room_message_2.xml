@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_marginTop="@dimen/margin_1"
+    android:paddingLeft="@dimen/layout_margin"
+    android:paddingRight="@dimen/layout_margin"
+    >
+
+   <com.qcloud.liveshow.widget.customview.RoomMessageLayout
+       android:id="@+id/room_message_layout"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       ></com.qcloud.liveshow.widget.customview.RoomMessageLayout>
+</LinearLayout>
