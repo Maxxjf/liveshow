@@ -24,7 +24,6 @@ import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -144,12 +143,7 @@ public class NettyClient extends ClientImpl {
      * 鉴权
      * */
     public  void auth() {
-        RxScheduler.doOnIOThread(new IOTask<Void>() {
-            @Override
-            public void doOnIOThread() {
-                new IMModelImpl().auth();
-            }
-        });
+        RxScheduler.doOnIOThread((IOTask<Void>) () -> new IMModelImpl().auth());
     }
 
     /**
@@ -168,19 +162,16 @@ public class NettyClient extends ClientImpl {
      * 发送数据到服务器
      * */
     private void request() {
-        RxScheduler.doOnIOThread(new IOTask<Void>() {
-            @Override
-            public void doOnIOThread() {
-                while (!isDestroy) {
-                    try {
-                        String message = mMessageSupers.take();
-                        if (message != null && getConnectState()) {
-                            Timber.e("write: " + message);
-                            mSocketChannel.writeAndFlush(message).sync();
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+        RxScheduler.doOnIOThread((IOTask<Void>) () -> {
+            while (!isDestroy) {
+                try {
+                    String message = mMessageSupers.take();
+                    if (message != null && getConnectState()) {
+                        Timber.e("write: " + message);
+                        mSocketChannel.writeAndFlush(message).sync();
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -249,12 +240,9 @@ public class NettyClient extends ClientImpl {
         if (mDisposable != null && !mDisposable.isDisposed()) {
             return;
         }
-        mDisposable = Observable.interval(2, TimeUnit.SECONDS).subscribe(new Consumer<Long>() {
-            @Override
-            public void accept(Long aLong) throws Exception {
-                Timber.i("socket 连接2s后建立");
-                InitializationWithWorkThread();
-            }
+        mDisposable = Observable.interval(2, TimeUnit.SECONDS).subscribe(aLong -> {
+            Timber.i("socket 连接2s后建立");
+            InitializationWithWorkThread();
         });
     }
 

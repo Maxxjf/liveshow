@@ -72,45 +72,42 @@ public class ResponseChannelHandler extends ChannelHandlerSuper {
      * 处理队列数据
      * */
     public void disposeJson() {
-        RxScheduler.doOnIOThread(new IOTask<Void>() {
-            @Override
-            public void doOnIOThread() {
-                while (NettyClientBus.isRun) {
-                    try {
-                        String response = mMessageDeque.take();
+        RxScheduler.doOnIOThread((IOTask<Void>) () -> {
+            while (NettyClientBus.isRun) {
+                try {
+                    String response = mMessageDeque.take();
+                    if (JsonUtil.isGoodJson(response)) {
+                        // 取到一个完整的json，则之前取到的不完整json先解析
+                        String receiveMsgStr = String.valueOf(receiveMsg);
+                        if (receiveMsgStr.length() > 0) {
+                            splitJson(receiveMsgStr);
+                            receiveMsg = new StringBuffer();
+                        }
+                        JsonElement element = new JsonParser().parse(response);
+                        ObservableNotify(mContext, element);
+                    } else if (mMessageDeque.isEmpty()) {
+                        // 最后一条
                         if (JsonUtil.isGoodJson(response)) {
-                            // 取到一个完整的json，则之前取到的不完整json先解析
+                            JsonElement element = new JsonParser().parse(response);
+                            ObservableNotify(mContext, element);
+                        } else {
+                            receiveMsg.append(response);
+
                             String receiveMsgStr = String.valueOf(receiveMsg);
                             if (receiveMsgStr.length() > 0) {
                                 splitJson(receiveMsgStr);
                                 receiveMsg = new StringBuffer();
                             }
-                            JsonElement element = new JsonParser().parse(response);
-                            ObservableNotify(mContext, element);
-                        } else if (mMessageDeque.isEmpty()) {
-                            // 最后一条
-                            if (JsonUtil.isGoodJson(response)) {
-                                JsonElement element = new JsonParser().parse(response);
-                                ObservableNotify(mContext, element);
-                            } else {
-                                receiveMsg.append(response);
-
-                                String receiveMsgStr = String.valueOf(receiveMsg);
-                                if (receiveMsgStr.length() > 0) {
-                                    splitJson(receiveMsgStr);
-                                    receiveMsg = new StringBuffer();
-                                }
-                            }
-                        } else {
-                            // 粘包/拆包数据
-                            receiveMsg.append(response);
                         }
-                        Thread.sleep(600);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (Exception ignored) {
-                        ignored.printStackTrace();
+                    } else {
+                        // 粘包/拆包数据
+                        receiveMsg.append(response);
                     }
+                    Thread.sleep(600);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (Exception ignored) {
+                    ignored.printStackTrace();
                 }
             }
         });
@@ -129,7 +126,7 @@ public class ResponseChannelHandler extends ChannelHandlerSuper {
             String indexStr; //单个字符串
             StringBuilder jsonObjStr = new StringBuilder();
             for (int i = 0; i < response.length(); i++) {
-                indexStr = response.substring(i, i + 1);
+                indexStr = response.substring(i, i+1);
                 jsonObjStr.append(indexStr);
 
                 if (indexStr.equals("{")) {

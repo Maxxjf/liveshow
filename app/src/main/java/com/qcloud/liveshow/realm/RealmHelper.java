@@ -110,8 +110,7 @@ public class RealmHelper {
     }
 
     /**
-     *
-     *      删除私聊消息
+     * 删除私聊消息
      * */
     public void delNettyReceivePrivateBeanById(final long from_user_id) {
         if (from_user_id < 0) {
@@ -128,10 +127,10 @@ public class RealmHelper {
     }
 
     /**
+     *  根据id查找私聊消息
      *
-     *      根据id查找私聊消息
-     *
-     * @param from_user_id*/
+     * @param from_user_id
+     * */
     public List<NettyReceivePrivateBean> queryNettyReceivePrivateBeanById(final String from_user_id) {
       RealmResults<NettyReceivePrivateBean> list=  mRealm.where(NettyReceivePrivateBean.class).equalTo("from_user_id", from_user_id).findAll();
         return mRealm.copyFromRealm(list);

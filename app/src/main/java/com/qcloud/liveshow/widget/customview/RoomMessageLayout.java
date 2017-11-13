@@ -88,26 +88,26 @@ public class RoomMessageLayout extends BaseLinearLayout {
             }
 
             if (contentBean != null) {
-                settext(contentBean,memberBean);
+                setText(contentBean,memberBean);
             }
         }
     }
 
 
-    public void settext(NettyContentBean contentBean,MemberBean memberBean) {
+    public void setText(NettyContentBean contentBean,MemberBean memberBean) {
         String nickName=memberBean.getNickName()+":";
         String text=contentBean.getText();
         ScreenWidth = ScreenUtils.getScreenWidth(BaseApplication.getInstance());//屏幕的长度
         String result;
         int resultWidth;
-        int iconWidth= DensityUtils.dp2px(BaseApplication.getInstance(),160);//图标的长度
-        for (int i=0;i<text.length();i++){
-            char single=text.charAt(i);//单个字节
-            result=nickName+text.substring(0,i);//文字的长度
-            resultWidth=getCharacterWidth(result,getResources().getDimension(R.dimen.micro_text_size));
-            if ((iconWidth+resultWidth)<ScreenWidth){
+        int iconWidth = DensityUtils.dp2px(BaseApplication.getInstance(),160);//图标的长度
+        for (int i=0; i<text.length(); i++) {
+            char single = text.charAt(i);//单个字节
+            result = nickName+text.substring(0,i);//文字的长度
+            resultWidth = getCharacterWidth(result,getResources().getDimension(R.dimen.micro_text_size));
+            if ((iconWidth+resultWidth)<ScreenWidth) {
                 tvMessage.append(String.valueOf(single));
-            }else {
+            } else {
                 tvMessage2.setVisibility(View.VISIBLE);
                 tvMessage2.append(String.valueOf(single));
             }
@@ -119,8 +119,8 @@ public class RoomMessageLayout extends BaseLinearLayout {
         }
         Paint paint = new Paint();
         paint.setTextSize(size);
-        int text_width = (int) paint.measureText(text);// 得到总体长度
+        int textWidth = (int) paint.measureText(text);// 得到总体长度
         // int width = text_width/text.length();//每一个字符的长度
-        return text_width;
+        return textWidth;
     }
 }
