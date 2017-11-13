@@ -64,6 +64,7 @@ public class NettyClient extends ClientImpl {
     private NettyClient() {
         mEventLoopGroup = new NioEventLoopGroup();
         mHandler = new ResponseChannelHandler();
+        mHandler.disposeJson();
         request();
     }
 

@@ -13,10 +13,14 @@ import com.qcloud.liveshow.netty.handler.ResponseHandler;
  * Date: 2017/11/1 12:05.
  */
 public class NettyClientBus {
+    // 标志是否在运行
+    public static boolean isRun = false;
+
     /**
      * 初始化
      * */
     public static void Initialization(Context context, String host, int port) {
+        isRun = true;
         ClientImpl.newInstances()
                 .bind(host, port)
                 .addResponseListener(new ResponseHandler())     // 响应数据监听
@@ -41,5 +45,6 @@ public class NettyClientBus {
         ClientNetWorkIml.newInstance().onDestroy();
         ClientImpl.newInstances().onDestroy();
         NettyDispose.onDestroy();
+        isRun = false;
     }
 }
