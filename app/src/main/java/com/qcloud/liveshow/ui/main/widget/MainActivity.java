@@ -27,7 +27,6 @@ import com.qcloud.liveshow.utils.BasicsUtil;
 import com.qcloud.liveshow.utils.NettyUtil;
 import com.qcloud.liveshow.widget.pop.BindingGeneralizeRelationPop;
 import com.qcloud.liveshow.widget.pop.TipsPop;
-import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.ConstantUtil;
 import com.qcloud.qclib.utils.StringUtils;
@@ -85,12 +84,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         switchStart(startEnum);
         BaseApplication.getInstance().initRealm();
         loadBasicData();
-        mBtnLiveShow.post(new Runnable() {
-            @Override
-            public void run() {
-                bindingGeneralizeRelation();
-            }
-        });
+        mBtnLiveShow.post(() -> bindingGeneralizeRelation());
         connectIM();
     }
 
@@ -143,20 +137,17 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
 
     private void initBindingPop() {
         mBindingPop = new BindingGeneralizeRelationPop(this);
-        mBindingPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
-            @Override
-            public void onViewClick(View view) {
-                if (view.getId() == R.id.btn_ok) {
-                    bindCode = mBindingPop.getCode();
-                    if (StringUtils.isEmptyString(bindCode)) {
-                        ToastUtils.ToastMessage(mContext, R.string.tip_input_recommend_code);
-                    } else {
-                        mBindingPop.dismiss();
-                        mPresenter.submitBinding(bindCode);
-                    }
+        mBindingPop.setOnHolderClick(view -> {
+            if (view.getId() == R.id.btn_ok) {
+                bindCode = mBindingPop.getCode();
+                if (StringUtils.isEmptyString(bindCode)) {
+                    ToastUtils.ToastMessage(mContext, R.string.tip_input_recommend_code);
                 } else {
                     mBindingPop.dismiss();
+                    mPresenter.submitBinding(bindCode);
                 }
+            } else {
+                mBindingPop.dismiss();
             }
         });
     }
@@ -223,14 +214,11 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
             pop.setCancelBtn(R.string.btn_no);
             pop.setOkBtn(R.string.btn_yes);
             pop.showAtLocation(mBtnLiveShow, Gravity.CENTER, 0, 0);
-            pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
-                @Override
-                public void onViewClick(View view) {
-                    if (view.getId() == R.id.btn_ok) {
-                        ApplyAnchorActivity.openActivity(MainActivity.this);
-                    } else {
-                        pop.dismiss();
-                    }
+            pop.setOnHolderClick(view -> {
+                if (view.getId() == R.id.btn_ok) {
+                    ApplyAnchorActivity.openActivity(MainActivity.this);
+                } else {
+                    pop.dismiss();
                 }
             });
         }
@@ -244,14 +232,11 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         final TipsPop pop=new TipsPop(this);
         pop.setTips(R.string.toast_apply_none);
         pop.showAtLocation(mBtnLiveShow,Gravity.CENTER,0,0);
-        pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
-            @Override
-            public void onViewClick(View view) {
-                if (view.getId() == R.id.btn_ok) {
-                    ApplyAnchorActivity.openActivity(MainActivity.this);
-                } else {
-                    pop.dismiss();
-                }
+        pop.setOnHolderClick(view -> {
+            if (view.getId() == R.id.btn_ok) {
+                ApplyAnchorActivity.openActivity(MainActivity.this);
+            } else {
+                pop.dismiss();
             }
         });
 
