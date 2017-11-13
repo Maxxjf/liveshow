@@ -7,6 +7,7 @@ import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.LiveInfoBean;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.beans.UserStatusBean;
 import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.qclib.beans.BaseResponse;
@@ -45,8 +46,8 @@ public class IAnchorApi {
     }
 
     /**创建直播间*/
-    public static Observable<BaseResponse<ReturnEmptyBean>> createLive(HttpParams params) {
-        Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
+    public static Observable<BaseResponse<RoomBean>> createLive(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<RoomBean>>(){}.getType();
 
         return OkGoRequest.getRequest(UrlConstants.CREATE_LIVE, type, params);
     }

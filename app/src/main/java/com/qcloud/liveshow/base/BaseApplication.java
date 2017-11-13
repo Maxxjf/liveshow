@@ -22,6 +22,7 @@ import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.AppManager;
 import com.qcloud.qclib.FrameConfig;
 import com.qcloud.qclib.utils.ConstantUtil;
+import com.qcloud.qclib.utils.ScreenUtils;
 import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.utils.TokenUtil;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -50,6 +51,9 @@ public class BaseApplication extends Application {
     private static BaseApplication mApplication;
     private static AppManager mAppManager; // Activity 管理器
     public  static UserBean userBean;
+
+    public int ScreenWidth;
+    public int ScreenHeight;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -62,6 +66,8 @@ public class BaseApplication extends Application {
         // 初始化网络框架
         initOkGo();
 
+        //初始化长度和高度
+        initScreen();
 
         // 初始化缓存
         ConstantUtil.initSharedPreferences(mApplication);
@@ -82,6 +88,11 @@ public class BaseApplication extends Application {
         QueuedWork.isUseThreadPool = false;
         UMShareAPI.get(this);
         PlatformConfig.setWeixin(AppConstants.WX_APP_ID, AppConstants.WX_APP_SECRET);
+    }
+
+    private void initScreen() {
+        ScreenWidth = ScreenUtils.getScreenWidth(this);
+        ScreenHeight=ScreenUtils.getScreenHeight(this);
     }
 
     /**

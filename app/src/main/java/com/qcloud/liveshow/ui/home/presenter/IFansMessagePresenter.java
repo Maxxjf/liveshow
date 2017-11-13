@@ -11,4 +11,5 @@ public interface IFansMessagePresenter {
      */
     void getChars(String fromUserId);
 
+    void SendMessage(String userId, String content);
 }

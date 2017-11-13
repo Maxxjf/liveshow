@@ -14,6 +14,7 @@ import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.adapter.recyclerview.BaseViewHolder;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
 import com.qcloud.qclib.image.GlideUtil;
+import com.qcloud.qclib.utils.DateUtils;
 import com.qcloud.qclib.widget.customview.RatioImageView;
 
 /**
@@ -41,7 +42,12 @@ public class FansMessageAdapter extends CommonRecyclerAdapter<NettyReceivePrivat
         final NettyContentBean contentBean = bean.getContent();
 
         TextView mTvTime = holder.get(R.id.tv_time);
-
+        if (position%5==0){
+            mTvTime.setText(DateUtils.dateToString(DateUtils.parseDate(bean.getContent().getDate_time_str(),DateUtils.yyyyMMddHHmmss),DateUtils.MMddHHmmss));
+            mTvTime.setVisibility(View.VISIBLE);
+        }else {
+            mTvTime.setVisibility(View.GONE);
+        }
         // 接收消息
         LinearLayout mLayoutReceive = holder.get(R.id.layout_receive);
         RatioImageView mImgFansHead = holder.get(R.id.img_fans_header);

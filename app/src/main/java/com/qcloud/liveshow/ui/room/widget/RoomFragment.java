@@ -23,7 +23,6 @@ import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.RoomBean;
-import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.ui.room.presenter.impl.RoomControlPresenterImpl;
 import com.qcloud.liveshow.ui.room.view.IRoomControlView;
@@ -429,8 +428,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mFansAdapter.setOnHolderClick(new CommonRecyclerAdapter.ViewHolderClick<MemberBean>() {
             @Override
             public void onViewClick(View view, MemberBean bean, int position) {
+                mMemberBean =bean;
                 if (mFansPop == null) {
-                    mMemberBean =bean;
                     initFansPop();
                 }
                 mFansPop.refreshData(bean);

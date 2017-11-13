@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.FansMessageAdapter;
@@ -21,6 +22,7 @@ import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.KeyBoardUtils;
 import com.qcloud.qclib.widget.customview.ClearEditText;
 
 import java.util.List;
@@ -45,6 +47,8 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     ImageView mBtnEmoticon;
 
     private FansMessageAdapter mAdapter;
+    private MemberBean mMemberBean;
+
     @Override
     protected int initLayout() {
         return R.layout.activity_fans_message;
@@ -76,7 +80,17 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
                 switch (actionId) {
                     case KeyEvent.KEYCODE_ENDCALL:
                     case KeyEvent.KEYCODE_ENTER:
-                        //onSendClick();
+                        String context=mEtMessage.getText().toString();
+                        if ("".equals(context)){
+                            Toast.makeText(mContext,"文本不能为空",Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                        mPresenter.SendMessage(mMemberBean.getIdStr(),context);
+                        mEtMessage.setText("");
+                        int height=mListMessage.getHeight();
+                        int etheight=mEtMessage.getHeight();
+                        Toast.makeText(mContext,"height:"+height +"\netheight:"+etheight,Toast.LENGTH_SHORT).show();
+                        KeyBoardUtils.closeKeybord(mEtMessage,mContext);
                         return true;
                     case KeyEvent.KEYCODE_BACK:
 
@@ -90,7 +104,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     }
 
     private void initDate() {
-        MemberBean mMemberBean = (MemberBean) getIntent().getSerializableExtra("formUser");
+         mMemberBean = (MemberBean) getIntent().getSerializableExtra("formUser");
         Timber.e("formUser:"+mMemberBean);
         if (mMemberBean!=null){
             mAdapter.refreshMember(mMemberBean);
@@ -99,6 +113,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
                 mPresenter.getChars(fromUserId);
             }
         }
+        setTitle(mMemberBean.getNickName());
 
 
     }
@@ -116,6 +131,19 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
         mAdapter = new FansMessageAdapter(mContext);
         mListMessage.setAdapter(mAdapter);
     }
+
+
+    /**
+     * 加并且刷新消息
+     * */
+    @Override
+    public void addMessage(NettyReceivePrivateBean bean) {
+        if (mAdapter != null && bean != null) {
+            mAdapter.addListBeanAtEnd(bean);
+        }
+    }
+
+
     @Override
     public void replaceList(List<NettyReceivePrivateBean> beans) {
         if (isRunning) {

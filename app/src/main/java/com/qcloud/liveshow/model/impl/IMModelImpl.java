@@ -7,7 +7,7 @@ import com.qcloud.liveshow.beans.NettyGroupBean;
 import com.qcloud.liveshow.beans.NettyRequestBean;
 import com.qcloud.liveshow.beans.NettySendPrivateBean;
 import com.qcloud.liveshow.beans.NettyShupUpBean;
-import com.qcloud.liveshow.enums.NettyActionType;
+import com.qcloud.liveshow.enums.RequestDataEnum;
 import com.qcloud.liveshow.model.IIMModel;
 import com.qcloud.liveshow.netty.NettyClientBus;
 import com.qcloud.qclib.utils.DateUtils;
@@ -37,7 +37,7 @@ public class IMModelImpl implements IIMModel {
         bean.setToken(TokenUtil.getToken());
 
         NettyRequestBean<NettyAuthBean> requestBean = new NettyRequestBean<>();
-        requestBean.setAction_type(NettyActionType.AUTH.getKey());
+        requestBean.setAction_type(RequestDataEnum.ActionType.AUTH.getKey());
         requestBean.setUuid(DateUtils.getTimeStamp());
         requestBean.setData(bean);
 
@@ -55,7 +55,7 @@ public class IMModelImpl implements IIMModel {
         bean.setToken(TokenUtil.getToken());
 
         NettyRequestBean<NettyAuthBean> requestBean = new NettyRequestBean<>();
-        requestBean.setAction_type(NettyActionType.GET_PRIVATE_CHAT_LIST.getKey());
+        requestBean.setAction_type(RequestDataEnum.ActionType.GET_PRIVATE_CHAT_LIST.getKey());
         requestBean.setUuid(DateUtils.getTimeStamp());
         requestBean.setData(bean);
 
@@ -79,7 +79,7 @@ public class IMModelImpl implements IIMModel {
         bean.setContent(contentBean);
 
         NettyRequestBean<NettySendPrivateBean> requestBean=new NettyRequestBean<>();
-        requestBean.setAction_type(NettyActionType.PRIVATE_CHAT.getKey());
+        requestBean.setAction_type(RequestDataEnum.ActionType.PRIVATE_CHAT.getKey());
         requestBean.setUuid(DateUtils.getTimeStamp());
         requestBean.setData(bean);
         NettyClientBus.request(mGson.toJson(requestBean));
@@ -100,7 +100,7 @@ public class IMModelImpl implements IIMModel {
         bean.setContent(contentBean);
 
         NettyRequestBean<NettyGroupBean> requestBean = new NettyRequestBean<>();
-        requestBean.setAction_type(NettyActionType.GROUP_CHAT.getKey());
+        requestBean.setAction_type(RequestDataEnum.ActionType.GROUP_CHAT.getKey());
         requestBean.setUuid(DateUtils.getTimeStamp());
         requestBean.setData(bean);
         NettyClientBus.request(mGson.toJson(requestBean));
@@ -128,7 +128,7 @@ public class IMModelImpl implements IIMModel {
         bean.setRoom_number(roomNum);
 
         NettyRequestBean<NettyGroupBean> requestBean = new NettyRequestBean<>();
-        requestBean.setAction_type(NettyActionType.IN_ROOM.getKey());
+        requestBean.setAction_type(RequestDataEnum.ActionType.IN_ROOM.getKey());
         requestBean.setUuid(DateUtils.getTimeStamp());
         requestBean.setData(bean);
 
@@ -147,13 +147,17 @@ public class IMModelImpl implements IIMModel {
         bean.setRoom_number(roomNum);
 
         NettyRequestBean<NettyGroupBean> requestBean = new NettyRequestBean<>();
-        requestBean.setAction_type(NettyActionType.OUT_ROOM.getKey());
+        requestBean.setAction_type(RequestDataEnum.ActionType.OUT_ROOM.getKey());
         requestBean.setUuid(DateUtils.getTimeStamp());
         requestBean.setData(bean);
 
         NettyClientBus.request(mGson.toJson(requestBean));
     }
-
+    /**
+     * 禁言
+     *
+     * @time 2017/11/2 10:28
+     */
     @Override
     public void shutUp(String roomNum, String memberId, boolean isForbidden) {
         NettyShupUpBean bean=new NettyShupUpBean();
@@ -162,7 +166,7 @@ public class IMModelImpl implements IIMModel {
         bean.setIs_forbidden(isForbidden);
 
         NettyRequestBean<NettyShupUpBean> requestBean = new NettyRequestBean<>();
-        requestBean.setAction_type(NettyActionType.NO_SPEAKING.getKey());
+        requestBean.setAction_type(RequestDataEnum.ActionType.ROOM_FORBIDDEN_CHAT.getKey());
         requestBean.setUuid(DateUtils.getTimeStamp());
         requestBean.setData(bean);
 

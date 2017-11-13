@@ -41,7 +41,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_1"
-        android:lines="1"
         android:textColor="@color/white"
         android:textSize="@dimen/micro_text_size"
         tools:text="@string/tag_message_eg"/>

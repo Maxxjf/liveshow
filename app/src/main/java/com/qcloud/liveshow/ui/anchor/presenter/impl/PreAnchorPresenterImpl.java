@@ -3,7 +3,7 @@ package com.qcloud.liveshow.ui.anchor.presenter.impl;
 import com.lzy.okgo.model.Progress;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.LiveInfoBean;
-import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.beans.SubmitStartLiveBean;
 import com.qcloud.liveshow.model.IAnchorModel;
 import com.qcloud.liveshow.model.IFileModel;
@@ -119,11 +119,11 @@ public class PreAnchorPresenterImpl extends BasePresenter<IPreAnchorView> implem
 
     @Override
     public void createLive(SubmitStartLiveBean bean) {
-        mModel.createLive(bean, new DataCallback<ReturnEmptyBean>() {
+        mModel.createLive(bean, new DataCallback<RoomBean>() {
             @Override
-            public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+            public void onSuccess(RoomBean returnEmptyBean) {
                 if (mView != null) {
-                    mView.createLiveSuccess();
+                    mView.createLiveSuccess(returnEmptyBean);
                 }
             }
 

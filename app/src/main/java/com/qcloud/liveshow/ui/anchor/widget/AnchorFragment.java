@@ -1,6 +1,5 @@
 package com.qcloud.liveshow.ui.anchor.widget;
 
-import android.content.DialogInterface;
 import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -196,13 +195,10 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         mInputDialog.setOnMessageSendListener(new InputMessageDialog.OnMessageSendListener() {
             @Override
             public void onMessageSend(String message, boolean isNotice) {
-                ToastUtils.ToastMessage(getActivity(), message);
-            }
-        });
-        mInputDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                //SystemBarUtil.hideNavBar(getActivity());
+                String roomId=((AnchorActivity)getActivity()).getRoomId();
+                if (roomId != null && "".equals(roomId)) {
+                    mPresenter.sendGroupMessage(roomId, message);
+                }
             }
         });
     }

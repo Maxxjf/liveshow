@@ -7,6 +7,7 @@ import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.LiveInfoBean;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.beans.SubmitApplyBean;
 import com.qcloud.liveshow.beans.SubmitStartLiveBean;
 import com.qcloud.liveshow.beans.UserStatusBean;
@@ -29,7 +30,7 @@ public interface IAnchorModel {
     void submitApply(@NonNull SubmitApplyBean bean, DataCallback<ReturnEmptyBean> callback);
 
     /**创建直播间*/
-    void createLive(@NonNull SubmitStartLiveBean bean, DataCallback<ReturnEmptyBean> callback);
+    void createLive(@NonNull SubmitStartLiveBean bean, DataCallback<RoomBean> callback);
 
     /**获取我的守护列表*/
     void getGuardList(DataCallback<ReturnDataBean<MemberBean>> callback);

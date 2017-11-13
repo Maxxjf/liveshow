@@ -53,7 +53,9 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     private KSYStreamer mStreamer;
     private Handler mMainHandler;
 
-    /** 是否自动推流 */
+    /**
+     * 是否自动推流
+     */
     private boolean mAutoStart;
     private boolean mRecording = false;
     private boolean mIsFileRecording = false;
@@ -66,14 +68,24 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     private String mBgImagePath = "assets://bg.jpg";
     private String mRecordUrl = "/sdcard/rec_test.mp4";
 
-    /**是否支持硬编*/
+    String roomId = "";
+
+    /**
+     * 是否支持硬编
+     */
     private boolean mHWEncoderUnsupported;
-    /**是否支持软编*/
+    /**
+     * 是否支持软编
+     */
     private boolean mSWEncoderUnsupported;
 
-    /** 直播前准备页面 */
+    /**
+     * 直播前准备页面
+     */
     private PreAnchorFragment mPreFragment;
-    /** 直播控制页面 */
+    /**
+     * 直播控制页面
+     */
     private AnchorFragment mControlFragment;
 
     @Override
@@ -128,21 +140,23 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
 
     }
+
     /**
      * 关闭摄像头
      */
-    protected void stopSurface(){
-        if (mCameraPreview!=null){
+    protected void stopSurface() {
+        if (mCameraPreview != null) {
             mCameraPreview.setVisibility(View.GONE);
             mStreamer.stopCameraPreview();
             mStreamer.stopStream();
         }
     }
+
     /**
      * 打开摄像头
      */
-    protected void startSurface(){
-        if (mCameraPreview!=null){
+    protected void startSurface() {
+        if (mCameraPreview != null) {
             mCameraPreview.setVisibility(View.VISIBLE);
             mStreamer.startCameraPreview();
             mStreamer.startStream();
@@ -231,6 +245,20 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     }
 
     /**
+     * 得到房间ID
+     */
+    public String getRoomId() {
+        return roomId;
+    }
+
+    /**
+     * 设置房间ID
+     */
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
+    }
+
+    /**
      * 开始摄像头工作
      */
     private void startCameraPreview() {
@@ -243,7 +271,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     /**
      * 开始直播
-     * */
+     */
     protected void startStream() {
         mStreamer.startStream();
         mRecording = true;
@@ -251,7 +279,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     /**
      * 停止直播
-     * */
+     */
     protected void stopStream() {
         mStreamer.stopStream();
         mRecording = false;
@@ -260,7 +288,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     /**
      * 开始计时
-     * */
+     */
     private void startChronometer() {
         if (mControlFragment != null) {
             mControlFragment.startChronometer();
@@ -269,7 +297,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     /**
      * 停止计时
-     * */
+     */
     private void stopChronometer() {
         if (mRecording || mIsFileRecording) {
             return;
@@ -281,7 +309,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     /**
      * 初始化直播前的准备页面
-     * */
+     */
     private void initPreFragment() {
         mPreFragment = PreAnchorFragment.newInstance();
         mPreFragment.setOnFragmentClickListener(new OnFragmentClickListener() {
@@ -301,7 +329,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     /**
      * 初始化直播中的控制页面
-     * */
+     */
     private void initControlFragment() {
         mControlFragment = AnchorFragment.newInstance();
         mControlFragment.setOnFragmentClickListener(new OnFragmentClickListener() {
@@ -324,7 +352,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     /**
      * 选择直播前的准备页面
-     * */
+     */
     private void switchPreFragment() {
         if (mPreFragment == null) {
             initPreFragment();
@@ -334,7 +362,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     /**
      * 点击切换镜头
-     * */
+     */
     @Override
     public void onSwitchCameraClick() {
         if (isRunning) {
@@ -345,7 +373,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     /**
      * 点击闪光灯
-     * */
+     */
     @Override
     public void onFlashClick() {
         if (isRunning) {
@@ -361,7 +389,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     /**
      * 点击开始直播
-     * */
+     */
     @Override
     public void onBeginAnchorClick() {
         if (mControlFragment == null) {
@@ -509,7 +537,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
                 }
                 break;
                 default:
-                    if(mStreamer.getEnableAutoRestart()) {
+                    if (mStreamer.getEnableAutoRestart()) {
                         mRecording = false;
                         stopChronometer();
                     } else {
@@ -528,7 +556,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     /**
      * 处理与相机相关的操作
-     * */
+     */
     private void setCameraAntiBanding50Hz() {
         Camera.Parameters parameters = mStreamer.getCameraCapture().getCameraParameters();
         if (parameters != null) {
@@ -539,7 +567,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     /**
      * 处理编码错误
-     * */
+     */
     private void handleEncodeError() {
         if (mStreamer == null) return;
         int encodeMethod = mStreamer.getVideoEncodeMethod();
@@ -566,15 +594,15 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     /**
      * 结束直播
-     * */
+     */
     private void finishLive() {
         TipsPop pop = new TipsPop(this);
         pop.setTips(R.string.toast_exit_anchor);
-        pop.showAtLocation(mCameraPreview, Gravity.CENTER,0,0);
+        pop.showAtLocation(mCameraPreview, Gravity.CENTER, 0, 0);
         pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
             @Override
             public void onViewClick(View view) {
-                mPresenter.finishLive();
+//                mPresenter.finishLive();
                 AnchorFinishActivity.openActivity(AnchorActivity.this);
                 finish();
             }

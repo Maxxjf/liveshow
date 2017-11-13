@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.LiveInfoBean;
+import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.beans.SubmitStartLiveBean;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.PreAnchorPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IPreAnchorView;
@@ -401,9 +402,10 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     }
 
     @Override
-    public void createLiveSuccess() {
+    public void createLiveSuccess(RoomBean bean) {
         if (isInFragment) {
             stopLoadingDialog();
+            ((AnchorActivity)getActivity()).setRoomId(bean.getRoomIdStr());
             if (mListener != null) {
                 mListener.onBtnClick(mBtnBegin);
             }

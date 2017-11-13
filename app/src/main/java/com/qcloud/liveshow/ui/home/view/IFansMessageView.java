@@ -11,6 +11,8 @@ import java.util.List;
  * Date: 2017/9/11 12:01.
  */
 public interface IFansMessageView extends BaseView {
+    void addMessage(NettyReceivePrivateBean bean);
+
     void replaceList(List<NettyReceivePrivateBean> beans);
 
     void showEmptyView(String tip);

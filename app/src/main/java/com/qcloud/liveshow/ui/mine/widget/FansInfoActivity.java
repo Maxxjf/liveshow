@@ -74,6 +74,7 @@ public class FansInfoActivity extends SwipeBaseActivity<IFansInfoView, FansInfoP
 
     @BindString(R.string.tag_id)
     String idTag;
+    private MemberBean mMemberBean;
 
 
     @Override
@@ -95,12 +96,11 @@ public class FansInfoActivity extends SwipeBaseActivity<IFansInfoView, FansInfoP
     protected void initViewAndData() {
         /**解决状态栏与内容重叠*/
         SystemBarUtil.remeasureTitleBar(this, titleBar);
-        MemberBean mMemberBean = (MemberBean) getIntent().getSerializableExtra("mMemberBean");
+         mMemberBean = (MemberBean) getIntent().getSerializableExtra("mMemberBean");
         if (mMemberBean != null) {
             refreshUserInfo(mMemberBean);
         } else {
             ToastUtils.ToastMessage(mContext, "加载用户错误");
-
         }
     }
 
@@ -142,7 +142,7 @@ public class FansInfoActivity extends SwipeBaseActivity<IFansInfoView, FansInfoP
 
     @Override
     public void onClickSendMessage() {
-        FansMessageActivity.openActivity(mContext);
+        FansMessageActivity.openActivity(mContext,mMemberBean);
     }
 
     @Override
