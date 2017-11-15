@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,14 +33,8 @@ import com.qcloud.liveshow.widget.pop.FansMessagePop;
 import com.qcloud.liveshow.widget.pop.GuarderPop;
 import com.qcloud.liveshow.widget.pop.MessageListPop;
 import com.qcloud.liveshow.widget.pop.SharePop;
-import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
-import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.widget.customview.MarqueeView;
-import com.qcloud.qclib.widget.customview.clearscreen.ClearScreenHelper;
-import com.qcloud.qclib.widget.customview.clearscreen.IClearEvent;
-import com.qcloud.qclib.widget.customview.clearscreen.IClearRootView;
-import com.qcloud.qclib.widget.customview.clearscreen.view.RelativeClearLayout;
 
 import java.util.List;
 
@@ -133,8 +126,6 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      * 粉丝消息弹窗
      */
     private FansMessagePop mFansMessagePop;
-    private IClearRootView mClearRootLayout;
-    private ClearScreenHelper mClearScreenHelper;
 
     private MemberBean mMemberBean;
 
@@ -150,31 +141,9 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     @Override
     protected void initViewAndData() {
-        initClearLayout();
         initFansLayout();
         initMessageLayout();
         initMessagePop();
-        //SystemBarUtil.hideNavBar(getActivity());
-    }
-
-    /**
-     * 清屏布局
-     */
-    private void initClearLayout() {
-        mClearRootLayout = (RelativeClearLayout) mView.findViewById(R.id.layout_root);
-        mClearScreenHelper = new ClearScreenHelper(getActivity(), mClearRootLayout);
-        mClearScreenHelper.bind(mLayoutTop, mLayoutId, mLayoutNotice, mLayoutBottom);
-        mClearScreenHelper.setIClearEvent(new IClearEvent() {
-            @Override
-            public void onClearEnd() {
-                Timber.d("Clear End...");
-            }
-
-            @Override
-            public void onRecovery() {
-                Timber.d("Recovery Now...");
-            }
-        });
     }
 
     @Override
@@ -191,7 +160,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         refreshUserInfo();
 
         if (mTvWatchNum != null) {
-            mTvWatchNum.setText(mFansAdapter.getItemCount());
+            mTvWatchNum.setText(String.valueOf(mFansAdapter.getItemCount()));
         }
         if (mTvNotice != null) {
             mTvNotice.stopScroll();
@@ -232,20 +201,17 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      */
     private void resetNoticeWith() {
         if (mTvNotice != null) {
-            mTvNotice.post(new Runnable() {
-                @Override
-                public void run() {
-                    int textWidth = mTvNotice.getTextWidth() + 30;
-                    int viewWidth = mTvNotice.getViewWidth();
-                    Timber.e("textWidth = %d, viewWidth = %d", textWidth, viewWidth);
-                    ViewGroup.LayoutParams lp = mLayoutNoticeBg.getLayoutParams();
-                    if (textWidth > viewWidth) {
-                        lp.width = viewWidth;
-                    } else {
-                        lp.width = textWidth;
-                    }
-                    mLayoutNoticeBg.setLayoutParams(lp);
+            mTvNotice.post(() -> {
+                int textWidth = mTvNotice.getTextWidth() + 30;
+                int viewWidth = mTvNotice.getViewWidth();
+                Timber.e("textWidth = %d, viewWidth = %d", textWidth, viewWidth);
+                ViewGroup.LayoutParams lp = mLayoutNoticeBg.getLayoutParams();
+                if (textWidth > viewWidth) {
+                    lp.width = viewWidth;
+                } else {
+                    lp.width = textWidth;
                 }
+                mLayoutNoticeBg.setLayoutParams(lp);
             });
         }
     }
@@ -255,13 +221,10 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      */
     private void initInputDialog() {
         mInputDialog = new InputMessageDialog(getActivity());
-        mInputDialog.setOnMessageSendListener(new InputMessageDialog.OnMessageSendListener() {
-            @Override
-            public void onMessageSend(String message, boolean isNotice) {
-                String roomId = ((AnchorActivity) getActivity()).getRoomId();
-                if (roomId != null && !"".equals(roomId)) {
-                    mPresenter.sendGroupMessage(roomId, message);
-                }
+        mInputDialog.setOnMessageSendListener((message, isNotice) -> {
+            String roomId = ((AnchorActivity) getActivity()).getRoomId();
+            if (roomId != null && !"".equals(roomId)) {
+                mPresenter.sendGroupMessage(roomId, message);
             }
         });
     }
@@ -271,23 +234,20 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      */
     private void initFansPop() {
         mFansPop = new FansInfoPop(mContext);
-        mFansPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
-            @Override
-            public void onViewClick(View view) {
-                if (view.getId() == R.id.btn_manager) {
-                    if (mManagerPop == null) {
-                        initFansManagerPop();
-                    }
-                    mManagerPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
-                } else if (view.getId() == R.id.btn_letter) {
-                    if (mFansMessagePop == null) {
-                        initFansMessagePop();
-                    }
-                    mFansMessagePop.refreshMemberInfo(mFansPop.getCurrMember());
-                    mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
-                } else {
-                    mFansPop.dismiss();
+        mFansPop.setOnHolderClick(view -> {
+            if (view.getId() == R.id.btn_manager) {
+                if (mManagerPop == null) {
+                    initFansManagerPop();
                 }
+                mManagerPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+            } else if (view.getId() == R.id.btn_letter) {
+                if (mFansMessagePop == null) {
+                    initFansMessagePop();
+                }
+                mFansMessagePop.refreshMemberInfo(mFansPop.getCurrMember());
+                mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
+            } else {
+                mFansPop.dismiss();
             }
         });
     }
@@ -304,14 +264,11 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      */
     private void initMessagePop() {
         mMessagePop = new MessageListPop(mContext);
-        mMessagePop.setOnPopItemClick(new MessageListPop.onPopItemClick() {
-            @Override
-            public void onItemClick(int position, String item) {
-                if (mFansMessagePop == null) {
-                    initFansMessagePop();
-                }
-                mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
+        mMessagePop.setOnPopItemClick((position, item) -> {
+            if (mFansMessagePop == null) {
+                initFansMessagePop();
             }
+            mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
         });
     }
 
@@ -320,12 +277,6 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      */
     private void initSharePop() {
         mSharePop = new SharePop(mContext);
-        mSharePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                //SystemBarUtil.hideNavBar(getActivity());
-            }
-        });
     }
 
     /**
@@ -333,33 +284,24 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      */
     private void initFansManagerPop() {
         mManagerPop = new FansManagerPop(mContext);
-        mManagerPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
-            @Override
-            public void onViewClick(View view) {
-                switch (view.getId()) {
-                    case R.id.btn_set_guarder:
-                        mPresenter.inOutGuard(mMemberBean.getId(), true);
-                        break;
-                    case R.id.btn_my_guarder_list:
-                        mPresenter.getGuardList();
-                        if (mGuarderPop == null) {
-                            initGuarderPop();
-                        }
-                        mGuarderPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
-                        break;
-                    case R.id.btn_gag:
-                        mPresenter.shutUp(((AnchorActivity) getActivity()).getRoomId(), mMemberBean.getIdStr(), true);
-                        break;
-                    case R.id.btn_add_blacklist:
-                        mPresenter.submitAttention(StartFansEnum.Blacklist.getKey(), mMemberBean.getId(), true);
-                        break;
-                }
-            }
-        });
-        mManagerPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                //SystemBarUtil.hideNavBar(getActivity());
+        mManagerPop.setOnHolderClick(view -> {
+            switch (view.getId()) {
+                case R.id.btn_set_guarder:
+                    mPresenter.inOutGuard(mMemberBean.getId(), true);
+                    break;
+                case R.id.btn_my_guarder_list:
+                    mPresenter.getGuardList();
+                    if (mGuarderPop == null) {
+                        initGuarderPop();
+                    }
+                    mGuarderPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+                    break;
+                case R.id.btn_gag:
+                    mPresenter.shutUp(((AnchorActivity) getActivity()).getRoomId(), mMemberBean.getIdStr(), true);
+                    break;
+                case R.id.btn_add_blacklist:
+                    mPresenter.submitAttention(StartFansEnum.Blacklist.getKey(), mMemberBean.getId(), true);
+                    break;
             }
         });
     }
@@ -370,12 +312,6 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      */
     private void initGuarderPop() {
         mGuarderPop = new GuarderPop(mContext);
-        mGuarderPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                //SystemBarUtil.hideNavBar(getActivity());
-            }
-        });
     }
 
     /**
@@ -386,16 +322,13 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mListFans.setLayoutManager(manager);
         mListFans.setAdapter(mFansAdapter);
-        mFansAdapter.setOnHolderClick(new CommonRecyclerAdapter.ViewHolderClick<MemberBean>() {
-            @Override
-            public void onViewClick(View view, MemberBean bean, int position) {
-                mMemberBean = bean;
-                if (mFansPop == null) {
-                    initFansPop();
-                }
-                mFansPop.refreshData(bean);
-                mFansPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+        mFansAdapter.setOnHolderClick((view, bean, position) -> {
+            mMemberBean = bean;
+            if (mFansPop == null) {
+                initFansPop();
             }
+            mFansPop.refreshData(bean);
+            mFansPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
         });
     }
 
@@ -489,8 +422,6 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     @Override
     public void onExitClick() {
-//        AnchorFinishActivity.openActivity(getActivity());
-//        getActivity().finish();
         if (mListener != null) {
             mListener.onBtnClick(mBtnExit);
         }
@@ -516,7 +447,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         if (isInFragment) {
             if (bean != null && bean.getUser() != null && mFansAdapter != null) {
                 mFansAdapter.addListBeanAtEnd(bean.getUser());
-                mTvWatchNum.setText(mFansAdapter.getItemCount());
+                mTvWatchNum.setText(String.valueOf(mFansAdapter.getItemCount()));
             }
         }
     }
@@ -544,7 +475,6 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
             }
         }
     }
-
 
     /**
      * 用户退出群聊

@@ -63,7 +63,6 @@ android {
         javaMaxHeapSize "4g"
     }
 
-    //buildToolsVersion '26.0.2'
     buildToolsVersion '26.0.2'
 }
 
@@ -73,6 +72,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':qcloudLib-android:qclib')
+
+    testCompile 'junit:junit:4.12'
 
     // 友盟分享
     compile files('libs/open_sdk_r5788_lite.jar')
@@ -87,31 +88,31 @@ dependencies {
     compile files('libs/SocialSDK_facebook.jar')
 
     // 第三方crash异常捕捉
+    compile 'com.tencent.bugly:crashreport:latest.release'
+    compile 'com.tencent.bugly:nativecrashreport:latest.release'
     // 封装的webview
+    compile 'com.github.lzyzsd:jsbridge:1.0.4'
     // 上拉隐藏底部bar
+    compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:multidex:1.0.1'
+
     compile project(':jjdxm-ijkplayer')
     compile rootProject.ext.jjdxm_v7
     // 根据需要支持去拓展，在jjdxm-ijkplayer中默认加入了armv7a的了
-    // 直播
-
-    // Netty服务器
-    compile 'com.tencent.bugly:crashreport:latest.release'
-    compile 'com.tencent.bugly:nativecrashreport:latest.release'
-    compile 'com.github.lzyzsd:jsbridge:1.0.4'
-    compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.2'
-    compile 'com.android.support:multidex:1.0.1'
     compile 'com.dou361.ijkplayer-armv7a:jjdxm-ijkplayer-armv7a:1.0.0'
     compile 'com.dou361.ijkplayer-armv5:jjdxm-ijkplayer-armv5:1.0.0'
     compile 'com.dou361.ijkplayer-arm64:jjdxm-ijkplayer-arm64:1.0.0'
     compile 'com.dou361.ijkplayer-x86:jjdxm-ijkplayer-x86:1.0.0'
     compile 'com.dou361.ijkplayer-x86_64:jjdxm-ijkplayer-x86_64:1.0.0'
+    // 直播
     compile 'com.ksyun.media:libksylive-java:2.4.2'
     compile 'com.ksyun.media:libksylive-armv7a:2.4.2'
     compile 'com.ksyun.media:libksylive-arm64:2.4.2'
     compile 'com.ksyun.media:libksylive-x86:2.4.2'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    // Netty服务器
     compile 'io.netty:netty-all:5.0.0.Alpha2'
-    testCompile 'junit:junit:4.12'
 }
 
 repositories {
