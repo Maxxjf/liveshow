@@ -191,11 +191,11 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         refreshUserInfo();
 
         if (mTvWatchNum != null) {
-            mTvWatchNum.setText("1234");
+            mTvWatchNum.setText(mFansAdapter.getItemCount());
         }
         if (mTvNotice != null) {
             mTvNotice.stopScroll();
-            mTvNotice.setText("看我直播，不要睡觉~");
+            mTvNotice.setText(((AnchorActivity)getActivity()).getNotice());
             resetNoticeWith();
         }
         intoRoom();
@@ -516,6 +516,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         if (isInFragment) {
             if (bean != null && bean.getUser() != null && mFansAdapter != null) {
                 mFansAdapter.addListBeanAtEnd(bean.getUser());
+                mTvWatchNum.setText(mFansAdapter.getItemCount());
             }
         }
     }

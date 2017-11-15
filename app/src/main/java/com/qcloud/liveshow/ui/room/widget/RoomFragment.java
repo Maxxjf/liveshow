@@ -288,6 +288,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * */
     private void initInputDialog() {
         mInputDialog = new InputMessageDialog(getActivity());
+        mInputDialog.setNoNotice();
         mInputDialog.setOnMessageSendListener(new InputMessageDialog.OnMessageSendListener() {
             @Override
             public void onMessageSend(String message, boolean isNotice) {
