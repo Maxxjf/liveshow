@@ -36,7 +36,6 @@ import timber.log.Timber;
 public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity {
     protected Context mContext;
     protected BaseApplication application = BaseApplication.getInstance();
-    //protected CompositeDisposable mDisposable;
     protected Bus mEventBus = BusProvider.getInstance();
     protected T mPresenter;
 
