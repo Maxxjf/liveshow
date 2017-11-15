@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
-import android.view.View;
-import android.widget.AdapterView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.MessageListAdapter;
@@ -82,13 +80,12 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
 
         mAdapter = new MessageListAdapter(this);
         mListMessage.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                MemberBean userBean=beans.get(i);
-                String fromUserId=userBean.getIdStr();
-                FansMessageActivity.openActivity(MessageListActivity.this,userBean);
-            }
+        mAdapter.setOnItemClickListener((parent, view, position, id) -> {
+            MemberBean userBean=beans.get(position);
+            FansMessageActivity.openActivity(MessageListActivity.this,userBean);
+        });
+        mAdapter.setOnHolderClick((view, memberBean, position) -> {
+
         });
 
         mEmptyView = new NoDataView(this);
@@ -107,6 +104,7 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
         } else {
             showEmptyView(getResources().getString(R.string.tip_no_data));
         }
+        mPresenter.getAllList();
     }
 
     @Override

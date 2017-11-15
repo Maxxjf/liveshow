@@ -4,7 +4,6 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.NettyChatListBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
-import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.enums.StartFansEnum;
@@ -65,7 +64,7 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                             break;
                         case R.id.netty_private_chat:
                             // 私聊消息
-                            mView.addPrivateChat((NettyReceivePrivateBean) rxBusEvent.getObj());
+//                            mView.addPrivateChat((NettyReceivePrivateBean) rxBusEvent.getObj());
                             break;
                         case R.id.netty_notice_out_group:
                             // 通知

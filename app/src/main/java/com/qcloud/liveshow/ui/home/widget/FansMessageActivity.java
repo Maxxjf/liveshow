@@ -87,9 +87,6 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
                         }
                         mPresenter.SendMessage(mMemberBean.getIdStr(),context);
                         mEtMessage.setText("");
-                        int height=mListMessage.getHeight();
-                        int etheight=mEtMessage.getHeight();
-                        Toast.makeText(mContext,"height:"+height +"\netheight:"+etheight,Toast.LENGTH_SHORT).show();
                         KeyBoardUtils.closeKeybord(mEtMessage,mContext);
                         return true;
                     case KeyEvent.KEYCODE_BACK:
@@ -105,12 +102,11 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
 
     private void initDate() {
          mMemberBean = (MemberBean) getIntent().getSerializableExtra("formUser");
-        Timber.e("formUser:"+mMemberBean);
         if (mMemberBean!=null){
             mAdapter.refreshMember(mMemberBean);
             String fromUserId=mMemberBean.getIdStr();
             if (mPresenter!=null){
-                mPresenter.getChars(fromUserId);
+                mPresenter.getChars(fromUserId);//获取所有私聊列表
             }
         }
         setTitle(mMemberBean.getNickName());

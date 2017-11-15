@@ -68,8 +68,8 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     private String mBgImagePath = "assets://bg.jpg";
     private String mRecordUrl = "/sdcard/rec_test.mp4";
 
-    String roomId = "";
-
+    String roomId = "";//直播室的id
+    String notice ="";//直播公告
     /**
      * 是否支持硬编
      */
@@ -151,6 +151,10 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
             mStreamer.stopStream();
         }
     }
+
+
+
+
 
     /**
      * 打开摄像头
@@ -242,6 +246,18 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         cameraTouchHelper.setCameraHintView(mCameraHint);
 
         startCameraPreview();
+    }
+    /**
+     * 得到公告
+     */
+    public String getNotice() {
+        return notice;
+    }
+    /**
+     * 设置公告
+     */
+    public void setNotice(String notice) {
+        this.notice = notice;
     }
 
     /**

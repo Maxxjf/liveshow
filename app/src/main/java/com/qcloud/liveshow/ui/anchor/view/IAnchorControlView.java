@@ -1,6 +1,8 @@
 package com.qcloud.liveshow.ui.anchor.view;
 
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyNoticeBean;
+import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.qclib.base.BaseView;
 
@@ -12,6 +14,12 @@ import java.util.List;
  * Date: 2017/9/2 15:37.
  */
 public interface IAnchorControlView extends BaseView {
+    void replaceChatList(List<MemberBean> beans);
+
+    void addGroupChat(NettyReceiveGroupBean bean);
+
+    void userOutGroup(NettyNoticeBean bean);
+
     /**点击公告*/
     void onNoticeClick();
 
@@ -38,4 +46,12 @@ public interface IAnchorControlView extends BaseView {
 
     /**通知成员加入*/
     void addMember(NettyRoomMemberBean bean);
+
+    void backListSuccess();
+
+    void inOutGuardSuccess();
+
+    void inOutGuardError(String msg);
+
+    void onFollowRes(boolean isSuccess);
 }

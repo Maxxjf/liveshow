@@ -18,8 +18,11 @@ import com.qcloud.liveshow.adapter.RoomFansAdapter;
 import com.qcloud.liveshow.adapter.RoomMessageAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyNoticeBean;
+import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.UserBean;
+import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.AnchorControlPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IAnchorControlView;
 import com.qcloud.liveshow.utils.UserInfoUtil;
@@ -27,6 +30,7 @@ import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.liveshow.widget.dialog.InputMessageDialog;
 import com.qcloud.liveshow.widget.pop.FansInfoPop;
 import com.qcloud.liveshow.widget.pop.FansManagerPop;
+import com.qcloud.liveshow.widget.pop.FansMessagePop;
 import com.qcloud.liveshow.widget.pop.GuarderPop;
 import com.qcloud.liveshow.widget.pop.MessageListPop;
 import com.qcloud.liveshow.widget.pop.SharePop;
@@ -34,6 +38,10 @@ import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.widget.customview.MarqueeView;
+import com.qcloud.qclib.widget.customview.clearscreen.ClearScreenHelper;
+import com.qcloud.qclib.widget.customview.clearscreen.IClearEvent;
+import com.qcloud.qclib.widget.customview.clearscreen.IClearRootView;
+import com.qcloud.qclib.widget.customview.clearscreen.view.RelativeClearLayout;
 
 import java.util.List;
 
@@ -92,21 +100,43 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     private RoomFansAdapter mFansAdapter;
     private RoomMessageAdapter mMessageAdapter;
 
-    /**fragment点击事件回调*/
+    /**
+     * fragment点击事件回调
+     */
     private OnFragmentClickListener mListener;
 
-    /** 输入消息弹窗 */
+    /**
+     * 输入消息弹窗
+     */
     private InputMessageDialog mInputDialog;
-    /** 粉丝信息弹窗 */
+    /**
+     * 粉丝信息弹窗
+     */
     private FansInfoPop mFansPop;
-    /** 消息列表弹窗 */
+    /**
+     * 消息列表弹窗
+     */
     private MessageListPop mMessagePop;
-    /** 分享弹窗 */
+    /**
+     * 分享弹窗
+     */
     private SharePop mSharePop;
-    /**粉丝管理弹窗*/
+    /**
+     * 粉丝管理弹窗
+     */
     private FansManagerPop mManagerPop;
-    /**守护者弹窗*/
+    /**
+     * 守护者弹窗
+     */
     private GuarderPop mGuarderPop;
+    /**
+     * 粉丝消息弹窗
+     */
+    private FansMessagePop mFansMessagePop;
+    private IClearRootView mClearRootLayout;
+    private ClearScreenHelper mClearScreenHelper;
+
+    private MemberBean mMemberBean;
 
     @Override
     protected int getLayoutId() {
@@ -120,9 +150,31 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     @Override
     protected void initViewAndData() {
+        initClearLayout();
         initFansLayout();
         initMessageLayout();
+        initMessagePop();
         //SystemBarUtil.hideNavBar(getActivity());
+    }
+
+    /**
+     * 清屏布局
+     */
+    private void initClearLayout() {
+        mClearRootLayout = (RelativeClearLayout) mView.findViewById(R.id.layout_root);
+        mClearScreenHelper = new ClearScreenHelper(getActivity(), mClearRootLayout);
+        mClearScreenHelper.bind(mLayoutTop, mLayoutId, mLayoutNotice, mLayoutBottom);
+        mClearScreenHelper.setIClearEvent(new IClearEvent() {
+            @Override
+            public void onClearEnd() {
+                Timber.d("Clear End...");
+            }
+
+            @Override
+            public void onRecovery() {
+                Timber.d("Recovery Now...");
+            }
+        });
     }
 
     @Override
@@ -132,25 +184,36 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     /**
      * 刷新和重新加载数据
-     * */
+     */
     private void refreshAndLoadData() {
         Timber.e("refreshAndLoadData()");
 
         refreshUserInfo();
 
         if (mTvWatchNum != null) {
-            mTvWatchNum.setText("1234");
+            mTvWatchNum.setText(mFansAdapter.getItemCount());
         }
         if (mTvNotice != null) {
             mTvNotice.stopScroll();
-            mTvNotice.setText("看我直播，不要睡觉~");
+            mTvNotice.setText(((AnchorActivity)getActivity()).getNotice());
             resetNoticeWith();
+        }
+        intoRoom();
+    }
+
+    /**
+     * 进入群聊，返回用户列表
+     */
+    private void intoRoom() {
+        if (isInFragment){
+            String roomId = ((AnchorActivity) getActivity()).getRoomId();
+            mPresenter.joinGroup(roomId);
         }
     }
 
     /**
      * 刷新主播员信息
-     * */
+     */
     private void refreshUserInfo() {
         mUserBean = UserInfoUtil.mUser;
         if (mUserBean == null) {
@@ -189,14 +252,14 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     /**
      * 初始化输入消息弹窗
-     * */
+     */
     private void initInputDialog() {
         mInputDialog = new InputMessageDialog(getActivity());
         mInputDialog.setOnMessageSendListener(new InputMessageDialog.OnMessageSendListener() {
             @Override
             public void onMessageSend(String message, boolean isNotice) {
-                String roomId=((AnchorActivity)getActivity()).getRoomId();
-                if (roomId != null && "".equals(roomId)) {
+                String roomId = ((AnchorActivity) getActivity()).getRoomId();
+                if (roomId != null && !"".equals(roomId)) {
                     mPresenter.sendGroupMessage(roomId, message);
                 }
             }
@@ -205,7 +268,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     /**
      * 初始化粉丝信息弹窗
-     * */
+     */
     private void initFansPop() {
         mFansPop = new FansInfoPop(mContext);
         mFansPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
@@ -216,33 +279,45 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
                         initFansManagerPop();
                     }
                     mManagerPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+                } else if (view.getId() == R.id.btn_letter) {
+                    if (mFansMessagePop == null) {
+                        initFansMessagePop();
+                    }
+                    mFansMessagePop.refreshMemberInfo(mFansPop.getCurrMember());
+                    mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
+                } else {
+                    mFansPop.dismiss();
                 }
             }
         });
-        mFansPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                //SystemBarUtil.hideNavBar(getActivity());
-            }
-        });
+    }
+
+    /**
+     * 粉丝消息弹窗
+     */
+    private void initFansMessagePop() {
+        mFansMessagePop = new FansMessagePop(getActivity());
     }
 
     /**
      * 初始化消息列表弹窗
-     * */
+     */
     private void initMessagePop() {
         mMessagePop = new MessageListPop(mContext);
-        mMessagePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        mMessagePop.setOnPopItemClick(new MessageListPop.onPopItemClick() {
             @Override
-            public void onDismiss() {
-                //SystemBarUtil.hideNavBar(getActivity());
+            public void onItemClick(int position, String item) {
+                if (mFansMessagePop == null) {
+                    initFansMessagePop();
+                }
+                mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
             }
         });
     }
 
     /**
      * 初始化消息列表弹窗
-     * */
+     */
     private void initSharePop() {
         mSharePop = new SharePop(mContext);
         mSharePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -254,8 +329,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     }
 
     /**
-     * 初始化消息列表弹窗
-     * */
+     * 初始化管理弹窗
+     */
     private void initFansManagerPop() {
         mManagerPop = new FansManagerPop(mContext);
         mManagerPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
@@ -263,17 +338,20 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
             public void onViewClick(View view) {
                 switch (view.getId()) {
                     case R.id.btn_set_guarder:
-
+                        mPresenter.inOutGuard(mMemberBean.getId(), true);
                         break;
                     case R.id.btn_my_guarder_list:
                         mPresenter.getGuardList();
-                        startLoadingDialog();
+                        if (mGuarderPop == null) {
+                            initGuarderPop();
+                        }
+                        mGuarderPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
                         break;
                     case R.id.btn_gag:
-
+                        mPresenter.shutUp(((AnchorActivity) getActivity()).getRoomId(), mMemberBean.getIdStr(), true);
                         break;
                     case R.id.btn_add_blacklist:
-
+                        mPresenter.submitAttention(StartFansEnum.Blacklist.getKey(), mMemberBean.getId(), true);
                         break;
                 }
             }
@@ -286,9 +364,10 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         });
     }
 
+
     /**
      * 初始化粉守护者弹窗
-     * */
+     */
     private void initGuarderPop() {
         mGuarderPop = new GuarderPop(mContext);
         mGuarderPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -301,7 +380,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     /**
      * 粉丝列表
-     * */
+     */
     private void initFansLayout() {
         mFansAdapter = new RoomFansAdapter(getActivity());
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -310,9 +389,11 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         mFansAdapter.setOnHolderClick(new CommonRecyclerAdapter.ViewHolderClick<MemberBean>() {
             @Override
             public void onViewClick(View view, MemberBean bean, int position) {
+                mMemberBean = bean;
                 if (mFansPop == null) {
                     initFansPop();
                 }
+                mFansPop.refreshData(bean);
                 mFansPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
             }
         });
@@ -320,7 +401,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     /**
      * 消息列表
-     * */
+     */
     private void initMessageLayout() {
         mMessageAdapter = new RoomMessageAdapter(getActivity());
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -330,7 +411,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     /**
      * 开始计时
-     * */
+     */
     public void startChronometer() {
         if (mChronometer != null) {
             mChronometer.setBase(SystemClock.elapsedRealtime());
@@ -340,7 +421,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     /**
      * 停止计时
-     * */
+     */
     public void stopChronometer() {
         if (mChronometer != null) {
             mChronometer.setBase(SystemClock.elapsedRealtime());
@@ -429,12 +510,50 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     /**
      * 看直播成员加入
-     * */
+     */
     @Override
     public void addMember(NettyRoomMemberBean bean) {
         if (isInFragment) {
             if (bean != null && bean.getUser() != null && mFansAdapter != null) {
                 mFansAdapter.addListBeanAtEnd(bean.getUser());
+                mTvWatchNum.setText(mFansAdapter.getItemCount());
+            }
+        }
+    }
+
+    /**
+     * 会话列表
+     */
+    @Override
+    public void replaceChatList(List<MemberBean> beans) {
+        if (isInFragment) {
+            if (beans != null && mMessagePop != null) {
+                mMessagePop.replaceList(beans);
+            }
+        }
+    }
+
+    /**
+     * 群聊消息
+     */
+    @Override
+    public void addGroupChat(NettyReceiveGroupBean bean) {
+        if (isInFragment) {
+            if (bean != null && mMessageAdapter != null) {
+                mMessageAdapter.addListBeanAtStart(bean);
+            }
+        }
+    }
+
+
+    /**
+     * 用户退出群聊
+     */
+    @Override
+    public void userOutGroup(NettyNoticeBean bean) {
+        if (isInFragment) {
+            if (bean != null && mFansAdapter != null) {
+                mFansAdapter.removeBeanByUserId(bean.getUser_id());
             }
         }
     }
@@ -446,6 +565,32 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
                 ToastUtils.ToastMessage(getActivity(), errMsg);
             } else {
                 Timber.e(errMsg);
+            }
+        }
+    }
+
+    @Override
+    public void backListSuccess() {
+        ToastUtils.ToastMessage(mContext, R.string.toast_blacklist_success);
+    }
+
+    @Override
+    public void inOutGuardSuccess() {
+        ToastUtils.ToastMessage(mContext, R.string.toast_gurad_success);
+    }
+
+    @Override
+    public void inOutGuardError(String msg) {
+        ToastUtils.ToastMessage(mContext, msg);
+    }
+
+    @Override
+    public void onFollowRes(boolean isSuccess) {
+        if (isInFragment) {
+            if (isSuccess) {
+                ToastUtils.ToastMessage(getActivity(), R.string.toast_follow_success);
+            } else {
+                ToastUtils.ToastMessage(getActivity(), R.string.toast_follow_failure);
             }
         }
     }
@@ -472,7 +617,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     /**
      * 点击事件回调
-     * */
+     */
     public void setOnFragmentClickListener(OnFragmentClickListener listener) {
         this.mListener = listener;
     }

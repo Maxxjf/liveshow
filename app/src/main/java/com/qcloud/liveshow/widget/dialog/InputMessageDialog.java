@@ -143,6 +143,11 @@ public class InputMessageDialog extends Dialog {
         }
     }
 
+    public void setNoNotice(){
+        mBtnOpen.setImageResource(R.drawable.icon_to_comment);
+        mBtnOpen.setEnabled(false);
+    }
+
     @OnClick(R.id.btn_send)
     void onSendClick() {
         if (check()) {

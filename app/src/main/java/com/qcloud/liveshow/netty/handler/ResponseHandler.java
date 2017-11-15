@@ -140,11 +140,11 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
             @Override
             public void onSuccess(NettyReceivePrivateBean bean) {
                 if (realmHelper == null) {
-                    realmHelper = new RealmHelper();
+                    realmHelper = new RealmHelper<NettyReceivePrivateBean>();
                 }
                 bean.setSend(false);
-                realmHelper.addOrUpdateNettyReceivePrivateBean(bean);//添加到本地数据
-                List<NettyReceivePrivateBean> s = realmHelper.queryNettyReceivePrivateBean();
+                realmHelper.addOrUpdateBean(bean);//添加到本地数据
+                List<NettyReceivePrivateBean> s = realmHelper.queryBeans(NettyReceivePrivateBean.class);
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_private_chat).setObj(bean).build());
             }
 

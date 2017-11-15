@@ -32,7 +32,7 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
     private Bus mEventBus = BusProvider.getInstance();
     public FansMessagePresenterImpl() {
         model=new IMModelImpl();
-        realmHelper=new RealmHelper();
+        realmHelper=new RealmHelper<NettyReceivePrivateBean>();
         initRxBusEvent();
     }
     private void initRxBusEvent() {
@@ -50,7 +50,7 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
                             break;
                         case R.id.netty_private_chat:
                             // 私聊消息
-                            mView.addMessage((NettyReceivePrivateBean) rxBusEvent.getObj());
+//                            mView.addMessage((NettyReceivePrivateBean) rxBusEvent.getObj());
                             break;
                         case R.id.netty_notice_out_group:
                             // 通知
@@ -62,14 +62,15 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
     }
     @Override
     public void getChars(String fromUserId) {
-        List<NettyReceivePrivateBean> charList = realmHelper.queryNettyReceivePrivateBeanById(fromUserId);
+        List<NettyReceivePrivateBean> charList = (List<NettyReceivePrivateBean>) realmHelper.queryListById(NettyReceivePrivateBean.class,"from_user_id",fromUserId);
         Timber.e("charList:"+charList);
-        mView.replaceList(charList);
+        if (charList!=null) {
+            mView.replaceList(charList);
+        }
     }
 
     @Override
     public void SendMessage(String userId, String content) {
-        model.sendPrivateChat(userId,content);
         NettyContentBean contentBean=new NettyContentBean();
         contentBean.setDate_time(System.currentTimeMillis());
         contentBean.setText(content);
@@ -78,7 +79,8 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
         nettyReceivePrivateBean.setFrom_user_id(userId);
         nettyReceivePrivateBean.setSend(true);
         nettyReceivePrivateBean.setContent(contentBean);
-        realmHelper.addOrUpdateNettyReceivePrivateBean(nettyReceivePrivateBean);
         mView.addMessage(nettyReceivePrivateBean);
+        realmHelper.addOrUpdateBean(nettyReceivePrivateBean);
+        model.sendPrivateChat(userId,content);
     }
 }

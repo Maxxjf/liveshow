@@ -5,15 +5,18 @@ import com.qcloud.qclib.utils.StringUtils;
 
 import java.io.Serializable;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * 类说明：粉丝成员
  * Author: Kuzan
  * Date: 2017/9/12 15:03.
  */
-public class MemberBean implements Serializable {
+public class MemberBean extends RealmObject implements Serializable {
 
     private static final long serialVersionUID = -7060210544600464481L;
-
+    @PrimaryKey
     long id;            // 会员id
     String nickName;    // 昵称
     String headImg;     // 头像
