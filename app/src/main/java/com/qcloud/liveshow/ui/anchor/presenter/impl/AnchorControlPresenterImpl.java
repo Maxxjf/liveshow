@@ -2,13 +2,21 @@ package com.qcloud.liveshow.ui.anchor.presenter.impl;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyChatListBean;
+import com.qcloud.liveshow.beans.NettyNoticeBean;
+import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
+import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.model.IAnchorModel;
 import com.qcloud.liveshow.model.IIMModel;
+import com.qcloud.liveshow.model.IMineModel;
 import com.qcloud.liveshow.model.impl.AnchorModelImpl;
 import com.qcloud.liveshow.model.impl.IMModelImpl;
+import com.qcloud.liveshow.model.impl.MineModelImpl;
 import com.qcloud.liveshow.ui.anchor.presenter.IAnchorControlPresenter;
 import com.qcloud.liveshow.ui.anchor.view.IAnchorControlView;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.base.BasePresenter;
 import com.qcloud.qclib.beans.ReturnDataBean;
 import com.qcloud.qclib.beans.RxBusEvent;
@@ -27,12 +35,14 @@ import io.reactivex.functions.Consumer;
 public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView> implements IAnchorControlPresenter {
 
     private IAnchorModel mModel;
+    private IMineModel mineModel;
     private IIMModel mIMModel;
     private Bus mEventBus = BusProvider.getInstance();
 
     public AnchorControlPresenterImpl() {
         mModel = new AnchorModelImpl();
         mIMModel = new IMModelImpl();
+        mineModel=new MineModelImpl();
         mEventBus.register(this);
         initRxBusEvent();
     }
@@ -43,9 +53,25 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
             public void accept(@NonNull RxBusEvent rxBusEvent) throws Exception {
                 if (mView != null) {
                     switch (rxBusEvent.getType()) {
+                        case R.id.netty_get_chat_list_success:
+                            NettyChatListBean bean = (NettyChatListBean) rxBusEvent.getObj();
+                            mView.replaceChatList(bean.getList());
+                            break;
                         case R.id.netty_room_member_join:
-                            NettyRoomMemberBean bean = (NettyRoomMemberBean) rxBusEvent.getObj();
-                            mView.addMember(bean);
+                            // 成员加入
+                            mView.addMember((NettyRoomMemberBean) rxBusEvent.getObj());
+                            break;
+                        case R.id.netty_group_chat:
+                            // 群聊消息
+                            mView.addGroupChat((NettyReceiveGroupBean) rxBusEvent.getObj());
+                            break;
+                        case R.id.netty_private_chat:
+                            // 私聊消息
+//                            mView.addPrivateChat((NettyReceivePrivateBean) rxBusEvent.getObj());
+                            break;
+                        case R.id.netty_notice_out_group:
+                            // 通知
+                            mView.userOutGroup((NettyNoticeBean) rxBusEvent.getObj());
                             break;
                     }
                 }
@@ -102,23 +128,102 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
         });
     }
 
-    @Override
-    public void setGuard(long memberId, boolean isGuard) {
 
+    @Override
+    public void submitAttention(int type, long id, boolean isAttention) {
+        if (type== StartFansEnum.Blacklist.getKey()){
+            mineModel.submitAttention(StartFansEnum.Blacklist.getKey(), id, isAttention, new DataCallback<ReturnEmptyBean>() {
+                @Override
+                public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+                    if (mView!=null){
+                        mView.backListSuccess();
+                    }
+                }
+
+                @Override
+                public void onError(int status, String errMsg) {
+
+                }
+            });
+        }else {
+            mineModel.submitAttention(StartFansEnum.MyFans.getKey(), id, isAttention, new DataCallback<ReturnEmptyBean>() {
+                @Override
+                public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+                    UserInfoUtil.loadUserInfo();
+                    if (mView != null) {
+                        mView.onFollowRes(true);
+                    }
+                }
+
+                @Override
+                public void onError(int status, String errMsg) {
+                    if (mView != null) {
+                        mView.onFollowRes(false);
+                    }
+                }
+            });
+        }
     }
 
+    /**
+     * 获取会话列表
+     *
+     * @time 2017/11/8 16:15
+     */
     @Override
-    public void addBlacklist(long id, boolean isBlacklist) {
+    public void getChatList() {
+        mIMModel.getChatList();
+    }
 
+
+
+    /**
+     * 加入群聊
+     * */
+    @Override
+    public void joinGroup(String roomNumber) {
+        mIMModel.joinGroup(roomNumber);
     }
 
     /**
      * 发送群聊消息
      *
-     * @time 2017/11/8 10:23
+     * @time 2017/11/8 10:21
      */
     @Override
     public void sendGroupMessage(String roomNum, String content) {
         mIMModel.sendGroupChat(roomNum, content);
+    }
+
+    /**
+     * 设置/取消守护
+     * @param memberId
+     * @param isGuard
+     */
+    @Override
+    public void inOutGuard(long memberId, boolean isGuard) {
+        mModel.inOutGuard(memberId, isGuard, new DataCallback<ReturnEmptyBean>() {
+            @Override
+            public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+                mView.inOutGuardSuccess();
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+                mView.inOutGuardError(errMsg);
+            }
+        });
+    }
+
+    @Override
+    public void shutUp(String roomNumber, String memberId, boolean isForbidden) {
+        mIMModel.shutUp(roomNumber,memberId,isForbidden);
+    }
+
+    public void onDestroy() {
+        if (mEventBus != null) {
+            mEventBus.unregister(this);
+            mEventBus = null;
+        }
     }
 }

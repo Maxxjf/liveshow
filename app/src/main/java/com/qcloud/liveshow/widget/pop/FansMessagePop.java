@@ -15,14 +15,17 @@ import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyContentBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.model.impl.IMModelImpl;
+import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
-import com.qcloud.qclib.pullrefresh.PullRefreshView;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.widget.customview.ClearEditText;
+
+import java.util.List;
+import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -47,9 +50,12 @@ public class FansMessagePop extends BasePopupWindow {
     private String mMessage;
 
     private FansMessageAdapter mAdapter;
+    private RealmHelper realmHelper;
 
     public FansMessagePop(Context context) {
         super(context);
+        realmHelper=new RealmHelper<NettyReceivePrivateBean>();
+
     }
 
     @Override
@@ -65,12 +71,7 @@ public class FansMessagePop extends BasePopupWindow {
     @Override
     protected void initAfterViews() {
         PullRefreshUtil.setRefresh(mListMessage, false, true);
-        mListMessage.setOnPullUpRefreshListener(new PullRefreshView.OnPullUpRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mListMessage.refreshFinish();
-            }
-        });
+        mListMessage.setOnPullUpRefreshListener(() -> mListMessage.refreshFinish());
 
         mListMessage.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new FansMessageAdapter(mContext);
@@ -112,13 +113,38 @@ public class FansMessagePop extends BasePopupWindow {
             mTvTitle.setText(bean.getNickName());
             mAdapter.refreshMember(bean);
             mAdapter.replaceList(null);
+            initDate();
         }
+    }
+    //初始化所有私聊记录
+    private void initDate() {
+        if (currMember!=null){
+            String fromUserId=currMember.getIdStr();
+            List<NettyReceivePrivateBean> charList = (List<NettyReceivePrivateBean>) realmHelper.queryListById(NettyReceivePrivateBean.class,"from_user_id",fromUserId);
+            Timber.e("charList:"+charList);
+            replaceList(charList);
+        }
+
+    }
+    public void replaceList(List<NettyReceivePrivateBean> beans) {
+            if (mListMessage != null) {
+                mListMessage.refreshFinish();
+            }
+            if (beans != null && beans.size() > 0) {
+                if (mAdapter != null) {
+                    mAdapter.replaceList(beans);
+                }
+            } else {
+                Timber.e("私聊列表为空");
+            }
     }
 
     /**
      * 刷新消息
      * */
     public void addMessage(NettyReceivePrivateBean bean) {
+        Timber.e("NettyReceivePrivateBean:"+bean);
+        Timber.e("mAdapter:"+mAdapter);
         if (mAdapter != null && bean != null) {
             if (bean.getContent() != null) {
                 // 接收消息
@@ -129,7 +155,7 @@ public class FansMessagePop extends BasePopupWindow {
                 bean.setFrom_user_id(UserInfoUtil.mUser.getIdStr());
                 bean.setContent(contentBean);
             }
-            mAdapter.addListBeanAtStart(bean);
+            mAdapter.addListBeanAtEnd(bean);
         }
     }
 
@@ -151,6 +177,16 @@ public class FansMessagePop extends BasePopupWindow {
         if (currMember != null) {
             if (check()) {
                 new IMModelImpl().sendPrivateChat(currMember.getIdStr(), mMessage);
+                NettyContentBean contentBean=new NettyContentBean();
+                contentBean.setDate_time(System.currentTimeMillis());
+                contentBean.setText(mMessage);
+                NettyReceivePrivateBean nettyReceivePrivateBean=new NettyReceivePrivateBean();
+                nettyReceivePrivateBean.setChat_id(""+ UUID.randomUUID());
+                nettyReceivePrivateBean.setFrom_user_id(currMember.getIdStr());
+                nettyReceivePrivateBean.setSend(true);
+                nettyReceivePrivateBean.setContent(contentBean);
+                realmHelper.addOrUpdateBean(nettyReceivePrivateBean);
+                addMessage(nettyReceivePrivateBean);
                 mEtMessage.setText("");
                 hideInput();
             }

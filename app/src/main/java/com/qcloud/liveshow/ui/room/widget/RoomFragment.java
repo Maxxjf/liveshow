@@ -339,7 +339,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         });
     }
     /**
-     * 初始化消息列表弹窗
+     * 初始化管理弹窗
      * */
     private void initFansManagerPop() {
         mManagerPop = new FansManagerPop(mContext);

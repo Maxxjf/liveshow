@@ -152,6 +152,10 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         }
     }
 
+
+
+
+
     /**
      * 打开摄像头
      */

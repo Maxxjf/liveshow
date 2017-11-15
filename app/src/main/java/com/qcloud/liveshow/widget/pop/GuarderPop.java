@@ -10,7 +10,11 @@ import android.widget.TextView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.GuarderAdapter;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.model.impl.AnchorModelImpl;
+import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
 import com.qcloud.qclib.base.BasePopupWindow;
+import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
 
@@ -70,6 +74,21 @@ public class GuarderPop extends BasePopupWindow {
 
         mListGuarder.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new GuarderAdapter(mContext);
+        mAdapter.setOnHolderClick(new CommonRecyclerAdapter.ViewHolderClick<MemberBean>() {
+            @Override
+            public void onViewClick(View view, MemberBean memberBean, int position) {
+                new AnchorModelImpl().inOutGuard(memberBean.getId(), memberBean.isAttention(), new DataCallback<ReturnEmptyBean>() {
+                    @Override
+                    public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+//                        mAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onError(int status, String errMsg) {
+                    }
+                });
+            }
+        });
         mListGuarder.setAdapter(mAdapter);
     }
 

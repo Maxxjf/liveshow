@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.ui.home.presenter.impl;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyChatListBean;
 import com.qcloud.liveshow.model.IIMModel;
 import com.qcloud.liveshow.model.impl.IMModelImpl;
@@ -12,9 +13,10 @@ import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.rxbus.Bus;
 import com.qcloud.qclib.rxbus.BusProvider;
 
+import java.util.List;
+
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
-import timber.log.Timber;
 
 /**
  * 类说明：消息列表
@@ -24,12 +26,11 @@ import timber.log.Timber;
 public class MessageListPresenterImpl extends BasePresenter<IMessageListView> implements IMessageListPresenter {
 
     private IIMModel mModel;
-    private RealmHelper mHelper;
+    private RealmHelper myRealmHelper;
     private Bus mEventBus = BusProvider.getInstance();
-
     public MessageListPresenterImpl() {
         mModel = new IMModelImpl();
-        mHelper = new RealmHelper();
+        myRealmHelper = new RealmHelper<MemberBean>();
         mEventBus.register(this);
         initRxBusEvent();
     }
@@ -42,7 +43,10 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
                     switch (rxBusEvent.getType()) {
                         case R.id.netty_get_chat_list_success:
                             NettyChatListBean bean = (NettyChatListBean) rxBusEvent.getObj();
-                            Timber.e(bean.toString());
+                            List<MemberBean> memberBeans = bean.getList();
+                            for (int i=0;i<memberBeans.size();i++){
+                                myRealmHelper.addOrUpdateBean(memberBeans.get(i));
+                            }
                             if (bean != null && bean.getList() != null) {
                                 mView.replaceList(bean.getList());
                             } else {
@@ -56,6 +60,15 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
                 }
             }
         }));
+    }
+
+    public void getAllList(){
+        List<MemberBean> memberBeans=myRealmHelper.queryBeans(MemberBean.class);
+        if (memberBeans != null && memberBeans.size() != 0) {
+            mView.replaceList(memberBeans);
+        } else {
+            mView.showEmptyView("暂无数据");
+        }
     }
 
     /**

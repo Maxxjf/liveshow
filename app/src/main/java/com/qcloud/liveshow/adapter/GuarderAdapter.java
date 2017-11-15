@@ -11,6 +11,8 @@ import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.qclib.adapter.recyclerview.BaseViewHolder;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
 
+import timber.log.Timber;
+
 /**
  * 类说明：守护者列表
  * Author: Kuzan
@@ -57,8 +59,10 @@ public class GuarderAdapter extends CommonRecyclerAdapter<MemberBean> {
         btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Timber.e("mHolderClick:"+mHolderClick);
                 if (mHolderClick != null) {
                     bean.refreshAttention();
+                    notifyDataSetChanged();
                     mHolderClick.onViewClick(btnFollow, bean, position);
                 }
             }

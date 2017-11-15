@@ -79,6 +79,8 @@
     <string name="toast_input_live_cover">请选择一张图片作为封面</string>
     <string name="toast_follow_success">关注成功</string>
     <string name="toast_follow_failure">关注失败</string>
+    <string name="toast_blacklist_success">成功拉入黑名单</string>
+    <string name="toast_gurad_success">设置守护成功</string>
     <string name="toast_set_withdraw_cash_password_success">设置提现密码成功</string>
     <string name="toast_reset_withdraw_cash_password_success">重置提现密码成功</string>
     <string name="toast_input_password">请输入密码</string>

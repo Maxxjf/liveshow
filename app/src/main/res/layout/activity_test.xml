@@ -1,27 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+  ~ Copyright 2014 Hieu Rocker
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:emojicon="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.anchor.widget.AnchorActivity">
+    android:orientation="vertical"
+    >
 
-    <android.opengl.GLSurfaceView
-        android:id="@+id/camera_preview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EmojiconsView"
+        android:onClick="openEmojiconsActivity"/>
+    <CheckBox
+        android:id="@+id/use_system_default"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="系统默认" />
 
-    <com.qcloud.liveshow.widget.cameraview.CameraHintView
-        android:id="@+id/camera_hint"
+    <io.github.rockerhieu.emojicon.EmojiconTextView
+        android:id="@+id/txtEmojicon"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true" />
+        android:layout_height="wrap_content"
+        emojicon:emojiconAlignment="baseline" />
+
+    <io.github.rockerhieu.emojicon.EmojiconEditText
+        android:id="@+id/editEmojicon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        emojicon:emojiconSize="28sp" />
 
     <FrameLayout
-        android:id="@+id/fragment_container"
+        android:id="@+id/emojicons"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-</RelativeLayout>
+        android:layout_height="fill_parent" />
+</LinearLayout>
