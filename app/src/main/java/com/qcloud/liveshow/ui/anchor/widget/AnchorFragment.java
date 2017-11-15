@@ -93,38 +93,22 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     private RoomFansAdapter mFansAdapter;
     private RoomMessageAdapter mMessageAdapter;
 
-    /**
-     * fragment点击事件回调
-     */
+    /**fragment点击事件回调*/
     private OnFragmentClickListener mListener;
 
-    /**
-     * 输入消息弹窗
-     */
+    /**输入消息弹窗*/
     private InputMessageDialog mInputDialog;
-    /**
-     * 粉丝信息弹窗
-     */
+    /**粉丝信息弹窗*/
     private FansInfoPop mFansPop;
-    /**
-     * 消息列表弹窗
-     */
+    /**消息列表弹窗*/
     private MessageListPop mMessagePop;
-    /**
-     * 分享弹窗
-     */
+    /**分享弹窗*/
     private SharePop mSharePop;
-    /**
-     * 粉丝管理弹窗
-     */
+    /**粉丝管理弹窗*/
     private FansManagerPop mManagerPop;
-    /**
-     * 守护者弹窗
-     */
+    /**守护者弹窗*/
     private GuarderPop mGuarderPop;
-    /**
-     * 粉丝消息弹窗
-     */
+    /**粉丝消息弹窗*/
     private FansMessagePop mFansMessagePop;
 
     private MemberBean mMemberBean;
