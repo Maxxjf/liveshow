@@ -5,23 +5,36 @@
     android:layout_height="match_parent"
     tools:context=".ui.anchor.widget.AnchorActivity">
 
-    <android.opengl.GLSurfaceView
-        android:id="@+id/camera_preview"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true" />
+        android:layout_height="wrap_content">
 
-    <com.qcloud.liveshow.widget.cameraview.CameraHintView
-        android:id="@+id/camera_hint"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true" />
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_text_size"/>
+    </ScrollView>
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
+
+    <!--<android.opengl.GLSurfaceView-->
+        <!--android:id="@+id/camera_preview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentTop="true" />-->
+
+    <!--<com.qcloud.liveshow.widget.cameraview.CameraHintView-->
+        <!--android:id="@+id/camera_hint"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentTop="true" />-->
+
+    <!--<FrameLayout-->
+        <!--android:id="@+id/fragment_container"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
 
 </RelativeLayout>
