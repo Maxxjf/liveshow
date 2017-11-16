@@ -26,13 +26,13 @@ import timber.log.Timber;
  * Date: 2017/9/11 12:04.
  */
 public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> implements IFansMessagePresenter {
-    IIMModel model;
-
-    RealmHelper realmHelper;
+    private IIMModel mModel;
+    private RealmHelper mHelper;
     private Bus mEventBus = BusProvider.getInstance();
+
     public FansMessagePresenterImpl() {
-        model=new IMModelImpl();
-        realmHelper=new RealmHelper<NettyReceivePrivateBean>();
+        mModel = new IMModelImpl();
+        mHelper = new RealmHelper<NettyReceivePrivateBean>();
         initRxBusEvent();
     }
     private void initRxBusEvent() {
@@ -60,17 +60,18 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
             }
         }));
     }
+
     @Override
     public void getChars(String fromUserId) {
-        List<NettyReceivePrivateBean> charList = (List<NettyReceivePrivateBean>) realmHelper.queryListById(NettyReceivePrivateBean.class,"from_user_id",fromUserId);
+        List<NettyReceivePrivateBean> charList = (List<NettyReceivePrivateBean>) mHelper.queryListById(NettyReceivePrivateBean.class,"from_user_id",fromUserId);
         Timber.e("charList:"+charList);
-        if (charList!=null) {
+        if (charList != null) {
             mView.replaceList(charList);
         }
     }
 
     @Override
-    public void SendMessage(String userId, String content) {
+    public void sendMessage(String userId, String content) {
         NettyContentBean contentBean=new NettyContentBean();
         contentBean.setDate_time(System.currentTimeMillis());
         contentBean.setText(content);
@@ -80,7 +81,24 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
         nettyReceivePrivateBean.setSend(true);
         nettyReceivePrivateBean.setContent(contentBean);
         mView.addMessage(nettyReceivePrivateBean);
-        realmHelper.addOrUpdateBean(nettyReceivePrivateBean);
-        model.sendPrivateChat(userId,content);
+        mHelper.addOrUpdateBean(nettyReceivePrivateBean);
+
+        mModel.sendPrivateChat(userId, content);
+    }
+
+    @Override
+    public void onBtnClick(int viewId) {
+        switch (viewId) {
+            case R.id.btn_emoticon:
+                mView.onEmojiClick();
+                break;
+        }
+    }
+
+    public void onDestroy() {
+        if (mEventBus != null) {
+            mEventBus.unregister(this);
+            mEventBus = null;
+        }
     }
 }

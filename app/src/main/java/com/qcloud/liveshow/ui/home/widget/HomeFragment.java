@@ -24,9 +24,6 @@ import com.qcloud.qclib.widget.indicator.transition.OnTransitionTextListener;
 
 import java.util.List;
 
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-
 /**
  * 类说明：首页
  * Author: Kuzan
@@ -73,29 +70,23 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
     }
 
     private void initRxBusEvent() {
-        mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, new Consumer<RxBusEvent>() {
-            @Override
-            public void accept(@NonNull RxBusEvent rxBusEvent) throws Exception {
-                if (rxBusEvent.getType() == R.id.show_hide_title_bar) {
-                    boolean isShow = (boolean) rxBusEvent.getObj();
-                    showOrHideTitle(isShow);
-                }
+        mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, rxBusEvent -> {
+            if (rxBusEvent.getType() == R.id.show_hide_title_bar) {
+                boolean isShow = (boolean) rxBusEvent.getObj();
+                showOrHideTitle(isShow);
             }
         }));
     }
 
     private void initTitleBar() {
-        mTitleBar.setOnBtnListener(new TitleBar.OnBtnListener() {
-            @Override
-            public void onBtnClick(View view) {
-                switch (view.getId()) {
-                    case R.id.ib_left:
-                        SearchAnchorActivity.openActivity(getActivity());
-                        break;
-                    case R.id.ib_right:
-                        MessageListActivity.openActivity(getActivity());
-                        break;
-                }
+        mTitleBar.setOnBtnListener(view -> {
+            switch (view.getId()) {
+                case R.id.ib_left:
+                    SearchAnchorActivity.openActivity(getActivity());
+                    break;
+                case R.id.ib_right:
+                    MessageListActivity.openActivity(getActivity());
+                    break;
             }
         });
     }

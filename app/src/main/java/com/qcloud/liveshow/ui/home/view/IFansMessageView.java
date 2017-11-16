@@ -11,11 +11,18 @@ import java.util.List;
  * Date: 2017/9/11 12:01.
  */
 public interface IFansMessageView extends BaseView {
+    /**点击表情*/
+    void onEmojiClick();
+
+    /**添加消息到列表*/
     void addMessage(NettyReceivePrivateBean bean);
 
+    /**显示历史消息*/
     void replaceList(List<NettyReceivePrivateBean> beans);
 
+    /**显示空布局*/
     void showEmptyView(String tip);
 
+    /**隐藏空布局*/
     void hideEmptyView();
 }

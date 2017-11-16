@@ -57,7 +57,7 @@ public class HomeViewPagerAdapter extends IndicatorViewPager.IndicatorFragmentPa
     }
 
     public List<HomeViewPageBean> getList() {
-        return mList == null? new ArrayList<HomeViewPageBean>() : mList;
+        return mList == null? new ArrayList<>() : mList;
     }
 
     public void replaceList(List<HomeViewPageBean> list) {

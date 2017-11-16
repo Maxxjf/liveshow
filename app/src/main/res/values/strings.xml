@@ -32,6 +32,7 @@
     <string name="title_message_list">消息列表</string>
     <string name="title_system_message">系统消息</string>
     <string name="title_fans_message">粉丝消息</string>
+    <string name="title_emoji">表情</string>
     <string name="title_apply_anchor">主播申请验证</string>
     <string name="title_my_gifts">我的礼物</string>
     <string name="title_set_cash_password">设置提现密码</string>
@@ -49,6 +50,7 @@
     <string name="tab_mine">我的</string>
 
     <string name="behavior_footer_depend">com.qcloud.liveshow.widget.behavior.ScrollHideBehavior</string>
+    <string name="behavior_message_depend" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
 
     <string name="toast_exit_app">再按一次退出应用</string>
     <string name="toast_input_not_null">输入内容不能为空!</string>
