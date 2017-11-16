@@ -107,7 +107,8 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
                 mPresenter.getChars(fromUserId);//获取所有私聊列表
             }
         }
-        setTitle(mMemberBean.getNickName());
+
+        mTitleBar.setTitle(mMemberBean.getNickName());
     }
 
     private void initRefreshList() {
@@ -227,7 +228,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     @Override
     public void addMessage(NettyReceivePrivateBean bean) {
         if (isRunning) {
-            if (mAdapter != null && bean != null) {
+            if (mAdapter != null && bean != null && mMemberBean.getIdStr().equals(bean.getFrom_user_idStr())) {
                 mAdapter.addListBeanAtEnd(bean);
                 hideEmptyView();
             }

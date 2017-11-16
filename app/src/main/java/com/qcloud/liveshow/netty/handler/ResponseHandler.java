@@ -7,6 +7,7 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.NettyAuthBean;
 import com.qcloud.liveshow.beans.NettyBaseResponse;
 import com.qcloud.liveshow.beans.NettyChatListBean;
+import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
@@ -66,6 +67,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                     break;
                 case 2: // 私聊
                     disposePrivate(jsonStr);
+                    break;
+                case 12://直播公告
+                    disposeNotice(jsonStr);
                     break;
                 case 104:   // 获取私聊列表
                     disposeChatList(jsonStr);
@@ -186,7 +190,7 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
      * @time 2017/11/8 16:32
      */
     @Override
-    public void disposeNotice(JsonElement msgConfig, final int actionType) {
+    public void disposeUserOutGroup(JsonElement msgConfig, final int actionType) {
         Type type = new TypeToken<NettyBaseResponse<NettyNoticeBean>>() {
         }.getType();
         NettyDispose.dispose(msgConfig, type, new DataCallback<NettyNoticeBean>() {
@@ -195,6 +199,28 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                 if (actionType == NettyActionType.USER_REMOVE_GROUP_CHAT.getKey()) {
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_notice_out_group).setObj(bean).build());
                 }
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+                Timber.e(errMsg);
+            }
+        });
+    }
+
+    /**
+     * 公告
+     *
+     * @time 2017/11/16 9:44
+     */
+    @Override
+    public void disposeNotice(JsonElement msgConfig) {
+        Type type = new TypeToken<NettyBaseResponse<NettyLiveNoticeBean>>() {
+        }.getType();
+        NettyDispose.dispose(msgConfig, type, new DataCallback<NettyLiveNoticeBean>() {
+            @Override
+            public void onSuccess(NettyLiveNoticeBean bean) {
+                    BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_notice).setObj(bean).build());
             }
 
             @Override

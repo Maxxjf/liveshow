@@ -90,10 +90,17 @@ public class BaseApplication extends Application {
         PlatformConfig.setWeixin(AppConstants.WX_APP_ID, AppConstants.WX_APP_SECRET);
     }
 
+    @Override
+    public void onTerminate() {
+        Timber.e("onTerminate");
+        super.onTerminate();
+    }
+
     private void initScreen() {
         ScreenWidth = ScreenUtils.getScreenWidth(this);
         ScreenHeight=ScreenUtils.getScreenHeight(this);
     }
+
 
     /**
      * 初始化网络请求

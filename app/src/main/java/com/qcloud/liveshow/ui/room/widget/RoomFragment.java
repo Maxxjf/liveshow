@@ -388,10 +388,11 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mMessagePop = new MessageListPop(mContext);
         mMessagePop.setOnPopItemClick(new MessageListPop.onPopItemClick() {
             @Override
-            public void onItemClick(int position, String item) {
+            public void onItemClick(int position, MemberBean memberBean) {
                 if (mFansMessagePop == null) {
                     initFansMessagePop();
                 }
+                mFansMessagePop.refreshMemberInfo(memberBean);
                 mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
             }
         });

@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.PopMessageAdapter;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
@@ -34,6 +35,7 @@ public class MessageListPop extends BasePopupWindow {
 
     private onPopItemClick mItemClick;
 
+    private RealmHelper realmHelper;
     public MessageListPop(Context context) {
         super(context);
     }
@@ -71,10 +73,18 @@ public class MessageListPop extends BasePopupWindow {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (mItemClick != null) {
-                    mItemClick.onItemClick(i, "哈哈");
+                    mItemClick.onItemClick(i, mAdapter.getList().get(i));
                 }
             }
         });
+        initData();
+    }
+
+    private void initData() {
+        realmHelper=new RealmHelper<MemberBean>();
+        List<MemberBean> beans = realmHelper.queryBeans(MemberBean.class);
+        replaceList(beans);
+
     }
 
     @Override
@@ -110,6 +120,6 @@ public class MessageListPop extends BasePopupWindow {
     }
 
     public interface onPopItemClick {
-        void onItemClick(int position, String item);
+        void onItemClick(int position, MemberBean member);
     }
 }

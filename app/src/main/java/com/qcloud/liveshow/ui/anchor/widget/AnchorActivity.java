@@ -634,12 +634,12 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     @Override
     protected void onDestroy() {
+        mPresenter.finishLive();
         super.onDestroy();
         if (mMainHandler != null) {
             mMainHandler.removeCallbacksAndMessages(null);
             mMainHandler = null;
         }
-        mPresenter.finishLive();
         mStreamer.setOnLogEventListener(null);
         mStreamer.release();
     }

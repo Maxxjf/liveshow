@@ -22,8 +22,10 @@ public interface IResponseMethod {
     /**私聊会话列表*/
     void disposeChatList(@NonNull JsonElement msgConfig);
 
+    /**有人退出群*/
+    void disposeUserOutGroup(@NonNull JsonElement msgConfig, int actionType);
     /**通知*/
-    void disposeNotice(@NonNull JsonElement msgConfig, int actionType);
+    void disposeNotice(JsonElement msgConfig);
 
     /**看直播成员*/
     void disposeGroupMember(@NonNull JsonElement msgConfig);

@@ -143,9 +143,8 @@ public class FansMessagePop extends BasePopupWindow {
      * 刷新消息
      * */
     public void addMessage(NettyReceivePrivateBean bean) {
-        Timber.e("NettyReceivePrivateBean:"+bean);
-        Timber.e("mAdapter:"+mAdapter);
-        if (mAdapter != null && bean != null) {
+
+        if (mAdapter != null && bean != null &&currMember.getIdStr().equals(bean.getFrom_user_idStr())) {
             if (bean.getContent() != null) {
                 // 接收消息
                 Timber.e(bean.toString());

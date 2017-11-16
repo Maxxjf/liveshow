@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.ui.anchor.view;
 
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
@@ -54,4 +55,6 @@ public interface IAnchorControlView extends BaseView {
     void inOutGuardError(String msg);
 
     void onFollowRes(boolean isSuccess);
+
+    void editNotic(NettyLiveNoticeBean obj);
 }
