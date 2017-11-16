@@ -50,7 +50,7 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
                             break;
                         case R.id.netty_private_chat:
                             // 私聊消息
-//                            mView.addMessage((NettyReceivePrivateBean) rxBusEvent.getObj());
+                            mView.addMessage((NettyReceivePrivateBean) rxBusEvent.getObj());
                             break;
                         case R.id.netty_notice_out_group:
                             // 通知

@@ -35,5 +35,7 @@
     <item name="netty_private_chat" type="id"/>
     <!--通知-->
     <item name="netty_notice_out_group" type="id"/>
+    <!--修改公告-->
+    <item name="netty_notice" type="id"/>
 
 </resources>

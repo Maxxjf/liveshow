@@ -134,7 +134,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
      * */
     @Override
     public void addMessage(NettyReceivePrivateBean bean) {
-        if (mAdapter != null && bean != null) {
+        if (mAdapter != null && bean != null &&mMemberBean.getIdStr().equals(bean.getFrom_user_idStr())) {
             mAdapter.addListBeanAtEnd(bean);
         }
     }

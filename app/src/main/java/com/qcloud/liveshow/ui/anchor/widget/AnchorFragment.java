@@ -272,10 +272,11 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      */
     private void initMessagePop() {
         mMessagePop = new MessageListPop(mContext);
-        mMessagePop.setOnPopItemClick((position, item) -> {
+        mMessagePop.setOnPopItemClick((position, member) -> {
             if (mFansMessagePop == null) {
                 initFansMessagePop();
             }
+            mFansMessagePop.refreshMemberInfo(member);
             mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
         });
     }

@@ -18,6 +18,9 @@ public class NettyReceivePrivateBean extends RealmObject {
     public String getFrom_user_id() {
         return from_user_id;
     }
+    public String getFrom_user_idStr() {
+        return String.valueOf(from_user_id);
+    }
 
     public void setFrom_user_id(String from_user_id) {
         this.from_user_id = from_user_id;
