@@ -17,6 +17,7 @@ import com.qcloud.liveshow.adapter.RoomFansAdapter;
 import com.qcloud.liveshow.adapter.RoomMessageAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
@@ -93,22 +94,38 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     private RoomFansAdapter mFansAdapter;
     private RoomMessageAdapter mMessageAdapter;
 
-    /**fragment点击事件回调*/
+    /**
+     * fragment点击事件回调
+     */
     private OnFragmentClickListener mListener;
 
-    /**输入消息弹窗*/
+    /**
+     * 输入消息弹窗
+     */
     private InputMessageDialog mInputDialog;
-    /**粉丝信息弹窗*/
+    /**
+     * 粉丝信息弹窗
+     */
     private FansInfoPop mFansPop;
-    /**消息列表弹窗*/
+    /**
+     * 消息列表弹窗
+     */
     private MessageListPop mMessagePop;
-    /**分享弹窗*/
+    /**
+     * 分享弹窗
+     */
     private SharePop mSharePop;
-    /**粉丝管理弹窗*/
+    /**
+     * 粉丝管理弹窗
+     */
     private FansManagerPop mManagerPop;
-    /**守护者弹窗*/
+    /**
+     * 守护者弹窗
+     */
     private GuarderPop mGuarderPop;
-    /**粉丝消息弹窗*/
+    /**
+     * 粉丝消息弹窗
+     */
     private FansMessagePop mFansMessagePop;
 
     private MemberBean mMemberBean;
@@ -148,7 +165,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         }
         if (mTvNotice != null) {
             mTvNotice.stopScroll();
-            mTvNotice.setText(((AnchorActivity)getActivity()).getNotice());
+            mTvNotice.setText(((AnchorActivity) getActivity()).getNotice());
             resetNoticeWith();
         }
         intoRoom();
@@ -158,7 +175,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      * 进入群聊，返回用户列表
      */
     private void intoRoom() {
-        if (isInFragment){
+        if (isInFragment) {
             String roomId = ((AnchorActivity) getActivity()).getRoomId();
             mPresenter.joinGroup(roomId);
         }
@@ -206,10 +223,17 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     private void initInputDialog() {
         mInputDialog = new InputMessageDialog(getActivity());
         mInputDialog.setOnMessageSendListener((message, isNotice) -> {
+
             String roomId = ((AnchorActivity) getActivity()).getRoomId();
             if (roomId != null && !"".equals(roomId)) {
-                mPresenter.sendGroupMessage(roomId, message);
+                if (!isNotice) {  //发送群聊
+                    mPresenter.sendGroupMessage(roomId, message);
+                } else { //修改公告
+                    mPresenter.sendGroupNotice(roomId, message);
+                }
             }
+
+
         });
     }
 
@@ -461,6 +485,18 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     }
 
     /**
+     * 修改公告
+     * @param bean NettyLiveNoticeBean通知的实体类
+     */
+    @Override
+    public void editNotic(NettyLiveNoticeBean bean) {
+        if (mTvNotice != null &&bean!=null) {
+            mTvNotice.stopScroll();
+            mTvNotice.setText(bean.getContent().getText());
+            resetNoticeWith();
+        }
+    }
+    /**
      * 用户退出群聊
      */
     @Override
@@ -508,6 +544,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
             }
         }
     }
+
+
 
     @Override
     public void onStop() {

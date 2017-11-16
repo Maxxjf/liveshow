@@ -112,8 +112,18 @@ public class IMModelImpl implements IIMModel {
      * @time 2017/11/2 10:27
      */
     @Override
-    public void sendGroupNotice() {
+    public void sendGroupNotice(String roomNum, String content) {
+        NettyContentBean contentBean = new NettyContentBean(content);
+        NettyGroupBean bean = new NettyGroupBean();
+        bean.setRoom_number(roomNum);
+        bean.setToken(TokenUtil.getToken());
+        bean.setContent(contentBean);
 
+        NettyRequestBean<NettyGroupBean> requestBean = new NettyRequestBean<>();
+        requestBean.setAction_type(RequestDataEnum.ActionType.ROOM_NOTICE.getKey());
+        requestBean.setUuid(DateUtils.getTimeStamp());
+        requestBean.setData(bean);
+        NettyClientBus.request(mGson.toJson(requestBean));
     }
 
     /**

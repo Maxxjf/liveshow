@@ -29,7 +29,7 @@ public interface IIMModel {
     /**
      * 发送群聊公告
      */
-    void sendGroupNotice();
+    void sendGroupNotice(String roomNum, String content);
 
     /**
      * 加入群聊

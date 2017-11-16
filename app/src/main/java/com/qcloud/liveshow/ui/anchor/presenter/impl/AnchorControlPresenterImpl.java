@@ -3,6 +3,7 @@ package com.qcloud.liveshow.ui.anchor.presenter.impl;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyChatListBean;
+import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
@@ -64,6 +65,10 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                         case R.id.netty_group_chat:
                             // 群聊消息
                             mView.addGroupChat((NettyReceiveGroupBean) rxBusEvent.getObj());
+                            break;
+                        case R.id.netty_notice:
+                            // 公告
+                            mView.editNotic((NettyLiveNoticeBean) rxBusEvent.getObj());
                             break;
                         case R.id.netty_private_chat:
                             // 私聊消息
@@ -194,7 +199,10 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
     public void sendGroupMessage(String roomNum, String content) {
         mIMModel.sendGroupChat(roomNum, content);
     }
-
+    @Override
+    public void sendGroupNotice(String roomNum, String content) {
+        mIMModel.sendGroupNotice(roomNum, content);
+    }
     /**
      * 设置/取消守护
      * @param memberId
@@ -226,4 +234,6 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
             mEventBus = null;
         }
     }
+
+
 }

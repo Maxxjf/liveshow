@@ -20,6 +20,9 @@ public interface IAnchorControlPresenter extends BtnClickPresenter {
 
     /**发送群聊消息*/
     void sendGroupMessage(String roomNum, String content);
+
+    void sendGroupNotice(String roomNum, String content);
+
     /**设置/取消守护*/
     void inOutGuard(long memberId, boolean isGuard);
     /**禁言/解除禁言*/
