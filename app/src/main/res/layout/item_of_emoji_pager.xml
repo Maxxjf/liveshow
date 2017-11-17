@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/margin_5"
     android:layout_height="@dimen/margin_5"
+    android:layout_gravity="center"
     android:gravity="center"
-    android:background="@drawable/icon_emoji_clock"/>
+    android:src="@drawable/icon_emoji_clock"/>
 

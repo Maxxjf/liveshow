@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/btn_height"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:background="@color/colorBg">
 
         <com.qcloud.qclib.widget.indicator.FixedIndicatorView
             android:id="@+id/view_page_indicator"
@@ -28,8 +29,7 @@
             android:id="@+id/img_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/margin_2"
             android:paddingRight="@dimen/margin_2"
-            android:src="@drawable/icon_emoticon"/>
+            android:src="@drawable/icon_emoji_delete"/>
     </LinearLayout>
 </LinearLayout>

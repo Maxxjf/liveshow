@@ -18,53 +18,44 @@
         toolbar:is_left="true"
         toolbar:left_icon="@drawable/icon_normal_back"/>
 
-    <LinearLayout
-        android:id="@+id/layout_message"
+    <View
+        style="@style/LineHorizontal"/>
+
+    <com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView
+        android:id="@+id/list_message"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_weight="1"/>
 
-        <View
-            style="@style/LineHorizontal"/>
+    <LinearLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/layout_margin"
+        android:paddingRight="@dimen/layout_margin">
 
-        <com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView
-            android:id="@+id/list_message"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
+        <com.qcloud.liveshow.widget.customview.KeyBackEditText
+            android:id="@+id/et_message"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/btn_height"
+            android:layout_weight="1"
+            android:background="@drawable/frame_gray_radius"
+            android:paddingLeft="@dimen/margin_2"
+            android:inputType="text"
+            android:imeOptions="actionSend"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/micro_text_size"
+            android:textColorHint="@color/colorHint"/>
 
-        <LinearLayout
-            android:id="@+id/layout_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/tab_height"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@color/white"
-            android:paddingLeft="@dimen/layout_margin"
-            android:paddingRight="@dimen/layout_margin">
-
-            <com.qcloud.qclib.widget.customview.ClearEditText
-                android:id="@+id/et_message"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/btn_height"
-                android:layout_weight="1"
-                android:background="@drawable/frame_gray_radius"
-                android:paddingLeft="@dimen/margin_2"
-                android:inputType="text"
-
-                android:imeOptions="actionUnspecified"
-                android:textColor="@color/colorText"
-                android:textSize="@dimen/micro_text_size"
-                android:textColorHint="@color/colorHint"/>
-
-            <ImageView
-                android:id="@+id/btn_emoticon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/layout_margin"
-                android:src="@drawable/icon_emoticon"/>
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/btn_emoticon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_margin"
+            android:src="@drawable/icon_emoticon"/>
     </LinearLayout>
 
     <com.qcloud.liveshow.widget.customview.EmojiLayout

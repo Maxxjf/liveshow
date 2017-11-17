@@ -43,12 +43,14 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
                     switch (rxBusEvent.getType()) {
                         case R.id.netty_get_chat_list_success:
                             NettyChatListBean bean = (NettyChatListBean) rxBusEvent.getObj();
-                            List<MemberBean> memberBeans = bean.getList();
-                            for (int i=0;i<memberBeans.size();i++){
-                                myRealmHelper.addOrUpdateBean(memberBeans.get(i));
-                            }
+
                             if (bean != null && bean.getList() != null) {
                                 mView.replaceList(bean.getList());
+
+                                List<MemberBean> memberBeans = bean.getList();
+                                for (int i=0; i<memberBeans.size(); i++){
+                                    myRealmHelper.addOrUpdateBean(memberBeans.get(i));
+                                }
                             } else {
                                 mView.showEmptyView("暂无数据");
                             }

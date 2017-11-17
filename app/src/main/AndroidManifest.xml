@@ -128,7 +128,7 @@
             android:label="@string/title_fans_message"
             android:launchMode="singleTask"
             android:theme="@style/AppSwipeBackTheme"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
 
         <!-- 个人有关 -->
         <activity

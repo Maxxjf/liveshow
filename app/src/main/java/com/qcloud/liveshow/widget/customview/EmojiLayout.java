@@ -5,19 +5,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.EmojiViewPagerAdapter;
-import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.enums.EmojiClassifyEnum;
 import com.qcloud.qclib.base.BaseLinearLayout;
 import com.qcloud.qclib.widget.indicator.FixedIndicatorView;
 import com.qcloud.qclib.widget.indicator.IndicatorViewPager;
-import com.qcloud.qclib.widget.indicator.slidebar.LayoutBar;
-import com.qcloud.qclib.widget.indicator.slidebar.ScrollBar;
-import com.qcloud.qclib.widget.indicator.transition.OnTransitionTextListener;
+import com.qcloud.qclib.widget.indicator.transition.OnTransitionImageListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +36,8 @@ public class EmojiLayout extends BaseLinearLayout {
     FixedIndicatorView mIndicator;
     @Bind(R.id.img_delete)
     ImageView mImgDelete;
+
+    private KeyBackEditText mEditText;
 
     private OnEmojiClickListener mEmojiClick;
 
@@ -67,15 +67,10 @@ public class EmojiLayout extends BaseLinearLayout {
     }
 
     public void initIndicator(FragmentManager manager) {
-        LayoutBar bar = new LayoutBar(mContext, R.layout.layout_emoji_slidebar, ScrollBar.Gravity.CENTENT_BACKGROUND);
-        mIndicator.setScrollBar(bar);
-
-        float unSelectSize = 14;
-        float selectSize = unSelectSize * 1.2f;
         int selectColor = ContextCompat.getColor(mContext, R.color.colorTitle);
-        int unSelectColor = ContextCompat.getColor(mContext, R.color.colorSubTitle);
-        mIndicator.setOnTransitionListener(new OnTransitionTextListener()
-                .setColor(selectColor, unSelectColor).setSize(selectSize, unSelectSize));
+        int unSelectColor = ContextCompat.getColor(mContext, R.color.colorLine);
+        mIndicator.setOnTransitionListener(new OnTransitionImageListener()
+                .setColor(selectColor, unSelectColor));
 
         // 设置viewpager保留界面不重新加载的页面数量
         mViewPager.setOffscreenPageLimit(6);
@@ -89,6 +84,10 @@ public class EmojiLayout extends BaseLinearLayout {
 
     @OnClick(R.id.img_delete)
     public void onViewClicked() {
+        if (mEditText != null) {
+            mEditText.dispatchKeyEvent(new KeyEvent(
+                    KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+        }
     }
 
     private List<EmojiClassifyEnum> initData() {
@@ -102,18 +101,32 @@ public class EmojiLayout extends BaseLinearLayout {
         list.add(EmojiClassifyEnum.Flag);
 
         return list;
-
     }
 
     public void onDestroy() {
-        if (mAdapter != null) {
-            for (int i = 0; i < mAdapter.getCount(); i++) {
-                BaseFragment fragment = (BaseFragment) mAdapter.getFragmentForPage(i);
-                if (fragment != null) {
-                    fragment.detach();
-                }
-            }
-        }
+//        if (mAdapter != null) {
+//            for (int i = 0; i < mAdapter.getCount(); i++) {
+//                BaseFragment fragment = (BaseFragment) mAdapter.getFragmentForPage(i);
+//                if (fragment != null) {
+//                    fragment.detach();
+//                }
+//            }
+//        }
+        unAttachToEditText();
+    }
+
+    /**
+     * 绑定EditText
+     * */
+    public void attachToEditText(KeyBackEditText editText) {
+        this.mEditText = editText;
+    }
+
+    /**
+     * 取消绑定EditText
+     * */
+    public void unAttachToEditText() {
+        mEditText = null;
     }
 
     /**

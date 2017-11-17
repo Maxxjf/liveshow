@@ -1,35 +1,37 @@
 package com.qcloud.liveshow.ui.home.widget;
 
-import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.FansMessageAdapter;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
+import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.ui.home.presenter.impl.FansMessagePresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IFansMessageView;
+import com.qcloud.liveshow.utils.EmojiClickManagerUtil;
 import com.qcloud.liveshow.widget.customview.EmojiLayout;
+import com.qcloud.liveshow.widget.customview.KeyBackEditText;
 import com.qcloud.liveshow.widget.customview.NoDataView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.ConstantUtil;
+import com.qcloud.qclib.utils.DensityUtils;
 import com.qcloud.qclib.utils.KeyBoardUtils;
-import com.qcloud.qclib.utils.ScreenUtils;
 import com.qcloud.qclib.utils.StringUtils;
-import com.qcloud.qclib.widget.customview.ClearEditText;
 
 import java.util.List;
 
@@ -49,13 +51,11 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     @Bind(R.id.list_message)
     PullRefreshRecyclerView mListMessage;
     @Bind(R.id.et_message)
-    ClearEditText mEtMessage;
+    KeyBackEditText mEtMessage;
     @Bind(R.id.btn_emoticon)
     ImageView mBtnEmoticon;
     @Bind(R.id.layout_parent)
-    LinearLayout mLayoutBottom;
-    @Bind(R.id.layout_message)
-    LinearLayout mLayoutMessage;
+    View mLayoutParent;
     @Bind(R.id.layout_emoji)
     EmojiLayout mLayoutEmoji;
 
@@ -64,10 +64,13 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     private FansMessageAdapter mAdapter;
     private MemberBean mMemberBean;
 
-    /**键盘和表情切换*/
-    private final LayoutTransition mTransition = new LayoutTransition();
-    /**表情布局高度*/
-    private int emojiHeight;
+    private Rect tmp = new Rect();
+    private int mScreenHeight;
+
+    /**是否显示表情*/
+    private boolean isShowEmoji;
+
+    private EmojiClickManagerUtil mClickManager;
 
     @Override
     protected int initLayout() {
@@ -106,11 +109,14 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
             if (mPresenter!=null){
                 mPresenter.getChars(fromUserId);//获取所有私聊列表
             }
-        }
 
-        mTitleBar.setTitle(mMemberBean.getNickName());
+            mTitleBar.setTitle(mMemberBean.getNickName());
+        }
     }
 
+    /**
+     * 初始化刷新布局
+     * */
     private void initRefreshList() {
         PullRefreshUtil.setRefresh(mListMessage, false, false);
         mListMessage.setOnPullDownRefreshListener(() -> mListMessage.refreshFinish());
@@ -123,9 +129,29 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
         mListMessage.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
     }
 
+    /**
+     * 初始化表情布局
+     * */
+    private void initEmojiLayout() {
+        mLayoutEmoji.initIndicator(getSupportFragmentManager());
+        mLayoutEmoji.attachToEditText(mEtMessage);
+        mClickManager = EmojiClickManagerUtil.getInstance();
+        mClickManager.attachToEditText(mEtMessage);
+    }
+
+    /**
+     * 初始化输入弹窗
+     * */
     private void initEditMessage() {
+        int defaultHeight = DensityUtils.dp2px(this, 240);
+        int height = ConstantUtil.getInt(AppConstants.LAST_KEYBOARD_HEIGHT, defaultHeight);
+        ViewGroup.LayoutParams params = mLayoutEmoji.getLayoutParams();
+        if (params != null) {
+            params.height = height;
+            mLayoutEmoji.setLayoutParams(params);
+        }
+
         //监听键盘
-        //mEtMessage.postDelayed(() -> lockContainerHeight(ScreenUtils.getAppContentHeight(this)), 200);
         mEtMessage.setOnEditorActionListener((v, actionId, event) -> {
             switch (actionId) {
                 case KeyEvent.KEYCODE_ENDCALL:
@@ -138,7 +164,6 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
                     mPresenter.sendMessage(mMemberBean.getIdStr(), context);
                     mEtMessage.setText("");
                     KeyBoardUtils.hideKeybord(mContext, mEtMessage);
-                    //unlockContainerHeightDelayed();
                     return true;
                 case KeyEvent.KEYCODE_BACK:
 
@@ -147,79 +172,109 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
                     return false;
             }
         });
-//        SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
-//            @Override
-//            public void keyBoardShow(int height) {
-//                Timber.e("显示输入框");
-//            }
-//
-//            @Override
-//            public void keyBoardHide(int height) {
-//                Timber.e("隐藏输入框");
-//                unlockContainerHeightDelayed();
-//            }
-//        });
+
+        mEtMessage.getViewTreeObserver().addOnPreDrawListener(() -> {
+            if (isShowEmoji) {
+                // 在设置isShowEmoji时已经调用了隐藏Keyboard的方法，直到Keyboard隐藏前都取消重给
+                if (isKeyboardVisible()) {
+                    ViewGroup.LayoutParams params1 = mLayoutEmoji.getLayoutParams();
+                    int distance = getDistanceFromInputToBottom();
+                    // 调整EmojiLayout高度
+                    if (distance > AppConstants.DISTANCE_SLOP && distance != params1.height) {
+                        params1.height = distance;
+                        mLayoutEmoji.setLayoutParams(params1);
+                        ConstantUtil.writeInt(AppConstants.LAST_KEYBOARD_HEIGHT, distance);
+                    }
+                    return false;
+                } else { // 键盘已隐藏，显示EmojiLayout
+                    showEmoji();
+                    isShowEmoji = false;
+                    return false;
+                }
+            } else {
+                if (isEmojiVisible() && isKeyboardVisible()) {
+                    hideEmoji();
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        mEtMessage.setOnBackPressedListener(() -> {
+            if (isEmojiVisible()) {
+                hideEmoji();
+                return true;
+            } else if (isKeyboardVisible()) {
+                KeyBoardUtils.hideKeybord(this, mEtMessage);
+                return true;
+            }
+            return false;
+        });
     }
 
-    private void initEmojiLayout() {
-        mLayoutEmoji.initIndicator(getSupportFragmentManager());
+    /**
+     * 显示表情布局
+     * */
+    private void showEmoji() {
+        if (mLayoutEmoji.getVisibility() != View.VISIBLE) {
+            mLayoutEmoji.setVisibility(View.VISIBLE);
+        }
     }
 
-    @OnClick({R.id.btn_emoticon, R.id.layout_message})
+    /**
+     * 隐藏表情布局
+     * */
+    private void hideEmoji() {
+        if (mLayoutEmoji.getVisibility() != View.GONE) {
+            mLayoutEmoji.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 表情布局是否显示
+     * */
+    private boolean isEmojiVisible() {
+        return mLayoutEmoji.getVisibility() == View.VISIBLE;
+    }
+
+    /**
+     * 是否显示键盘
+     * */
+    private boolean isKeyboardVisible() {
+        return (getDistanceFromInputToBottom() > AppConstants.DISTANCE_SLOP && !isEmojiVisible())
+                || (getDistanceFromInputToBottom() > (mLayoutEmoji.getHeight() + AppConstants.DISTANCE_SLOP) && isEmojiVisible());
+    }
+
+    /**
+     * 输入框的下边距离屏幕的距离
+     */
+    private int getDistanceFromInputToBottom() {
+        return mScreenHeight - getInputBottom();
+    }
+
+    /**
+     * 输入框下边的位置
+     */
+    private int getInputBottom() {
+        mEtMessage.getGlobalVisibleRect(tmp);
+        return tmp.bottom;
+    }
+
+    @OnClick({R.id.btn_emoticon})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
     }
 
     @Override
     public void onEmojiClick() {
-        if (mLayoutEmoji.isShown()) {
-            hideEmojiLayout();
+        if (isEmojiVisible()) {
+            hideEmoji();
+        } else if (isKeyboardVisible()) {
+            isShowEmoji = true;
+            KeyBoardUtils.hideKeybord(this, mEtMessage);
         } else {
-            showEmojiLayout(KeyBoardUtils.isKeyBoardShow(this));
+            showEmoji();
         }
-    }
-
-    /**
-     * 显示表情输入框
-     * */
-    private void showEmojiLayout(boolean showAnimation) {
-        if (showAnimation) {
-            mTransition.setDuration(200);
-        } else {
-            mTransition.setDuration(0);
-        }
-
-        emojiHeight = KeyBoardUtils.getKeyboardHeight(this);
-
-        KeyBoardUtils.hideKeybord(this, mEtMessage);
-        mLayoutEmoji.getLayoutParams().height = emojiHeight;
-        mLayoutEmoji.setVisibility(View.VISIBLE);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        //在5.0有navigationbar的手机，高度高了一个statusBar
-        int lockHeight = ScreenUtils.getAppContentHeight(this);
-        lockContainerHeight(lockHeight);
-    }
-
-    /**
-     * 隐藏表情输入框
-     * */
-    private void hideEmojiLayout() {
-        if (mLayoutEmoji.isShown()) {
-            mLayoutEmoji.setVisibility(View.GONE);
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-            unlockContainerHeightDelayed();
-        }
-    }
-
-    private void lockContainerHeight(int paramInt) {
-        LinearLayout.LayoutParams localLayoutParams = (LinearLayout.LayoutParams) mLayoutMessage.getLayoutParams();
-        localLayoutParams.height = paramInt;
-        localLayoutParams.weight = 0.0F;
-    }
-
-    public void unlockContainerHeightDelayed() {
-        ((LinearLayout.LayoutParams) mLayoutMessage.getLayoutParams()).weight = 1.0F;
     }
 
     /**
@@ -276,9 +331,24 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     }
 
     @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && mScreenHeight <= 0) {
+            mLayoutParent.getGlobalVisibleRect(tmp);
+            mScreenHeight = tmp.bottom;
+        }
+    }
+
+    @Override
     protected void onDestroy() {
-        super.onDestroy();
         mPresenter.onDestroy();
+        if (mClickManager != null) {
+            mClickManager.unAttachToEditText();
+        }
+        if (mLayoutEmoji != null) {
+            mLayoutEmoji.onDestroy();
+        }
+        super.onDestroy();
     }
 
     public static void openActivity(Context context) {

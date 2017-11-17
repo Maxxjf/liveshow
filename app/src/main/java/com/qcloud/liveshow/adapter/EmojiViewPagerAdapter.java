@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.enums.EmojiClassifyEnum;
@@ -37,8 +37,8 @@ public class EmojiViewPagerAdapter extends IndicatorViewPager.IndicatorFragmentP
         if (convertView == null) {
             convertView = inflate.inflate(R.layout.item_of_emoji_pager, container, false);
         }
-        TextView textView = (TextView) convertView;
-        textView.setBackgroundResource(bean.getRes());
+        ImageView imageView = (ImageView) convertView;
+        imageView.setImageResource(bean.getRes());
 
         return convertView;
     }

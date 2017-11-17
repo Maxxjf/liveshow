@@ -21,7 +21,9 @@ public enum EmojiClassifyEnum {
     /**旅游*/
     Travel(5, "旅游", R.drawable.icon_emoji_travel),
     /**旗帜*/
-    Flag(6, "旗帜", R.drawable.icon_emoji_flag);
+    Flag(6, "旗帜", R.drawable.icon_emoji_flag),
+    /**删除*/
+    Delete(7, "删除", R.drawable.icon_emoji_delete);
 
     private int key;
     private String value;
@@ -49,6 +51,8 @@ public enum EmojiClassifyEnum {
                 return Travel;
             case 6:
                 return Flag;
+            case 7:
+                return Delete;
             default:
                 return Clock;
         }

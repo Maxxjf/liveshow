@@ -19,4 +19,9 @@ public interface AppConstants {
     /**Netty 服务器*/
     String NETTY_HOST = "10.10.22.123";
     int NETTY_PORT = 2071;
+
+    /**弹起键盘坡度*/
+    int DISTANCE_SLOP = 180;
+    /**最新的弹起键盘高度*/
+    String LAST_KEYBOARD_HEIGHT = "last_keyboard_height";
 }

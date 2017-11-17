@@ -9,6 +9,7 @@ import com.qcloud.liveshow.adapter.EmojiAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.ui.home.presenter.impl.EmojiPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IEmojiView;
+import com.qcloud.liveshow.utils.EmojiClickManagerUtil;
 
 import java.util.List;
 
@@ -55,9 +56,7 @@ public class EmojiFragment extends BaseFragment<IEmojiView, EmojiPresenterImpl> 
         mAdapter = new EmojiAdapter(getActivity());
         mListEmoji.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListener((adapterView, view, position, l) -> {
-
-        });
+        mAdapter.setOnItemClickListener(EmojiClickManagerUtil.getInstance().getOnItemClickListener(mAdapter));
     }
 
     public static EmojiFragment newInstance(int type) {
