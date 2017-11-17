@@ -82,10 +82,10 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         initBottomNavBar();
         int startEnum = getIntent().getIntExtra("START_ENUM", 0);
         switchStart(startEnum);
-        BaseApplication.getInstance().initRealm();
         loadBasicData();
         mBtnLiveShow.post(() -> bindingGeneralizeRelation());
         connectIM();
+        BaseApplication.getInstance().initRealm();
     }
 
     /**

@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyAuthBean;
 import com.qcloud.liveshow.beans.NettyBaseResponse;
-import com.qcloud.liveshow.beans.NettyChatListBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
@@ -166,11 +166,11 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
      */
     @Override
     public void disposeChatList(JsonElement msgConfig) {
-        Type type = new TypeToken<NettyBaseResponse<NettyChatListBean>>() {
+        Type type = new TypeToken<NettyBaseResponse<MemberBean>>() {
         }.getType();
-        NettyDispose.dispose(msgConfig, type, new DataCallback<NettyChatListBean>() {
+        NettyDispose.dispose(msgConfig, type, new DataCallback<MemberBean>() {
             @Override
-            public void onSuccess(NettyChatListBean bean) {
+            public void onSuccess(MemberBean bean) {
                 Timber.e(bean + "");
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_get_chat_list_success)
                         .setObj(bean).build());
