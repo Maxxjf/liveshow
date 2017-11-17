@@ -42,17 +42,10 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
                 if (mView != null) {
                     switch (rxBusEvent.getType()) {
                         case R.id.netty_get_chat_list_success:
-                            NettyChatListBean bean = (NettyChatListBean) rxBusEvent.getObj();
-
-                            if (bean != null && bean.getList() != null) {
-                                mView.replaceList(bean.getList());
-
-                                List<MemberBean> memberBeans = bean.getList();
-                                for (int i=0; i<memberBeans.size(); i++){
-                                    myRealmHelper.addOrUpdateBean(memberBeans.get(i));
-                                }
-                            } else {
-                                mView.showEmptyView("暂无数据");
+                            MemberBean bean = (MemberBean) rxBusEvent.getObj();
+                            if (bean != null ) {
+                                myRealmHelper.addOrUpdateBean(bean);
+                                mView.addMessage(bean);
                             }
                             break;
                         case R.id.netty_get_chat_list_failure:
@@ -63,7 +56,7 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
             }
         }));
     }
-
+    @Override
     public void getAllList(){
         List<MemberBean> memberBeans=myRealmHelper.queryBeans(MemberBean.class);
         if (memberBeans != null && memberBeans.size() != 0) {
@@ -73,15 +66,15 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
         }
     }
 
-    /**
-     * 获取会话列表
-     *
-     * @time 2017/11/2 11:01
-     */
-    @Override
-    public void getChatList() {
-        mModel.getChatList();
-    }
+//    /**
+//     * 获取会话列表
+//     *
+//     * @time 2017/11/2 11:01
+//     */
+//    @Override
+//    public void getChatList() {
+//        mModel.getChatList();
+//    }
 
     public void onDestroy() {
         if (mEventBus != null) {
