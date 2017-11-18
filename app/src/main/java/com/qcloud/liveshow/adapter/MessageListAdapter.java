@@ -29,10 +29,10 @@ public class MessageListAdapter extends CommonRecyclerAdapter<MemberBean> {
 
         UserHeadImageView userView = holder.get(R.id.layout_user);
         userView.loadImage(bean.getHeadImg(), bean.getIcon(), 80);
-
         holder.setText(R.id.tv_user_name, bean.getNickName());
         holder.setImageResource(R.id.img_user_sex, bean.getSexIcon());
         holder.setText(R.id.tv_signature, bean.getSignature());
         holder.setText(R.id.tv_time, bean.getLast_send_message_datetime());
+        holder.setVisible(R.id.iv_no_read,!bean.isRead());
     }
 }

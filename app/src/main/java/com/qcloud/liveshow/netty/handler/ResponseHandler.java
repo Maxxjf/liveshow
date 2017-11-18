@@ -19,9 +19,9 @@ import com.qcloud.liveshow.utils.NettyUtil;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.rxbus.BusProvider;
+import com.qcloud.qclib.utils.StringUtils;
 
 import java.lang.reflect.Type;
-import java.util.List;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.reactivex.annotations.NonNull;
@@ -148,7 +148,19 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                 }
                 bean.setSend(false);
                 realmHelper.addOrUpdateBean(bean);//添加到本地数据
-                List<NettyReceivePrivateBean> s = realmHelper.queryBeans(NettyReceivePrivateBean.class);
+                Timber.e("bean:" + bean);
+// 更新Realm数据库某条数据
+                if (bean.getFrom_user_id() != null && StringUtils.isNotEmptyString(bean.getFrom_user_id())) {
+                    realmHelper = new RealmHelper<MemberBean>();
+                    MemberBean memberBean = (MemberBean) realmHelper.queryBeanById(MemberBean.class, "id", Long.valueOf(bean.getFrom_user_id()));
+                    Timber.e("memberBean:" + memberBean);
+                    realmHelper.mRealm.beginTransaction();
+                    if (memberBean != null) {
+                        memberBean.setRead(false);
+                    }
+                    realmHelper.mRealm.commitTransaction();
+                    realmHelper.addOrUpdateBean(memberBean);
+                }
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_private_chat).setObj(bean).build());
             }
 
@@ -171,7 +183,11 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         NettyDispose.dispose(msgConfig, type, new DataCallback<MemberBean>() {
             @Override
             public void onSuccess(MemberBean bean) {
-                Timber.e(bean + "");
+                bean.setRead(true);//默认是已读
+                if (realmHelper == null) {
+                    realmHelper = new RealmHelper<MemberBean>();
+                }
+                realmHelper.addOrUpdateBean(bean);//添加到本地数据
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_get_chat_list_success)
                         .setObj(bean).build());
             }
@@ -220,7 +236,7 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         NettyDispose.dispose(msgConfig, type, new DataCallback<NettyLiveNoticeBean>() {
             @Override
             public void onSuccess(NettyLiveNoticeBean bean) {
-                    BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_notice).setObj(bean).build());
+                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_notice).setObj(bean).build());
             }
 
             @Override

@@ -15,13 +15,14 @@ import timber.log.Timber;
  */
 public class RealmHelper<T extends RealmObject> {
     public static final String DB_NAME = "LiveShow.realm";
-    private Realm mRealm;
+    public Realm mRealm;
     private RealmAsyncTask mTask;
     private RealmAsyncTask mDelTask;
 
     public RealmHelper() {
-
-        mRealm = Realm.getDefaultInstance();
+        if (mRealm==null){
+            mRealm = Realm.getDefaultInstance();
+        }
     }
 
     /**
@@ -75,6 +76,17 @@ public class RealmHelper<T extends RealmObject> {
     }
 
     /**
+     * 查找
+     * @param c 继承RealmObject的实体类
+     * @param fieldName 数据库对应的字段
+     * @param id 数据库对应的值
+     *
+     * */
+    public T queryBeanById(Class c,String fieldName,final long id) {
+        return (T) mRealm.where(c).equalTo(fieldName, id).findFirst();
+    }
+
+    /**
      * 查找所有列表
      * @param c 继承RealmObject的实体类
      * @param fieldName 数据库对应的字段
@@ -85,5 +97,6 @@ public class RealmHelper<T extends RealmObject> {
         RealmResults<T> list=  mRealm.where(c).equalTo(fieldName, vaule).findAll();
         return mRealm.copyFromRealm(list);
     }
+
 
 }

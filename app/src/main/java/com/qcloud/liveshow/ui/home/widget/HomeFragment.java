@@ -74,6 +74,8 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
             if (rxBusEvent.getType() == R.id.show_hide_title_bar) {
                 boolean isShow = (boolean) rxBusEvent.getObj();
                 showOrHideTitle(isShow);
+            }else if (rxBusEvent.getType()==R.id.netty_private_chat){
+                mTitleBar.setIsRead(false);
             }
         }));
     }
@@ -85,11 +87,13 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
                     SearchAnchorActivity.openActivity(getActivity());
                     break;
                 case R.id.ib_right:
+                    mTitleBar.setIsRead(true);
                     MessageListActivity.openActivity(getActivity());
                     break;
             }
         });
     }
+
 
     /**
      * 初始化指示器

@@ -50,6 +50,8 @@ public class TitleBar extends Toolbar {
     TextView mTvSearch;
     @Bind(R.id.layout_search)
     LinearLayout mLayoutSearch;
+    @Bind(R.id.iv_no_read)
+    ImageView mIvNoRed;
 
     private Context mContext;
 
@@ -198,17 +200,23 @@ public class TitleBar extends Toolbar {
         barBackground = typedArray.getColor(R.styleable.BaseBar_bar_background, ContextCompat.getColor(mContext, R.color.white));
     }
 
-    /**标题*/
+    /**
+     * 标题
+     */
     public void setTitle(String title) {
         tvTitle.setText(title);
     }
 
-    /**标题*/
+    /**
+     * 标题
+     */
     public void setTitle(int titleRes) {
         tvTitle.setText(titleRes);
     }
 
-    /**左图标*/
+    /**
+     * 左图标
+     */
     public void setLeftIcon(boolean isLeft, int res) {
         if (ibLeft != null) {
             if (isLeft) {
@@ -220,7 +228,9 @@ public class TitleBar extends Toolbar {
         }
     }
 
-    /**右图标*/
+    /**
+     * 右图标
+     */
     public void setRightIcon(boolean isRight, int res) {
         if (ibRight != null) {
             if (isRight) {
@@ -232,7 +242,23 @@ public class TitleBar extends Toolbar {
         }
     }
 
-    /**左文字*/
+    /**
+     * 显示未读
+     */
+    public void setIsRead(boolean isRead) {
+        if (ibRight != null) {
+            if (!isRead) {
+                mIvNoRed.setVisibility(VISIBLE);
+            } else {
+                mIvNoRed.setVisibility(INVISIBLE);
+            }
+        }
+    }
+
+
+    /**
+     * 左文字
+     */
     public void setLeftText(String res) {
         if (isLeftText) {
             btnLeft.setVisibility(VISIBLE);
@@ -240,7 +266,9 @@ public class TitleBar extends Toolbar {
         }
     }
 
-    /**左文字*/
+    /**
+     * 左文字
+     */
     public void setLeftText(int res) {
         if (isLeftText) {
             btnLeft.setVisibility(VISIBLE);
@@ -248,7 +276,9 @@ public class TitleBar extends Toolbar {
         }
     }
 
-    /**右文字*/
+    /**
+     * 右文字
+     */
     public void setRightText(String res) {
         if (isRightText) {
             btnRight.setVisibility(VISIBLE);
@@ -256,7 +286,9 @@ public class TitleBar extends Toolbar {
         }
     }
 
-    /**右文字*/
+    /**
+     * 右文字
+     */
     public void setRightText(int res) {
         if (isRightText) {
             btnRight.setVisibility(VISIBLE);
@@ -264,28 +296,36 @@ public class TitleBar extends Toolbar {
         }
     }
 
-    /**搜索图标*/
+    /**
+     * 搜索图标
+     */
     public void setSearchIcon(int res) {
         if (mBtnSearch != null) {
             mBtnSearch.setImageResource(res);
         }
     }
 
-    /**搜索框背景*/
+    /**
+     * 搜索框背景
+     */
     public void setSearchBg(int res) {
         if (mLayoutSearch != null) {
             mLayoutSearch.setBackgroundResource(res);
         }
     }
 
-    /**搜索hint*/
+    /**
+     * 搜索hint
+     */
     public void setSearchHint(int res) {
         if (mEtSearch != null) {
             mEtSearch.setHint(res);
         }
     }
 
-    /**搜索内容*/
+    /**
+     * 搜索内容
+     */
     public void setSearchValue(String value) {
         if (mEtSearch != null) {
             searchValue = value;
@@ -293,7 +333,9 @@ public class TitleBar extends Toolbar {
         }
     }
 
-    /**是否可输入搜索*/
+    /**
+     * 是否可输入搜索
+     */
     public void setSearchEditable(boolean isEdit) {
         if (isEdit) {
             if (mEtSearch != null) {
@@ -312,49 +354,63 @@ public class TitleBar extends Toolbar {
         }
     }
 
-    /**隐藏标题*/
+    /**
+     * 隐藏标题
+     */
     public void hideTitle() {
         if (tvTitle != null) {
             tvTitle.setVisibility(INVISIBLE);
         }
     }
 
-    /**显示标题*/
+    /**
+     * 显示标题
+     */
     public void showTitle() {
         if (tvTitle != null) {
             tvTitle.setVisibility(VISIBLE);
         }
     }
 
-    /**隐藏左图标*/
+    /**
+     * 隐藏左图标
+     */
     public void hideLeft() {
         if (ibLeft != null) {
             ibLeft.setVisibility(INVISIBLE);
         }
     }
 
-    /**显示左图标*/
+    /**
+     * 显示左图标
+     */
     public void showLeft() {
         if (ibLeft != null) {
             ibLeft.setVisibility(VISIBLE);
         }
     }
 
-    /**隐藏右图标*/
+    /**
+     * 隐藏右图标
+     */
     public void hideRight() {
         if (ibRight != null) {
             ibRight.setVisibility(INVISIBLE);
         }
     }
 
-    /**显示右图标*/
+    /**
+     * 显示右图标
+     */
     public void showRight() {
         if (ibRight != null) {
             ibRight.setVisibility(VISIBLE);
         }
     }
 
-    /**获取搜索内容*/
+    /**
+     * 获取搜索内容
+     */
     public String getSearchValue() {
         searchValue = mEtSearch.getText().toString().trim();
         return StringUtils.isEmptyString(searchValue) ? "" : searchValue;

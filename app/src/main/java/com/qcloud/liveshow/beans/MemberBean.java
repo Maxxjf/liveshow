@@ -27,6 +27,7 @@ public class MemberBean extends RealmObject implements Serializable {
     String memberGrade; // 会员等级
     String memberGradeIcon; // 会员等级图标
     double memberSum;   // 该会员贡献总收益
+    boolean isRead =true;     //消息已读未读
     String signature;   // 个性签名
     boolean isAttention = true;// 是否关注 默认为true是黑名单里使用
     int attentionNum;   // 关注的人
@@ -40,6 +41,18 @@ public class MemberBean extends RealmObject implements Serializable {
 
     public void setLast_send_message_datetime(String last_send_message_datetime) {
         this.last_send_message_datetime = last_send_message_datetime;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 
     public String getIdAccount() {
@@ -203,6 +216,7 @@ public class MemberBean extends RealmObject implements Serializable {
                 ", memberGrade='" + memberGrade + '\'' +
                 ", memberGradeIcon='" + memberGradeIcon + '\'' +
                 ", memberSum=" + memberSum +
+                ", isRead=" + isRead +
                 ", signature='" + signature + '\'' +
                 ", isAttention=" + isAttention +
                 ", attentionNum=" + attentionNum +

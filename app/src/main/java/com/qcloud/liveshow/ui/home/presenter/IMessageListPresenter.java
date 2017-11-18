@@ -1,5 +1,7 @@
 package com.qcloud.liveshow.ui.home.presenter;
 
+import com.qcloud.liveshow.beans.MemberBean;
+
 /**
  * 类说明：消息列表
  * Author: Kuzan
@@ -7,6 +9,8 @@ package com.qcloud.liveshow.ui.home.presenter;
  */
 public interface IMessageListPresenter {
     void getAllList();
+    /**标为已读*/
+    void falgIsRead(MemberBean userBean);
 
 //    void getChatList();
 }

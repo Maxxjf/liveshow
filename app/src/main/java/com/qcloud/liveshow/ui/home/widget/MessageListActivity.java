@@ -12,7 +12,6 @@ import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.ui.home.presenter.impl.MessageListPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IMessageListView;
-import com.qcloud.liveshow.utils.NettyUtil;
 import com.qcloud.liveshow.widget.customview.EmptyView;
 import com.qcloud.liveshow.widget.customview.NoDataView;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
@@ -83,6 +82,9 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
         mListMessage.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener((parent, view, position, id) -> {
             MemberBean userBean = mAdapter.getList().get(position);
+            userBean.setRead(true);
+            mAdapter.notifyDataSetChanged();
+            mPresenter.falgIsRead(userBean);
             FansMessageActivity.openActivity(MessageListActivity.this, userBean);
         });
         mAdapter.setOnHolderClick((view, memberBean, position) -> {
@@ -100,12 +102,7 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
     }
 
     private void loadData() {
-        if (NettyUtil.isAuth()) {
-            mPresenter.getAllList();
-        } else {
-            showEmptyView(getResources().getString(R.string.tip_no_data));
-        }
-//        mPresenter.getAllList();
+        mPresenter.getAllList();
     }
 
     @Override
@@ -132,7 +129,7 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
             if (mListMessage != null) {
                 mListMessage.refreshFinish();
             }
-            if (bean != null) {
+            if (bean != null &beans!=null) {
                 isSameMember = false;
                 for (MemberBean member : beans) {//查找列表数据，看看有没有相同的。
                     if (member.getId() == bean.getId()) {

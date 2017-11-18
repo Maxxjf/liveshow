@@ -44,7 +44,6 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
                         case R.id.netty_get_chat_list_success:
                             MemberBean bean = (MemberBean) rxBusEvent.getObj();
                             if (bean != null ) {
-                                myRealmHelper.addOrUpdateBean(bean);
                                 mView.addMessage(bean);
                             }
                             break;
@@ -66,6 +65,14 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
         }
     }
 
+    /**
+     * 标为已读
+     * @param userBean
+     */
+    @Override
+    public void falgIsRead(MemberBean userBean) {
+        myRealmHelper.addOrUpdateBean(userBean);
+    }
 //    /**
 //     * 获取会话列表
 //     *
@@ -82,4 +89,5 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
             mEventBus = null;
         }
     }
+
 }
