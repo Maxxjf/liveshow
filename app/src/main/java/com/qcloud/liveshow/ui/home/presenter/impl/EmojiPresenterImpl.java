@@ -5,7 +5,6 @@ import com.qcloud.liveshow.ui.home.view.IEmojiView;
 import com.qcloud.qclib.base.BasePresenter;
 import com.qcloud.qclib.utils.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,35 +22,27 @@ public class EmojiPresenterImpl extends BasePresenter<IEmojiView> implements IEm
     public void getEmoji(int type) {
         switch (type) {
             case 0:
-                mView.replaceList(initClock());
-                break;
-            case 1:
                 mView.replaceList(initSmile());
                 break;
-            case 2:
+            case 1:
                 mView.replaceList(initAnimal());
                 break;
-            case 3:
+            case 2:
                 mView.replaceList(initBall());
                 break;
-            case 4:
+            case 3:
                 mView.replaceList(initFood());
                 break;
-            case 5:
+            case 4:
                 mView.replaceList(initTravel());
                 break;
-            case 6:
+            case 5:
                 mView.replaceList(initFlag());
                 break;
             default:
-                mView.replaceList(initClock());
+                mView.replaceList(initSmile());
                 break;
         }
-    }
-
-    private List<String> initClock() {
-
-        return new ArrayList<>();
     }
 
     private List<String> initSmile() {
@@ -149,10 +140,10 @@ public class EmojiPresenterImpl extends BasePresenter<IEmojiView> implements IEm
     }
 
     private List<String> initFlag() {
-        String flagStr = "\uD83C\uDFF3️ \uD83C\uDFF4 \uD83C\uDFC1 \uD83D\uDEA9 \uD83C\uDFF3️ \u200D\uD83C\uDF08" +
+        String flagStr = "\uD83C\uDFF3️ \uD83C\uDFF4 \uD83C\uDFC1 \uD83D\uDEA9 \uD83C\uDFF3 ️\u200D\uD83C\uDF08" +
                 " \uD83C\uDDE6\uD83C\uDDEB \uD83C\uDDE6\uD83C\uDDFD \uD83C\uDDE6\uD83C\uDDF1 \uD83C\uDDE9\uD83C\uDDFF" +
                 " \uD83C\uDDE6\uD83C\uDDF8 \uD83C\uDDE6\uD83C\uDDE9 \uD83C\uDDE6\uD83C\uDDF4 \uD83C\uDDE6\uD83C\uDDEE" +
-                " \uD83C\uDDE6\uD83C\uDDF6 \uD83C\uDDE6\uD83C\uDDEC \uD83C\uDDE6\uD83C\uDDF7 \uD83C\uDDE6\uD83C\uDDF2" +
+                " \uD83C\uDDE6 \uD83C\uDDF6 \uD83C\uDDE6\uD83C\uDDEC \uD83C\uDDE6\uD83C\uDDF7 \uD83C\uDDE6\uD83C\uDDF2" +
                 " \uD83C\uDDE6\uD83C\uDDFC \uD83C\uDDE6\uD83C\uDDFA \uD83C\uDDE6\uD83C\uDDF9 \uD83C\uDDE6\uD83C\uDDFF" +
                 " \uD83C\uDDE7\uD83C\uDDF8 \uD83C\uDDE7\uD83C\uDDED \uD83C\uDDE7\uD83C\uDDE9 \uD83C\uDDE7\uD83C\uDDE7" +
                 " \uD83C\uDDE7\uD83C\uDDFE \uD83C\uDDE7\uD83C\uDDEA \uD83C\uDDE7\uD83C\uDDFF \uD83C\uDDE7\uD83C\uDDEF" +

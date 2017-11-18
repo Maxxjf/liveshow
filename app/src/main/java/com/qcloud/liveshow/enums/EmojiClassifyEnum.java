@@ -8,22 +8,20 @@ import com.qcloud.liveshow.R;
  * Date: 2017/11/16 9:34.
  */
 public enum EmojiClassifyEnum {
-    /**最近使用*/
-    Clock(0, "最近使用", R.drawable.icon_emoji_clock),
     /**笑脸*/
-    Smile(1, "笑脸", R.drawable.icon_emoji_smile),
+    Smile(0, "笑脸", R.drawable.icon_emoji_smile),
     /**动物*/
-    Animal(2, "动物", R.drawable.icon_emoji_animal),
+    Animal(1, "动物", R.drawable.icon_emoji_animal),
     /**活动*/
-    Ball(3, "活动", R.drawable.icon_emoji_ball),
+    Ball(2, "活动", R.drawable.icon_emoji_ball),
     /**食物*/
-    Food(4, "食物", R.drawable.icon_emoji_food),
+    Food(3, "食物", R.drawable.icon_emoji_food),
     /**旅游*/
-    Travel(5, "旅游", R.drawable.icon_emoji_travel),
+    Travel(4, "旅游", R.drawable.icon_emoji_travel),
     /**旗帜*/
-    Flag(6, "旗帜", R.drawable.icon_emoji_flag),
+    Flag(5, "旗帜", R.drawable.icon_emoji_flag),
     /**删除*/
-    Delete(7, "删除", R.drawable.icon_emoji_delete);
+    Delete(6, "删除", R.drawable.icon_emoji_delete);
 
     private int key;
     private String value;
@@ -38,23 +36,21 @@ public enum EmojiClassifyEnum {
     public static EmojiClassifyEnum valueOf(int key) {
         switch (key) {
             case 0:
-                return Clock;
-            case 1:
                 return Smile;
-            case 2:
+            case 1:
                 return Animal;
-            case 3:
+            case 2:
                 return Ball;
-            case 4:
+            case 3:
                 return Food;
-            case 5:
+            case 4:
                 return Travel;
-            case 6:
+            case 5:
                 return Flag;
-            case 7:
+            case 6:
                 return Delete;
             default:
-                return Clock;
+                return Smile;
         }
     }
 

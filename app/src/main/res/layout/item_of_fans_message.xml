@@ -22,9 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|left"
         android:paddingLeft="@dimen/layout_margin"
-        android:paddingRight="@dimen/layout_margin"
+        android:layout_marginRight="@dimen/margin_10"
         android:layout_marginBottom="@dimen/margin_1"
         android:layout_marginTop="@dimen/margin_1">
 
@@ -51,7 +51,7 @@
             android:paddingRight="@dimen/margin_2"
             android:textColor="@color/colorText"
             android:textSize="@dimen/micro_text_size"
-            tools:text="不知不觉关注了你，在未来的日子，我将成为你的最好的朋友，欢迎关注我，我只是测试一下行数过多会如何成为了你的粉丝，去打个招呼吧~"/>
+            tools:text="不知不觉关注了你，在未来的日子，我将成为你的最好的朋友，欢迎关注我"/>
     </LinearLayout>
 
     <LinearLayout
@@ -59,25 +59,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/layout_margin"
+        android:gravity="center_vertical|right"
+        android:paddingLeft="@dimen/margin_2"
         android:paddingRight="@dimen/layout_margin"
         android:visibility="visible"
         android:layout_marginBottom="@dimen/margin_1"
         android:layout_marginTop="@dimen/margin_1">
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="@dimen/btn_height"
-            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/tv_send_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/margin_8"
-            android:gravity="center_vertical"
+            android:gravity="center_vertical|left"
             android:background="@drawable/bg_send_message"
+            android:layout_marginLeft="@dimen/margin_80dp"
             android:layout_marginRight="@dimen/layout_margin"
             android:lineSpacingExtra="@dimen/text_padding"
             android:paddingTop="@dimen/margin_1"
@@ -86,7 +82,7 @@
             android:paddingRight="@dimen/margin_2"
             android:textColor="@color/white"
             android:textSize="@dimen/micro_text_size"
-            tools:text="直播看心情啦"/>
+            tools:text="直播看心情啦直播看心情啦直播看心情啦直播看心情啦直播看心情啦"/>
 
         <com.qcloud.qclib.widget.customview.RatioImageView
             android:id="@+id/img_user_header"

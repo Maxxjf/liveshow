@@ -69,7 +69,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
 
     /**是否显示表情*/
     private boolean isShowEmoji;
-
+    /**表情全局工具类*/
     private EmojiClickManagerUtil mClickManager;
 
     @Override
@@ -134,7 +134,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
      * */
     private void initEmojiLayout() {
         mLayoutEmoji.initIndicator(getSupportFragmentManager());
-        mLayoutEmoji.attachToEditText(mEtMessage);
+        mLayoutEmoji.setOnViewClickListener(view -> onSendClick());
         mClickManager = EmojiClickManagerUtil.getInstance();
         mClickManager.attachToEditText(mEtMessage);
     }
@@ -156,18 +156,9 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
             switch (actionId) {
                 case KeyEvent.KEYCODE_ENDCALL:
                 case KeyEvent.KEYCODE_ENTER:
-                    String context = mEtMessage.getText().toString();
-                    if (StringUtils.isEmptyString(context)) {
-                        ToastUtils.ToastMessage(mContext, R.string.input_content_hint);
-                        return true;
-                    }
-                    mPresenter.sendMessage(mMemberBean.getIdStr(), context);
-                    mEtMessage.setText("");
-                    KeyBoardUtils.hideKeybord(mContext, mEtMessage);
-                    return true;
                 case KeyEvent.KEYCODE_BACK:
-
-                    return false;
+                    onSendClick();
+                    return true;
                 default:
                     return false;
             }
@@ -277,6 +268,19 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
         }
     }
 
+    @Override
+    public void onSendClick() {
+        String context = mEtMessage.getText().toString();
+        if (StringUtils.isNotEmptyString(context)) {
+            mPresenter.sendMessage(mMemberBean.getIdStr(), context);
+            mEtMessage.setText("");
+            KeyBoardUtils.hideKeybord(mContext, mEtMessage);
+            hideEmoji();
+        } else {
+            ToastUtils.ToastMessage(mContext, R.string.input_content_hint);
+        }
+    }
+
     /**
      * 加并且刷新消息
      * */
@@ -344,9 +348,6 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
         mPresenter.onDestroy();
         if (mClickManager != null) {
             mClickManager.unAttachToEditText();
-        }
-        if (mLayoutEmoji != null) {
-            mLayoutEmoji.onDestroy();
         }
         super.onDestroy();
     }

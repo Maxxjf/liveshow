@@ -74,7 +74,12 @@ public abstract class BaseFragment<V, T extends BasePresenter<V>> extends Fragme
         if (mEventBus == null) {
             mEventBus = BusProvider.getInstance();
         }
-        mEventBus.register(this);
+
+        try {
+            mEventBus.register(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return mView;
     }
 

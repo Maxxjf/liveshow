@@ -14,6 +14,9 @@ public interface IFansMessageView extends BaseView {
     /**点击表情*/
     void onEmojiClick();
 
+    /**点击发送消息*/
+    void onSendClick();
+
     /**添加消息到列表*/
     void addMessage(NettyReceivePrivateBean bean);
 

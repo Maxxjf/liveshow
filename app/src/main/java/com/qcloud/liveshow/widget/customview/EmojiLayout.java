@@ -5,9 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.EmojiViewPagerAdapter;
@@ -34,12 +32,8 @@ public class EmojiLayout extends BaseLinearLayout {
     ViewPager mViewPager;
     @Bind(R.id.view_page_indicator)
     FixedIndicatorView mIndicator;
-    @Bind(R.id.img_delete)
-    ImageView mImgDelete;
 
     private KeyBackEditText mEditText;
-
-    private OnEmojiClickListener mEmojiClick;
 
     private IndicatorViewPager mIndicatorViewPager;
     private EmojiViewPagerAdapter mAdapter;
@@ -68,7 +62,7 @@ public class EmojiLayout extends BaseLinearLayout {
 
     public void initIndicator(FragmentManager manager) {
         int selectColor = ContextCompat.getColor(mContext, R.color.colorTitle);
-        int unSelectColor = ContextCompat.getColor(mContext, R.color.colorLine);
+        int unSelectColor = ContextCompat.getColor(mContext, R.color.colorGray);
         mIndicator.setOnTransitionListener(new OnTransitionImageListener()
                 .setColor(selectColor, unSelectColor));
 
@@ -82,17 +76,19 @@ public class EmojiLayout extends BaseLinearLayout {
         mAdapter.replaceList(initData());
     }
 
-    @OnClick(R.id.img_delete)
-    public void onViewClicked() {
-        if (mEditText != null) {
-            mEditText.dispatchKeyEvent(new KeyEvent(
-                    KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+    @OnClick(R.id.btn_send)
+    public void onViewClicked(View view) {
+//        if (mEditText != null) {
+//            mEditText.dispatchKeyEvent(new KeyEvent(
+//                    KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+//        }
+        if (mViewClick != null) {
+            mViewClick.onViewClick(view);
         }
     }
 
     private List<EmojiClassifyEnum> initData() {
         List<EmojiClassifyEnum> list = new ArrayList<>();
-        list.add(EmojiClassifyEnum.Clock);
         list.add(EmojiClassifyEnum.Smile);
         list.add(EmojiClassifyEnum.Animal);
         list.add(EmojiClassifyEnum.Ball);
@@ -127,16 +123,5 @@ public class EmojiLayout extends BaseLinearLayout {
      * */
     public void unAttachToEditText() {
         mEditText = null;
-    }
-
-    /**
-     * 点击事件抽象方法
-     */
-    public void setOnEmojiClickListener(OnEmojiClickListener listener) {
-        this.mEmojiClick = listener;
-    }
-
-    public interface OnEmojiClickListener {
-        void onEmojiClick(View view, String emoji);
     }
 }

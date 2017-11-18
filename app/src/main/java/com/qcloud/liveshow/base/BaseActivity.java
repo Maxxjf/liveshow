@@ -60,7 +60,11 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         if (mEventBus == null) {
             mEventBus = BusProvider.getInstance();
         }
-        mEventBus.register(this);
+        try {
+            mEventBus.register(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         mPresenter = initPresenter();
         if (mPresenter != null) {
@@ -119,7 +123,12 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
 
         // 如果订阅了相关事件，在onDestroy时取消订阅，防止RxJava可能会引起的内存泄漏问题
         if (mEventBus != null) {
-            mEventBus.unregister(this);
+            try {
+                mEventBus.unregister(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             mEventBus = null;
         }
 

@@ -25,11 +25,23 @@
             android:layout_weight="1"
             android:paddingLeft="@dimen/margin_2"/>
 
-        <ImageView
-            android:id="@+id/img_delete"
+        <!--<ImageView-->
+            <!--android:id="@+id/img_delete"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingRight="@dimen/margin_2"-->
+            <!--android:src="@drawable/icon_emoji_delete"/>-->
+        <TextView
+            android:id="@+id/btn_send"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/small_btn_height"
+            android:background="@drawable/btn_left_right_orange_radius_selector"
+            android:paddingLeft="@dimen/margin_2"
             android:paddingRight="@dimen/margin_2"
-            android:src="@drawable/icon_emoji_delete"/>
+            android:layout_marginRight="@dimen/margin_2"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/btn_send"/>
     </LinearLayout>
 </LinearLayout>
