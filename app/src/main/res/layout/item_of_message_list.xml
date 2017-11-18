@@ -72,6 +72,7 @@
 
         <TextView
             android:id="@+id/tv_time"
+            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -80,6 +81,14 @@
             android:textColor="@color/colorText"
             android:textSize="@dimen/micro_text_size"
             tools:text="15:43"/>
+        <ImageView
+            android:id="@+id/iv_no_read"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_2"
+            android:background="@drawable/reg_circle"
+            android:layout_width="@dimen/margin_2"
+            android:layout_height="@dimen/margin_2" />
     </RelativeLayout>
 
     <View

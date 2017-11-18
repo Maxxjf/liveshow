@@ -26,4 +26,5 @@
     <color name="colorBlackAlpha60">#99000000</color><!--黑色60透明-->
 
     <color name="colorInputDialogBg">#b4ffffff</color>
+    <color name="big_red">#ff0000</color>
 </resources>
