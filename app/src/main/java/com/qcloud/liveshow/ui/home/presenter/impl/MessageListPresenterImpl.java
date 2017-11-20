@@ -2,7 +2,6 @@ package com.qcloud.liveshow.ui.home.presenter.impl;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.MemberBean;
-import com.qcloud.liveshow.beans.NettyChatListBean;
 import com.qcloud.liveshow.model.IIMModel;
 import com.qcloud.liveshow.model.impl.IMModelImpl;
 import com.qcloud.liveshow.realm.RealmHelper;
@@ -61,6 +60,7 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
         if (memberBeans != null && memberBeans.size() != 0) {
             mView.replaceList(memberBeans);
         } else {
+            mView.loadErr(true, "暂无数据");
             mView.showEmptyView("暂无数据");
         }
     }

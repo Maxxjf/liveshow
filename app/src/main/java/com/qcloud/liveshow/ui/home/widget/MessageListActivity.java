@@ -12,11 +12,9 @@ import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.ui.home.presenter.impl.MessageListPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IMessageListView;
-import com.qcloud.liveshow.widget.customview.EmptyView;
 import com.qcloud.liveshow.widget.customview.NoDataView;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
-import com.qcloud.qclib.pullrefresh.PullRefreshView;
 import com.qcloud.qclib.toast.ToastUtils;
 
 import java.util.List;
@@ -71,12 +69,7 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
         PullRefreshUtil.setRefresh(mListMessage, true, false);
 
         mListMessage.setLayoutManager(new LinearLayoutManager(this));
-        mListMessage.setOnPullDownRefreshListener(new PullRefreshView.OnPullDownRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadData();
-            }
-        });
+        mListMessage.setOnPullDownRefreshListener(() -> loadData());
 
         mAdapter = new MessageListAdapter(this);
         mListMessage.setAdapter(mAdapter);
@@ -93,12 +86,7 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
 
         mEmptyView = new NoDataView(this);
         mListMessage.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
-        mEmptyView.setOnRefreshListener(new EmptyView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadData();
-            }
-        });
+        mEmptyView.setOnRefreshListener(() -> loadData());
     }
 
     private void loadData() {
@@ -166,6 +154,9 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
     @Override
     public void loadErr(boolean isShow, String errMsg) {
         if (isRunning) {
+            if (mListMessage != null) {
+                mListMessage.refreshFinish();
+            }
             if (isShow) {
                 ToastUtils.ToastMessage(this, errMsg);
             } else {

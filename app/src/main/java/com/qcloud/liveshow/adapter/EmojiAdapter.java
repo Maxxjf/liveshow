@@ -24,6 +24,6 @@ public class EmojiAdapter extends CommonRecyclerAdapter<String> {
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         final String emoji = mList.get(position);
-        holder.setText(R.id.tv_name, emoji);
+        holder.setText(R.id.tv_name, emoji+"");
     }
 }

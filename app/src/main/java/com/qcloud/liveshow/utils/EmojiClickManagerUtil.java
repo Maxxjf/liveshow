@@ -40,7 +40,7 @@ public class EmojiClickManagerUtil {
     public AdapterView.OnItemClickListener getOnItemClickListener(final EmojiAdapter mAdapter) {
         return (parent, view, position, id) -> {
             // 如果点击了表情,则添加到输入框中
-            String emotionName = mAdapter.getList().get(position);
+            String emotionName = mAdapter.getList().get(position)+"";
 
             // 获取当前光标位置,在指定位置上添加表情图片文本
             int curPosition = mEditText.getSelectionStart();

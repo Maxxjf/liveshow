@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.FansMessageAdapter;
@@ -55,7 +56,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     @Bind(R.id.btn_emoticon)
     ImageView mBtnEmoticon;
     @Bind(R.id.layout_parent)
-    View mLayoutParent;
+    LinearLayout mLayoutParent;
     @Bind(R.id.layout_emoji)
     EmojiLayout mLayoutEmoji;
 
@@ -102,11 +103,11 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     }
 
     private void initData() {
-         mMemberBean = (MemberBean) getIntent().getSerializableExtra("formUser");
-        if (mMemberBean != null){
+        mMemberBean = (MemberBean) getIntent().getSerializableExtra("formUser");
+        if (mMemberBean != null) {
             mAdapter.refreshMember(mMemberBean);
-            String fromUserId=mMemberBean.getIdStr();
-            if (mPresenter!=null){
+            String fromUserId = mMemberBean.getIdStr();
+            if (mPresenter != null){
                 mPresenter.getChars(fromUserId);//获取所有私聊列表
             }
 
@@ -168,12 +169,11 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
             if (isShowEmoji) {
                 // 在设置isShowEmoji时已经调用了隐藏Keyboard的方法，直到Keyboard隐藏前都取消重给
                 if (isKeyboardVisible()) {
-                    ViewGroup.LayoutParams params1 = mLayoutEmoji.getLayoutParams();
                     int distance = getDistanceFromInputToBottom();
                     // 调整EmojiLayout高度
-                    if (distance > AppConstants.DISTANCE_SLOP && distance != params1.height) {
-                        params1.height = distance;
-                        mLayoutEmoji.setLayoutParams(params1);
+                    if (distance > AppConstants.DISTANCE_SLOP && distance != params.height) {
+                        params.height = distance;
+                        mLayoutEmoji.setLayoutParams(params);
                         ConstantUtil.writeInt(AppConstants.LAST_KEYBOARD_HEIGHT, distance);
                     }
                     return false;
@@ -287,10 +287,9 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     @Override
     public void addMessage(NettyReceivePrivateBean bean) {
         if (isRunning) {
-            if (mAdapter != null && bean != null && mMemberBean.getIdStr().equals(bean.getFrom_user_idStr())) {
-                mAdapter.addListBeanAtEnd(bean);
-                hideEmptyView();
-            }
+//            if (mAdapter != null && bean != null && mMemberBean.getIdStr().equals(bean.getFrom_user_idStr())) {
+//                mAdapter.addListBeanAtEnd(bean);
+//            }
         }
     }
 
@@ -304,6 +303,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
                 if (mAdapter != null) {
                     mAdapter.replaceList(beans);
                 }
+                hideEmptyView();
             } else {
                 showEmptyView(getResources().getString(R.string.tip_no_data));
             }

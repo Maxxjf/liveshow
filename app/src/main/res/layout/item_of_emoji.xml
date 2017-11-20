@@ -13,6 +13,6 @@
         android:layout_marginTop="@dimen/margin_1"
         android:textColor="@color/colorTitle"
         android:textSize="@dimen/medium_text_size"
-        android:text="😄"/>
+        android:text=""/>
 
 </LinearLayout>
