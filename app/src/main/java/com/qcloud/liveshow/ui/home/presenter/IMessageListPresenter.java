@@ -12,5 +12,7 @@ public interface IMessageListPresenter {
     /**标为已读*/
     void falgIsRead(MemberBean userBean);
 
+    void deleteMessage(MemberBean userBean);
+
 //    void getChatList();
 }

@@ -73,15 +73,15 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
     public void falgIsRead(MemberBean userBean) {
         myRealmHelper.addOrUpdateBean(userBean);
     }
-//    /**
-//     * 获取会话列表
-//     *
-//     * @time 2017/11/2 11:01
-//     */
-//    @Override
-//    public void getChatList() {
-//        mModel.getChatList();
-//    }
+    /**
+     * 删除私聊列表
+     * @param userBean
+     */
+    @Override
+    public void deleteMessage(MemberBean userBean) {
+        mModel.deleteMessage(userBean.getIdStr());
+        myRealmHelper.delBeanById(MemberBean.class,"id",userBean.getId());
+    }
 
     public void onDestroy() {
         if (mEventBus != null) {

@@ -91,6 +91,7 @@
     <string name="toast_binding_success">绑定成功</string>
     <string name="toast_does_not_support_beauty">当前机型不支持该滤镜</string>
     <string name="toast_exit_anchor">观众在路上了，确认要关闭直播吗？</string>
+    <string name="toast_delete_message">是否删除消息？</string>
 
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>

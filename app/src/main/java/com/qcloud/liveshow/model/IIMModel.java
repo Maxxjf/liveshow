@@ -40,9 +40,17 @@ public interface IIMModel {
      * 退出群聊
      */
     void outGroup(String roomNum);
-/**踢出某用户*/
 
-    void shutUp(String roomNum,String memberId,boolean isForbidden);
+    /**
+     * 踢出某用户
+     */
+
+    void shutUp(String roomNum, String memberId, boolean isForbidden);
+
+    /**
+     * 删除私聊列表
+     */
+    void deleteMessage(String to_user_id);
     /**拉黑某用户*/
 
     /**踢出某用户*/

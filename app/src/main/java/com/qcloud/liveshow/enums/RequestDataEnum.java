@@ -70,6 +70,10 @@ public class RequestDataEnum {
 		 */
 		ROOM_FORBIDDEN_CHAT(13, "禁言/取消禁言"),
 		/**
+		 * 14 DELETE_MESSAGE_CHAT 删除私聊列表
+		 */
+		DELETE_MESSAGE_CHAT(14, "删除私聊列表"),
+		/**
 		 * 100 NEW_SERVER_ONLINE 新的TCP服务器上线
 		 */
 		NEW_SERVER_ONLINE(100, "新的TCP服务器上线"),
