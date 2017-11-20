@@ -40,7 +40,6 @@ public class FansMessageAdapter extends CommonRecyclerAdapter<NettyReceivePrivat
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         final NettyReceivePrivateBean bean = mList.get(position);
         final NettyContentBean contentBean = bean.getContent();
-
         TextView mTvTime = holder.get(R.id.tv_time);
         if (position%5==0){
             mTvTime.setText(DateUtils.dateToString(DateUtils.parseDate(bean.getContent().getDate_time_str(),DateUtils.yyyyMMddHHmmss),DateUtils.MMddHHmmss));

@@ -2,7 +2,6 @@ package com.qcloud.liveshow.ui.home.presenter.impl;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.MemberBean;
-import com.qcloud.liveshow.beans.NettyChatListBean;
 import com.qcloud.liveshow.model.IIMModel;
 import com.qcloud.liveshow.model.impl.IMModelImpl;
 import com.qcloud.liveshow.realm.RealmHelper;
@@ -73,15 +72,15 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
     public void falgIsRead(MemberBean userBean) {
         myRealmHelper.addOrUpdateBean(userBean);
     }
-//    /**
-//     * 获取会话列表
-//     *
-//     * @time 2017/11/2 11:01
-//     */
-//    @Override
-//    public void getChatList() {
-//        mModel.getChatList();
-//    }
+    /**
+     * 删除私聊列表
+     * @param userBean
+     */
+    @Override
+    public void deleteMessage(MemberBean userBean) {
+        mModel.deleteMessage(userBean.getIdStr());
+        myRealmHelper.delBeanById(MemberBean.class,"id",userBean.getId());
+    }
 
     public void onDestroy() {
         if (mEventBus != null) {

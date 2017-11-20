@@ -3,6 +3,7 @@ package com.qcloud.liveshow.model.impl;
 import com.google.gson.Gson;
 import com.qcloud.liveshow.beans.NettyAuthBean;
 import com.qcloud.liveshow.beans.NettyContentBean;
+import com.qcloud.liveshow.beans.NettyDeleteMessageBean;
 import com.qcloud.liveshow.beans.NettyGroupBean;
 import com.qcloud.liveshow.beans.NettyRequestBean;
 import com.qcloud.liveshow.beans.NettySendPrivateBean;
@@ -177,6 +178,25 @@ public class IMModelImpl implements IIMModel {
 
         NettyRequestBean<NettyShupUpBean> requestBean = new NettyRequestBean<>();
         requestBean.setAction_type(RequestDataEnum.ActionType.ROOM_FORBIDDEN_CHAT.getKey());
+        requestBean.setUuid(DateUtils.getTimeStamp());
+        requestBean.setData(bean);
+
+        NettyClientBus.request(mGson.toJson(requestBean));
+    }
+
+    /**
+     * 删除私聊列表
+     *
+     * @time 2017/11/20 14:28
+     */
+    @Override
+    public void deleteMessage(String to_user_id) {
+        NettyDeleteMessageBean bean=new NettyDeleteMessageBean();
+        bean.setToken(TokenUtil.getToken());
+        bean.setTo_user_id(to_user_id);
+
+        NettyRequestBean<NettyDeleteMessageBean> requestBean = new NettyRequestBean<>();
+        requestBean.setAction_type(RequestDataEnum.ActionType.DELETE_MESSAGE_CHAT.getKey());
         requestBean.setUuid(DateUtils.getTimeStamp());
         requestBean.setData(bean);
 

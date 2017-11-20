@@ -70,9 +70,11 @@
             android:layout_height="match_parent"
             android:background="@null"
             android:gravity="center_vertical"
-            android:imeOptions="actionDone"
+            android:imeOptions="actionSearch"
             android:lines="1"
             android:textColor="@color/colorTitle"
+            android:singleLine="true"
+            android:inputType="text"
             android:textSize="@dimen/small_text_size"
             android:hint="@string/tag_search"
             android:textColorHint="@color/colorGray"/>

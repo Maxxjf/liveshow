@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.MessageListAdapter;
@@ -14,6 +16,8 @@ import com.qcloud.liveshow.ui.home.presenter.impl.MessageListPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IMessageListView;
 import com.qcloud.liveshow.widget.customview.EmptyView;
 import com.qcloud.liveshow.widget.customview.NoDataView;
+import com.qcloud.liveshow.widget.pop.TipsPop;
+import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
@@ -39,6 +43,8 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
     private NoDataView mEmptyView;
     private List<MemberBean> beans;
     private boolean isSameMember;//加入列表时判断是否有同个成员
+    private TipsPop pop;//是否删除消息的提示框
+    private MemberBean mCurrentBean;//点击的那个Bean
 
     @Override
     protected int initLayout() {
@@ -81,16 +87,23 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
         mAdapter = new MessageListAdapter(this);
         mListMessage.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener((parent, view, position, id) -> {
-            MemberBean userBean = mAdapter.getList().get(position);
-            userBean.setRead(true);
+            mCurrentBean = mAdapter.getList().get(position);
+            mCurrentBean.setRead(true);
             mAdapter.notifyDataSetChanged();
-            mPresenter.falgIsRead(userBean);
-            FansMessageActivity.openActivity(MessageListActivity.this, userBean);
+            mPresenter.falgIsRead(mCurrentBean);
+            FansMessageActivity.openActivity(MessageListActivity.this, mCurrentBean);
         });
         mAdapter.setOnHolderClick((view, memberBean, position) -> {
 
         });
-
+        mAdapter.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mCurrentBean=mAdapter.getList().get(position);
+                showTipsPop();
+                return false;
+            }
+        });
         mEmptyView = new NoDataView(this);
         mListMessage.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
         mEmptyView.setOnRefreshListener(new EmptyView.OnRefreshListener() {
@@ -104,7 +117,23 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
     private void loadData() {
         mPresenter.getAllList();
     }
-
+    /**
+     * 是否删除的弹框
+     */
+    private void showTipsPop() {
+        if (pop==null){
+            pop = new TipsPop(this);
+            pop.setTips(R.string.toast_delete_message);
+        }
+        pop.showAtLocation(mListMessage, Gravity.CENTER, 0, 0);
+        pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+               mPresenter.deleteMessage(mCurrentBean);
+               mAdapter.remove(mCurrentBean);
+            }
+        });
+    }
     @Override
     public void replaceList(List<MemberBean> beans) {
         if (isRunning) {

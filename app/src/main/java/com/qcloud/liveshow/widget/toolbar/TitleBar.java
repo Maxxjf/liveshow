@@ -155,7 +155,7 @@ public class TitleBar extends Toolbar {
             @Override
             public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
                 if (arg1 == EditorInfo.IME_ACTION_SEARCH ||
-                        (arg2 != null && arg2.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                        (arg2 != null && arg2.getKeyCode() == KeyEvent.KEYCODE_SEARCH)) {
                     onSearchClick();
                 }
                 return false;
