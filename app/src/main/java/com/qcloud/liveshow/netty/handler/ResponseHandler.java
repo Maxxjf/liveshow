@@ -183,7 +183,7 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         NettyDispose.dispose(msgConfig, type, new DataCallback<MemberBean>() {
             @Override
             public void onSuccess(MemberBean bean) {
-                bean.setRead(true);//默认是已读
+//                bean.setRead(true);//默认是已读
                 if (realmHelper == null) {
                     realmHelper = new RealmHelper<MemberBean>();
                 }

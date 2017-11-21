@@ -18,7 +18,6 @@ import java.util.UUID;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
-import timber.log.Timber;
 
 /**
  * 类说明：粉丝消息
@@ -35,6 +34,7 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
         mHelper = new RealmHelper<NettyReceivePrivateBean>();
         initRxBusEvent();
     }
+
     private void initRxBusEvent() {
         mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, new Consumer<RxBusEvent>() {
             @Override
@@ -63,8 +63,8 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
 
     @Override
     public void getChars(String fromUserId) {
-        List<NettyReceivePrivateBean> charList = (List<NettyReceivePrivateBean>) mHelper.queryListById(NettyReceivePrivateBean.class,"from_user_id",fromUserId);
-        Timber.e("charList:"+charList);
+        List<NettyReceivePrivateBean> charList = (List<NettyReceivePrivateBean>) mHelper.queryListById(
+                NettyReceivePrivateBean.class, "from_user_id", fromUserId);
         if (charList != null) {
             mView.replaceList(charList);
         }
@@ -72,11 +72,11 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
 
     @Override
     public void sendMessage(String userId, String content) {
-        NettyContentBean contentBean=new NettyContentBean();
+        NettyContentBean contentBean = new NettyContentBean();
         contentBean.setDate_time(System.currentTimeMillis());
         contentBean.setText(content);
-        NettyReceivePrivateBean nettyReceivePrivateBean=new NettyReceivePrivateBean();
-        nettyReceivePrivateBean.setChat_id(""+UUID.randomUUID());
+        NettyReceivePrivateBean nettyReceivePrivateBean = new NettyReceivePrivateBean();
+        nettyReceivePrivateBean.setChat_id("" + UUID.randomUUID());
         nettyReceivePrivateBean.setFrom_user_id(userId);
         nettyReceivePrivateBean.setSend(true);
         nettyReceivePrivateBean.setContent(contentBean);

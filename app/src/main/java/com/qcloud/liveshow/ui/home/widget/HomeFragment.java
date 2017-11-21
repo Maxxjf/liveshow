@@ -14,6 +14,7 @@ import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.HomeViewPageBean;
 import com.qcloud.liveshow.ui.home.presenter.impl.HomePresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IHomeView;
+import com.qcloud.liveshow.utils.MessageUtil;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.utils.DensityUtils;
@@ -59,9 +60,9 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
         mIndicator = (FixedIndicatorView) mView.findViewById(R.id.view_page_indicator);
         mViewPager = (ViewPager) mView.findViewById(R.id.view_pager);
         mLayoutTitle = (RelativeLayout) mView.findViewById(R.id.layout_title);
-
         initTitleBar();
         initIndicator();
+        checkMessageIsRead();
     }
 
     @Override
@@ -75,11 +76,19 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
                 boolean isShow = (boolean) rxBusEvent.getObj();
                 showOrHideTitle(isShow);
             }else if (rxBusEvent.getType()==R.id.netty_private_chat){
-                mTitleBar.setIsRead(false);
+                checkMessageIsRead();
+            }else if (rxBusEvent.getType()==R.id.check_no_read_chat){
+                checkMessageIsRead();
             }
         }));
     }
 
+    private void checkMessageIsRead(){
+        int noReadNumber= MessageUtil.getInstance().getNoReadNumber();//未读消息数量
+        if (noReadNumber!=0){
+            mTitleBar.setIsRead(false);
+        }
+    }
     private void initTitleBar() {
         mTitleBar.setOnBtnListener(view -> {
             switch (view.getId()) {
@@ -87,7 +96,6 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
                     SearchAnchorActivity.openActivity(getActivity());
                     break;
                 case R.id.ib_right:
-                    mTitleBar.setIsRead(true);
                     MessageListActivity.openActivity(getActivity());
                     break;
             }

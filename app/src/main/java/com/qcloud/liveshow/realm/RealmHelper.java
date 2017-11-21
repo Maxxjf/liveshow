@@ -97,6 +97,29 @@ public class RealmHelper<T extends RealmObject> {
         RealmResults<T> list=  mRealm.where(c).equalTo(fieldName, vaule).findAll();
         return mRealm.copyFromRealm(list);
     }
+    /**
+     * 查找所有列表
+     * @param c 继承RealmObject的实体类
+     * @param fieldName 数据库对应的字段
+     * @param vaule 数据库对应的值
+     *
+     * */
+    public List<T> queryListById(Class c, String fieldName, Boolean vaule) {
+        RealmResults<T> list=  mRealm.where(c).equalTo(fieldName, vaule).findAll();
+        return mRealm.copyFromRealm(list);
+    }
+    /**
+     * 查找所有列表
+     * @param c 继承RealmObject的实体类
+     * @param fieldName 数据库对应的字段
+     * @param vaule 数据库对应的值
+     *
+     * */
+    public List<T> queryListById(Class c, String fieldName, String vaule,String sortFieldName) {
+        RealmResults<T> list=  mRealm.where(c).equalTo(fieldName, vaule).findAll();
+        list=list.sort(sortFieldName);
+        return mRealm.copyFromRealm(list);
+    }
 
 
 }

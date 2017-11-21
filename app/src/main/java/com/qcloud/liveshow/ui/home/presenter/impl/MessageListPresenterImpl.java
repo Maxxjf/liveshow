@@ -7,6 +7,7 @@ import com.qcloud.liveshow.model.impl.IMModelImpl;
 import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.ui.home.presenter.IMessageListPresenter;
 import com.qcloud.liveshow.ui.home.view.IMessageListView;
+import com.qcloud.liveshow.utils.MessageUtil;
 import com.qcloud.qclib.base.BasePresenter;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.rxbus.Bus;
@@ -56,7 +57,7 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
     }
     @Override
     public void getAllList(){
-        List<MemberBean> memberBeans=myRealmHelper.queryBeans(MemberBean.class);
+        List<MemberBean> memberBeans= MessageUtil.getInstance().getCharList();
         if (memberBeans != null && memberBeans.size() != 0) {
             mView.replaceList(memberBeans);
         } else {
