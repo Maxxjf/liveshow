@@ -43,10 +43,10 @@ public class FansMessageAdapter extends CommonRecyclerAdapter<NettyReceivePrivat
         TextView mTvTime = holder.get(R.id.tv_time);
         long pTime=0;//上一个会话时间
         if (position!=0){
-            pTime=mList.get(position-1).getContent().getDate_time();
+            pTime=mList.get(position-1).getDate_timeLong();
         }
-        if (bean.getContent().getDate_time()-pTime>2*60*1000||position==0){//第二个会话与上个会话相隔2分钟
-            mTvTime.setText(DateUtils.dateToString(DateUtils.parseDate(bean.getContent().getDate_time_str(),DateUtils.yyyyMMddHHmmss),DateUtils.MMddHHmmss));
+        if (bean.getDate_timeLong()-pTime>2*60*1000||position==0){//第二个会话与上个会话相隔2分钟
+            mTvTime.setText(DateUtils.dateToString(DateUtils.parseDate(bean.getDate_time_str(),DateUtils.yyyyMMddHHmmss),DateUtils.MMddHHmmss));
             mTvTime.setVisibility(View.VISIBLE);
         }else {
             mTvTime.setVisibility(View.GONE);

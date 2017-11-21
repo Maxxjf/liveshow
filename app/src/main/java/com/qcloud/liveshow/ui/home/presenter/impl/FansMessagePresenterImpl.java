@@ -64,7 +64,7 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
     @Override
     public void getChars(String fromUserId) {
         List<NettyReceivePrivateBean> charList = (List<NettyReceivePrivateBean>) mHelper.queryListById(
-                NettyReceivePrivateBean.class, "from_user_id", fromUserId);
+                NettyReceivePrivateBean.class, "from_user_id", fromUserId,"date_time");
         if (charList != null) {
             mView.replaceList(charList);
         }
@@ -73,9 +73,9 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
     @Override
     public void sendMessage(String userId, String content) {
         NettyContentBean contentBean = new NettyContentBean();
-        contentBean.setDate_time(System.currentTimeMillis());
         contentBean.setText(content);
         NettyReceivePrivateBean nettyReceivePrivateBean = new NettyReceivePrivateBean();
+        nettyReceivePrivateBean.setDate_time(String.valueOf(System.currentTimeMillis()));
         nettyReceivePrivateBean.setChat_id("" + UUID.randomUUID());
         nettyReceivePrivateBean.setFrom_user_id(userId);
         nettyReceivePrivateBean.setSend(true);

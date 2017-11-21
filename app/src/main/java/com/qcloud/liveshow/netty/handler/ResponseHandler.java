@@ -148,12 +148,10 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                 }
                 bean.setSend(false);
                 realmHelper.addOrUpdateBean(bean);//添加到本地数据
-                Timber.e("bean:" + bean);
 // 更新Realm数据库某条数据
                 if (bean.getFrom_user_id() != null && StringUtils.isNotEmptyString(bean.getFrom_user_id())) {
                     realmHelper = new RealmHelper<MemberBean>();
                     MemberBean memberBean = (MemberBean) realmHelper.queryBeanById(MemberBean.class, "id", Long.valueOf(bean.getFrom_user_id()));
-                    Timber.e("memberBean:" + memberBean);
                     realmHelper.mRealm.beginTransaction();
                     if (memberBean != null) {
                         memberBean.setRead(false);

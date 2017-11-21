@@ -1,5 +1,7 @@
 package com.qcloud.liveshow.beans;
 
+import com.qcloud.qclib.utils.DateUtils;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -13,13 +15,16 @@ public class NettyReceivePrivateBean extends RealmObject {
     String chat_id;             //聊天id唯一码
     String from_user_id;        // 发送者id
     NettyContentBean content;   // 发送文本消息内容
+    /**这接收过来本来是时间戳，但Realm排列不接受Long类型，只能String*/
+    String date_time;           //接收时间
     boolean isSend=false;             // false为读的，true为自己发的
 
     public String getFrom_user_id() {
         return from_user_id;
     }
-    public String getFrom_user_idStr() {
-        return String.valueOf(from_user_id);
+
+    public String getDate_time_str() {
+            return DateUtils.longToString(Long.parseLong(date_time), "yy-MM-dd HH:mm:ss");
     }
 
     public void setFrom_user_id(String from_user_id) {
@@ -50,12 +55,24 @@ public class NettyReceivePrivateBean extends RealmObject {
         isSend = send;
     }
 
+    public String getDate_time() {
+        return date_time;
+    }
+    public long getDate_timeLong() {
+        return Long.parseLong(date_time);
+    }
+
+    public void setDate_time(String date_time) {
+        this.date_time = date_time;
+    }
+
     @Override
     public String toString() {
         return "NettyReceivePrivateBean{" +
                 "chat_id='" + chat_id + '\'' +
                 ", from_user_id='" + from_user_id + '\'' +
                 ", content=" + content +
+                ", date_time='" + date_time + '\'' +
                 ", isSend=" + isSend +
                 '}';
     }
