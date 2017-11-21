@@ -289,6 +289,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
         if (isRunning) {
             if (mAdapter != null && bean != null && mMemberBean.getIdStr().equals(bean.getFrom_user_id())) {
                 mAdapter.addListBeanAtEnd(bean);
+                mListMessage.smoothScrollToPosition(mAdapter.getItemCount());
             }
         }
     }
