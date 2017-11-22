@@ -17,8 +17,10 @@ import com.qcloud.liveshow.ui.home.view.IMessageListView;
 import com.qcloud.liveshow.widget.customview.NoDataView;
 import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.base.BasePopupWindow;
+import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
+import com.qcloud.qclib.rxbus.BusProvider;
 import com.qcloud.qclib.toast.ToastUtils;
 
 import java.util.List;
@@ -197,6 +199,7 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.check_no_read_chat).build());
         mPresenter.onDestroy();
     }
 

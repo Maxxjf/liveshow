@@ -1,6 +1,5 @@
 package com.qcloud.liveshow.beans;
 
-import com.qcloud.qclib.utils.DateUtils;
 import com.qcloud.qclib.utils.StringUtils;
 
 import io.realm.RealmObject;
@@ -12,7 +11,6 @@ import io.realm.RealmObject;
  */
 public class NettyContentBean  extends RealmObject {
     String text;
-    long date_time;
 
     public NettyContentBean() {
 
@@ -30,27 +28,10 @@ public class NettyContentBean  extends RealmObject {
         this.text = text;
     }
 
-    public long getDate_time() {
-        return date_time;
-    }
-
-    public String getDate_time_str() {
-        if (date_time > 0) {
-            return DateUtils.getCurrTime("yy-MM-dd HH:mm:ss");
-        } else {
-            return DateUtils.longToString(date_time, "yy-MM-dd HH:mm:ss");
-        }
-    }
-
-    public void setDate_time(long date_time) {
-        this.date_time = date_time;
-    }
-
     @Override
     public String toString() {
         return "NettyContentBean{" +
                 "text='" + text + '\'' +
-                ", date_time=" + date_time +
                 '}';
     }
 }

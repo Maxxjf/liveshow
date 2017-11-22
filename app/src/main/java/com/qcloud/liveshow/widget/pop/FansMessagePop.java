@@ -120,7 +120,7 @@ public class FansMessagePop extends BasePopupWindow {
     private void initDate() {
         if (currMember!=null){
             String fromUserId=currMember.getIdStr();
-            List<NettyReceivePrivateBean> charList = (List<NettyReceivePrivateBean>) realmHelper.queryListById(NettyReceivePrivateBean.class,"from_user_id",fromUserId);
+            List<NettyReceivePrivateBean> charList = (List<NettyReceivePrivateBean>) realmHelper.queryListById(NettyReceivePrivateBean.class,"from_user_id",fromUserId,"date_time");
             Timber.e("charList:"+charList);
             replaceList(charList);
         }
@@ -144,7 +144,7 @@ public class FansMessagePop extends BasePopupWindow {
      * */
     public void addMessage(NettyReceivePrivateBean bean) {
 
-        if (mAdapter != null && bean != null &&currMember.getIdStr().equals(bean.getFrom_user_idStr())) {
+        if (mAdapter != null && bean != null &&currMember.getIdStr().equals(bean.getFrom_user_id())) {
             if (bean.getContent() != null) {
                 // 接收消息
                 Timber.e(bean.toString());
@@ -177,9 +177,9 @@ public class FansMessagePop extends BasePopupWindow {
             if (check()) {
                 new IMModelImpl().sendPrivateChat(currMember.getIdStr(), mMessage);
                 NettyContentBean contentBean=new NettyContentBean();
-                contentBean.setDate_time(System.currentTimeMillis());
                 contentBean.setText(mMessage);
                 NettyReceivePrivateBean nettyReceivePrivateBean=new NettyReceivePrivateBean();
+                nettyReceivePrivateBean.setDate_time(String.valueOf(System.currentTimeMillis()));
                 nettyReceivePrivateBean.setChat_id(""+ UUID.randomUUID());
                 nettyReceivePrivateBean.setFrom_user_id(currMember.getIdStr());
                 nettyReceivePrivateBean.setSend(true);
