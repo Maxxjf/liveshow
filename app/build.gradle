@@ -8,8 +8,8 @@ android {
         applicationId "com.qcloud.liveshow"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -62,8 +62,6 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
-
-    buildToolsVersion '26.0.2'
 }
 
 dependencies {

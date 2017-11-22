@@ -17,6 +17,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        google()
     }
 }
 
@@ -26,15 +27,28 @@ task clean(type: Delete) {
 
 // 定义全局版本号
 ext {
-    compileSdkVersion = 25
-    buildToolsVersion = "25.0.2"
+    compileSdkVersion = 26
+    buildToolsVersion = "26.0.2"
     minSdkVersion = 16
-    targetSdkVersion = 25
+    targetSdkVersion = 26
+    supportLibraryVersion = '26.1.0'
+    versionCode = 1
+    versionName = "1.0.0"
+
+    //lib版本
+    qclib_versionCode = 1
+    qclib_versionName = "1.0.0"
 
     //library版本
-    jjdxm_minSdkVersion = 9
+    jjdxm_minSdkVersion = 14
     jjdxm_versionCode = 1
     jjdxm_versionName = "1.0.0"
     jjdxm_v4 = 'com.android.support:support-v4:23.3.0'
-    jjdxm_v7 = 'com.android.support:appcompat-v7:23.3.0'
+    jjdxm_v7 = 'com.android.support:appcompat-v7:26.1.0'
+
+    var = [
+        support_v7 : "com.android.support:appcompat-v7:$supportLibraryVersion",
+        support_v4 : "com.android.support:support-v4:$supportLibraryVersion",
+        recyclerview_v7 : "com.android.support:recyclerview-v7:$supportLibraryVersion"
+    ]
 }
