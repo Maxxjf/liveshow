@@ -10,6 +10,8 @@
         <!--<server>http://116.211.167.106/</server>-->
         <!--测试服务器-->
         <server>http://10.10.21.108:8081/</server>
+        <!--&lt;!&ndash;熊猫服务器&ndash;&gt;-->
+        <!--<server>http://10.10.100.195:8082/</server>-->
 
     </system>
 </config>

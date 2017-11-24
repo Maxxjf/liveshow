@@ -155,7 +155,6 @@ public class BaseApplication extends Application {
         if (userBean!=null){
              user_id=getUserBean().getIdStr();
         }
-
         Realm.init(this);
         RealmConfiguration configuration = new RealmConfiguration.Builder()
                 .name(RealmHelper.DB_NAME+user_id)

@@ -288,6 +288,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     public void addMessage(NettyReceivePrivateBean bean) {
         if (isRunning) {
             if (mAdapter != null && bean != null && mMemberBean.getIdStr().equals(bean.getFrom_user_id())) {
+                hideEmptyView();
                 mAdapter.addListBeanAtEnd(bean);
                 mListMessage.smoothScrollToPosition(mAdapter.getItemCount());
             }
@@ -303,6 +304,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
             if (beans != null && beans.size() > 0) {
                 if (mAdapter != null) {
                     mAdapter.replaceList(beans);
+                    mListMessage.smoothScrollToPosition(mAdapter.getItemCount());
                 }
                 hideEmptyView();
             } else {

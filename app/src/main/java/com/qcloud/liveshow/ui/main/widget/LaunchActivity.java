@@ -1,6 +1,8 @@
 package com.qcloud.liveshow.ui.main.widget;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.Intent;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
@@ -130,5 +132,8 @@ public class LaunchActivity extends BaseActivity<ILaunchView, LaunchPresenterImp
     private void toLogin() {
         LoginActivity.openActivity(this);
         finish();
+    }
+    public static void openActivity(Context context) {
+        context.startActivity(new Intent(context, LaunchActivity.class));
     }
 }

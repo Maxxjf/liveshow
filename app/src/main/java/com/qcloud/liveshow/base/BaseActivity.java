@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.ui.account.widget.LoginActivity;
@@ -49,8 +51,14 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initSystemBarTint();
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        if (isFullscreen()){
+            this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }else {
+            initSystemBarTint();
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
         setContentView(initLayout());
 
         mContext = this;
@@ -76,6 +84,7 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
         initViewAndData();
         checkLogin();
     }
+
 
     public  void checkLogin(){
         mEventBus.registerSubscriber(this,mEventBus.obtainSubscriber(RxBusEvent.class, new Consumer<RxBusEvent>() {
@@ -266,6 +275,11 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
 
     /** 子类可以重写决定是否使用透明状态栏 */
     protected boolean translucentStatusBar() {
+        return false;
+    }
+
+    /** 子类可以重写决定是否使用全屏 */
+    protected boolean  isFullscreen() {
         return false;
     }
 
