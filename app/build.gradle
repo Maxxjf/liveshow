@@ -71,11 +71,6 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
-
-    buildToolsVersion '26.0.2'
-    realm {
-        syncEnabled = true;
-    }
 }
 
 dependencies {
