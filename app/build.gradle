@@ -71,22 +71,13 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def oldFile = output.outputFile
-            if (variant.buildType.name.equals('release')) {
-//                println(variant.productFlavors[0].name)
-                def releaseApkName = 'AV8D' + '_v'+defaultConfig.versionName+'_'+ releaseTime() + '.apk'
-                output.outputFile = new File(oldFile.parent, releaseApkName)
-            }
-
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "AV8D-${variant.versionName}.apk"
         }
     }
 }
 
-def releaseTime() {
-    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
-}
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
