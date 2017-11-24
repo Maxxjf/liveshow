@@ -8,8 +8,8 @@ android {
         applicationId "com.qcloud.liveshow"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -71,6 +71,21 @@ android {
     dexOptions {
         javaMaxHeapSize "4g"
     }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def oldFile = output.outputFile
+            if (variant.buildType.name.equals('release')) {
+//                println(variant.productFlavors[0].name)
+                def releaseApkName = 'AV8D' + '_v'+defaultConfig.versionName+'_'+ releaseTime() + '.apk'
+                output.outputFile = new File(oldFile.parent, releaseApkName)
+            }
+
+        }
+    }
+}
+
+def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
 }
 
 dependencies {
