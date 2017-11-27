@@ -7,6 +7,7 @@ import com.qcloud.liveshow.enums.ApplyStatusEnum;
 import com.qcloud.liveshow.model.IAnchorModel;
 import com.qcloud.liveshow.model.impl.AnchorModelImpl;
 import com.qcloud.liveshow.model.impl.ProfitModelImpl;
+import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.ui.main.presenter.IMainPresenter;
 import com.qcloud.liveshow.ui.main.view.IMainView;
 import com.qcloud.qclib.base.BasePresenter;
@@ -36,7 +37,7 @@ public class MainPresenterImpl extends BasePresenter<IMainView> implements IMain
 
     /**
      * 获取主播申请状态
-     * */
+     */
     @Override
     public void getApplyStatus() {
         mAnchorModel.getApplyStatus(new DataCallback<ApplyStatusBean>() {
@@ -80,7 +81,7 @@ public class MainPresenterImpl extends BasePresenter<IMainView> implements IMain
 
     /**
      * 绑定分佣关系
-     * */
+     */
     @Override
     public void submitBinding(String code) {
         new ProfitModelImpl().submitBinding(code, new DataCallback<ReturnEmptyBean>() {
@@ -98,5 +99,15 @@ public class MainPresenterImpl extends BasePresenter<IMainView> implements IMain
                 }
             }
         });
+    }
+
+    /**
+     *  关闭Realm服务
+     */
+
+    @Override
+    public void closeRealm() {
+        RealmHelper helper = new RealmHelper();
+        helper.closeRealm();
     }
 }

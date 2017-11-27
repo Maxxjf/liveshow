@@ -44,6 +44,7 @@ public class LaunchFirstActivity extends BaseActivity<ILaunchFirstView, LaunchFi
     private void checkFirstLaunch() {
         if (ConstantUtil.getBoolean("LaunchBefore")){//检查是否启动过，在引导图最后一张图启动setTrue
             LaunchActivity.openActivity(mContext);
+            finish();
         }
     }
 

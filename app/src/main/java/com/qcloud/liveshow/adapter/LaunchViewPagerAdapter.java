@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +66,7 @@ public class LaunchViewPagerAdapter extends IndicatorViewPager.IndicatorViewPage
                 public void onClick(View v) {
                     ConstantUtil.writeBoolean("LaunchBefore",true);
                     LaunchActivity.openActivity(mContext);
+                    ((Activity)mContext).finish();
                 }
             });
         }else {

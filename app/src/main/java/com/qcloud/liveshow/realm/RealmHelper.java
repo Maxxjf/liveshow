@@ -25,6 +25,12 @@ public class RealmHelper<T extends RealmObject> {
         }
     }
 
+    public  void closeRealm(){
+        if (mRealm!=null){
+            mRealm.close();
+            mRealm=null;
+        }
+    }
     /**
      *
      *      新增与更新
