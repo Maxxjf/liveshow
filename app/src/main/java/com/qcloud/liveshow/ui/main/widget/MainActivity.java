@@ -321,7 +321,6 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.closeRealm();
         NettyClientBus.recycle();
         NettyUtil.clearIsAuth();
     }

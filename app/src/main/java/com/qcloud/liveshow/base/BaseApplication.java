@@ -50,10 +50,11 @@ import timber.log.Timber;
 public class BaseApplication extends Application {
     private static BaseApplication mApplication;
     private static AppManager mAppManager; // Activity 管理器
-    public  static UserBean userBean;
+    public static UserBean userBean;
 
     public int ScreenWidth;
     public int ScreenHeight;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -98,13 +99,13 @@ public class BaseApplication extends Application {
 
     private void initScreen() {
         ScreenWidth = ScreenUtils.getScreenWidth(this);
-        ScreenHeight=ScreenUtils.getScreenHeight(this);
+        ScreenHeight = ScreenUtils.getScreenHeight(this);
     }
 
 
     /**
      * 初始化网络请求
-     * */
+     */
     private void initOkGo() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         //log相关
@@ -146,21 +147,24 @@ public class BaseApplication extends Application {
         }
     }
 
+
     /**
      * 初始化Realm
-     * */
-    public  void initRealm() {
-        String user_id="";
+     * TODO 需要修复一个BUG ：退出之后换账号，Realm的数据为上个账号的
+     */
+    public void initRealm() {
+        String user_id = "";
         UserInfoUtil.loadUserInfo();
-        if (userBean!=null){
-             user_id=getUserBean().getIdStr();
+        if (userBean != null) {
+            user_id = getUserBean().getIdStr();
         }
         Realm.init(this);
-        RealmConfiguration configuration = new RealmConfiguration.Builder()
-                .name(RealmHelper.DB_NAME+user_id)
+        RealmConfiguration  configuration = new RealmConfiguration.Builder()
+                .name(RealmHelper.DB_NAME + user_id)
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(configuration);
+
     }
 
     @Override

@@ -13,6 +13,5 @@ public interface IMainPresenter extends BtnClickPresenter {
 
     /**提交绑定分佣关系*/
     void submitBinding(String code);
-    /**关闭Realm服务*/
-    void closeRealm();
+
 }
