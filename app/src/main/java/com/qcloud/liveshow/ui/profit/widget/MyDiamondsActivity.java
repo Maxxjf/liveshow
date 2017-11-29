@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.ui.profit.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.DiamondsAdapter;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
@@ -19,6 +22,7 @@ import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.liveshow.ui.profit.presenter.impl.MyDiamondsPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.IMyDiamondsView;
 import com.qcloud.liveshow.utils.BasicsUtil;
+import com.qcloud.liveshow.utils.PaypalUtil;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.pop.CallPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
@@ -27,6 +31,8 @@ import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.LineTextView;
 import com.qcloud.qclib.widget.layoutManager.FullyGridLayoutManager;
+
+import org.json.JSONException;
 
 import java.util.List;
 
@@ -64,7 +70,7 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
 
     private CallPop mCallPop;
     private String mTelephone;
-
+    private PaypalUtil paypalUtil;
     @Override
     protected int initLayout() {
         return R.layout.activity_my_diamonds;
@@ -84,7 +90,7 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
     protected void initViewAndData() {
         /**解决状态栏与内容重叠*/
         SystemBarUtil.remeasureTitleBar(this, mTitleBar);
-
+        paypalUtil=PaypalUtil.getInstance(this);
         initTitleBar();
         initDiamondsList();
 
@@ -147,7 +153,7 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
         mCallPop = new CallPop(this);
     }
 
-    @OnClick({R.id.btn_recharge_agreement, R.id.tv_customer_service})
+    @OnClick({R.id.btn_recharge_agreement, R.id.tv_customer_service,R.id.tv_diamonds})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
     }
@@ -155,6 +161,11 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
     @Override
     public void onRechargeClick() {
         WebActivity.openActivity(this, "充值协议", ClauseRuleEnum.RechargeRule.getKey());
+    }
+
+    @Override
+    public void onDiamondsClick() {
+        paypalUtil.goToPlay(this,"0.01");
     }
 
     @Override
@@ -188,6 +199,34 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
                 Timber.e(errMsg);
             }
         }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            PaymentConfirmation confirm =
+                    data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+            if (confirm != null) {
+                try {
+                    Timber.e(confirm.toJSONObject().toString(4));
+                    Timber.e(confirm.getPayment().toJSONObject().toString(4));
+        //这里可以把PayPal带回来的json数据传给服务器以确认你的款项是否收到或者收全
+        //可以直接把 confirm.toJSONObject() 这个带给服务器，
+        //得到服务器返回的结果，你就可以跳转成功页面或者做相应的处理了
+                } catch (JSONException e) {
+                    Timber.e("一个极其不可能的失败发生了:");
+                }
+            }
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            Timber.e("用户取消了.");
+        } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+            Timber.e( "提交了无效的支付或PayPal配置。请参见文档。");
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        paypalUtil.unRegister(this);
     }
 
     public static void openActivity(Context context) {

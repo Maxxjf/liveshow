@@ -33,6 +33,9 @@ public class MyDiamondsPresenterImpl extends BasePresenter<IMyDiamondsView> impl
             case R.id.tv_customer_service:
                 mView.onCustomerServiceClick();
                 break;
+            case R.id.tv_diamonds:
+                mView.onDiamondsClick();
+                break;
         }
     }
 

@@ -55,8 +55,10 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                 if (mView != null) {
                     switch (rxBusEvent.getType()) {
                         case R.id.netty_get_chat_list_success:
-                            NettyChatListBean bean = (NettyChatListBean) rxBusEvent.getObj();
-                            mView.replaceChatList(bean.getList());
+                            if (rxBusEvent.getObj() instanceof NettyChatListBean){
+                                NettyChatListBean bean = (NettyChatListBean) rxBusEvent.getObj();
+                                mView.replaceChatList(bean.getList());
+                            }
                             break;
                         case R.id.netty_room_member_join:
                             // 成员加入

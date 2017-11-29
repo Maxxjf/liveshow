@@ -22,6 +22,9 @@ import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.rxbus.Bus;
 import com.qcloud.qclib.rxbus.BusProvider;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
@@ -35,11 +38,12 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
     private IMineModel mModel;
     private IIMModel mIMModel;
     private Bus mEventBus = BusProvider.getInstance();
-
+    private List<String> longList;
     public RoomControlPresenterImpl() {
         mModel = new MineModelImpl();
         mIMModel = new IMModelImpl();
         anchorModel=new AnchorModelImpl();
+        longList=new ArrayList<>();
         mEventBus.register(this);
         initRxBusEvent();
     }
@@ -56,7 +60,11 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                             break;
                         case R.id.netty_room_member_join:
                             // 成员加入
-                            mView.addMember((NettyRoomMemberBean) rxBusEvent.getObj());
+                            NettyRoomMemberBean member = (NettyRoomMemberBean) rxBusEvent.getObj();
+                            if (!longList.contains(member.getUser().getIdStr())){
+                                longList.add(member.getUser().getIdStr());
+                                mView.addMember(member);
+                            }
                             break;
                         case R.id.netty_group_chat:
                             // 群聊消息

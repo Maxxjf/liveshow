@@ -105,6 +105,20 @@
                 android:text="@string/tag_recharge_agreement"/>
 
         </LinearLayout>
+        <TextView
+            android:id="@+id/tv_diamonds"
+            android:layout_marginLeft="@dimen/margin_7"
+            android:layout_marginRight="@dimen/margin_7"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            android:layout_marginTop="@dimen/margin_2"
+            android:background="@drawable/btn_left_right_orange_selector"
+            android:gravity="center"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="@dimen/medium_text_size"
+            android:text="@string/title_my_diamonds"/>
     </LinearLayout>
 
     <LinearLayout

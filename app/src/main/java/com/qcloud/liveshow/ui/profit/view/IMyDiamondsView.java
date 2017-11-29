@@ -13,6 +13,8 @@ import java.util.List;
 public interface IMyDiamondsView extends BaseView {
     /**充值协议*/
     void onRechargeClick();
+    /**充值*/
+    void onDiamondsClick();
 
     /**服务热线*/
     void onCustomerServiceClick();
