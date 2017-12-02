@@ -7,7 +7,7 @@ package com.qcloud.liveshow.beans;
  */
 public class NettyNoticeBean {
     String room_number;     // 房间号
-    String user_id;         // 用户id
+    MemberBean user;         // 用户id
 
     public String getRoom_number() {
         return room_number;
@@ -17,19 +17,19 @@ public class NettyNoticeBean {
         this.room_number = room_number;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public MemberBean getUser() {
+        return user;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUser(MemberBean user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
         return "NettyNoticeBean{" +
                 "room_number='" + room_number + '\'' +
-                ", user_id='" + user_id + '\'' +
+                ", user=" + user +
                 '}';
     }
 }

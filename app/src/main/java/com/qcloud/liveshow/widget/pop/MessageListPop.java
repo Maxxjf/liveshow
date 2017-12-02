@@ -107,6 +107,11 @@ public class MessageListPop extends BasePopupWindow {
         }
     }
 
+    public void   add(MemberBean memberBean){
+        if (memberBean != null && mAdapter != null) {
+            mAdapter.addListBeanAtStart(memberBean);
+        }
+    }
     @OnClick(R.id.btn_ignore_message)
     void onIgnoreClick(View view) {
 

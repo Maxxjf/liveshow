@@ -85,9 +85,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile project(':qcloudLib-android:qclib')
-
     testCompile 'junit:junit:4.12'
-
     // 友盟分享
     compile files('libs/open_sdk_r5788_lite.jar')
     compile files('libs/SocialSDK_WeChat_Simplify.jar')
@@ -99,7 +97,6 @@ dependencies {
     compile files('libs/umeng_social_tool.jar')
     compile files('libs/wechat-sdk-android-with-mta-1.1.6.jar')
     compile files('libs/SocialSDK_facebook.jar')
-
     // 第三方crash异常捕捉
     compile 'com.tencent.bugly:crashreport:latest.release'
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
@@ -109,7 +106,6 @@ dependencies {
     compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:multidex:1.0.1'
-
     compile project(':jjdxm-ijkplayer')
     compile rootProject.ext.jjdxm_v7
     // 根据需要支持去拓展，在jjdxm-ijkplayer中默认加入了armv7a的了
@@ -123,12 +119,12 @@ dependencies {
     compile 'com.ksyun.media:libksylive-armv7a:2.4.2'
     compile 'com.ksyun.media:libksylive-arm64:2.4.2'
     compile 'com.ksyun.media:libksylive-x86:2.4.2'
-
     // Netty服务器
     compile 'io.netty:netty-all:5.0.0.Alpha2'
-
     //Paypal
-    compile('com.paypal.sdk:paypal-android-sdk:2.15.1')
+    compile 'com.paypal.sdk:paypal-android-sdk:2.15.1'
+    //支付宝支付
+    implementation files('libs/alipaySdk-20170922.jar')
 }
 
 repositories {

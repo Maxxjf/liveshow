@@ -14,8 +14,6 @@ public interface ILoginView extends BaseView {
     /**点击登录*/
     void onLoginClick();
 
-    /**点击获取验证码*/
-    void onGetCodeClick();
 
     /**点击微信登录*/
     void onWeChatClick();
@@ -29,11 +27,6 @@ public interface ILoginView extends BaseView {
     /**登录成功*/
     void loginSuccess(LoginBean bean);
 
-    /**获取验证码成功*/
-    void getCodeSuccess(String code);
-
-    /**获取验证码失败*/
-    void getCodeFailure(String errMsg);
 
     /**微信用户信息*/
     void weChatUserInfo(WeChatUserBean bean);

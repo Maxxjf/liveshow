@@ -23,7 +23,7 @@ public interface IResponseMethod {
     void disposeChatList(@NonNull JsonElement msgConfig);
 
     /**有人退出群*/
-    void disposeUserOutGroup(@NonNull JsonElement msgConfig, int actionType);
+    void disposeUserOutGroup(@NonNull JsonElement msgConfig);
     /**通知*/
     void disposeNotice(JsonElement msgConfig);
 

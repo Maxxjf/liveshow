@@ -12,7 +12,6 @@ import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
-import com.qcloud.liveshow.enums.NettyActionType;
 import com.qcloud.liveshow.netty.callback.ResponseListener;
 import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.utils.NettyUtil;
@@ -75,7 +74,7 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                     disposeChatList(jsonStr);
                     break;
                 case 203: // 有用户从直播室群聊退出
-
+                    disposeUserOutGroup(jsonStr);
                     break;
                 case 204:   // 有用户加入直播室群聊
                     disposeGroupMember(jsonStr);
@@ -83,7 +82,6 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
             }
         }
     }
-
     /**
      * 鉴权
      *
@@ -148,7 +146,7 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                 }
                 bean.setSend(false);
                 realmHelper.addOrUpdateBean(bean);//添加到本地数据
-// 更新Realm数据库某条数据
+                // 更新Realm数据库某条数据
                 if (bean.getFrom_user_id() != null && StringUtils.isNotEmptyString(bean.getFrom_user_id())) {
                     realmHelper = new RealmHelper<MemberBean>();
                     MemberBean memberBean = (MemberBean) realmHelper.queryBeanById(MemberBean.class, "id", Long.valueOf(bean.getFrom_user_id()));
@@ -199,20 +197,18 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
     }
 
     /**
-     * 通知
+     * 有人退群
      *
      * @time 2017/11/8 16:32
      */
     @Override
-    public void disposeUserOutGroup(JsonElement msgConfig, final int actionType) {
+    public void disposeUserOutGroup(JsonElement msgConfig) {
         Type type = new TypeToken<NettyBaseResponse<NettyNoticeBean>>() {
         }.getType();
         NettyDispose.dispose(msgConfig, type, new DataCallback<NettyNoticeBean>() {
             @Override
             public void onSuccess(NettyNoticeBean bean) {
-                if (actionType == NettyActionType.USER_REMOVE_GROUP_CHAT.getKey()) {
-                    BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_notice_out_group).setObj(bean).build());
-                }
+                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_notice_out_group).setObj(bean).build());
             }
 
             @Override

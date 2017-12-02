@@ -21,8 +21,8 @@ import com.qcloud.liveshow.enums.ClauseRuleEnum;
 import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.liveshow.ui.profit.presenter.impl.MyDiamondsPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.IMyDiamondsView;
+import com.qcloud.liveshow.utils.AlipayUtil;
 import com.qcloud.liveshow.utils.BasicsUtil;
-import com.qcloud.liveshow.utils.PaypalUtil;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.pop.CallPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
@@ -70,7 +70,7 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
 
     private CallPop mCallPop;
     private String mTelephone;
-    private PaypalUtil paypalUtil;
+//    private PaypalUtil paypalUtil;
     @Override
     protected int initLayout() {
         return R.layout.activity_my_diamonds;
@@ -90,7 +90,7 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
     protected void initViewAndData() {
         /**解决状态栏与内容重叠*/
         SystemBarUtil.remeasureTitleBar(this, mTitleBar);
-        paypalUtil=PaypalUtil.getInstance(this);
+//        paypalUtil=PaypalUtil.getInstance(this);
         initTitleBar();
         initDiamondsList();
 
@@ -163,11 +163,17 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
         WebActivity.openActivity(this, "充值协议", ClauseRuleEnum.RechargeRule.getKey());
     }
 
+
+
+
     @Override
     public void onDiamondsClick() {
-        paypalUtil.goToPlay(this,"0.01");
-    }
+//        paypalUtil.goToPlay(this,"0.01");
+        AlipayUtil alipayUtil=new AlipayUtil(this);
+        alipayUtil.pay("0.01");
+        alipayUtil.pay("0.02");
 
+    }
     @Override
     public void onCustomerServiceClick() {
         if (StringUtils.isNotEmptyString(mTelephone)) {
@@ -226,7 +232,7 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        paypalUtil.unRegister(this);
+//        paypalUtil.unRegister(this);
     }
 
     public static void openActivity(Context context) {

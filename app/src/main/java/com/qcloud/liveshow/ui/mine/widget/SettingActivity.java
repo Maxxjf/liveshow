@@ -67,9 +67,18 @@ public class SettingActivity extends SwipeBaseActivity<ISettingView, SettingPres
     protected void initViewAndData() {
         try {
             mTvCache.setText(DataCleanManager.getTotalCacheSize(this));
+            test();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void test() {
+        Intent intent = getIntent();//在这个Activity里，我们可以通过getIntent()，来获取外部跳转传过来的信息。
+        String data = intent.getDataString();//接收到网页传过来的数据：sharetest://data/http://www.huxiu.com/
+        String[] split = data.split("data/");//以data/切割data字符串
+        String url = split[1]; //就得到：http://www.huxiu.com/(这就是我们需要网页传给我们的数据)
+        Timber.e(url);
     }
 
     @OnClick({R.id.layout_blacklist, R.id.layout_about_us, R.id.layout_clear_cache,

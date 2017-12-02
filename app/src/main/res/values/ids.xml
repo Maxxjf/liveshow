@@ -29,13 +29,15 @@
     <item name="netty_parameter_missing" type="id"/>
     <!--通知有看直播成员加入-->
     <item name="netty_room_member_join" type="id"/>
+    <!--通知有看直播成员加入-->
+    <item name="netty_room_member_out" type="id"/>
     <!--群聊消息-->
     <item name="netty_group_chat" type="id"/>
     <!--私聊消息-->
     <item name="netty_private_chat" type="id"/>
     <!--检查是否未读-->
     <item name="check_no_read_chat" type="id"/>
-    <!--通知-->
+    <!--有人退出群-->
     <item name="netty_notice_out_group" type="id"/>
     <!--修改公告-->
     <item name="netty_notice" type="id"/>

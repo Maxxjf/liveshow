@@ -13,8 +13,10 @@ public interface UrlConstants {
 
     /**
      * 直播url
+     * rtmp://10.10.22.123:1935/room/
      * */
-    String STREAM_URL = "rtmp://10.10.22.120:1935/room/";
+    String STREAM_URL = "rtmp://"+AppConstants.IO_HOST+":"+AppConstants.IO_PORT+"/room/";
+//    String STREAM_URL = "rtmp://10.10.22.120:1935/room/";
 
     /**
      * 用户有关

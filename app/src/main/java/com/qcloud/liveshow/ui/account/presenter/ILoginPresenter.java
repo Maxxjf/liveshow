@@ -11,8 +11,6 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
  * Date: 2017/8/8 15:42.
  */
 public interface ILoginPresenter extends BtnClickPresenter {
-    /**获取验证码*/
-    void getCode(String mobile);
 
     /**点击登录*/
     void login(String mobile, String code);

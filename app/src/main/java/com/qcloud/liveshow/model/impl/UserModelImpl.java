@@ -47,10 +47,10 @@ public class UserModelImpl implements IUserModel {
      * @time 2017/9/6 12:11
      */
     @Override
-    public void loginNormal(String mobile, String code, DataCallback<LoginBean> callback) {
+    public void loginNormal(String account, String passwork, DataCallback<LoginBean> callback) {
         mParams = OkGoRequest.getAppParams();
-        mParams.put("phone", mobile);
-        mParams.put("code", code);
+        mParams.put("loginAccount", account);
+        mParams.put("loginPassword", passwork);
 
         BaseApi.dispose(IUserApi.loginNormal(mParams), callback);
     }

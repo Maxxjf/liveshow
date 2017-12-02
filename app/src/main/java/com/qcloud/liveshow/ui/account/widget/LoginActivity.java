@@ -36,18 +36,12 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
-import butterknife.BindString;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -56,12 +50,10 @@ import timber.log.Timber;
  * Date: 2017/8/8 15:46.
  */
 public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> implements ILoginView {
-    @Bind(R.id.et_mobile)
-    ClearEditText mEtMobile;
-    @Bind(R.id.et_code)
-    ClearEditText mEtCode;
-    @Bind(R.id.btn_get_code)
-    TextView mBtnGetCode;
+    @Bind(R.id.et_account)
+    ClearEditText mEtAccount;
+    @Bind(R.id.et_passwork)
+    ClearEditText mEtPasswork;
     @Bind(R.id.btn_login)
     TextView mBtnLogin;
     @Bind(R.id.btn_clause)
@@ -71,17 +63,11 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
     @Bind(R.id.btn_facebook)
     ImageView mBtnFacebook;
 
-    @BindString(R.string.toast_has_been_sent_to)
-    String hasBeenSendTo;
-    @BindString(R.string.btn_get_code)
-    String getCode;
-    @BindString(R.string.btn_get_code_after_second)
-    String getCodeAfter;
 
     private Disposable mDisposable;
 
-    private String mobile;
-    private String code;
+    private String account;
+    private String passwork;
 
     @Override
     protected int initLayout() {
@@ -145,7 +131,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
         finish();
     }
 
-    @OnClick({R.id.btn_get_code, R.id.btn_login, R.id.btn_clause, R.id.btn_we_chat, R.id.btn_facebook})
+    @OnClick({ R.id.btn_login, R.id.btn_clause, R.id.btn_we_chat, R.id.btn_facebook})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
     }
@@ -153,18 +139,11 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
     @Override
     public void onLoginClick() {
         if (check()) {
-            mPresenter.login(mobile, code);
+//              ToastUtils.ToastMessage(LoginActivity.this,"登录正在修改需求，请使用第三方登录");
+            mPresenter.login(account, passwork);
         }
     }
 
-    @Override
-    public void onGetCodeClick() {
-        if (checkMobile()) {
-            mPresenter.getCode(mobile);
-            mBtnGetCode.setEnabled(false);
-            startTimer();
-        }
-    }
 
     @Override
     public void onWeChatClick() {
@@ -197,32 +176,6 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
     }
 
 
-    @Override
-    public void getCodeSuccess(String code) {
-        if (isRunning) {
-            //ToastUtils.ToastMessage(this, String.format(hasBeenSendTo, mobile));
-            mEtCode.setText(code);
-            mEtCode.setFocusable(false);
-//            TipsPop pop = new TipsPop(this);
-//            pop.setTips("验证码为" + code);
-//            pop.showCancel(false);
-//            pop.showAtLocation(mBtnGetCode, Gravity.CENTER, 0, 0);
-        }
-    }
-
-    @Override
-    public void getCodeFailure(String errMsg) {
-        if (isRunning) {
-            ToastUtils.ToastMessage(mContext, errMsg);
-            if (mDisposable != null && !mDisposable.isDisposed()) {
-                mDisposable.dispose();
-            }
-            if (mBtnGetCode != null) {
-                mBtnGetCode.setText(getCode);
-                mBtnGetCode.setEnabled(true);
-            }
-        }
-    }
 
     @Override
     public void weChatUserInfo(WeChatUserBean bean) {
@@ -253,15 +206,15 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
     }
 
     private boolean check() {
-        code = mEtCode.getText().toString().trim();
+        passwork = mEtPasswork.getText().toString().trim();
 
         if (!checkMobile()) {
             return false;
         }
 
-        if (StringUtils.isEmptyString(code)) {
+        if (StringUtils.isEmptyString(passwork)) {
             ToastUtils.ToastMessage(this, R.string.toast_input_code);
-            mEtCode.requestFocus();
+            mEtPasswork.requestFocus();
             return false;
         }
 
@@ -269,64 +222,23 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
     }
 
     public boolean checkMobile() {
-        mobile = mEtMobile.getText().toString().trim();
+        account = mEtAccount.getText().toString().trim();
 
-        if (StringUtils.isEmptyString(mobile)) {
+        if (StringUtils.isEmptyString(account)) {
             ToastUtils.ToastMessage(this, R.string.input_mobile_hint);
-            mEtMobile.requestFocus();
+            mEtAccount.requestFocus();
             return false;
         }
 
-        if (!ValidateUtil.isMobilePhone(mobile)) {
+        if (!ValidateUtil.isMobilePhone(account)) {
             ToastUtils.ToastMessage(this, R.string.toast_right_mobile_phone);
-            mEtMobile.requestFocus();
+            mEtAccount.requestFocus();
             return false;
         }
 
         return true;
     }
 
-    /**
-     * 启动定时器
-     * */
-    private void startTimer() {
-        Observable observable = Observable.interval(1, TimeUnit.SECONDS).take(60).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-
-        mDisposable = observable.doOnDispose(new Action() {
-            @Override
-            public void run() throws Exception {
-                if (mBtnGetCode != null) {
-                    mBtnGetCode.setText(getCode);
-                    mBtnGetCode.setEnabled(true);
-                }
-            }
-        }).subscribe(new Consumer<Long>() {
-            @Override
-            public void accept(@NonNull Long aLong) throws Exception {
-                if (mBtnGetCode != null) {
-                    mBtnGetCode.setText(String.format(getCodeAfter, (60 - aLong)));
-                }
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(@NonNull Throwable throwable) throws Exception {
-                if (mBtnGetCode != null) {
-                    mBtnGetCode.setText(getCode);
-                    mBtnGetCode.setEnabled(true);
-                }
-            }
-        }, new Action() {
-            @Override
-            public void run() throws Exception {
-                Timber.e("onComplete");
-                if (mBtnGetCode != null) {
-                    mBtnGetCode.setText(getCode);
-                    mBtnGetCode.setEnabled(true);
-                }
-            }
-        });
-    }
 
     UMAuthListener authListener = new UMAuthListener() {
         /**

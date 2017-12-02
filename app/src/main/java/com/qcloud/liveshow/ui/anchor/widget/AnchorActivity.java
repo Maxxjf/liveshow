@@ -111,10 +111,12 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         initStreamUrl();
 
         switchPreFragment();
+
         mMainHandler = new Handler();
 
         mStreamer = new KSYStreamer(this);
         initCamera();
+//        startStream();  开始直播，用于直接测试推拉流
     }
 
     @Override
@@ -136,9 +138,6 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     @Override
     protected void onStop() {
         super.onStop();
-        Timber.e("onStop");
-
-
     }
 
     /**

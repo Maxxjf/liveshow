@@ -103,7 +103,6 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     private SubmitStartLiveBean mSubmitBean;
 
 //    private InputDialog mInputDialog;
-    private boolean isInputTitle = true;
 
     private int upperLimit;//设置收费最大值
 
@@ -122,7 +121,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mStartTime = DateUtils.getCurrTime("HH:mm");
         mBtnTimeStart.setText(mStartTime);
 //        new AnchorPresenterImpl().finishLive();//已经在Activity那结束直播了
-        mPresenter.getLiveinfo();
+        mPresenter.getLiveinfo(); //得到上一次的直播信息
 
     }
 

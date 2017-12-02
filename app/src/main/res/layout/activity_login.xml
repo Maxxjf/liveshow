@@ -24,21 +24,21 @@
         android:layout_marginTop="@dimen/margin_2">
 
         <com.qcloud.qclib.widget.customview.ClearEditText
-            android:id="@+id/et_mobile"
+            android:id="@+id/et_account"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tab_height"
             android:background="@drawable/frame_gray_circular"
             android:drawableLeft="@drawable/icon_phone"
             android:drawablePadding="@dimen/margin_3"
-            android:paddingLeft="@dimen/margin_2"
-            android:paddingRight="@dimen/margin_2"
             android:gravity="center_vertical"
+            android:hint="@string/input_account_hint"
             android:imeOptions="actionNext"
             android:lines="1"
+            android:paddingLeft="@dimen/margin_2"
+            android:paddingRight="@dimen/margin_2"
             android:textColor="@color/colorText"
-            android:textSize="@dimen/small_text_size"
-            android:hint="@string/input_mobile_hint"
-            android:textColorHint="@color/colorHint"/>
+            android:textColorHint="@color/colorHint"
+            android:textSize="@dimen/small_text_size" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,38 +47,25 @@
             android:layout_marginTop="@dimen/margin_2">
 
             <com.qcloud.qclib.widget.customview.ClearEditText
-                android:id="@+id/et_code"
+                android:id="@+id/et_passwork"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/frame_gray_circular"
                 android:drawableLeft="@drawable/icon_password"
                 android:drawablePadding="@dimen/margin_3"
-                android:paddingLeft="@dimen/margin_2"
-                android:paddingRight="@dimen/margin_2"
                 android:gravity="center_vertical"
+                android:hint="@string/input_password_hint"
                 android:imeOptions="actionDone"
                 android:inputType="number"
-                android:maxLength="6"
                 android:lines="1"
-                android:textColor="@color/colorText"
-                android:textSize="@dimen/small_text_size"
-                android:hint="@string/input_code_hint"
-                android:textColorHint="@color/colorHint"/>
-
-            <TextView
-                android:id="@+id/btn_get_code"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_2"
+                android:maxLength="6"
                 android:paddingLeft="@dimen/margin_2"
                 android:paddingRight="@dimen/margin_2"
-                android:gravity="center"
-                android:background="@drawable/frame_orange_circular"
-                android:textAllCaps="false"
-                android:textColor="@color/colorStart"
-                android:textSize="@dimen/small_text_size"
-                android:text="@string/btn_get_code"/>
+                android:textColor="@color/colorText"
+                android:textColorHint="@color/colorHint"
+                android:textSize="@dimen/small_text_size" />
+
         </LinearLayout>
 
         <TextView

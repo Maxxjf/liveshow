@@ -63,12 +63,11 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
+
             </intent-filter>
         </activity>
 
-        <activity android:name=".Paypal.PaypalActivity">
-
-        </activity>
 
         <activity
             android:name=".ui.main.widget.MainActivity"
@@ -81,7 +80,19 @@
         <activity
             android:name=".ui.account.widget.LoginActivity"
             android:label="@string/title_login"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!--下面所设置的质需要和html端对调-->
+                <!--在data里设置了 scheme和host，则该Activity可以接收和处理类似于 "sharetest://data/XXX"的链接-->
+                <data
+                    android:host="data"
+                    android:scheme="sharetest" />
+            </intent-filter>
+        </activity>
 
         <!-- 直播间有关 -->
         <activity
@@ -164,7 +175,7 @@
             android:name=".ui.mine.widget.SettingActivity"
             android:label="@string/title_setting"
             android:launchMode="singleTask"
-            android:theme="@style/AppSwipeBackTheme" />
+            android:theme="@style/AppSwipeBackTheme"></activity>
         <activity
             android:name=".ui.mine.widget.MyGiftsActivity"
             android:label="@string/title_my_gifts"
@@ -250,6 +261,38 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <!--PayPal有关-->
+        <service android:name="com.paypal.android.sdk.payments.PayPalService" android:exported="false" />
+
+        <activity android:name="com.paypal.android.sdk.payments.PaymentActivity" />
+        <activity android:name="com.paypal.android.sdk.payments.LoginActivity" />
+        <activity android:name="com.paypal.android.sdk.payments.PaymentMethodActivity" />
+        <activity android:name="com.paypal.android.sdk.payments.PaymentConfirmActivity" />
+        <activity android:name="com.paypal.android.sdk.payments.PayPalFuturePaymentActivity" />
+        <activity android:name="com.paypal.android.sdk.payments.FuturePaymentConsentActivity" />
+        <activity android:name="com.paypal.android.sdk.payments.FuturePaymentInfoActivity" />
+        <activity
+            android:name="io.card.payment.CardIOActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity android:name="io.card.payment.DataEntryActivity" />
+        <!--end of paypal requirements  -->
+
+        <!--支付宝支付页面-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+        <!--end of 支付宝  -->
         <provider
             android:name="com.umeng.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider176951416183947"

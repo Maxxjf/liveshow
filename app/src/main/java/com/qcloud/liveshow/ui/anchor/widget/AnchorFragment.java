@@ -236,7 +236,16 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
         });
     }
-
+    @Override
+    public void addMessage(MemberBean bean) {
+        if (isInFragment) {
+            if (isInFragment) {
+                if (bean != null && mMessagePop != null) {
+                    mMessagePop.add(bean);
+                }
+            }
+        }
+    }
     /**
      * 初始化粉丝信息弹窗
      */
@@ -473,6 +482,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         }
     }
 
+
     /**
      * 群聊消息
      */
@@ -504,7 +514,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     public void userOutGroup(NettyNoticeBean bean) {
         if (isInFragment) {
             if (bean != null && mFansAdapter != null) {
-                mFansAdapter.removeBeanByUserId(bean.getUser_id());
+                mFansAdapter.removeBeanByUserId(bean.getUser().getIdStr());
             }
         }
     }

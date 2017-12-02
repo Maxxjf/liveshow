@@ -2,7 +2,6 @@ package com.qcloud.liveshow.ui.anchor.presenter.impl;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.MemberBean;
-import com.qcloud.liveshow.beans.NettyChatListBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
@@ -25,6 +24,9 @@ import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.rxbus.Bus;
 import com.qcloud.qclib.rxbus.BusProvider;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
@@ -39,11 +41,12 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
     private IMineModel mineModel;
     private IIMModel mIMModel;
     private Bus mEventBus = BusProvider.getInstance();
-
+    private List<String> idList;//去重
     public AnchorControlPresenterImpl() {
         mModel = new AnchorModelImpl();
         mIMModel = new IMModelImpl();
         mineModel=new MineModelImpl();
+        idList=new ArrayList<>();
         mEventBus.register(this);
         initRxBusEvent();
     }
@@ -55,9 +58,10 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                 if (mView != null) {
                     switch (rxBusEvent.getType()) {
                         case R.id.netty_get_chat_list_success:
-                            if (rxBusEvent.getObj() instanceof NettyChatListBean){
-                                NettyChatListBean bean = (NettyChatListBean) rxBusEvent.getObj();
-                                mView.replaceChatList(bean.getList());
+                            MemberBean bean = (MemberBean) rxBusEvent.getObj();
+                            if (bean != null &&idList.contains(bean.getIdStr())) {
+                                mView.addMessage(bean);
+                                idList.add(bean.getIdStr());
                             }
                             break;
                         case R.id.netty_room_member_join:

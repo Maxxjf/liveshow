@@ -57,4 +57,6 @@ public interface IAnchorControlView extends BaseView {
     void onFollowRes(boolean isSuccess);
 
     void editNotic(NettyLiveNoticeBean obj);
+    /**添加消息列表*/
+    void addMessage(MemberBean bean);
 }

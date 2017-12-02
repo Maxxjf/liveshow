@@ -19,7 +19,7 @@ public interface IUserModel {
     void getCode(String mobile, DataCallback<GetCodeResBean> callback);
 
     /**手机号登录*/
-    void loginNormal(String mobile, String code, DataCallback<LoginBean> callback);
+    void loginNormal(String account, String passwork, DataCallback<LoginBean> callback);
 
     /**第三方登录*/
     void loginOther(String iconurl, String name, String openId, int sex, int type, DataCallback<LoginBean> callback);

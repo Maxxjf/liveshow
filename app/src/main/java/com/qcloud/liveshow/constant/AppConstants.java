@@ -20,6 +20,11 @@ public interface AppConstants {
     String NETTY_HOST = "10.10.22.123";
     int NETTY_PORT = 2071;
 
+
+    /**推拉流 服务器*/
+    String IO_HOST = "10.10.22.123";
+    int IO_PORT = 1935;
+
     /**弹起键盘坡度*/
     int DISTANCE_SLOP = 180;
     /**最新的弹起键盘高度*/

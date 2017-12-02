@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.FacebookUserBean;
-import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.LoginBean;
 import com.qcloud.liveshow.beans.WeChatUserBean;
 import com.qcloud.liveshow.model.IUserModel;
@@ -40,9 +39,6 @@ public class LoginPresenterImpl extends BasePresenter<ILoginView> implements ILo
     @Override
     public void onBtnClick(int viewId) {
         switch (viewId) {
-            case R.id.btn_get_code:
-                mView.onGetCodeClick();
-                break;
             case R.id.btn_login:
                 mView.onLoginClick();
                 break;
@@ -58,28 +54,10 @@ public class LoginPresenterImpl extends BasePresenter<ILoginView> implements ILo
         }
     }
 
-    @Override
-    public void getCode(String mobile) {
-        mModel.getCode(mobile, new DataCallback<GetCodeResBean>() {
-            @Override
-            public void onSuccess(GetCodeResBean bean) {
-                if (mView != null && bean != null) {
-                    mView.getCodeSuccess(bean.getCode());
-                }
-            }
-
-            @Override
-            public void onError(int status, String errMsg) {
-                if (mView != null) {
-                    mView.getCodeFailure(errMsg);
-                }
-            }
-        });
-    }
 
     @Override
-    public void login(String mobile, String code) {
-        mModel.loginNormal(mobile, code, new DataCallback<LoginBean>() {
+    public void login(String account, String passwork) {
+        mModel.loginNormal(account, passwork, new DataCallback<LoginBean>() {
             @Override
             public void onSuccess(LoginBean bean) {
                 if (mView != null) {

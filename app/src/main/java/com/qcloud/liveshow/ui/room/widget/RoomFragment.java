@@ -591,7 +591,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     public void userOutGroup(NettyNoticeBean bean) {
         if (isInFragment) {
             if (bean != null && mFansAdapter != null) {
-                mFansAdapter.removeBeanByUserId(bean.getUser_id());
+                mFansAdapter.removeBeanByUserId(bean.getUser().getIdStr());
             }
         }
     }
