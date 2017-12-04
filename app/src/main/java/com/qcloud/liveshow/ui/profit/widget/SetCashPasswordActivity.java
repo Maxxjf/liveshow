@@ -7,7 +7,6 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -18,7 +17,6 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.ui.profit.presenter.impl.SetCashPasswordPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.ISetCashPasswordView;
-import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.StringUtils;
@@ -48,9 +46,9 @@ public class SetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswordV
 
     @Bind(R.id.title_bar)
     TitleBar mTitleBar;
-    @Bind(R.id.tv_contact_way_tag)
+    @Bind(R.id.tv_email)
     TextView mTvContactWayTag;
-    @Bind(R.id.et_contact_way)
+    @Bind(R.id.et_email)
     EditText mEtContactWay;
     @Bind(R.id.tv_verification_code_tag)
     TextView mTvVerificationCodeTag;
@@ -76,7 +74,7 @@ public class SetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswordV
 
     private Disposable mDisposable;
 
-    private String mobile;
+    private String email;
     private String code;
     private String password;
 
@@ -151,7 +149,7 @@ public class SetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswordV
     @Override
     public void onGetCodeClick() {
         if (checkMobile()) {
-            mPresenter.getCode(mobile);
+            mPresenter.getCode(email);
             mBtnGetCode.setEnabled(false);
             startTimer();
         }
@@ -160,18 +158,22 @@ public class SetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswordV
     @Override
     public void onConfirmClick() {
         if (check()) {
-            mPresenter.setWithdrawCashPassword(mobile, code, password);
+            mPresenter.setWithdrawCashPassword(email, code, password);
         }
     }
 
     @Override
     public void getCodeSuccess(String code) {
         if (isRunning) {
-            //ToastUtils.ToastMessage(this, String.format(hasBeenSendTo, mobile));
-            TipsPop pop = new TipsPop(this);
-            pop.setTips("验证码为" + code);
-            pop.showCancel(false);
-            pop.showAtLocation(mBtnGetCode, Gravity.CENTER, 0, 0);
+            //ToastUtils.ToastMessage(this, String.format(hasBeenSendTo, email));
+//            TipsPop pop = new TipsPop(this);
+//            pop.setTips("验证码为" + code);
+//            pop.showCancel(false);
+//            pop.showAtLocation(mBtnGetCode, Gravity.CENTER, 0, 0);
+            if (code!=null){
+                mEtVerificationCode.setText(code);
+            }
+
         }
     }
 
@@ -238,16 +240,16 @@ public class SetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswordV
     }
 
     public boolean checkMobile() {
-        mobile = mEtContactWay.getText().toString().trim();
+        email = mEtContactWay.getText().toString().trim();
 
-        if (StringUtils.isEmptyString(mobile)) {
+        if (StringUtils.isEmptyString(email)) {
             ToastUtils.ToastMessage(this, R.string.input_mobile_hint);
             mEtContactWay.requestFocus();
             return false;
         }
 
-        if (!ValidateUtil.isMobilePhone(mobile)) {
-            ToastUtils.ToastMessage(this, R.string.toast_right_mobile_phone);
+        if (!ValidateUtil.isEmail(email)) {
+            ToastUtils.ToastMessage(this, R.string.toast_right_email);
             mEtContactWay.requestFocus();
             return false;
         }

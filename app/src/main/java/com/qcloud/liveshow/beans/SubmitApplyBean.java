@@ -10,7 +10,7 @@ public class SubmitApplyBean {
     String headImg;     // 头像/自拍照
     String name;        // 真实姓名
     String nickName;    // 昵称
-    String phone;       // 联系方式
+    String email;       // 邮箱
     int sex;            // 性别 0:男 1:女
     String withdrawPassword;    // 提现密码
 
@@ -46,12 +46,12 @@ public class SubmitApplyBean {
         this.nickName = nickName;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getSex() {
@@ -77,7 +77,7 @@ public class SubmitApplyBean {
                 ", headImg='" + headImg + '\'' +
                 ", name='" + name + '\'' +
                 ", nickName='" + nickName + '\'' +
-                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
                 ", sex=" + sex +
                 ", withdrawPassword='" + withdrawPassword + '\'' +
                 '}';

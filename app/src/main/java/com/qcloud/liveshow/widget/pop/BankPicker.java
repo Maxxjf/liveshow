@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.beans.BankBean;
+import com.qcloud.liveshow.enums.BankTypeEnum;
 import com.qcloud.qclib.widget.customview.wheelview.SinglePicker;
 import com.qcloud.qclib.widget.customview.wheelview.WheelView;
 
@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class BankPicker extends SinglePicker<String> {
 
-    public static List<BankBean> mList = new ArrayList<>();
+    public static List<BankTypeEnum> mList = new ArrayList<>();
     private List<String> strList = new ArrayList<>();
 
     public BankPicker(Context context) {
@@ -46,13 +46,13 @@ public class BankPicker extends SinglePicker<String> {
         setDividerConfig(config);
     }
 
-    public void refreshData(List<BankBean> list) {
+    public void refreshData(List<BankTypeEnum> list) {
         this.mList = list;
         if (mList == null || mList.size() <= 0) {
             return;
         }
         strList = new ArrayList<>();
-        for (BankBean bean : mList) {
+        for (BankTypeEnum bean : mList) {
             strList.add(bean.getName());
         }
 
@@ -73,11 +73,11 @@ public class BankPicker extends SinglePicker<String> {
 
     public static abstract class OnBankPickListener implements OnItemPickListener<String> {
 
-        public abstract void onBankPicked(int index, BankBean bean);
+        public abstract void onBankPicked(int index, BankTypeEnum bean);
 
         @Override
         public final void onItemPicked(int index, String item) {
-            BankBean bean = null;
+            BankTypeEnum bean = null;
             if (mList != null && mList.size() > 0 && index < mList.size()) {
                 bean = mList.get(index);
             }

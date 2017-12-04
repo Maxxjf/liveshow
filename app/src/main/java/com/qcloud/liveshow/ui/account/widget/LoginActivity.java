@@ -28,7 +28,6 @@ import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.ConstantUtil;
 import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.utils.TokenUtil;
-import com.qcloud.qclib.utils.ValidateUtil;
 import com.qcloud.qclib.widget.customview.ClearEditText;
 import com.qcloud.qclib.widget.customview.LineTextView;
 import com.umeng.socialize.UMAuthListener;
@@ -213,7 +212,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
         }
 
         if (StringUtils.isEmptyString(passwork)) {
-            ToastUtils.ToastMessage(this, R.string.toast_input_code);
+            ToastUtils.ToastMessage(this, R.string.input_password_hint);
             mEtPasswork.requestFocus();
             return false;
         }
@@ -225,16 +224,16 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
         account = mEtAccount.getText().toString().trim();
 
         if (StringUtils.isEmptyString(account)) {
-            ToastUtils.ToastMessage(this, R.string.input_mobile_hint);
+            ToastUtils.ToastMessage(this, R.string.input_account_hint);
             mEtAccount.requestFocus();
             return false;
         }
 
-        if (!ValidateUtil.isMobilePhone(account)) {
-            ToastUtils.ToastMessage(this, R.string.toast_right_mobile_phone);
-            mEtAccount.requestFocus();
-            return false;
-        }
+//        if (!ValidateUtil.isMobilePhone(account)) {
+//            ToastUtils.ToastMessage(this, R.string.toast_right_mobile_phone);
+//            mEtAccount.requestFocus();
+//            return false;
+//        }
 
         return true;
     }

@@ -75,10 +75,10 @@ public class ApplyAnchorActivity extends BaseActivity<IApplyAnchorView, ApplyAnc
     RadioButton mBtnLady;
     @Bind(R.id.rg_sex)
     RadioGroup mRgSex;
-    @Bind(R.id.tv_contact_way_tag)
+    @Bind(R.id.tv_email)
     TextView mTvContactWayTag;
-    @Bind(R.id.et_contact_way)
-    EditText mEtContactWay;
+    @Bind(R.id.et_email)
+    EditText mEtEmail;
     @Bind(R.id.btn_get_code)
     TextView mBtnGetCode;
     @Bind(R.id.tv_verification_code_tag)
@@ -109,7 +109,7 @@ public class ApplyAnchorActivity extends BaseActivity<IApplyAnchorView, ApplyAnc
     private String mRealName;
     private String mNickname;
     private int mSex = 0;
-    private String mContactWay;
+    private String mEmail;
     private String mCode;
     private String mPassword;
     private String mImage;
@@ -273,7 +273,7 @@ public class ApplyAnchorActivity extends BaseActivity<IApplyAnchorView, ApplyAnc
     @Override
     public void onGetCodeClick() {
         if (checkContactWay()) {
-            mPresenter.getCode(mContactWay);
+            mPresenter.getCode(mEmail);
             mBtnGetCode.setEnabled(false);
             startTimer();
         }
@@ -302,11 +302,13 @@ public class ApplyAnchorActivity extends BaseActivity<IApplyAnchorView, ApplyAnc
     @Override
     public void getCodeSuccess(String code) {
         if (isRunning) {
-            //ToastUtils.ToastMessage(this, String.format(hasBeenSendTo, mContactWay));
-            TipsPop pop = new TipsPop(this);
-            pop.setTips("验证码为" + code);
-            pop.showCancel(false);
-            pop.showAtLocation(mBtnGetCode, Gravity.CENTER, 0, 0);
+            //ToastUtils.ToastMessage(this, String.format(hasBeenSendTo, mEmail));
+//            TipsPop pop = new TipsPop(this);
+//            pop.setTips("验证码为" + code);
+//            pop.showCancel(false);
+//            pop.showAtLocation(mBtnGetCode, Gravity.CENTER, 0, 0);
+            mEtVerificationCode.setText(code);
+
         }
     }
 
@@ -401,7 +403,7 @@ public class ApplyAnchorActivity extends BaseActivity<IApplyAnchorView, ApplyAnc
         mApplyBean.setName(mRealName);
         mApplyBean.setNickName(mNickname);
         mApplyBean.setSex(mSex);
-        mApplyBean.setPhone(mContactWay);
+        mApplyBean.setEmail(mEmail);
         mApplyBean.setCode(mCode);
         mApplyBean.setWithdrawPassword(mPassword);
         mApplyBean.setHeadImg(mImage);
@@ -410,17 +412,17 @@ public class ApplyAnchorActivity extends BaseActivity<IApplyAnchorView, ApplyAnc
     }
 
     private boolean checkContactWay() {
-        mContactWay = mEtContactWay.getText().toString().trim();
+        mEmail = mEtEmail.getText().toString().trim();
 
-        if (StringUtils.isEmptyString(mContactWay)) {
-            ToastUtils.ToastMessage(this, R.string.input_contact_way_hint);
-            mEtContactWay.requestFocus();
+        if (StringUtils.isEmptyString(mEmail)) {
+            ToastUtils.ToastMessage(this, R.string.input_email_hint);
+            mEtEmail.requestFocus();
             return false;
         }
 
-        if (!ValidateUtil.isMobilePhone(mContactWay)) {
-            ToastUtils.ToastMessage(this, R.string.toast_right_mobile_phone);
-            mEtContactWay.requestFocus();
+        if (!ValidateUtil.isEmail(mEmail)) {
+            ToastUtils.ToastMessage(this, R.string.toast_right_email);
+            mEtEmail.requestFocus();
             return false;
         }
 

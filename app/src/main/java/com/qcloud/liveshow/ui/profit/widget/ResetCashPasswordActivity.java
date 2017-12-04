@@ -77,7 +77,7 @@ public class ResetCashPasswordActivity extends SwipeBaseActivity<IResetCashPassw
 
     private Disposable mDisposable;
 
-    private String mobile;
+    private String email;
     private String code;
     private String password;
 
@@ -105,11 +105,12 @@ public class ResetCashPasswordActivity extends SwipeBaseActivity<IResetCashPassw
     protected void initViewAndData() {
         initTagWidth();
 
+
         if (UserInfoUtil.mUser != null) {
-            mobile = ValidateUtil.setMobileToPassword(UserInfoUtil.mUser.getPhone());
+            email = ValidateUtil.setMobileToPassword(UserInfoUtil.mUser.getEmail());
         }
 
-        mTvContactWay.setText(String.format(contactWay, mobile));
+        mTvContactWay.setText(String.format(contactWay, email));
     }
 
     /**
@@ -157,7 +158,7 @@ public class ResetCashPasswordActivity extends SwipeBaseActivity<IResetCashPassw
     @Override
     public void onGetCodeClick() {
         if (checkMobile()) {
-            mPresenter.getCode(mobile);
+            mPresenter.getCode(email);
             mBtnGetCode.setEnabled(false);
             startTimer();
         }
@@ -166,7 +167,7 @@ public class ResetCashPasswordActivity extends SwipeBaseActivity<IResetCashPassw
     @Override
     public void onConfirmClick() {
         if (check()) {
-            mPresenter.setWithdrawCashPassword(mobile, code, password);
+            mPresenter.setWithdrawCashPassword(email, code, password);
         }
     }
 
@@ -244,7 +245,7 @@ public class ResetCashPasswordActivity extends SwipeBaseActivity<IResetCashPassw
     }
 
     public boolean checkMobile() {
-        if (StringUtils.isEmptyString(mobile)) {
+        if (StringUtils.isEmptyString(email)) {
             ToastUtils.ToastMessage(this, R.string.toast_account_with_no_mobile);
             return false;
         }

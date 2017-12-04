@@ -36,6 +36,7 @@
     <string name="title_apply_anchor">主播申请验证</string>
     <string name="title_my_gifts">我的礼物</string>
     <string name="title_set_cash_password">设置提现密码</string>
+    <string name="title_set_login_password">重置登录密码</string>
     <string name="title_reset_cash_password">重置提现密码</string>
     <string name="title_withdraw_cash">提现到银行卡</string>
     <string name="title_my_diamonds">充值</string>
@@ -57,8 +58,12 @@
     <string name="toast_get_picture_failure">获取图片失败</string>
     <string name="toast_permission_open">权限已开启</string>
     <string name="toast_permission_refuse">权限被拒绝，请在设置里面开启相应权限，若无相应权限会影响使用</string>
-    <string name="toast_right_mobile_phone">请输入正确的手机号码</string>
+    <string name="toast_right_email">请输入正确的邮箱</string>
     <string name="toast_input_code">请输入验证码</string>
+    <string name="toast_input_cash">请输入提现金额</string>
+    <string name="toast_input_name">请输入姓名</string>
+    <string name="toast_input_card_number">请输入银行卡号</string>
+    <string name="toast_chose_bank_type">请选择银行开户行</string>
     <string name="toast_has_been_sent_to">已发送验证码至%s</string>
     <string name="toast_login_success">登录成功</string>
     <string name="toast_login_failure">登录失败</string>
@@ -116,7 +121,7 @@
     <string name="input_search_anchor_hint">请输入用户名或用户ID进行搜索</string>
     <string name="input_real_name_hint">请输入真实姓名</string>
     <string name="input_nickname_hint">请输入昵称</string>
-    <string name="input_contact_way_hint">请输入手机号</string>
+    <string name="input_email_hint">请输入邮箱</string>
     <string name="input_verification_code_hint">请输入收到的验证码</string>
     <string name="input_six_number_hint">请输入6位数字</string>
     <string name="input_withdraw_cash_num">请输入至少100元，不超过4500元</string>
@@ -208,7 +213,7 @@
     <string name="tag_qq_zone">QQ空间</string>
     <string name="tag_facebook">Facebook</string>
     <string name="tag_real_name">真实姓名</string>
-    <string name="tag_contact_way">联系方式</string>
+    <string name="tag_email">邮箱</string>
     <string name="tag_verification_code">验证码</string>
     <string name="tag_set_withdraw_cash_password">设置提现密码</string>
     <string name="tag_upload_selfie_or_header">上传自拍照/头像</string>
@@ -216,9 +221,11 @@
     <string name="tag_select_picture">选择图片</string>
     <string name="tag_gift_profit_account">累计礼物收益：</string>
     <string name="tag_set_password">设置密码</string>
+    <string name="tag_set_password_2rd">请再次确认密码</string>
     <string name="tag_input_contact_way">请输入%s收到的验证码</string>
     <string name="tag_reset_password">重置密码</string>
     <string name="tag_withdraw_cash_num">提现金额</string>
+    <string name="tag_withdraw_password">提现密码</string>
     <string name="tag_bank_code">银行卡号</string>
     <string name="tag_opening_bank">开户行</string>
     <string name="tag_curr_diamonds">当前钻石币</string>

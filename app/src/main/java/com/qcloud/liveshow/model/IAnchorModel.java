@@ -24,7 +24,7 @@ public interface IAnchorModel {
     void getApplyStatus(DataCallback<ApplyStatusBean> callback);
 
     /**获取验证码*/
-    void getCode(String contactWay, DataCallback<GetCodeResBean> callback);
+    void getCode(String email, DataCallback<GetCodeResBean> callback);
 
     /**提交申请主播*/
     void submitApply(@NonNull SubmitApplyBean bean, DataCallback<ReturnEmptyBean> callback);

@@ -58,7 +58,7 @@
     <string name="toast_get_picture_failure">獲取圖片失敗</string>
     <string name="toast_permission_open">權限已開啟</string>
     <string name="toast_permission_refuse">權限被拒絕，請在設置裏面開啟相應權限，若無相應權限會影響使用</string>
-    <string name="toast_right_mobile_phone">請輸入正確的手機號碼</string>
+    <string name="toast_right_email">請輸入正確的手機號碼</string>
     <string name="toast_input_code">請輸入驗證碼</string>
     <string name="toast_has_been_sent_to">已發送驗證碼至%s</string>
     <string name="toast_login_success">登錄成功</string>
@@ -115,7 +115,7 @@
     <string name="input_search_anchor_hint">請輸入用戶名或用戶ID進行搜索</string>
     <string name="input_real_name_hint">請輸入真實姓名</string>
     <string name="input_nickname_hint">請輸入昵稱</string>
-    <string name="input_contact_way_hint">請輸入手機號</string>
+    <string name="input_email_hint">請輸入手機號</string>
     <string name="input_verification_code_hint">請輸入收到的驗證碼</string>
     <string name="input_six_number_hint">請輸入6位數字</string>
     <string name="input_withdraw_cash_num">請輸入至少100元，不超過4500元</string>
@@ -207,7 +207,7 @@
     <string name="tag_qq_zone">QQ空間</string>
     <string name="tag_facebook">Facebook</string>
     <string name="tag_real_name">真實姓名</string>
-    <string name="tag_contact_way">聯系方式</string>
+    <string name="tag_email">聯系方式</string>
     <string name="tag_verification_code">驗證碼</string>
     <string name="tag_set_withdraw_cash_password">設置提現密碼</string>
     <string name="tag_upload_selfie_or_header">上傳自拍照/頭像</string>

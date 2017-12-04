@@ -8,6 +8,7 @@ import com.qcloud.liveshow.beans.ProfitBean;
 import com.qcloud.liveshow.beans.ProfitRecordBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.ReturnSuccessBean;
+import com.qcloud.liveshow.beans.ReturnWithdrawSuccessBean;
 import com.qcloud.liveshow.model.IProfitModel;
 import com.qcloud.liveshow.net.IProfitApi;
 import com.qcloud.qclib.beans.ReturnDataBean;
@@ -73,15 +74,15 @@ public class ProfitModelImpl implements IProfitModel {
     /**
      * 设置提现密码获取验证码
      *
-     * @param phone
+     * @param email
      * @param callback
      *
      * @time 2017/9/25 10:29
      */
     @Override
-    public void getCodeBySetPassword(String phone, DataCallback<GetCodeResBean> callback) {
+    public void getCodeBySetPassword(String email, DataCallback<GetCodeResBean> callback) {
         mParams = OkGoRequest.getAppParams();
-        mParams.put("phone", phone);
+        mParams.put("email", email);
 
         BaseApi.dispose(IProfitApi.getCodeBySetPassword(mParams), callback);
     }
@@ -89,7 +90,7 @@ public class ProfitModelImpl implements IProfitModel {
     /**
      * 设置提现密码
      *
-     * @param phone
+     * @param email
      * @param code
      * @param withdrawPassword
      * @param callback
@@ -97,9 +98,9 @@ public class ProfitModelImpl implements IProfitModel {
      * @time 2017/9/25 10:31
      */
     @Override
-    public void setWithdrawCashPassword(String phone, String code, String withdrawPassword, DataCallback<ReturnEmptyBean> callback) {
+    public void setWithdrawCashPassword(String email, String code, String withdrawPassword, DataCallback<ReturnEmptyBean> callback) {
         mParams = OkGoRequest.getAppParams();
-        mParams.put("phone", phone);
+        mParams.put("email", email);
         mParams.put("code", code);
         mParams.put("withdrawPassword", withdrawPassword);
 
@@ -117,7 +118,6 @@ public class ProfitModelImpl implements IProfitModel {
     @Override
     public void getCodeByResetPassword(String phone, DataCallback<GetCodeResBean> callback) {
         mParams = OkGoRequest.getAppParams();
-        mParams.put("phone", phone);
 
         BaseApi.dispose(IProfitApi.getCodeByResetPassword(mParams), callback);
     }
@@ -183,5 +183,22 @@ public class ProfitModelImpl implements IProfitModel {
         mParams.put("code", code);
 
         BaseApi.dispose(IProfitApi.submitBinding(mParams), callback);
+    }
+
+    /**
+     * 取现
+     *
+     * @time 2017/12/4
+     */
+    @Override
+    public void withdraw2Card(String cash, String name, String cardNumber, Integer bankCode, String password, DataCallback<ReturnWithdrawSuccessBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+        mParams.put("money", cash);
+        mParams.put("payee", name);
+        mParams.put("cardNumber", cardNumber);
+        mParams.put("bankCode", bankCode);
+        mParams.put("withdrawPassword", password);
+
+        BaseApi.dispose(IProfitApi.withdraw2Card(mParams), callback);
     }
 }

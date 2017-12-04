@@ -48,15 +48,15 @@ public class AnchorModelImpl implements IAnchorModel {
     /**
      * 获取验证码
      *
-     * @param contactWay
+     * @param email
      *              联系方式
      *
      * @time 2017/9/8 11:59
      */
     @Override
-    public void getCode(String contactWay, DataCallback<GetCodeResBean> callback) {
+    public void getCode(String email, DataCallback<GetCodeResBean> callback) {
         mParams = OkGoRequest.getAppParams();
-        mParams.put("phone", contactWay);
+        mParams.put("email", email);
 
         BaseApi.dispose(IAnchorApi.getCode(mParams), callback);
     }
@@ -76,7 +76,7 @@ public class AnchorModelImpl implements IAnchorModel {
         mParams.put("headImg", bean.getHeadImg());
         mParams.put("name", bean.getName());
         mParams.put("nickName", bean.getNickName());
-        mParams.put("phone", bean.getPhone());
+        mParams.put("email", bean.getEmail());
         mParams.put("sex", bean.getSex());
         mParams.put("withdrawPassword", bean.getWithdrawPassword());
 

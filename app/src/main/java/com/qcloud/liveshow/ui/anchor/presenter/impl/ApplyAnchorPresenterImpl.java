@@ -50,8 +50,8 @@ public class ApplyAnchorPresenterImpl extends BasePresenter<IApplyAnchorView> im
     }
 
     @Override
-    public void getCode(String contactWay) {
-        mModel.getCode(contactWay, new DataCallback<GetCodeResBean>() {
+    public void getCode(String email) {
+        mModel.getCode(email, new DataCallback<GetCodeResBean>() {
             @Override
             public void onSuccess(GetCodeResBean bean) {
                 if (mView != null && bean != null) {

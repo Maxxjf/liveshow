@@ -15,7 +15,7 @@ public class UserBean {
     private String nickName;    // 昵称
     private String signature;   // 个性签名
     private int sex;    // 性别 0:男 1:女
-    private String phone;   // 手机号
+    private String email;   // 邮箱
     private String withdrawPassword;    // 提现密码
     private int exp;    // 经验值
     private String idAccount;   // id账号
@@ -93,12 +93,12 @@ public class UserBean {
         return sex == 0 ? R.drawable.icon_man : R.drawable.icon_lady;
     }
 
-    public String getPhone() {
-        return StringUtils.isEmptyString(phone) ? "" : phone;
+    public String getEmail() {
+        return StringUtils.isEmptyString(email) ? "" : email;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getWithdrawPassword() {
@@ -234,7 +234,7 @@ public class UserBean {
                 ", nickName='" + nickName + '\'' +
                 ", signature='" + signature + '\'' +
                 ", sex=" + sex +
-                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
                 ", withdrawPassword='" + withdrawPassword + '\'' +
                 ", exp=" + exp +
                 ", idAccount='" + idAccount + '\'' +

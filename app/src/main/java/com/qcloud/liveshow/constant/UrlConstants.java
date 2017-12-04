@@ -119,6 +119,9 @@ public interface UrlConstants {
     String GET_PROFTI_RECORD = URL_PREFIX_APP + "mine/earningsDetail";
     /**绑定分佣关系*/
     String SUBMIT_BINDING = URL_PREFIX_APP + "index/bindingGeneralizeRelation";
+    /**提现*/
+    String WITHDRAW_CARD = URL_PREFIX_APP + "member/withdraw2card";
+
 
     /**
      * 文件有关

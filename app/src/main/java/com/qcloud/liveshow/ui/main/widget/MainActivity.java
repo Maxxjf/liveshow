@@ -105,6 +105,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         if (isFirst) {
             if (mBindingPop == null) {
                 initBindingPop();
+                ConstantUtil.writeBoolean(AppConstants.IS_FIRST_LOGIN,false);
             }
             mBindingPop.showAtLocation(mBtnLiveShow, Gravity.CENTER, 0, 0);
         }
