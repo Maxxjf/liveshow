@@ -7,6 +7,7 @@ import com.qcloud.liveshow.beans.ProfitBean;
 import com.qcloud.liveshow.beans.ProfitRecordBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.ReturnSuccessBean;
+import com.qcloud.liveshow.beans.ReturnWithdrawSuccessBean;
 import com.qcloud.qclib.beans.ReturnDataBean;
 import com.qcloud.qclib.callback.DataCallback;
 
@@ -26,7 +27,7 @@ public interface IProfitModel {
     void isSetPassword(DataCallback<ReturnSuccessBean> callback);
 
     /**设置提现密码获取验证码*/
-    void getCodeBySetPassword(String phone, DataCallback<GetCodeResBean> callback);
+    void getCodeBySetPassword(String email, DataCallback<GetCodeResBean> callback);
 
     /**设置提现密码*/
     void setWithdrawCashPassword(String phone, String code, String withdrawPassword, DataCallback<ReturnEmptyBean> callback);
@@ -46,4 +47,6 @@ public interface IProfitModel {
     /**绑定分佣关系*/
     void submitBinding(String code, DataCallback<ReturnEmptyBean> callback);
 
+    /**取现*/
+    void withdraw2Card(String cash, String name, String cardNumber, Integer bankCode, String password, DataCallback<ReturnWithdrawSuccessBean> callback);
 }

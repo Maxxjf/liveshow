@@ -134,7 +134,46 @@
             android:drawableRight="@drawable/icon_orange_right_arrow"/>
 
     </LinearLayout>
+    <View
+        style="@style/LineHorizontal"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/layout_margin"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/layout_margin">
+
+        <TextView
+            android:id="@+id/tv_set_password_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_withdraw_password"/>
+
+        <EditText
+            android:id="@+id/et_password"
+            style="@style/ApplyEditTextStyle"
+            android:imeOptions="actionNext"
+            android:inputType="numberPassword"
+            android:maxLength="6"
+            android:hint="@string/input_six_number_hint"/>
+
+        <CheckBox
+            android:id="@+id/cb_see"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/layout_margin"
+            android:paddingRight="@dimen/layout_margin"
+            android:background="@null"
+            android:button="@null"
+            android:layout_marginRight="@dimen/layout_margin"
+            android:checked="false"
+            android:drawableLeft="@drawable/check_eye"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/btn_confirm"
         android:layout_width="match_parent"
@@ -149,5 +188,6 @@
         android:textColor="@color/white"
         android:textSize="@dimen/medium_text_size"
         android:text="@string/confirm"/>
+
 
 </LinearLayout>

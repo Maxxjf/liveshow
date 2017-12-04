@@ -2,7 +2,12 @@ package com.qcloud.liveshow.ui.profit.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.Selection;
+import android.text.Spannable;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +16,22 @@ import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
-import com.qcloud.liveshow.beans.BankBean;
+import com.qcloud.liveshow.beans.ReturnWithdrawSuccessBean;
+import com.qcloud.liveshow.enums.BankTypeEnum;
 import com.qcloud.liveshow.ui.profit.presenter.impl.WithdrawCashPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.IWithdrawCashView;
 import com.qcloud.liveshow.widget.pop.BankPicker;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.StringUtils;
+import com.qcloud.qclib.utils.ValidateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import timber.log.Timber;
 
@@ -52,8 +62,16 @@ public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, W
     TextView mTvBank;
     @Bind(R.id.btn_confirm)
     TextView mBtnConfirm;
+    @Bind(R.id.et_password)
+    EditText mEtPassword;
 
     private BankPicker mPicker;
+    private  BankTypeEnum mcurrentBank;
+    private String cash;
+    private String name;
+    private String cardNumber;
+    private Integer bankCode;
+    private String password;
 
     @Override
     protected int initLayout() {
@@ -105,8 +123,9 @@ public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, W
         mPicker = new BankPicker(this);
         mPicker.setOnBankPickListener(new BankPicker.OnBankPickListener() {
             @Override
-            public void onBankPicked(int index, BankBean bean) {
+            public void onBankPicked(int index, BankTypeEnum bean) {
                 if (mTvBank != null && bean != null) {
+                    mcurrentBank=bean;
                     mTvBank.setText(bean.getName());
                 }
             }
@@ -121,32 +140,13 @@ public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, W
 
     @Override
     public void onSelectBankClick() {
-        List<BankBean> list = new ArrayList<>();
-        BankBean bean = new BankBean();
-        bean.setId(0);
-        bean.setName("建设银行");
-        list.add(bean);
-        bean = new BankBean();
-        bean.setId(1);
-        bean.setName("广发银行");
-        list.add(bean);
-        bean = new BankBean();
-        bean.setId(2);
-        bean.setName("工商银行");
-        list.add(bean);
-        bean = new BankBean();
-        bean.setId(3);
-        bean.setName("中国银行");
-        list.add(bean);
-        bean = new BankBean();
-        bean.setId(4);
-        bean.setName("招商银行");
-        list.add(bean);
-        bean = new BankBean();
-        bean.setId(5);
-        bean.setName("农业银行");
-        list.add(bean);
-
+        List<BankTypeEnum> list = new ArrayList<>();
+        list.add(BankTypeEnum.ABC);
+        list.add(BankTypeEnum.ICBC);
+        list.add(BankTypeEnum.BOC);
+        list.add(BankTypeEnum.CMB);
+        list.add(BankTypeEnum.BCM);
+        list.add(BankTypeEnum.CCB);
         if (mPicker == null) {
             initBankPicker();
         }
@@ -154,9 +154,81 @@ public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, W
         mPicker.showAtLocation(mTvBank, Gravity.BOTTOM, 0, 0);
     }
 
+    @OnCheckedChanged(R.id.cb_see)
+    void onSeeCheck(boolean isChecked) {
+        if (isChecked) {
+            //设置EditText文本为可见的
+            mEtPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+        } else {
+            //设置EditText文本为隐藏的
+            mEtPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        }
+        mEtPassword.postInvalidate();
+        //切换后将EditText光标置于末尾
+        CharSequence charSequence = mEtPassword.getText();
+        if (charSequence instanceof Spannable) {
+            Spannable spanText = (Spannable) charSequence;
+            Selection.setSelection(spanText, charSequence.length());
+        }
+    }
+
     @Override
     public void onConfirmClick() {
+        if (check()) {
+            mPresenter.withdraw2card(cash,name,cardNumber, bankCode,password);
+        }
+    }
 
+    @Override
+    public void withdraw2cardSuccess(ReturnWithdrawSuccessBean returnWithdrawSuccessBean) {
+        ToastUtils.ToastMessage(this,returnWithdrawSuccessBean.isSuccess()?
+                getResources().getString(R.string.toast_withdraw2card_success):getResources().getString(R.string.toast_withdraw2card_fail));
+    }
+
+    @Override
+    public void withdraw2cardFails(String errMsg) {
+        ToastUtils.ToastMessage(this,errMsg);
+    }
+
+    private boolean check() {
+         cash = mEtCash.getText().toString().trim();
+         name = mEtName.getText().toString().trim();
+         cardNumber = mEtBankCode.getText().toString().trim();
+        if (mcurrentBank!=null){
+             bankCode = mcurrentBank.getKey();
+        }
+         password = mEtPassword.getText().toString().trim();
+
+        if (StringUtils.isEmptyString(cash)||!ValidateUtil.isFitCash(Integer.parseInt(cash))) {
+            ToastUtils.ToastMessage(this, R.string.input_withdraw_cash_num);
+            mEtCash.requestFocus();
+            return false;
+        }
+
+        if (StringUtils.isEmptyString(name)) {
+            ToastUtils.ToastMessage(this, R.string.toast_input_name);
+            mEtName.requestFocus();
+            return false;
+        }
+
+        if (StringUtils.isEmptyString(cardNumber)) {
+            ToastUtils.ToastMessage(this, R.string.toast_input_card_number);
+            mEtBankCode.requestFocus();
+            return false;
+        }
+        if (mcurrentBank==null) {
+            ToastUtils.ToastMessage(this, R.string.toast_chose_bank_type);
+            onSelectBankClick();
+            return false;
+        }
+
+        if (!ValidateUtil.isNumPasswordAndSix(password)) {
+            ToastUtils.ToastMessage(this, R.string.input_six_number_hint);
+            mEtPassword.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 
     @Override
@@ -172,5 +244,12 @@ public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, W
 
     public static void openActivity(Context context) {
         context.startActivity(new Intent(context, WithdrawCashActivity.class));
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

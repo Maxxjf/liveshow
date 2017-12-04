@@ -9,6 +9,7 @@ import com.qcloud.liveshow.beans.ProfitBean;
 import com.qcloud.liveshow.beans.ProfitRecordBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.ReturnSuccessBean;
+import com.qcloud.liveshow.beans.ReturnWithdrawSuccessBean;
 import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.qclib.beans.BaseResponse;
 import com.qcloud.qclib.beans.ReturnDataBean;
@@ -93,4 +94,11 @@ public class IProfitApi {
 
         return OkGoRequest.getRequest(UrlConstants.SUBMIT_BINDING, type, params);
     }
+    /**提现*/
+    public static Observable<BaseResponse<ReturnWithdrawSuccessBean>> withdraw2Card(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ReturnWithdrawSuccessBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.WITHDRAW_CARD, type, params);
+    }
+
 }
