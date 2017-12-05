@@ -196,7 +196,12 @@
             android:label="@string/title_extension"
             android:launchMode="singleTask"
             android:theme="@style/AppSwipeBackTheme" />
-
+        <activity
+            android:name=".ui.account.widget.ForgetPassWordActivity"
+            android:label="@string/title_forget_password"
+            android:launchMode="singleTask"
+            android:theme="@style/AppSwipeBackTheme"
+            android:windowSoftInputMode="adjustPan" />
         <!-- 与钱有关 -->
         <activity
             android:name=".ui.profit.widget.MyProfitActivity"
@@ -262,7 +267,9 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!--PayPal有关-->
-        <service android:name="com.paypal.android.sdk.payments.PayPalService" android:exported="false" />
+        <service
+            android:name="com.paypal.android.sdk.payments.PayPalService"
+            android:exported="false" />
 
         <activity android:name="com.paypal.android.sdk.payments.PaymentActivity" />
         <activity android:name="com.paypal.android.sdk.payments.LoginActivity" />
@@ -283,15 +290,13 @@
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity
             android:name="com.alipay.sdk.app.H5AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <!--end of 支付宝  -->
         <provider
             android:name="com.umeng.facebook.FacebookContentProvider"

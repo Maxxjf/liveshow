@@ -130,7 +130,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
         finish();
     }
 
-    @OnClick({ R.id.btn_login, R.id.btn_clause, R.id.btn_we_chat, R.id.btn_facebook})
+    @OnClick({ R.id.btn_login, R.id.btn_clause, R.id.btn_we_chat, R.id.btn_facebook,R.id.tv_forget_password})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
     }
@@ -157,6 +157,11 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
     @Override
     public void onClauseClick() {
         WebActivity.openActivity(this, "免责条款", ClauseRuleEnum.LoginRule.getKey());
+    }
+
+    @Override
+    public void onForgetPasswordClick() {
+        ForgetPassWordActivity.openActivity(this);
     }
 
     @Override
@@ -191,6 +196,9 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
             mPresenter.otherLogin(bean.getIconurl(), bean.getName(), bean.getId()+"", 0, ThirdLoginEnum.FACEBOOK.getKey());
         }
     }
+
+
+
 
     @Override
     public void loadErr(boolean isShow, String errMsg) {

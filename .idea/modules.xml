@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/jjdxm-ijkplayer/jjdxm-ijkplayer.iml" filepath="$PROJECT_DIR$/jjdxm-ijkplayer/jjdxm-ijkplayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/liveshow.iml" filepath="$PROJECT_DIR$/liveshow.iml" />
-      <module fileurl="file://$PROJECT_DIR$/liveshow-android.iml" filepath="$PROJECT_DIR$/liveshow-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/../qcloudLib-android/qclib/qclib.iml" filepath="$PROJECT_DIR$/../qcloudLib-android/qclib/qclib.iml" />
       <module fileurl="file://$PROJECT_DIR$/../qcloudLib-android/qcloudLib-android.iml" filepath="$PROJECT_DIR$/../qcloudLib-android/qcloudLib-android.iml" />
     </modules>

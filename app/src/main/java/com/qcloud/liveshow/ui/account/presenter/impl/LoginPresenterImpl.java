@@ -51,6 +51,9 @@ public class LoginPresenterImpl extends BasePresenter<ILoginView> implements ILo
             case R.id.btn_facebook:
                 mView.onFacebookClick();
                 break;
+            case R.id.tv_forget_password:
+                mView.onForgetPasswordClick();
+                break;
         }
     }
 

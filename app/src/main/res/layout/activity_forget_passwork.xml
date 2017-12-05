@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:toolbar="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBg"
+    tools:context=".ui.profit.widget.SetCashPasswordActivity">
+
+    <com.qcloud.liveshow.widget.toolbar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        toolbar:is_title="true"
+        toolbar:title_text="@string/title_set_login_password"
+        toolbar:is_left="true"
+        toolbar:left_icon="@drawable/icon_normal_back"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/layout_margin">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_verification_code_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tag_verification_code"
+                android:textColor="@color/colorTitle"
+                android:textSize="@dimen/micro_text_size"/>
+
+            <EditText
+                android:id="@+id/et_verification_code"
+                style="@style/ApplyEditTextStyle"
+                android:hint="@string/input_verification_code_hint"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="6"/>
+
+            <TextView
+                android:id="@+id/btn_get_code"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/btn_height"
+                android:layout_marginRight="@dimen/layout_margin"
+                android:background="@drawable/frame_gray_circular"
+                android:gravity="center"
+                android:paddingLeft="@dimen/layout_margin"
+                android:paddingRight="@dimen/layout_margin"
+                android:text="@string/btn_get_code"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/micro_text_size"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        style="@style/LineHorizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/layout_margin"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/layout_margin">
+
+        <TextView
+            android:id="@+id/tv_set_password_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_set_password"/>
+
+        <EditText
+            android:id="@+id/et_set_password"
+            style="@style/ApplyEditTextStyle"
+            android:imeOptions="actionNext"
+            android:inputType="numberPassword"
+            android:maxLength="6"
+            android:hint="@string/input_six_number_hint"/>
+
+        <CheckBox
+            android:id="@+id/cb_see"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/layout_margin"
+            android:paddingRight="@dimen/layout_margin"
+            android:background="@null"
+            android:button="@null"
+            android:layout_marginRight="@dimen/layout_margin"
+            android:checked="false"
+            android:drawableLeft="@drawable/check_eye"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/layout_margin">
+
+        <TextView
+            android:id="@+id/tv_set_password_tag_2rd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTitle"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_set_password_2rd"/>
+
+        <EditText
+            android:id="@+id/et_set_password_2rd"
+            style="@style/ApplyEditTextStyle"
+            android:imeOptions="actionNext"
+            android:inputType="numberPassword"
+            android:maxLength="6"
+            android:hint="@string/input_six_number_hint"/>
+
+        <CheckBox
+            android:id="@+id/cb_see_2rd"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/layout_margin"
+            android:paddingRight="@dimen/layout_margin"
+            android:background="@null"
+            android:button="@null"
+            android:layout_marginRight="@dimen/layout_margin"
+            android:checked="false"
+            android:drawableLeft="@drawable/check_eye"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btn_confirm"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:layout_marginTop="@dimen/margin_10"
+        android:background="@drawable/btn_left_right_orange_selector"
+        android:layout_marginLeft="@dimen/margin_8"
+        android:layout_marginRight="@dimen/margin_8"
+        android:gravity="center"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="@dimen/medium_text_size"
+        android:text="@string/change"/>
+
+</LinearLayout>

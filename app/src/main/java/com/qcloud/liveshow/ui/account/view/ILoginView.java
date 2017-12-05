@@ -33,4 +33,7 @@ public interface ILoginView extends BaseView {
 
     /**Facebook用户信息*/
     void facebookUserInfo(FacebookUserBean bean);
+
+    /**点击忘记密码*/
+    void onForgetPasswordClick();
 }
