@@ -107,7 +107,7 @@ public class ResetCashPasswordActivity extends SwipeBaseActivity<IResetCashPassw
 
 
         if (UserInfoUtil.mUser != null) {
-            email = ValidateUtil.setMobileToPassword(UserInfoUtil.mUser.getEmail());
+            email = ValidateUtil.setEmailToPassword(UserInfoUtil.mUser.getEmail());
         }
 
         mTvContactWay.setText(String.format(contactWay, email));

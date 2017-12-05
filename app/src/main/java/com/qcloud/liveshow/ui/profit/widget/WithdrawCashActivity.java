@@ -199,7 +199,8 @@ public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, W
         }
          password = mEtPassword.getText().toString().trim();
 
-        if (StringUtils.isEmptyString(cash)||!ValidateUtil.isFitCash(Integer.parseInt(cash))) {
+//        if (StringUtils.isEmptyString(cash)||!ValidateUtil.isFitCash(Integer.parseInt(cash))) {
+        if (StringUtils.isEmptyString(cash)) {
             ToastUtils.ToastMessage(this, R.string.input_withdraw_cash_num);
             mEtCash.requestFocus();
             return false;

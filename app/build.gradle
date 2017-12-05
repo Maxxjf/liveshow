@@ -73,11 +73,13 @@ android {
     }
     android.applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "AV8D-${variant.versionName}.apk"
+            outputFileName = "AV8D-${variant.versionName}-${releaseTime()}.apk"
         }
     }
 }
-
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
