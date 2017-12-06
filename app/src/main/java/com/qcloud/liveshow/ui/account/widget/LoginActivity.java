@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
-import com.qcloud.liveshow.base.BaseApplication;
 import com.qcloud.liveshow.beans.FacebookUserBean;
 import com.qcloud.liveshow.beans.LoginBean;
 import com.qcloud.liveshow.beans.WeChatUserBean;
@@ -22,8 +21,6 @@ import com.qcloud.liveshow.ui.account.view.ILoginView;
 import com.qcloud.liveshow.ui.main.widget.MainActivity;
 import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.liveshow.utils.UserInfoUtil;
-import com.qcloud.qclib.beans.RxBusEvent;
-import com.qcloud.qclib.network.BaseApi;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.ConstantUtil;
 import com.qcloud.qclib.utils.StringUtils;
@@ -38,9 +35,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -52,7 +47,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
     @Bind(R.id.et_account)
     ClearEditText mEtAccount;
     @Bind(R.id.et_passwork)
-    ClearEditText mEtPasswork;
+    ClearEditText mEtPassword;
     @Bind(R.id.btn_login)
     TextView mBtnLogin;
     @Bind(R.id.btn_clause)
@@ -85,13 +80,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
 
     @Override
     protected void initViewAndData() {
-        initRxBusEvent();
-        if (BaseApplication.isLogin()) {
-            UserInfoUtil.loadUserInfo();
-            startLoadingDialog();
-        } else {
-            initView();
-        }
+        initView();
     }
 
     @Override
@@ -104,21 +93,6 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         UMShareAPI.get(this).onSaveInstanceState(outState);
-    }
-
-    private void initRxBusEvent() {
-        mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, new Consumer<RxBusEvent>() {
-            @Override
-            public void accept(@NonNull RxBusEvent rxBusEvent) throws Exception {
-                stopLoadingDialog();
-                if (rxBusEvent.getType() == BaseApi.NOT_LOGIN_STATUS_TYPE) {
-                    Timber.e("未登录");
-                    initView();
-                } else if (rxBusEvent.getType() == R.id.get_user_info_success) {
-                    toMain();
-                }
-            }
-        }));
     }
 
     private void initView() {
@@ -138,11 +112,9 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
     @Override
     public void onLoginClick() {
         if (check()) {
-//              ToastUtils.ToastMessage(LoginActivity.this,"登录正在修改需求，请使用第三方登录");
             mPresenter.login(account, passwork);
         }
     }
-
 
     @Override
     public void onWeChatClick() {
@@ -179,8 +151,6 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
         }
     }
 
-
-
     @Override
     public void weChatUserInfo(WeChatUserBean bean) {
         stopLoadingDialog();
@@ -197,9 +167,6 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
         }
     }
 
-
-
-
     @Override
     public void loadErr(boolean isShow, String errMsg) {
         if (isRunning) {
@@ -213,7 +180,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
     }
 
     private boolean check() {
-        passwork = mEtPasswork.getText().toString().trim();
+        passwork = mEtPassword.getText().toString().trim();
 
         if (!checkMobile()) {
             return false;
@@ -221,7 +188,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
 
         if (StringUtils.isEmptyString(passwork)) {
             ToastUtils.ToastMessage(this, R.string.input_password_hint);
-            mEtPasswork.requestFocus();
+            mEtPassword.requestFocus();
             return false;
         }
 

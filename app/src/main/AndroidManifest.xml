@@ -53,22 +53,17 @@
         <activity
             android:name=".ui.main.widget.LaunchActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".ui.main.widget.LaunchFirstActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-
-
             </intent-filter>
         </activity>
 
-
+        <activity
+            android:name=".ui.main.widget.GuideActivity"
+            android:label="@string/title_guild"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".ui.main.widget.MainActivity"
             android:label="@string/title_main"

@@ -16,9 +16,6 @@ import com.qcloud.qclib.rxbus.BusProvider;
 import java.util.List;
 import java.util.UUID;
 
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-
 /**
  * 类说明：粉丝消息
  * Author: Kuzan
@@ -26,36 +23,31 @@ import io.reactivex.functions.Consumer;
  */
 public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> implements IFansMessagePresenter {
     private IIMModel mModel;
-    private RealmHelper mHelper;
     private Bus mEventBus = BusProvider.getInstance();
 
     public FansMessagePresenterImpl() {
         mModel = new IMModelImpl();
-        mHelper = new RealmHelper<NettyReceivePrivateBean>();
         initRxBusEvent();
     }
 
     private void initRxBusEvent() {
-        mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, new Consumer<RxBusEvent>() {
-            @Override
-            public void accept(@NonNull RxBusEvent rxBusEvent) throws Exception {
-                if (mView != null) {
-                    switch (rxBusEvent.getType()) {
-                        case R.id.netty_get_chat_list_success:
-                            break;
-                        case R.id.netty_room_member_join:
-                            break;
-                        case R.id.netty_group_chat:
-                            // 群聊消息
-                            break;
-                        case R.id.netty_private_chat:
-                            // 私聊消息
-                            mView.addMessage((NettyReceivePrivateBean) rxBusEvent.getObj());
-                            break;
-                        case R.id.netty_notice_out_group:
-                            // 通知
-                            break;
-                    }
+        mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, rxBusEvent -> {
+            if (mView != null) {
+                switch (rxBusEvent.getType()) {
+                    case R.id.netty_get_chat_list_success:
+                        break;
+                    case R.id.netty_room_member_join:
+                        break;
+                    case R.id.netty_group_chat:
+                        // 群聊消息
+                        break;
+                    case R.id.netty_private_chat:
+                        // 私聊消息
+                        mView.addMessage((NettyReceivePrivateBean) rxBusEvent.getObj());
+                        break;
+                    case R.id.netty_notice_out_group:
+                        // 通知
+                        break;
                 }
             }
         }));
@@ -63,7 +55,7 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
 
     @Override
     public void getChars(String fromUserId) {
-        List<NettyReceivePrivateBean> charList = (List<NettyReceivePrivateBean>) mHelper.queryListById(
+        List<NettyReceivePrivateBean> charList = RealmHelper.getInstance().queryListByValue(
                 NettyReceivePrivateBean.class, "from_user_id", fromUserId,"date_time");
         if (charList != null) {
             mView.replaceList(charList);
@@ -81,7 +73,7 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
         nettyReceivePrivateBean.setSend(true);
         nettyReceivePrivateBean.setContent(contentBean);
         mView.addMessage(nettyReceivePrivateBean);
-        mHelper.addOrUpdateBean(nettyReceivePrivateBean);
+        RealmHelper.getInstance().addOrUpdateBean(nettyReceivePrivateBean);
 
         mModel.sendPrivateChat(userId, content);
     }

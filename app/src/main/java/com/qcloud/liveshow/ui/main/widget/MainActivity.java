@@ -17,6 +17,7 @@ import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.enums.StartHomeEnum;
 import com.qcloud.liveshow.enums.StartMainEnum;
 import com.qcloud.liveshow.netty.NettyClientBus;
+import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.ui.anchor.widget.AnchorActivity;
 import com.qcloud.liveshow.ui.anchor.widget.ApplyAnchorActivity;
 import com.qcloud.liveshow.ui.home.widget.HomeFragment;
@@ -85,7 +86,6 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         loadBasicData();
         mBtnLiveShow.post(() -> bindingGeneralizeRelation());
         connectIM();
-        BaseApplication.getInstance().initRealm();
     }
 
     /**
@@ -334,6 +334,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
                 exitTime = System.currentTimeMillis();
             } else {
                 BaseApplication.getInstance().getAppManager().AppExit(this);
+                RealmHelper.getInstance().closeRealm();
             }
             return true;
         }

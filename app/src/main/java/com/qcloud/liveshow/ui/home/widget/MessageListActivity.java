@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
-import android.view.View;
-import android.widget.AdapterView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.MessageListAdapter;
@@ -16,7 +14,6 @@ import com.qcloud.liveshow.ui.home.presenter.impl.MessageListPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IMessageListView;
 import com.qcloud.liveshow.widget.customview.NoDataView;
 import com.qcloud.liveshow.widget.pop.TipsPop;
-import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
@@ -85,19 +82,16 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
             mCurrentBean = mAdapter.getList().get(position);
             mCurrentBean.setRead(true);
             mAdapter.notifyDataSetChanged();
-            mPresenter.falgIsRead(mCurrentBean);
+            mPresenter.flagIsRead(mCurrentBean);
             FansMessageActivity.openActivity(MessageListActivity.this, mCurrentBean);
         });
         mAdapter.setOnHolderClick((view, memberBean, position) -> {
 
         });
-        mAdapter.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                mCurrentBean=mAdapter.getList().get(position);
-                showTipsPop();
-                return false;
-            }
+        mAdapter.setOnItemLongClickListener((parent, view, position, id) -> {
+            mCurrentBean=mAdapter.getList().get(position);
+            showTipsPop();
+            return false;
         });
         mEmptyView = new NoDataView(this);
         mListMessage.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
@@ -116,12 +110,9 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
             pop.setTips(R.string.toast_delete_message);
         }
         pop.showAtLocation(mListMessage, Gravity.CENTER, 0, 0);
-        pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
-            @Override
-            public void onViewClick(View view) {
-               mPresenter.deleteMessage(mCurrentBean);
-               mAdapter.remove(mCurrentBean);
-            }
+        pop.setOnHolderClick(view -> {
+           mPresenter.deleteMessage(mCurrentBean);
+           mAdapter.remove(mCurrentBean);
         });
     }
     @Override

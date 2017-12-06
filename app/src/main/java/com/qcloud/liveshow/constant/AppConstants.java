@@ -8,7 +8,8 @@ package com.qcloud.liveshow.constant;
 public interface AppConstants {
     /**列表分页size大小*/
     int PAGE_SIZE = 10;
-
+    /**保存是否首次打开的标记*/
+    String IS_NO_FIRST_START = "is_no_first_start";
     /**是否第一次登录*/
     String IS_FIRST_LOGIN = "is_first_login";
 
@@ -29,4 +30,7 @@ public interface AppConstants {
     int DISTANCE_SLOP = 180;
     /**最新的弹起键盘高度*/
     String LAST_KEYBOARD_HEIGHT = "last_keyboard_height";
+
+    /**Realm版本*/
+    int REALM_VERSION = 1;
 }

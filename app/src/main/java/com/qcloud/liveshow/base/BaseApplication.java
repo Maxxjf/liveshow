@@ -13,16 +13,13 @@ import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.qcloud.liveshow.BuildConfig;
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.liveshow.constant.AppConstants;
-import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.ui.account.widget.LoginActivity;
 import com.qcloud.liveshow.utils.FileLoggingTree;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.AppManager;
 import com.qcloud.qclib.FrameConfig;
 import com.qcloud.qclib.utils.ConstantUtil;
-import com.qcloud.qclib.utils.ScreenUtils;
 import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.utils.TokenUtil;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -38,7 +35,6 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
@@ -50,10 +46,6 @@ import timber.log.Timber;
 public class BaseApplication extends Application {
     private static BaseApplication mApplication;
     private static AppManager mAppManager; // Activity 管理器
-    public static UserBean userBean;
-
-    public int ScreenWidth;
-    public int ScreenHeight;
 
     @Override
     public void onCreate() {
@@ -67,11 +59,11 @@ public class BaseApplication extends Application {
         // 初始化网络框架
         initOkGo();
 
-        //初始化长度和高度
-        initScreen();
-
         // 初始化缓存
         ConstantUtil.initSharedPreferences(mApplication);
+
+        // 初始化Realm
+        Realm.init(this);
 
         // 腾讯Bugly crash异常捕捉
         CrashReport.initCrashReport(getApplicationContext(), "d05326ee5c", false);
@@ -96,12 +88,6 @@ public class BaseApplication extends Application {
         Timber.e("onTerminate");
         super.onTerminate();
     }
-
-    private void initScreen() {
-        ScreenWidth = ScreenUtils.getScreenWidth(this);
-        ScreenHeight = ScreenUtils.getScreenHeight(this);
-    }
-
 
     /**
      * 初始化网络请求
@@ -147,26 +133,6 @@ public class BaseApplication extends Application {
         }
     }
 
-
-    /**
-     * 初始化Realm
-     * TODO 需要修复一个BUG ：退出之后换账号，Realm的数据为上个账号的
-     */
-    public void initRealm() {
-        String user_id = "";
-        UserInfoUtil.loadUserInfo();
-        if (userBean != null) {
-            user_id = getUserBean().getIdStr();
-        }
-        Realm.init(this);
-        RealmConfiguration  configuration = new RealmConfiguration.Builder()
-                .name(RealmHelper.DB_NAME + user_id)
-                .deleteRealmIfMigrationNeeded()
-                .build();
-        Realm.setDefaultConfiguration(configuration);
-
-    }
-
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -189,17 +155,6 @@ public class BaseApplication extends Application {
     public static boolean isLogin() {
         return StringUtils.isNotEmptyString(TokenUtil.getToken());
     }
-
-
-    /**
-     * 得到当前用户信息
-     *
-     * @return
-     */
-    public static UserBean getUserBean() {
-        return userBean;
-    }
-
 
     /**
      * 登录验证

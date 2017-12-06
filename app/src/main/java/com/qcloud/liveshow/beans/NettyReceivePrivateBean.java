@@ -17,7 +17,7 @@ public class NettyReceivePrivateBean extends RealmObject {
     NettyContentBean content;   // 发送文本消息内容
     /**这接收过来本来是时间戳，但Realm排列不接受Long类型，只能String*/
     String date_time;           //接收时间
-    boolean isSend=false;             // false为读的，true为自己发的
+    boolean isSend = false;     // false为未读的，true为自己发的
 
     public String getFrom_user_id() {
         return from_user_id;

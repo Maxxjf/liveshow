@@ -12,6 +12,7 @@ import com.qcloud.liveshow.base.BaseApplication;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.enums.ClauseRuleEnum;
 import com.qcloud.liveshow.enums.StartFansEnum;
+import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.ui.account.widget.LoginActivity;
 import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.liveshow.ui.mine.presenter.impl.SettingPresenterImpl;
@@ -128,6 +129,7 @@ public class SettingActivity extends SwipeBaseActivity<ISettingView, SettingPres
         UserInfoUtil.mUser = null;
         TokenUtil.clearToken();
         NettyUtil.clearIsAuth();
+        RealmHelper.getInstance().closeRealm();
         BaseApplication.getInstance().getAppManager().killAllActivity();
         LoginActivity.openActivity(this);
     }

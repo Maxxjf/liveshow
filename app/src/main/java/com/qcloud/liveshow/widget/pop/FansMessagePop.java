@@ -50,12 +50,9 @@ public class FansMessagePop extends BasePopupWindow {
     private String mMessage;
 
     private FansMessageAdapter mAdapter;
-    private RealmHelper realmHelper;
 
     public FansMessagePop(Context context) {
         super(context);
-        realmHelper=new RealmHelper<NettyReceivePrivateBean>();
-
     }
 
     @Override
@@ -78,20 +75,17 @@ public class FansMessagePop extends BasePopupWindow {
         mListMessage.setAdapter(mAdapter);
 
         //监听键盘
-        mEtMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                switch (actionId) {
-                    case KeyEvent.KEYCODE_ENDCALL:
-                    case KeyEvent.KEYCODE_ENTER:
-                        onSendClick();
-                        return true;
-                    case KeyEvent.KEYCODE_BACK:
-                        dismiss();
-                        return false;
-                    default:
-                        return false;
-                }
+        mEtMessage.setOnEditorActionListener((v, actionId, event) -> {
+            switch (actionId) {
+                case KeyEvent.KEYCODE_ENDCALL:
+                case KeyEvent.KEYCODE_ENTER:
+                    onSendClick();
+                    return true;
+                case KeyEvent.KEYCODE_BACK:
+                    dismiss();
+                    return false;
+                default:
+                    return false;
             }
         });
     }
@@ -118,10 +112,9 @@ public class FansMessagePop extends BasePopupWindow {
     }
     //初始化所有私聊记录
     private void initDate() {
-        if (currMember!=null){
-            String fromUserId=currMember.getIdStr();
-            List<NettyReceivePrivateBean> charList = (List<NettyReceivePrivateBean>) realmHelper.queryListById(NettyReceivePrivateBean.class,"from_user_id",fromUserId,"date_time");
-            Timber.e("charList:"+charList);
+        if (currMember != null){
+            String fromUserId = currMember.getIdStr();
+            List<NettyReceivePrivateBean> charList = RealmHelper.getInstance().queryListByValue(NettyReceivePrivateBean.class,"from_user_id", fromUserId,"date_time");
             replaceList(charList);
         }
 
@@ -144,7 +137,7 @@ public class FansMessagePop extends BasePopupWindow {
      * */
     public void addMessage(NettyReceivePrivateBean bean) {
 
-        if (mAdapter != null && bean != null &&currMember.getIdStr().equals(bean.getFrom_user_id())) {
+        if (mAdapter != null && bean != null && currMember.getIdStr().equals(bean.getFrom_user_id())) {
             if (bean.getContent() != null) {
                 // 接收消息
                 Timber.e(bean.toString());
@@ -184,7 +177,7 @@ public class FansMessagePop extends BasePopupWindow {
                 nettyReceivePrivateBean.setFrom_user_id(currMember.getIdStr());
                 nettyReceivePrivateBean.setSend(true);
                 nettyReceivePrivateBean.setContent(contentBean);
-                realmHelper.addOrUpdateBean(nettyReceivePrivateBean);
+                RealmHelper.getInstance().addOrUpdateBean(nettyReceivePrivateBean);
                 addMessage(nettyReceivePrivateBean);
                 mEtMessage.setText("");
                 hideInput();

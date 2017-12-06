@@ -32,8 +32,6 @@ import timber.log.Timber;
  * Date: 2017/11/1 13:42.
  */
 public class ResponseHandler implements ResponseListener, IResponseMethod {
-    RealmHelper realmHelper;
-
     /**
      * 从服务器返回的消息
      */
@@ -141,21 +139,13 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         NettyDispose.dispose(msgConfig, type, new DataCallback<NettyReceivePrivateBean>() {
             @Override
             public void onSuccess(NettyReceivePrivateBean bean) {
-                if (realmHelper == null) {
-                    realmHelper = new RealmHelper<NettyReceivePrivateBean>();
-                }
+                // 设置消息为未读
                 bean.setSend(false);
-                realmHelper.addOrUpdateBean(bean);//添加到本地数据
+                // 添加到本地数据
+                RealmHelper.getInstance().addOrUpdateBean(bean);
                 // 更新Realm数据库某条数据
-                if (bean.getFrom_user_id() != null && StringUtils.isNotEmptyString(bean.getFrom_user_id())) {
-                    realmHelper = new RealmHelper<MemberBean>();
-                    MemberBean memberBean = (MemberBean) realmHelper.queryBeanById(MemberBean.class, "id", Long.valueOf(bean.getFrom_user_id()));
-                    realmHelper.mRealm.beginTransaction();
-                    if (memberBean != null) {
-                        memberBean.setRead(false);
-                    }
-                    realmHelper.mRealm.commitTransaction();
-                    realmHelper.addOrUpdateBean(memberBean);
+                if (StringUtils.isNotEmptyString(bean.getFrom_user_id())) {
+                    RealmHelper.getInstance().updateMember(Long.valueOf(bean.getFrom_user_id()));
                 }
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_private_chat).setObj(bean).build());
             }
@@ -179,11 +169,7 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         NettyDispose.dispose(msgConfig, type, new DataCallback<MemberBean>() {
             @Override
             public void onSuccess(MemberBean bean) {
-//                bean.setRead(true);//默认是已读
-                if (realmHelper == null) {
-                    realmHelper = new RealmHelper<MemberBean>();
-                }
-                realmHelper.addOrUpdateBean(bean);//添加到本地数据
+                RealmHelper.getInstance().addOrUpdateBean(bean);//添加到本地数据
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_get_chat_list_success)
                         .setObj(bean).build());
             }

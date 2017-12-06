@@ -5,5 +5,7 @@ package com.qcloud.liveshow.ui.main.view;
  * Author: Kuzan
  * Date: 2017/11/23 9:41.
  */
-public interface ILaunchFirstView {
+public interface IGuideView {
+    /** 点击体验 */
+    void onGoClick();
 }

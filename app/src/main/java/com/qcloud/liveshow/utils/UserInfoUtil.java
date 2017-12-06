@@ -1,9 +1,9 @@
 package com.qcloud.liveshow.utils;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.base.BaseApplication;
 import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.liveshow.model.impl.UserModelImpl;
+import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.rxbus.BusProvider;
@@ -18,13 +18,16 @@ import timber.log.Timber;
 public class UserInfoUtil {
     public static UserBean mUser;
 
+    /**
+     * 获取用户信息
+     * */
     public static void loadUserInfo() {
         new UserModelImpl().loadUserInfo(new DataCallback<UserBean>() {
             @Override
             public void onSuccess(UserBean userBean) {
                 if (userBean != null) {
                     mUser = userBean;
-                    BaseApplication.getInstance().userBean=userBean;
+                    initRealm();
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.get_user_info_success).setObj(userBean).build());
                 } else {
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.get_user_info_error).setObj("获取有户信息失败").build());
@@ -37,5 +40,12 @@ public class UserInfoUtil {
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.get_user_info_error).setObj(errMsg).build());
             }
         });
+    }
+
+    /**
+     * 初始化Realm配置
+     * */
+    private static void initRealm() {
+        RealmHelper.getInstance().initRealm();
     }
 }

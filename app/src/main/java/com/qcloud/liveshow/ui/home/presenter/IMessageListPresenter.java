@@ -10,9 +10,7 @@ import com.qcloud.liveshow.beans.MemberBean;
 public interface IMessageListPresenter {
     void getAllList();
     /**标为已读*/
-    void falgIsRead(MemberBean userBean);
+    void flagIsRead(MemberBean userBean);
 
     void deleteMessage(MemberBean userBean);
-
-//    void getChatList();
 }

@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.PopMessageAdapter;
@@ -35,7 +34,6 @@ public class MessageListPop extends BasePopupWindow {
 
     private onPopItemClick mItemClick;
 
-    private RealmHelper realmHelper;
     public MessageListPop(Context context) {
         super(context);
     }
@@ -53,38 +51,23 @@ public class MessageListPop extends BasePopupWindow {
     @Override
     protected void initAfterViews() {
         PullRefreshUtil.setRefresh(mRefreshView, true, true);
-        mRefreshView.setOnPullDownRefreshListener(new PullRefreshView.OnPullDownRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mRefreshView.refreshFinish();
-            }
-        });
-        mRefreshView.setOnPullUpRefreshListener(new PullRefreshView.OnPullUpRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mRefreshView.refreshFinish();
-            }
-        });
+        mRefreshView.setOnPullDownRefreshListener(() -> mRefreshView.refreshFinish());
+        mRefreshView.setOnPullUpRefreshListener(() -> mRefreshView.refreshFinish());
 
         mListMessage.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new PopMessageAdapter(mContext);
         mListMessage.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (mItemClick != null) {
-                    mItemClick.onItemClick(i, mAdapter.getList().get(i));
-                }
+        mAdapter.setOnItemClickListener((adapterView, view, position, l) -> {
+            if (mItemClick != null) {
+                mItemClick.onItemClick(position, mAdapter.getList().get(position));
             }
         });
         initData();
     }
 
     private void initData() {
-        realmHelper=new RealmHelper<MemberBean>();
-        List<MemberBean> beans = realmHelper.queryBeans(MemberBean.class);
+        List<MemberBean> beans = RealmHelper.getInstance().queryBeans(MemberBean.class);
         replaceList(beans);
-
     }
 
     @Override

@@ -13,8 +13,6 @@ import java.util.List;
 public class MessageUtil {
     /**单列实例*/
     private static MessageUtil instance;
-    /**Realm读取本地数据库*/
-    private RealmHelper realmHelper;
     /**未读数量*/
     private int noRead;
     /**私聊列表*/
@@ -28,16 +26,12 @@ public class MessageUtil {
         return instance;
     }
 
-    private MessageUtil(){
-        realmHelper=new RealmHelper<MemberBean>();
-    }
-
     /**
      * 得到私聊列表
      * @return
      */
     public List<MemberBean> getCharList(){
-        charList=realmHelper.queryBeans(MemberBean.class);
+        charList=RealmHelper.getInstance().queryBeans(MemberBean.class);
         return charList;
     }
 
@@ -46,7 +40,7 @@ public class MessageUtil {
      * @return
      */
     public  int getNoReadNumber(){
-        charList=realmHelper.queryListById(MemberBean.class,"isRead",false);
+        charList=RealmHelper.getInstance().queryListByValue(MemberBean.class,"isRead",false);
         noRead=charList.size();
         return noRead;
     }

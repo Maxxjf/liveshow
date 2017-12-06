@@ -26,11 +26,10 @@ import io.reactivex.functions.Consumer;
 public class MessageListPresenterImpl extends BasePresenter<IMessageListView> implements IMessageListPresenter {
 
     private IIMModel mModel;
-    private RealmHelper myRealmHelper;
     private Bus mEventBus = BusProvider.getInstance();
+
     public MessageListPresenterImpl() {
         mModel = new IMModelImpl();
-        myRealmHelper = new RealmHelper<MemberBean>();
         mEventBus.register(this);
         initRxBusEvent();
     }
@@ -71,8 +70,10 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
      * @param userBean
      */
     @Override
-    public void falgIsRead(MemberBean userBean) {
-        myRealmHelper.addOrUpdateBean(userBean);
+    public void flagIsRead(MemberBean userBean) {
+        if (userBean != null) {
+            RealmHelper.getInstance().addOrUpdateBean(userBean);
+        }
     }
     /**
      * 删除私聊列表
@@ -81,7 +82,7 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
     @Override
     public void deleteMessage(MemberBean userBean) {
         mModel.deleteMessage(userBean.getIdStr());
-        myRealmHelper.delBeanById(MemberBean.class,"id",userBean.getId());
+        RealmHelper.getInstance().delBeanById(MemberBean.class,"id", userBean.getId());
     }
 
     public void onDestroy() {
