@@ -584,12 +584,10 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     public void refreshNotice(NettyLiveNoticeBean bean) {
         if (isInFragment) {
             if (bean != null && bean.getContent() != null) {
-                if (bean != null && bean.getContent() != null) {
-                    if (mTvNotice != null && bean!=null) {
-                        mTvNotice.stopScroll();
-                        mTvNotice.setText(bean.getContent().getText());
-                        resetNoticeWith();
-                    }
+                if (mTvNotice != null) {
+                    mTvNotice.stopScroll();
+                    mTvNotice.setText(bean.getContent().getText());
+                    resetNoticeWith();
                 }
             }
         }

@@ -503,7 +503,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     public void refreshNotice(NettyLiveNoticeBean bean) {
         if (isInFragment) {
             if (bean != null && bean.getContent() != null) {
-                if (mTvNotice != null && bean!=null) {
+                if (mTvNotice != null) {
                     mTvNotice.stopScroll();
                     mTvNotice.setText(bean.getContent().getText());
                     resetNoticeWith();
