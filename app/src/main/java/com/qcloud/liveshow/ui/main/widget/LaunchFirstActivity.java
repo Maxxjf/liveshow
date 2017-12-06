@@ -1,11 +1,13 @@
 package com.qcloud.liveshow.ui.main.widget;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.ui.main.presenter.impl.LaunchFirstPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.ILaunchFirstView;
 import com.qcloud.liveshow.widget.customview.LaunchLayout;
-import com.qcloud.qclib.utils.ConstantUtil;
 
 import butterknife.Bind;
 
@@ -34,24 +36,19 @@ public class LaunchFirstActivity extends BaseActivity<ILaunchFirstView, LaunchFi
 
     @Override
     protected void initViewAndData() {
-        checkFirstLaunch();
-        initEmojiLayout();
+        initLaunchLayout();
     }
 
-    /**
-     * 第一次启动APP就加载引导图
-     */
-    private void checkFirstLaunch() {
-        if (ConstantUtil.getBoolean("LaunchBefore")){//检查是否启动过，在引导图最后一张图启动setTrue
-            LaunchActivity.openActivity(mContext);
-            finish();
-        }
-    }
+
 
     /**
-     * 初始化表情布局
+     * 初始化引导布局
      * */
-    private void initEmojiLayout() {
+    private void initLaunchLayout() {
         mLayoutLaunch.initIndicator();
+    }
+
+    public static void openActivity(Context context) {
+        context.startActivity(new Intent(context, LaunchFirstActivity.class));
     }
 }

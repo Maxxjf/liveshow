@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.base.BaseApplication;
+import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.enums.StartMainEnum;
 import com.qcloud.liveshow.ui.account.widget.LoginActivity;
 import com.qcloud.liveshow.ui.main.presenter.impl.LaunchPresenterImpl;
@@ -16,6 +17,7 @@ import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.network.BaseApi;
 import com.qcloud.qclib.permission.PermissionsManager;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.ConstantUtil;
 import com.qcloud.qclib.utils.SystemBarUtil;
 
 import java.util.concurrent.TimeUnit;
@@ -66,7 +68,6 @@ public class LaunchActivity extends BaseActivity<ILaunchView, LaunchPresenterImp
     protected void initViewAndData() {
         SystemBarUtil.transparencyNavBar(this);
         initRxBusEvent();
-
         startTimer();
     }
 
@@ -117,6 +118,8 @@ public class LaunchActivity extends BaseActivity<ILaunchView, LaunchPresenterImp
                         }
                         if (BaseApplication.isLogin()) {
                             UserInfoUtil.loadUserInfo();
+                        } else if (ConstantUtil.getBoolean(AppConstants.IS_APP_FIRST_LOGIN,true)){
+                            toLanunchFirst();
                         } else {
                             toLogin();
                         }
@@ -132,6 +135,13 @@ public class LaunchActivity extends BaseActivity<ILaunchView, LaunchPresenterImp
     private void toLogin() {
         LoginActivity.openActivity(this);
         finish();
+    }
+    /**
+     * 第一次启动APP就加载引导图
+     */
+    private void toLanunchFirst(){
+            LaunchFirstActivity.openActivity(mContext);
+            finish();
     }
     public static void openActivity(Context context) {
         context.startActivity(new Intent(context, LaunchActivity.class));

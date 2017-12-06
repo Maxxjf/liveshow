@@ -9,7 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.ui.main.widget.LaunchActivity;
+import com.qcloud.liveshow.constant.AppConstants;
+import com.qcloud.liveshow.ui.account.widget.LoginActivity;
 import com.qcloud.qclib.utils.ConstantUtil;
 import com.qcloud.qclib.widget.indicator.IndicatorViewPager;
 
@@ -64,8 +65,8 @@ public class LaunchViewPagerAdapter extends IndicatorViewPager.IndicatorViewPage
             viewHolder.tvLaunch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ConstantUtil.writeBoolean("LaunchBefore",true);
-                    LaunchActivity.openActivity(mContext);
+                    ConstantUtil.writeBoolean(AppConstants.IS_APP_FIRST_LOGIN,false);
+                    LoginActivity.openActivity(mContext);
                     ((Activity)mContext).finish();
                 }
             });
