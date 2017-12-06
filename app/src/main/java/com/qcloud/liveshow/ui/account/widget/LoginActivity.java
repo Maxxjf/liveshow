@@ -20,6 +20,7 @@ import com.qcloud.liveshow.ui.account.presenter.impl.LoginPresenterImpl;
 import com.qcloud.liveshow.ui.account.view.ILoginView;
 import com.qcloud.liveshow.ui.main.widget.MainActivity;
 import com.qcloud.liveshow.ui.main.widget.WebActivity;
+import com.qcloud.liveshow.utils.CheckAppLiveUtil;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.ConstantUtil;
@@ -97,6 +98,12 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
 
     private void initView() {
         mBtnClause.setText(getString(R.string.tag_clause), LineTextView.BOTTOM);
+        if (!CheckAppLiveUtil.isWeixinAvilible(this)){
+            mBtnWeChat.setVisibility(View.GONE);
+        }
+        if (!CheckAppLiveUtil.isFacebookAvailable(this)){
+            mBtnFacebook.setVisibility(View.GONE);
+        }
     }
 
     private void toMain() {

@@ -12,6 +12,8 @@ public interface AppConstants {
     String IS_NO_FIRST_START = "is_no_first_start";
     /**是否第一次登录*/
     String IS_FIRST_LOGIN = "is_first_login";
+    /**APP是否第一次登录*/
+    String IS_APP_FIRST_LOGIN = "is_app_first_login";
 
     /**微信appId和appSecret*/
     String WX_APP_ID = "wx8d335bf844b9c273";

@@ -66,7 +66,6 @@ public class LaunchActivity extends BaseActivity<ILaunchView, LaunchPresenterImp
     protected void initViewAndData() {
         SystemBarUtil.transparencyNavBar(this);
         initRxBusEvent();
-
         startTimer();
     }
 
@@ -105,7 +104,6 @@ public class LaunchActivity extends BaseActivity<ILaunchView, LaunchPresenterImp
                     } else {
                         ToastUtils.ToastMessage(LaunchActivity.this, R.string.toast_permission_refuse);
                     }
-
                     toApp();
                 });
     }
