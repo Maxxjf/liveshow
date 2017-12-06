@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.ui.room.view;
 
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
@@ -64,4 +65,7 @@ public interface IRoomControlView {
 
     /**成功设置守护*/
     void inOutGuardError(String msg);
+
+    /**刷新群聊公告*/
+    void refreshNotice(NettyLiveNoticeBean bean);
 }

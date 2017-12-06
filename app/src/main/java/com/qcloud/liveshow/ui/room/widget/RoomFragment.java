@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,6 +17,7 @@ import com.qcloud.liveshow.adapter.RoomMessageAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.AnchorBean;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
@@ -37,8 +37,6 @@ import com.qcloud.liveshow.widget.pop.MessageListPop;
 import com.qcloud.liveshow.widget.pop.SendGiftPop;
 import com.qcloud.liveshow.widget.pop.SharePop;
 import com.qcloud.liveshow.widget.pop.SystemMessagePop;
-import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
-import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.widget.customview.MarqueeView;
 import com.qcloud.qclib.widget.customview.clearscreen.ClearScreenHelper;
@@ -176,11 +174,6 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         if (mTvWatchNum != null) {
             mTvWatchNum.setText(mCurrBean.getWatchNumStr());
         }
-        if (mTvNotice != null) {
-            mTvNotice.stopScroll();
-            mTvNotice.setText(mCurrBean.getTitle());
-            resetNoticeWith();
-        }
         if (mCurrBean.isAttention()) {
             mBtnFollow.setVisibility(View.GONE);
         } else {
@@ -212,30 +205,30 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * 初始化控件
      * */
     private void initView() {
-        mUserHead = (UserHeadImageView) mView.findViewById(R.id.layout_user);
-        mTvName = (TextView) mView.findViewById(R.id.tv_name);
-        mTvWatchNum = (TextView) mView.findViewById(R.id.tv_watch_num);
-        mBtnFollow = (TextView) mView.findViewById(R.id.btn_follow);
-        mListFans = (RecyclerView) mView.findViewById(R.id.list_fans);
-        mLayoutTop = (LinearLayout) mView.findViewById(R.id.layout_top);
+        mUserHead = mView.findViewById(R.id.layout_user);
+        mTvName = mView.findViewById(R.id.tv_name);
+        mTvWatchNum = mView.findViewById(R.id.tv_watch_num);
+        mBtnFollow = mView.findViewById(R.id.btn_follow);
+        mListFans = mView.findViewById(R.id.list_fans);
+        mLayoutTop = mView.findViewById(R.id.layout_top);
 
-        mTvId = (TextView) mView.findViewById(R.id.tv_id);
-        mLayoutId = (LinearLayout) mView.findViewById(R.id.layout_id);
+        mTvId = mView.findViewById(R.id.tv_id);
+        mLayoutId = mView.findViewById(R.id.layout_id);
 
-        mBtnNotice = (ImageView) mView.findViewById(R.id.btn_notice);
-        mTvNotice = (MarqueeView) mView.findViewById(R.id.tv_notice);
-        mLayoutNoticeBg = (LinearLayout) mView.findViewById(R.id.layout_notice_bg);
-        mListMessage = (RecyclerView) mView.findViewById(R.id.list_message);
-        mLayoutNotice = (LinearLayout) mView.findViewById(R.id.layout_notice);
+        mBtnNotice = mView.findViewById(R.id.btn_notice);
+        mTvNotice = mView.findViewById(R.id.tv_notice);
+        mLayoutNoticeBg = mView.findViewById(R.id.layout_notice_bg);
+        mListMessage = mView.findViewById(R.id.list_message);
+        mLayoutNotice = mView.findViewById(R.id.layout_notice);
 
-        mBtnSendMessage = (ImageView) mView.findViewById(R.id.btn_send_message);
-        mBtnBuyDiamonds = (ImageView) mView.findViewById(R.id.btn_buy_diamonds);
-        mBtnShare = (ImageView) mView.findViewById(R.id.btn_share);
-        mBtnReceiveMessage = (ImageView) mView.findViewById(R.id.btn_receive_message);
-        mBtnSendGift = (ImageView) mView.findViewById(R.id.btn_send_gift);
-        mLayoutBottom = (RelativeLayout) mView.findViewById(R.id.layout_bottom);
+        mBtnSendMessage = mView.findViewById(R.id.btn_send_message);
+        mBtnBuyDiamonds = mView.findViewById(R.id.btn_buy_diamonds);
+        mBtnShare = mView.findViewById(R.id.btn_share);
+        mBtnReceiveMessage = mView.findViewById(R.id.btn_receive_message);
+        mBtnSendGift = mView.findViewById(R.id.btn_send_gift);
+        mLayoutBottom = mView.findViewById(R.id.layout_bottom);
 
-        mBtnExit = (ImageView) mView.findViewById(R.id.btn_exit);
+        mBtnExit = mView.findViewById(R.id.btn_exit);
 
         mUserHead.loadImage("", R.drawable.icon_anchor_level_4, 80);
     }
@@ -245,20 +238,17 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * */
     private void resetNoticeWith() {
         if (mTvNotice != null) {
-            mTvNotice.post(new Runnable() {
-                @Override
-                public void run() {
-                    int textWidth = mTvNotice.getTextWidth() + 30;
-                    int viewWidth = mTvNotice.getViewWidth();
-                    Timber.e("textWidth = %d, viewWidth = %d", textWidth, viewWidth);
-                    ViewGroup.LayoutParams lp = mLayoutNoticeBg.getLayoutParams();
-                    if (textWidth > viewWidth) {
-                        lp.width = viewWidth;
-                    } else {
-                        lp.width = textWidth;
-                    }
-                    mLayoutNoticeBg.setLayoutParams(lp);
+            mTvNotice.post(() -> {
+                int textWidth = mTvNotice.getTextWidth() + 30;
+                int viewWidth = mTvNotice.getViewWidth();
+                Timber.e("textWidth = %d, viewWidth = %d", textWidth, viewWidth);
+                ViewGroup.LayoutParams lp = mLayoutNoticeBg.getLayoutParams();
+                if (textWidth > viewWidth) {
+                    lp.width = viewWidth;
+                } else {
+                    lp.width = textWidth;
                 }
+                mLayoutNoticeBg.setLayoutParams(lp);
             });
         }
     }
@@ -289,12 +279,9 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private void initInputDialog() {
         mInputDialog = new InputMessageDialog(getActivity());
         mInputDialog.setNoNotice();
-        mInputDialog.setOnMessageSendListener(new InputMessageDialog.OnMessageSendListener() {
-            @Override
-            public void onMessageSend(String message, boolean isNotice) {
-                if (mCurrBean != null) {
-                    mPresenter.sendGroupMessage(mCurrBean.getRoomIdStr(), message);
-                }
+        mInputDialog.setOnMessageSendListener((message, isNotice) -> {
+            if (mCurrBean != null) {
+                mPresenter.sendGroupMessage(mCurrBean.getRoomIdStr(), message);
             }
         });
     }
@@ -318,24 +305,21 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * */
     private void initFansPop() {
         mFansPop = new FansInfoPop(mContext);
-        mFansPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
-            @Override
-            public void onViewClick(View view) {
-                if (view.getId() == R.id.btn_manager) {
-                    if (mManagerPop == null) {
-                        initFansManagerPop();
-                    }
-                    mManagerPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
-                } else if (view.getId() == R.id.btn_letter) {
-                    if (mFansMessagePop == null) {
-                        initFansMessagePop();
-                    }
-                    mFansMessagePop.refreshMemberInfo(mFansPop.getCurrMember());
-                    mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
+        mFansPop.setOnHolderClick(view -> {
+            if (view.getId() == R.id.btn_manager) {
+                if (mManagerPop == null) {
+                    initFansManagerPop();
                 }
-                else {
-                    mFansPop.dismiss();
+                mManagerPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+            } else if (view.getId() == R.id.btn_letter) {
+                if (mFansMessagePop == null) {
+                    initFansMessagePop();
                 }
+                mFansMessagePop.refreshMemberInfo(mFansPop.getCurrMember());
+                mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
+            }
+            else {
+                mFansPop.dismiss();
             }
         });
     }
@@ -344,33 +328,24 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * */
     private void initFansManagerPop() {
         mManagerPop = new FansManagerPop(mContext);
-        mManagerPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
-            @Override
-            public void onViewClick(View view) {
-                switch (view.getId()) {
-                    case R.id.btn_set_guarder:
-                        mPresenter.inOutGuard(mMemberBean.getId(),true);
-                        break;
-                    case R.id.btn_my_guarder_list:
+        mManagerPop.setOnHolderClick(view -> {
+            switch (view.getId()) {
+                case R.id.btn_set_guarder:
+                    mPresenter.inOutGuard(mMemberBean.getId(),true);
+                    break;
+                case R.id.btn_my_guarder_list:
 
-                        if (mGuarderPop==null){
-                            initGuarderPop();
-                        }
-                        mGuarderPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
-                        break;
-                    case R.id.btn_gag:
-                        mPresenter.shutUp(mCurrBean.getRoomIdStr(),mMemberBean.getIdStr(),true);
-                        break;
-                    case R.id.btn_add_blacklist:
-                        mPresenter.submitAttention(StartFansEnum.Blacklist.getKey(), mMemberBean.getId(),true);
-                        break;
-                }
-            }
-        });
-        mManagerPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                //SystemBarUtil.hideNavBar(getActivity());
+                    if (mGuarderPop==null){
+                        initGuarderPop();
+                    }
+                    mGuarderPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+                    break;
+                case R.id.btn_gag:
+                    mPresenter.shutUp(mCurrBean.getRoomIdStr(),mMemberBean.getIdStr(),true);
+                    break;
+                case R.id.btn_add_blacklist:
+                    mPresenter.submitAttention(StartFansEnum.Blacklist.getKey(), mMemberBean.getId(),true);
+                    break;
             }
         });
     }
@@ -386,15 +361,12 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * */
     private void initMessagePop() {
         mMessagePop = new MessageListPop(mContext);
-        mMessagePop.setOnPopItemClick(new MessageListPop.onPopItemClick() {
-            @Override
-            public void onItemClick(int position, MemberBean memberBean) {
-                if (mFansMessagePop == null) {
-                    initFansMessagePop();
-                }
-                mFansMessagePop.refreshMemberInfo(memberBean);
-                mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
+        mMessagePop.setOnPopItemClick((position, memberBean) -> {
+            if (mFansMessagePop == null) {
+                initFansMessagePop();
             }
+            mFansMessagePop.refreshMemberInfo(memberBean);
+            mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
         });
     }
 
@@ -427,16 +399,13 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mListFans.setLayoutManager(manager);
         mListFans.setAdapter(mFansAdapter);
-        mFansAdapter.setOnHolderClick(new CommonRecyclerAdapter.ViewHolderClick<MemberBean>() {
-            @Override
-            public void onViewClick(View view, MemberBean bean, int position) {
-                mMemberBean =bean;
-                if (mFansPop == null) {
-                    initFansPop();
-                }
-                mFansPop.refreshData(bean);
-                mFansPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+        mFansAdapter.setOnHolderClick((view, bean, position) -> {
+            mMemberBean =bean;
+            if (mFansPop == null) {
+                initFansPop();
             }
+            mFansPop.refreshData(bean);
+            mFansPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
         });
     }
 
@@ -598,17 +567,32 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     @Override
     public void backListSuccess() {
-        ToastUtils.ToastMessage(mContext,"成功拉入黑名单");
+        ToastUtils.ToastMessage(mContext, getString(R.string.toast_add_blacklist_success));
     }
 
     @Override
     public void inOutGuardSuccess() {
-        ToastUtils.ToastMessage(mContext,"设置成功");
+        ToastUtils.ToastMessage(mContext, getString(R.string.toast_set_success));
     }
 
     @Override
     public void inOutGuardError(String msg) {
         ToastUtils.ToastMessage(mContext,msg);
+    }
+
+    @Override
+    public void refreshNotice(NettyLiveNoticeBean bean) {
+        if (isInFragment) {
+            if (bean != null && bean.getContent() != null) {
+                if (bean != null && bean.getContent() != null) {
+                    if (mTvNotice != null && bean!=null) {
+                        mTvNotice.stopScroll();
+                        mTvNotice.setText(bean.getContent().getText());
+                        resetNoticeWith();
+                    }
+                }
+            }
+        }
     }
 
     public static RoomFragment newInstance() {

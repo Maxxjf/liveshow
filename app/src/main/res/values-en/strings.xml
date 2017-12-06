@@ -43,11 +43,14 @@
     <string name="title_my_level"> my level </string>
     <string name="title_problem"> common problem </string>
     <string name="title_extension"> invites you to broadcast </string>
+
     <string name="tab_home"> homepage </string>
     <string name="tab_live_show"> live </string>
     <string name="tab_mine"> my </string>
+
     <string name="behavior_footer_depend">com. Qcloud. Liveshow. Widget. Behaviors.ScrollHideBehavior</string>
     <string name="behavior_message_depend" translatable="false"> android. Support. The design. The widget. AppBarLayout$ScrollingViewBehavior</string>
+
     <string name="toast_exit_app"> is again applied </string>
     <string name="toast_input_not_null"> input content cannot be empty! </string>
     <string name="toast_get_picture_failure"> gets the picture failure </string>
@@ -88,6 +91,9 @@
     <string name="toast_does_not_support_beauty"> does not support this filter </string>
     <string name="toast_exit_anchor"> audience on the road, confirm to close the live broadcast? </string>
     <string name="toast_delete_message"> is the message deleted? </string>
+    <string name="toast_add_blacklist_success">Success in the blacklist.</string>
+    <string name="toast_set_success">Set up success</string>
+
     <string name="tip_title"> friendly prompt </string>
     <string name="tip_cancel"> cancel </string>
     <string name="tip_confirm"> determines </string>
@@ -102,6 +108,7 @@
     <string name="tip_err_request">page is lost, click the icon to refresh it</string>
     <string name="tip_is_call"> no. </string>
     <string name="tip_input_recommend_code"> please enter a referral promotion code </string>
+
     <string name="input_mobile_hint"> please enter your email number </string>
     <string name="input_code_hint"> text verification code </string>
     <string name="input_message_or_notice_hint"> say something ~ </string>
@@ -118,6 +125,7 @@
     <string name="input_anchor_notice_hint"> public announcement audience ~ </string>
     <string name="input_signature_hint">please enter your own signature</string>
     <string name="input_content_hint">please enter content</string>
+
     <string name="btn_get_code"> get code </string>
     <string name="btn_login"> confirmation </string>
     <string name="btn_launch"> opens live travel </string>
@@ -146,6 +154,7 @@
     <string name="btn_set_guarder"> is set to protect </string>
     <string name="btn_my_guarder_list"> my watch list </string>
     <string name="btn_gag"> incontinence </string>
+
     <string name="tag_agree_clause"> login means you agree </string>
     <string name="tag_clause"> "disclaimer" </string>
     <string name="tag_other_login_method"> other login mode </string>
@@ -258,4 +267,5 @@
     <string name="tag_get_profit">%.1f</string>
     <string name="tag_top_profit">%d diamond coin/minute </string>
     <string name="tag_brand_code"> bank card: %s</string>
+
 </resources>

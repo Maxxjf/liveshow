@@ -2,6 +2,7 @@ package com.qcloud.liveshow.ui.room.presenter.impl;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.NettyChatListBean;
+import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
@@ -77,6 +78,10 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                         case R.id.netty_notice_out_group:
                             // 通知
                             mView.userOutGroup((NettyNoticeBean) rxBusEvent.getObj());
+                            break;
+                        case R.id.netty_notice:
+                            // 公告
+                            mView.refreshNotice((NettyLiveNoticeBean) rxBusEvent.getObj());
                             break;
                     }
                 }

@@ -500,11 +500,15 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      * @param bean NettyLiveNoticeBean通知的实体类
      */
     @Override
-    public void editNotic(NettyLiveNoticeBean bean) {
-        if (mTvNotice != null &&bean!=null) {
-            mTvNotice.stopScroll();
-            mTvNotice.setText(bean.getContent().getText());
-            resetNoticeWith();
+    public void refreshNotice(NettyLiveNoticeBean bean) {
+        if (isInFragment) {
+            if (bean != null && bean.getContent() != null) {
+                if (mTvNotice != null && bean!=null) {
+                    mTvNotice.stopScroll();
+                    mTvNotice.setText(bean.getContent().getText());
+                    resetNoticeWith();
+                }
+            }
         }
     }
     /**
@@ -513,7 +517,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     @Override
     public void userOutGroup(NettyNoticeBean bean) {
         if (isInFragment) {
-            if (bean != null && mFansAdapter != null) {
+            if (bean != null && bean.getUser() != null && mFansAdapter != null) {
                 mFansAdapter.removeBeanByUserId(bean.getUser().getIdStr());
             }
         }

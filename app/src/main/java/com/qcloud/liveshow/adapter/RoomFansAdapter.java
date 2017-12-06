@@ -1,14 +1,12 @@
 package com.qcloud.liveshow.adapter;
 
 import android.content.Context;
-import android.view.View;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.qclib.adapter.recyclerview.BaseViewHolder;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
-import com.qcloud.qclib.base.BaseLinearLayout;
 import com.qcloud.qclib.utils.StringUtils;
 
 /**
@@ -32,12 +30,9 @@ public class RoomFansAdapter extends CommonRecyclerAdapter<MemberBean> {
         UserHeadImageView userHeader = holder.get(R.id.layout_user);
         userHeader.loadImage(bean.getHeadImg(), bean.getIcon(), 80);
 
-        userHeader.setOnViewClickListener(new BaseLinearLayout.OnViewClickListener() {
-            @Override
-            public void onViewClick(View view) {
-                if (mHolderClick != null) {
-                    mHolderClick.onViewClick(view, bean, position);
-                }
+        userHeader.setOnViewClickListener(view -> {
+            if (mHolderClick != null) {
+                mHolderClick.onViewClick(view, bean, position);
             }
         });
     }

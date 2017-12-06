@@ -74,7 +74,7 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                             break;
                         case R.id.netty_notice:
                             // 公告
-                            mView.editNotic((NettyLiveNoticeBean) rxBusEvent.getObj());
+                            mView.refreshNotice((NettyLiveNoticeBean) rxBusEvent.getObj());
                             break;
                         case R.id.netty_private_chat:
                             // 私聊消息

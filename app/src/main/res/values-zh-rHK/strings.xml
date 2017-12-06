@@ -94,6 +94,8 @@
     <string name="toast_does_not_support_beauty">當前機型不支持該濾鏡</string>
     <string name="toast_exit_anchor">觀眾在路上了，確認要關閉直播嗎？</string>
     <string name="toast_delete_message">是否刪除消息？</string>
+    <string name="toast_add_blacklist_success">成功拉入黑名單</string>
+    <string name="toast_set_success">設定成功</string>
 
     <string name="tip_title">溫馨提示</string>
     <string name="tip_cancel">取消</string>
