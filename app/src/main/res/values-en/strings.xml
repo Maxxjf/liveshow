@@ -48,9 +48,6 @@
     <string name="tab_live_show"> live </string>
     <string name="tab_mine"> my </string>
 
-    <string name="behavior_footer_depend">com. Qcloud. Liveshow. Widget. Behaviors.ScrollHideBehavior</string>
-    <string name="behavior_message_depend" translatable="false"> android. Support. The design. The widget. AppBarLayout$ScrollingViewBehavior</string>
-
     <string name="toast_exit_app"> is again applied </string>
     <string name="toast_input_not_null"> input content cannot be empty! </string>
     <string name="toast_get_picture_failure"> gets the picture failure </string>
@@ -58,7 +55,7 @@
     <string name="toast_permission_refuse"> permission is denied, please open the corresponding permissions in the Settings, if no corresponding permissions will affect the use of </string>
     <string name="toast_right_email"> please enter the correct email number </string>
     <string name="toast_input_code"> please enter the verification code </string>
-    <string name="toast_has_us_sent_sent_to"> has sent the verification code to %s</string>
+    <string name="toast_has_been_sent_to"> has sent the verification code to %s</string>
     <string name="toast_login_success"> login success </string>
     <string name="toast_login_failure"> login failure </string>
     <string name="toast_logout_success"> exit login success </string>
@@ -83,7 +80,7 @@
     <string name="toast_blacklist_success"> is successfully pulled into the blacklist </string>
     <string name="toast_gurad_success"> setting guard success </string>
     <string name="toast_set_withdraw_cash_password_success"> sets the password success </string>
-    <string name="toast_reset_reset_reset_cash_password_success"> resets the prompt password success </string>
+    <string name="toast_reset_withdraw_cash_password_success"> resets the prompt password success </string>
     <string name="toast_input_password"> please enter password </string>
     <string name="toast_login_out_of_date"> your login information is out of date, please login again </string>
     <string name="toast_account_with_no_mobile"> your account is not yet bound to the email, please bind first</string>
@@ -113,8 +110,8 @@
     <string name="input_code_hint"> text verification code </string>
     <string name="input_message_or_notice_hint"> say something ~ </string>
     <string name="input_search_anchor_hint"> please enter the user name or user ID for search </string>
-    <string name="input_nickname_hint"> please enter real name </string>
-    <string name="input_match_name_hint"> please input the nickname </string>
+    <string name="input_real_name_hint"> please enter real name </string>
+    <string name="input_nickname_hint"> please input the nickname </string>
     <string name="input_email_hint"> please enter your email number </string>
     <string name="input_verification_code_hint"> please enter the validation code </string>
     <string name="input_six_number_hint"> please enter 6 digits </string>

@@ -51,9 +51,6 @@
     <string name="tab_live_show">發直播</string>
     <string name="tab_mine">我的</string>
 
-    <string name="behavior_footer_depend">com.qcloud.liveshow.widget.behavior.ScrollHideBehavior</string>
-    <string name="behavior_message_depend" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
-
     <string name="toast_exit_app">再按壹次退出應用</string>
     <string name="toast_input_not_null">輸入內容不能為空!</string>
     <string name="toast_get_picture_failure">獲取圖片失敗</string>
