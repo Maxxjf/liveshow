@@ -3,6 +3,7 @@ package com.qcloud.liveshow.net;
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.AnchorGradeBean;
+import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.MemberGradeBean;
 import com.qcloud.liveshow.beans.MyGiftsBean;
@@ -76,5 +77,19 @@ public class IMineApi {
         Type type = new TypeToken<BaseResponse<AnchorGradeBean>>(){}.getType();
 
         return OkGoRequest.getRequest(UrlConstants.GET_ANCHOR_GRADE, type, params);
+    }
+
+    /**忘记密码获取验证码*/
+    public static Observable<BaseResponse<GetCodeResBean>> forgetPasswordCode(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<GetCodeResBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.FORGET_PASSWORD_CODE, type, params);
+    }
+
+    /**忘记/重置登录密码*/
+    public static Observable<BaseResponse<ReturnEmptyBean>> forgetPassWord(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.FORGET_PASSWORD, type, params);
     }
 }

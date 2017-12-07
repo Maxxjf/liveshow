@@ -89,6 +89,7 @@
     <string name="toast_gurad_success">设置守护成功</string>
     <string name="toast_set_withdraw_cash_password_success">设置提现密码成功</string>
     <string name="toast_reset_withdraw_cash_password_success">重置提现密码成功</string>
+    <string name="toast_reset_password_success">重置密码成功</string>
     <string name="toast_input_password">请输入密码</string>
     <string name="toast_login_out_of_date">您的登录信息过时，请重新登录</string>
     <string name="toast_account_with_no_mobile">您的账号还未绑定手机，请先绑定</string>
@@ -279,5 +280,6 @@
     <string name="tag_get_profit">%.1f</string>
     <string name="tag_top_profit">%d钻石币/分钟</string>
     <string name="tag_brand_code">银行卡：%s</string>
+    <string name="tag_account">账号</string>
 
 </resources>

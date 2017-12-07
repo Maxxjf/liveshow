@@ -7,7 +7,6 @@ import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -19,7 +18,6 @@ import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.ui.profit.presenter.impl.ResetCashPasswordPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.IResetCashPasswordView;
 import com.qcloud.liveshow.utils.UserInfoUtil;
-import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.StringUtils;
@@ -160,7 +158,6 @@ public class ResetCashPasswordActivity extends SwipeBaseActivity<IResetCashPassw
         if (checkMobile()) {
             mPresenter.getCode(email);
             mBtnGetCode.setEnabled(false);
-            startTimer();
         }
     }
 
@@ -174,11 +171,12 @@ public class ResetCashPasswordActivity extends SwipeBaseActivity<IResetCashPassw
     @Override
     public void getCodeSuccess(String code) {
         if (isRunning) {
-            //ToastUtils.ToastMessage(this, String.format(hasBeenSendTo, mobile));
-            TipsPop pop = new TipsPop(this);
-            pop.setTips("验证码为" + code);
-            pop.showCancel(false);
-            pop.showAtLocation(mBtnGetCode, Gravity.CENTER, 0, 0);
+            ToastUtils.ToastMessage(this, String.format(getResources().getString(R.string.toast_has_been_sent_to), email));
+//            TipsPop pop = new TipsPop(this);
+//            pop.setTips("验证码为" + code);
+//            pop.showCancel(false);
+//            pop.showAtLocation(mBtnGetCode, Gravity.CENTER, 0, 0);
+            startTimer();
         }
     }
 

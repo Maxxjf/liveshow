@@ -151,7 +151,7 @@ public class SetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswordV
         if (checkMobile()) {
             mPresenter.getCode(email);
             mBtnGetCode.setEnabled(false);
-            startTimer();
+
         }
     }
 
@@ -170,10 +170,8 @@ public class SetCashPasswordActivity extends SwipeBaseActivity<ISetCashPasswordV
 //            pop.setTips("验证码为" + code);
 //            pop.showCancel(false);
 //            pop.showAtLocation(mBtnGetCode, Gravity.CENTER, 0, 0);
-            if (code!=null){
-                mEtVerificationCode.setText(code);
-            }
-
+            ToastUtils.ToastMessage(this, String.format(getResources().getString(R.string.toast_has_been_sent_to), email));
+            startTimer();
         }
     }
 

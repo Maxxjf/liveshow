@@ -8,4 +8,9 @@ import com.qcloud.qclib.base.BtnClickPresenter;
  * Date: 2017/12/5.
  */
 public interface IForgetPassWordPresenter extends BtnClickPresenter {
+    /**忘记密码发送验证码*/
+    void forgetPasswordCode(String loginAccount,String email);
+
+    /**忘记密码*/
+    void forgetPassword(String loginAccount,String email,String code,String newPassword);
 }

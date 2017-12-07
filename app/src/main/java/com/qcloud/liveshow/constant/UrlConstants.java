@@ -41,6 +41,10 @@ public interface UrlConstants {
     String GET_PROBLEM_LIST = URL_PREFIX_APP + "basics/questionList";
     /**获取官方联系方式*/
     String GET_CONTACT_WAY = URL_PREFIX_APP + "member/contact";
+    /**忘记密码*/
+    String FORGET_PASSWORD = URL_PREFIX_APP + "login/forgetPassword";
+    /**忘记密码验证码*/
+    String FORGET_PASSWORD_CODE = URL_PREFIX_APP + "login/forgetPasswordSendCode";
 
     /**
      * 直播间有关

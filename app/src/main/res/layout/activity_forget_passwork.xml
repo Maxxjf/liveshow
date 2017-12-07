@@ -23,7 +23,56 @@
         android:background="@color/white"
         android:orientation="vertical"
         android:paddingLeft="@dimen/layout_margin">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:background="@color/white"
+            >
 
+            <TextView
+                android:id="@+id/tv_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tag_account"
+                android:textColor="@color/colorTitle"
+                android:textSize="@dimen/micro_text_size" />
+
+            <EditText
+                android:id="@+id/et_account"
+                style="@style/ApplyEditTextStyle"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:hint="@string/input_account_hint"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:background="@color/white"
+           >
+
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tag_email"
+                android:textColor="@color/colorTitle"
+                android:textSize="@dimen/micro_text_size" />
+
+            <EditText
+                android:id="@+id/et_email"
+                style="@style/ApplyEditTextStyle"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:hint="@string/input_email_hint"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -92,42 +141,6 @@
 
         <CheckBox
             android:id="@+id/cb_see"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="@dimen/layout_margin"
-            android:paddingRight="@dimen/layout_margin"
-            android:background="@null"
-            android:button="@null"
-            android:layout_marginRight="@dimen/layout_margin"
-            android:checked="false"
-            android:drawableLeft="@drawable/check_eye"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/tab_height"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:background="@color/white"
-        android:paddingLeft="@dimen/layout_margin">
-
-        <TextView
-            android:id="@+id/tv_set_password_tag_2rd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorTitle"
-            android:textSize="@dimen/micro_text_size"
-            android:text="@string/tag_set_password_2rd"/>
-
-        <EditText
-            android:id="@+id/et_set_password_2rd"
-            style="@style/ApplyEditTextStyle"
-            android:imeOptions="actionNext"
-            android:inputType="numberPassword"
-            android:maxLength="6"
-            android:hint="@string/input_six_number_hint"/>
-
-        <CheckBox
-            android:id="@+id/cb_see_2rd"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:paddingLeft="@dimen/layout_margin"

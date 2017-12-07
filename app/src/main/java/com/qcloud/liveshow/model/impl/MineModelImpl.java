@@ -2,6 +2,7 @@ package com.qcloud.liveshow.model.impl;
 
 import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.AnchorGradeBean;
+import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.MemberGradeBean;
 import com.qcloud.liveshow.beans.MyGiftsBean;
@@ -117,5 +118,23 @@ public class MineModelImpl implements IMineModel {
         mParams = OkGoRequest.getAppParams();
 
         BaseApi.dispose(IMineApi.getAnchorGrade(mParams), callback);
+    }
+
+    @Override
+    public void forgetPasswordCode(String loginAccount,String email, DataCallback<GetCodeResBean> callback) {
+        mParams=OkGoRequest.getAppParams();
+        mParams.put("loginAccount",loginAccount);
+        mParams.put("email",email);
+        BaseApi.dispose(IMineApi.forgetPasswordCode(mParams),callback);
+    }
+
+    @Override
+    public void forgetPassword(String loginAccount,String email, String code, String newPassword, DataCallback<ReturnEmptyBean> callback) {
+        mParams=OkGoRequest.getAppParams();
+        mParams.put("loginAccount",loginAccount);
+        mParams.put("email",email);
+        mParams.put("code",code);
+        mParams.put("newPassword",newPassword);
+        BaseApi.dispose(IMineApi.forgetPassWord(mParams),callback);
     }
 }

@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.model;
 
 import com.qcloud.liveshow.beans.AnchorGradeBean;
+import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.MemberGradeBean;
 import com.qcloud.liveshow.beans.MyGiftsBean;
@@ -28,4 +29,10 @@ public interface IMineModel {
 
     /**主播等级*/
     void getAnchorGrade(DataCallback<AnchorGradeBean> callback);
+
+    /**忘记密码发送验证码*/
+    void forgetPasswordCode(String loginAccount,String email,DataCallback<GetCodeResBean> callback);
+
+    /**忘记密码*/
+    void forgetPassword(String loginAccount,String email,String code,String newPassword,DataCallback<ReturnEmptyBean> callback);
 }

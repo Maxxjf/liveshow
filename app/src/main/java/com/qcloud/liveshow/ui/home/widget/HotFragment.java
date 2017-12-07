@@ -80,14 +80,14 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
     private void initBanner() {
         int width = ScreenUtils.getScreenWidth(getActivity());
         ViewGroup.LayoutParams lp = mBanner.getLayoutParams();
-        lp.height = width * 320 / 690;
+        lp.height = width * 280 / 690;
         mBanner.setLayoutParams(lp);
 
         mBanner.setPages(new CustomBanner.ViewCreator<BannerBean>() {
             @Override
             public View createView(Context context, int position) {
                 ImageView imageView = new ImageView(context);
-                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setPadding(0, 0, 0, 0);
                 return imageView;
             }

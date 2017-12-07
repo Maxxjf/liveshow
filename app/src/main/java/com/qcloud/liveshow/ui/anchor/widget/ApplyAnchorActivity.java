@@ -275,7 +275,7 @@ public class ApplyAnchorActivity extends BaseActivity<IApplyAnchorView, ApplyAnc
         if (checkContactWay()) {
             mPresenter.getCode(mEmail);
             mBtnGetCode.setEnabled(false);
-            startTimer();
+
         }
     }
 
@@ -302,13 +302,13 @@ public class ApplyAnchorActivity extends BaseActivity<IApplyAnchorView, ApplyAnc
     @Override
     public void getCodeSuccess(String code) {
         if (isRunning) {
-            //ToastUtils.ToastMessage(this, String.format(hasBeenSendTo, mEmail));
+            ToastUtils.ToastMessage(this, String.format(hasBeenSendTo, mEmail));
+            startTimer();
 //            TipsPop pop = new TipsPop(this);
 //            pop.setTips("验证码为" + code);
 //            pop.showCancel(false);
 //            pop.showAtLocation(mBtnGetCode, Gravity.CENTER, 0, 0);
-            mEtVerificationCode.setText(code);
-
+//            mEtVerificationCode.setText(code);
         }
     }
 
