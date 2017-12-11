@@ -121,18 +121,16 @@ public class MineModelImpl implements IMineModel {
     }
 
     @Override
-    public void forgetPasswordCode(String loginAccount,String email, DataCallback<GetCodeResBean> callback) {
+    public void forgetPasswordCode(String loginAccount, DataCallback<GetCodeResBean> callback) {
         mParams=OkGoRequest.getAppParams();
-        mParams.put("loginAccount",loginAccount);
-        mParams.put("email",email);
+        mParams.put("account",loginAccount);
         BaseApi.dispose(IMineApi.forgetPasswordCode(mParams),callback);
     }
 
     @Override
-    public void forgetPassword(String loginAccount,String email, String code, String newPassword, DataCallback<ReturnEmptyBean> callback) {
+    public void forgetPassword(String loginAccount, String code, String newPassword, DataCallback<ReturnEmptyBean> callback) {
         mParams=OkGoRequest.getAppParams();
-        mParams.put("loginAccount",loginAccount);
-        mParams.put("email",email);
+        mParams.put("account",loginAccount);
         mParams.put("code",code);
         mParams.put("newPassword",newPassword);
         BaseApi.dispose(IMineApi.forgetPassWord(mParams),callback);

@@ -51,6 +51,9 @@ public class MyProfitActivity extends SwipeBaseActivity<IMyProfitView, MyProfitP
     @BindString(R.string.money)
     String moneyStr;
 
+    private double maxWithdraw;
+    private double minWithdraw;
+
     @Override
     protected int initLayout() {
         return R.layout.activity_my_profit;
@@ -123,6 +126,8 @@ public class MyProfitActivity extends SwipeBaseActivity<IMyProfitView, MyProfitP
                 mTvProfitGift.setText(String.format(moneyStr, bean.getGiftEarnings()));
                 mTvProfitExtension.setText(String.format(moneyStr, bean.getGeneralizeEarnings()));
                 mTvProfitPercent.setText(bean.getGainSharing());
+                maxWithdraw=bean.getMaxWithdraw();
+                minWithdraw=bean.getMimWithdraw();
             }
         }
     }
@@ -131,7 +136,7 @@ public class MyProfitActivity extends SwipeBaseActivity<IMyProfitView, MyProfitP
     public void isSetPassword(boolean isSet) {
         if (isRunning) {
             if (isSet) {
-                WithdrawCashActivity.openActivity(this);
+                WithdrawCashActivity.openActivity(this,maxWithdraw,minWithdraw);
             } else {
                 SetCashPasswordActivity.openActivity(this);
             }

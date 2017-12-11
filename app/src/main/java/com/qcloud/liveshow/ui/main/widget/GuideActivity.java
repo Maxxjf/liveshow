@@ -14,7 +14,6 @@ import com.qcloud.liveshow.ui.account.widget.LoginActivity;
 import com.qcloud.liveshow.ui.main.presenter.impl.GuidePresenterImpl;
 import com.qcloud.liveshow.ui.main.view.IGuideView;
 import com.qcloud.qclib.utils.ConstantUtil;
-import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.indicator.FixedIndicatorView;
 import com.qcloud.qclib.widget.indicator.IndicatorViewPager;
 
@@ -49,8 +48,12 @@ public class GuideActivity extends BaseActivity<IGuideView, GuidePresenterImpl> 
     }
 
     @Override
+    protected boolean translucentStatusBar() {
+        return true;
+    }
+
+    @Override
     protected void initViewAndData() {
-        SystemBarUtil.hideStatusBar(this);
         initGuide();
     }
 
@@ -60,10 +63,7 @@ public class GuideActivity extends BaseActivity<IGuideView, GuidePresenterImpl> 
         final List<Integer> list = new ArrayList<>();
         list.add(R.drawable.bg_guide_1);
         list.add(R.drawable.bg_guide_2);
-        list.add(R.drawable.bg_guide_3);
-        list.add(R.drawable.bg_guide_4);
         GuideAdapter adapter = new GuideAdapter(this, list);
-
         indicatorViewPager.setAdapter(adapter);
         indicatorViewPager.setOnIndicatorPageChangeListener((preItem, currentItem) -> {
             if (currentItem == list.size() - 1) {

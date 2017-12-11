@@ -11,7 +11,7 @@ public class GiftBean {
     String image;       // 礼物图片
     int virtualCoin;    // 虚拟币
     String giftKey;     // 礼物key
-    int number;         // 礼物获得数量
+    String number;         // 礼物获得数量
     int ordinal;        // 排序
 
     public long getId() {
@@ -54,11 +54,11 @@ public class GiftBean {
         this.giftKey = giftKey;
     }
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 

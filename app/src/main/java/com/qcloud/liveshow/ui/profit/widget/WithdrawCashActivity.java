@@ -2,7 +2,6 @@ package com.qcloud.liveshow.ui.profit.widget;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Selection;
 import android.text.Spannable;
@@ -21,7 +20,9 @@ import com.qcloud.liveshow.enums.BankTypeEnum;
 import com.qcloud.liveshow.ui.profit.presenter.impl.WithdrawCashPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.IWithdrawCashView;
 import com.qcloud.liveshow.widget.pop.BankPicker;
+import com.qcloud.liveshow.widget.pop.SelectPasswordPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
+import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.utils.ValidateUtil;
@@ -30,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.BindString;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import timber.log.Timber;
@@ -65,13 +66,20 @@ public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, W
     @Bind(R.id.et_password)
     EditText mEtPassword;
 
+    @BindString(R.string.input_withdraw_cash_num)
+    String cashHint;
+    @BindString(R.string.toast_withdraw2card_fail)
+    String toastSendEmail;
+
+
     private BankPicker mPicker;
-    private  BankTypeEnum mcurrentBank;
+    private BankTypeEnum mcurrentBank;
     private String cash;
     private String name;
     private String cardNumber;
     private Integer bankCode;
     private String password;
+    private SelectPasswordPop mSelectPop;//密码输入错误后的弹框
 
     @Override
     protected int initLayout() {
@@ -96,6 +104,20 @@ public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, W
     @Override
     protected void initViewAndData() {
         initTagWidth();
+        initCashHint();
+    }
+
+    /**
+     * 获取最大最小提现
+     */
+    private void initCashHint() {
+        if (isRunning) {
+            Double maxWithdraw = getIntent().getDoubleExtra("maxWithdraw", 0);
+            Double minWithdraw = getIntent().getDoubleExtra("minWithdraw", 0);
+            cashHint = String.format(cashHint, minWithdraw, maxWithdraw);
+            mEtCash.setHint(cashHint);
+        }
+
     }
 
     /**
@@ -125,7 +147,7 @@ public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, W
             @Override
             public void onBankPicked(int index, BankTypeEnum bean) {
                 if (mTvBank != null && bean != null) {
-                    mcurrentBank=bean;
+                    mcurrentBank = bean;
                     mTvBank.setText(bean.getName());
                 }
             }
@@ -175,33 +197,40 @@ public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, W
     @Override
     public void onConfirmClick() {
         if (check()) {
-            mPresenter.withdraw2card(cash,name,cardNumber, bankCode,password);
+            mPresenter.withdraw2card(cash, name, cardNumber, bankCode, password);
         }
     }
 
     @Override
     public void withdraw2cardSuccess(ReturnWithdrawSuccessBean returnWithdrawSuccessBean) {
-        ToastUtils.ToastMessage(this,returnWithdrawSuccessBean.isSuccess()?
-                getResources().getString(R.string.toast_withdraw2card_success):getResources().getString(R.string.toast_withdraw2card_fail));
+        if (returnWithdrawSuccessBean!=null&&returnWithdrawSuccessBean.isSuccess()){
+            ToastUtils.ToastMessage(this, getResources().getString(R.string.toast_withdraw2card_success));
+            finish();
+        }else {
+            if (mSelectPop==null){
+                initSelectPasswordPop();
+            }
+            mSelectPop.showAtLocation(mTitleBar,Gravity.CENTER,0,0);
+        }
     }
 
     @Override
     public void withdraw2cardFails(String errMsg) {
-        ToastUtils.ToastMessage(this,errMsg);
+        ToastUtils.ToastMessage(this, errMsg);
     }
 
     private boolean check() {
-         cash = mEtCash.getText().toString().trim();
-         name = mEtName.getText().toString().trim();
-         cardNumber = mEtBankCode.getText().toString().trim();
-        if (mcurrentBank!=null){
-             bankCode = mcurrentBank.getKey();
+        cash = mEtCash.getText().toString().trim();
+        name = mEtName.getText().toString().trim();
+        cardNumber = mEtBankCode.getText().toString().trim();
+        if (mcurrentBank != null) {
+            bankCode = mcurrentBank.getKey();
         }
-         password = mEtPassword.getText().toString().trim();
+        password = mEtPassword.getText().toString().trim();
 
 //        if (StringUtils.isEmptyString(cash)||!ValidateUtil.isFitCash(Integer.parseInt(cash))) {
-        if (StringUtils.isEmptyString(cash)) {
-            ToastUtils.ToastMessage(this, R.string.input_withdraw_cash_num);
+        if (StringUtils.isEmptyString(cash) && cashHint != null) {
+            ToastUtils.ToastMessage(this, cashHint);
             mEtCash.requestFocus();
             return false;
         }
@@ -217,7 +246,7 @@ public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, W
             mEtBankCode.requestFocus();
             return false;
         }
-        if (mcurrentBank==null) {
+        if (mcurrentBank == null) {
             ToastUtils.ToastMessage(this, R.string.toast_chose_bank_type);
             onSelectBankClick();
             return false;
@@ -243,14 +272,26 @@ public class WithdrawCashActivity extends SwipeBaseActivity<IWithdrawCashView, W
         }
     }
 
-    public static void openActivity(Context context) {
-        context.startActivity(new Intent(context, WithdrawCashActivity.class));
+    private void initSelectPasswordPop() {
+        mSelectPop = new SelectPasswordPop(this);
+        mSelectPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                if (view.getId() == R.id.btn_input_again) {
+                    mSelectPop.dismiss();
+                    mEtPassword.setText("");
+                    mEtPassword.requestFocus();
+                } else if (view.getId() == R.id.btn_reset_password) {
+                    ResetCashPasswordActivity.openActivity(mContext);
+                }
+            }
+        });
+    }
+    public static void openActivity(Context context, double maxWithdraw, double minWithdraw) {
+        Intent intent = new Intent(context, WithdrawCashActivity.class);
+        intent.putExtra("maxWithdraw", maxWithdraw);
+        intent.putExtra("minWithdraw", minWithdraw);
+        context.startActivity(intent);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

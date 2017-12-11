@@ -31,8 +31,8 @@ public interface IMineModel {
     void getAnchorGrade(DataCallback<AnchorGradeBean> callback);
 
     /**忘记密码发送验证码*/
-    void forgetPasswordCode(String loginAccount,String email,DataCallback<GetCodeResBean> callback);
+    void forgetPasswordCode(String loginAccount,DataCallback<GetCodeResBean> callback);
 
     /**忘记密码*/
-    void forgetPassword(String loginAccount,String email,String code,String newPassword,DataCallback<ReturnEmptyBean> callback);
+    void forgetPassword(String loginAccount,String code,String newPassword,DataCallback<ReturnEmptyBean> callback);
 }

@@ -35,8 +35,8 @@ public class ForgetPassWordPresenterImpl extends BasePresenter<IForgetPassWordVi
     }
 
     @Override
-    public void forgetPassword(String loginAccount,String email, String code, String newPassword) {
-        iimModel.forgetPassword(loginAccount,email, code, newPassword, new DataCallback<ReturnEmptyBean>() {
+    public void forgetPassword(String loginAccount, String code, String newPassword) {
+        iimModel.forgetPassword(loginAccount, code, newPassword, new DataCallback<ReturnEmptyBean>() {
             @Override
             public void onSuccess(ReturnEmptyBean returnEmptyBean) {
                 mView.updatePasswordSuccess();
@@ -50,8 +50,8 @@ public class ForgetPassWordPresenterImpl extends BasePresenter<IForgetPassWordVi
     }
 
     @Override
-    public void forgetPasswordCode(String loginAccount,String email) {
-        iimModel.forgetPasswordCode(loginAccount,email, new DataCallback<GetCodeResBean>() {
+    public void forgetPasswordCode(String loginAccount) {
+        iimModel.forgetPasswordCode(loginAccount, new DataCallback<GetCodeResBean>() {
             @Override
             public void onSuccess(GetCodeResBean bean) {
                 mView.getCodeSuccess(bean.getCode());

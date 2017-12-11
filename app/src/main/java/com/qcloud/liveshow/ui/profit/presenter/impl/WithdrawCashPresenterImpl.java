@@ -50,7 +50,7 @@ public class WithdrawCashPresenterImpl extends BasePresenter<IWithdrawCashView> 
             public void onSuccess(ReturnWithdrawSuccessBean returnWithdrawSuccessBean) {
                 if (mView != null) {
                     if (returnWithdrawSuccessBean != null) {
-                        mView.withdraw2cardSuccess(returnWithdrawSuccessBean);
+                            mView.withdraw2cardSuccess(returnWithdrawSuccessBean);
                     }
                 }
             }

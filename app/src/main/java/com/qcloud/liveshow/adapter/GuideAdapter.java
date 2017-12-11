@@ -5,8 +5,10 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.widget.indicator.IndicatorViewPager;
 
 import java.util.ArrayList;
@@ -37,11 +39,12 @@ public class GuideAdapter extends IndicatorViewPager.IndicatorViewPagerAdapter {
 
     @Override
     public View getViewForPage(int position, View convertView, ViewGroup container) {
+        ImageView imageView;
         if (convertView == null) {
-            convertView = new View(mContext);
-            convertView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.tab_launch, container, false);
         }
-        convertView.setBackgroundResource(mList.get(position));
+        imageView= convertView.findViewById(R.id.image_guide);
+        GlideUtil.loadGifForResource(mContext,imageView,mList.get(position),0,false,true);
         return convertView;
     }
 

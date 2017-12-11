@@ -10,7 +10,25 @@ public class ProfitBean {
     double sumEarnings;         // 累计收益
     double giftEarnings;        // 礼物收益
     double generalizeEarnings;  // 推广收益
+    double maxWithdraw;        //最大提现
+    double mimWithdraw;          //最小提现
     String gainSharing;         // 收益分成 (后台拼接"%")
+
+    public double getMaxWithdraw() {
+        return maxWithdraw;
+    }
+
+    public void setMaxWithdraw(double maxWithdraw) {
+        this.maxWithdraw = maxWithdraw;
+    }
+
+    public double getMimWithdraw() {
+        return mimWithdraw;
+    }
+
+    public void setMimWithdraw(double mimWithdraw) {
+        this.mimWithdraw = mimWithdraw;
+    }
 
     public double getNowEarnings() {
         return nowEarnings;
@@ -63,6 +81,8 @@ public class ProfitBean {
                 ", sumEarnings=" + sumEarnings +
                 ", giftEarnings=" + giftEarnings +
                 ", generalizeEarnings=" + generalizeEarnings +
+                ", maxWithdraw=" + maxWithdraw +
+                ", mimWithdraw=" + mimWithdraw +
                 ", gainSharing='" + gainSharing + '\'' +
                 '}';
     }

@@ -464,7 +464,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     public void addMember(NettyRoomMemberBean bean) {
         if (isInFragment) {
             if (bean != null && bean.getUser() != null && mFansAdapter != null) {
-                mFansAdapter.addListBeanAtEnd(bean.getUser());
+                mFansAdapter.addListBeanAtStart(bean.getUser());
                 mTvWatchNum.setText(String.valueOf(mFansAdapter.getItemCount()));
             }
         }

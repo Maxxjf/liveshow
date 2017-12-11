@@ -2,6 +2,7 @@ package com.qcloud.liveshow.ui.mine.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
@@ -31,6 +32,15 @@ public class PrombleDetailActivity extends SwipeBaseActivity<IPrombleDetailView,
 
     }
 
+    @Override
+    protected boolean isStatusBarTextDark() {
+        return true;
+    }
+
+    @Override
+    protected int setStatusBarColor() {
+        return Color.WHITE;
+    }
 
     @Override
     protected int initLayout() {
@@ -44,18 +54,18 @@ public class PrombleDetailActivity extends SwipeBaseActivity<IPrombleDetailView,
 
     @Override
     protected void initViewAndData() {
-        question=getIntent().getStringExtra("question");
-        answer=getIntent().getStringExtra("answer");
-        if (question!=null&&answer!=null){
+        question = getIntent().getStringExtra("question");
+        answer = getIntent().getStringExtra("answer");
+        if (question != null && answer != null) {
             tvQuestion.setText(question);
             tvAnswer.setText(answer);
         }
     }
 
     public static void openActivity(Context context, String question, String answer) {
-        Intent intent=new Intent(context, PrombleDetailActivity.class);
-        intent.putExtra("question",question);
-        intent.putExtra("answer",answer);
+        Intent intent = new Intent(context, PrombleDetailActivity.class);
+        intent.putExtra("question", question);
+        intent.putExtra("answer", answer);
         context.startActivity(intent);
 
     }

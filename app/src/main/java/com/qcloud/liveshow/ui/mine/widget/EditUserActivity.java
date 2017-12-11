@@ -265,6 +265,7 @@ public class EditUserActivity extends BaseActivity<IEditUserView, EditUserPresen
             if (requestCode == REQUEST_CODE) {
                 ArrayList<String> images = data.getStringArrayListExtra(ImageSelectUtil.SELECT_RESULT);
                 if (images != null && !images.isEmpty()) {
+                    Timber.e("images:"+ images.toString());
                     if (isRunning) {
                         if (mImgUserHead != null) {
                             GlideUtil.loadCircleImage(EditUserActivity.this, mImgUserHead,

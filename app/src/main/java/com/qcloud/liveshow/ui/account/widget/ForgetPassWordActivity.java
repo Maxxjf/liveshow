@@ -21,7 +21,6 @@ import com.qcloud.liveshow.ui.account.view.IForgetPassWordView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.StringUtils;
-import com.qcloud.qclib.utils.ValidateUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -46,10 +45,6 @@ import timber.log.Timber;
 public class ForgetPassWordActivity extends SwipeBaseActivity<IForgetPassWordView, ForgetPassWordPresenterImpl> implements IForgetPassWordView {
     @Bind(R.id.title_bar)
     TitleBar titleBar;
-    @Bind(R.id.tv_email)
-    TextView tvEmail;
-    @Bind(R.id.et_email)
-    EditText etEmail;
     @Bind(R.id.tv_verification_code_tag)
     TextView tvVerificationCodeTag;
     @Bind(R.id.et_verification_code)
@@ -64,6 +59,10 @@ public class ForgetPassWordActivity extends SwipeBaseActivity<IForgetPassWordVie
     CheckBox cbSee;
     @Bind(R.id.btn_confirm)
     TextView btnConfirm;
+    @Bind(R.id.tv_account)
+    TextView tvAccount;
+    @Bind(R.id.et_account)
+    EditText etAccount;
 
     @BindString(R.string.tag_input_contact_way)
     String contactWay;
@@ -73,13 +72,8 @@ public class ForgetPassWordActivity extends SwipeBaseActivity<IForgetPassWordVie
     String getCodeAfter;
     @BindString(R.string.btn_get_code_again)
     String getCodeAgain;
-    @Bind(R.id.tv_account)
-    TextView tvAccount;
-    @Bind(R.id.et_account)
-    EditText etAccount;
 
     private Disposable mDisposable;
-    private String email;
     private String code;
     private String passWord;
     private String account;
@@ -135,7 +129,6 @@ public class ForgetPassWordActivity extends SwipeBaseActivity<IForgetPassWordVie
                 int width = tvSetPasswordTag.getWidth();
                 resetWidth(tvVerificationCodeTag, width);
                 resetWidth(tvAccount, width);
-                resetWidth(tvEmail, width);
             }
         });
     }
@@ -168,7 +161,7 @@ public class ForgetPassWordActivity extends SwipeBaseActivity<IForgetPassWordVie
     @Override
     public void getCodeSuccess(String code) {
         if (isRunning) {
-            ToastUtils.ToastMessage(this, String.format(getResources().getString(R.string.toast_has_been_sent_to), email));
+            ToastUtils.ToastMessage(this, getResources().getString(R.string.toast_has_been_sent));
             startTimer();
         }
     }
@@ -196,7 +189,7 @@ public class ForgetPassWordActivity extends SwipeBaseActivity<IForgetPassWordVie
     @Override
     public void onClickGetCode() {
         if (checkEmailAndAccound()) {
-            mPresenter.forgetPasswordCode(account, email);
+            mPresenter.forgetPasswordCode(account);
             btnGetCode.setEnabled(false);
 
         }
@@ -205,7 +198,7 @@ public class ForgetPassWordActivity extends SwipeBaseActivity<IForgetPassWordVie
     @Override
     public void onClickConfirm() {
         if (check()) {
-            mPresenter.forgetPassword(account,email,code,passWord);
+            mPresenter.forgetPassword(account,code,passWord);
         }
     }
 
@@ -247,17 +240,8 @@ public class ForgetPassWordActivity extends SwipeBaseActivity<IForgetPassWordVie
 
     private boolean checkEmailAndAccound() {
         account = etAccount.getText().toString().trim();
-        email = etEmail.getText().toString().trim();
         if (StringUtils.isEmptyString(account)) {
             loadErr(true, getResources().getString(R.string.input_account_hint));
-            return false;
-        }
-        if (StringUtils.isEmptyString(email)) {
-            loadErr(true, getResources().getString(R.string.input_email_hint));
-            return false;
-        }
-        if (!ValidateUtil.isEmail(email)) {
-            loadErr(true, getResources().getString(R.string.toast_right_email));
             return false;
         }
         return true;
