@@ -263,7 +263,7 @@
     <string name="tag_curr_spend">本場花費</string>
     <string name="tag_share_way">選擇分享方式</string>
     <string name="tag_diamonds_price">%d鉆石幣</string>
-    <string name="tag_x_num">X%d</string><!--x100-->
+    <string name="tag_x_num">X%s</string><!--x100-->
     <string name="tag_get_profit">%.1f</string>
     <string name="tag_top_profit">%d鉆石幣/分鐘</string>
     <string name="tag_brand_code">銀行卡：%s</string>

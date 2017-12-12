@@ -47,6 +47,7 @@
     <string name="title_problem">常见问题</string>
     <string name="title_extension">邀你一起播</string>
     <string name="title_forget_password">重置密码</string>
+    <string name="title_password_error">密码错误</string>
 
     <string name="tab_home">首页</string>
     <string name="tab_live_show">发直播</string>
@@ -64,6 +65,7 @@
     <string name="toast_input_card_number">请输入银行卡号</string>
     <string name="toast_chose_bank_type">请选择银行开户行</string>
     <string name="toast_has_been_sent_to">已发送验证码至%s</string>
+    <string name="toast_has_been_sent">已发送验证码至邮箱</string>
     <string name="toast_login_success">登录成功</string>
     <string name="toast_login_failure">登录失败</string>
     <string name="toast_logout_success">退出登录成功</string>
@@ -97,8 +99,8 @@
     <string name="toast_does_not_support_beauty">当前机型不支持该滤镜</string>
     <string name="toast_exit_anchor">观众在路上了，确认要关闭直播吗？</string>
     <string name="toast_delete_message">是否删除消息？</string>
-    <string name="toast_withdraw2card_success">充值成功</string>
-    <string name="toast_withdraw2card_fail">充值失败</string>
+    <string name="toast_withdraw2card_success">提现已经提交申请</string>
+    <string name="toast_withdraw2card_fail">请输入%s邮箱收到的验证码</string>
     <string name="toast_add_blacklist_success">成功拉入黑名单</string>
     <string name="toast_set_success">设置成功</string>
     
@@ -126,9 +128,10 @@
     <string name="input_real_name_hint">请输入真实姓名</string>
     <string name="input_nickname_hint">请输入昵称</string>
     <string name="input_email_hint">请输入邮箱</string>
+    <string name="input_account_or_email_hint">请输入账号或邮箱</string>
     <string name="input_verification_code_hint">请输入收到的验证码</string>
     <string name="input_six_number_hint">请输入6位数字</string>
-    <string name="input_withdraw_cash_num">请输入至少100元，不超过4500元</string>
+    <string name="input_withdraw_cash_num">请输入至少%1$s元，不超过%2$s元</string>
     <string name="input_bank_code_hint">若姓名与银行卡账户不符会提现失败哦~</string>
     <string name="input_opening_bank_hint">请选择</string>
     <string name="input_anchor_title_hint">有趣的标题更吸引观众哦~</string>
@@ -219,6 +222,7 @@
     <string name="tag_facebook">Facebook</string>
     <string name="tag_real_name">真实姓名</string>
     <string name="tag_email">邮箱</string>
+    <string name="tag_account_or_email">账号</string>
     <string name="tag_verification_code">验证码</string>
     <string name="tag_set_withdraw_cash_password">设置提现密码</string>
     <string name="tag_upload_selfie_or_header">上传自拍照/头像</string>
@@ -276,10 +280,11 @@
     <string name="tag_curr_spend">本场花费</string>
     <string name="tag_share_way">选择分享方式</string>
     <string name="tag_diamonds_price">%d钻石币</string>
-    <string name="tag_x_num">X%d</string><!--x100-->
+    <string name="tag_x_num">X%s</string><!--x100-->
     <string name="tag_get_profit">%.1f</string>
     <string name="tag_top_profit">%d钻石币/分钟</string>
     <string name="tag_brand_code">银行卡：%s</string>
     <string name="tag_account">账号</string>
+    <string name="tag_input_again">再次输入</string>
 
 </resources>
