@@ -1,7 +1,7 @@
 package com.qcloud.liveshow.ui.room.presenter.impl;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.beans.NettyChatListBean;
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
@@ -20,8 +20,6 @@ import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.base.BasePresenter;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.callback.DataCallback;
-import com.qcloud.qclib.rxbus.Bus;
-import com.qcloud.qclib.rxbus.BusProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,14 +36,15 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
     private IAnchorModel anchorModel;
     private IMineModel mModel;
     private IIMModel mIMModel;
-    private Bus mEventBus = BusProvider.getInstance();
-    private List<String> longList;
+
+    private List<String> idList;//会话列表去重
+    private List<String> longList;//粉丝去重
     public RoomControlPresenterImpl() {
         mModel = new MineModelImpl();
         mIMModel = new IMModelImpl();
         anchorModel=new AnchorModelImpl();
         longList=new ArrayList<>();
-        mEventBus.register(this);
+
         initRxBusEvent();
     }
 
@@ -56,8 +55,11 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                 if (mView != null) {
                     switch (rxBusEvent.getType()) {
                         case R.id.netty_get_chat_list_success:
-                            NettyChatListBean bean = (NettyChatListBean) rxBusEvent.getObj();
-                            mView.replaceChatList(bean.getList());
+                            MemberBean bean = (MemberBean) rxBusEvent.getObj();
+                            if (bean != null &&idList.contains(bean.getIdStr())) {
+                                mView.addMessage(bean);
+                                idList.add(bean.getIdStr());
+                            }
                             break;
                         case R.id.netty_room_member_join:
                             // 成员加入
@@ -210,10 +212,5 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
         mIMModel.shutUp(roomNumber,memberId,isForbidden);
     }
 
-    public void onDestroy() {
-        if (mEventBus != null) {
-            mEventBus.unregister(this);
-            mEventBus = null;
-        }
-    }
+
 }

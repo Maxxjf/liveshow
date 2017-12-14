@@ -10,8 +10,6 @@ import com.qcloud.liveshow.ui.home.view.IMessageListView;
 import com.qcloud.liveshow.utils.MessageUtil;
 import com.qcloud.qclib.base.BasePresenter;
 import com.qcloud.qclib.beans.RxBusEvent;
-import com.qcloud.qclib.rxbus.Bus;
-import com.qcloud.qclib.rxbus.BusProvider;
 
 import java.util.List;
 
@@ -26,7 +24,6 @@ import io.reactivex.functions.Consumer;
 public class MessageListPresenterImpl extends BasePresenter<IMessageListView> implements IMessageListPresenter {
 
     private IIMModel mModel;
-    private Bus mEventBus = BusProvider.getInstance();
 
     public MessageListPresenterImpl() {
         mModel = new IMModelImpl();
@@ -85,11 +82,5 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
         RealmHelper.getInstance().delBeanById(MemberBean.class,"id", userBean.getId());
     }
 
-    public void onDestroy() {
-        if (mEventBus != null) {
-            mEventBus.unregister(this);
-            mEventBus = null;
-        }
-    }
 
 }

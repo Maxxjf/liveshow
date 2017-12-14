@@ -68,4 +68,6 @@ public interface IRoomControlView {
 
     /**刷新群聊公告*/
     void refreshNotice(NettyLiveNoticeBean bean);
+    /**添加消息列表*/
+    void addMessage(MemberBean bean);
 }

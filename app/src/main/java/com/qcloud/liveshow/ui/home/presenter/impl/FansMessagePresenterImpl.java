@@ -10,8 +10,6 @@ import com.qcloud.liveshow.ui.home.presenter.IFansMessagePresenter;
 import com.qcloud.liveshow.ui.home.view.IFansMessageView;
 import com.qcloud.qclib.base.BasePresenter;
 import com.qcloud.qclib.beans.RxBusEvent;
-import com.qcloud.qclib.rxbus.Bus;
-import com.qcloud.qclib.rxbus.BusProvider;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +21,6 @@ import java.util.UUID;
  */
 public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> implements IFansMessagePresenter {
     private IIMModel mModel;
-    private Bus mEventBus = BusProvider.getInstance();
 
     public FansMessagePresenterImpl() {
         mModel = new IMModelImpl();
@@ -87,10 +84,4 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
         }
     }
 
-    public void onDestroy() {
-        if (mEventBus != null) {
-            mEventBus.unregister(this);
-            mEventBus = null;
-        }
-    }
 }

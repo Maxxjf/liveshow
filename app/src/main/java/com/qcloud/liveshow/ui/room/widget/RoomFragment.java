@@ -593,7 +593,16 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
             }
         }
     }
-
+    @Override
+    public void addMessage(MemberBean bean) {
+        if (isInFragment) {
+            if (isInFragment) {
+                if (bean != null && mMessagePop != null) {
+                    mMessagePop.add(bean);
+                }
+            }
+        }
+    }
     public static RoomFragment newInstance() {
         Bundle args = new Bundle();
         RoomFragment fragment = new RoomFragment();

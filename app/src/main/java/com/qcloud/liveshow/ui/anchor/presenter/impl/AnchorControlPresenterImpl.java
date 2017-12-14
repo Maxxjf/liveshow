@@ -21,8 +21,6 @@ import com.qcloud.qclib.base.BasePresenter;
 import com.qcloud.qclib.beans.ReturnDataBean;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.callback.DataCallback;
-import com.qcloud.qclib.rxbus.Bus;
-import com.qcloud.qclib.rxbus.BusProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +38,6 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
     private IAnchorModel mModel;
     private IMineModel mineModel;
     private IIMModel mIMModel;
-    private Bus mEventBus = BusProvider.getInstance();
     private List<String> idList;//会话列表去重
     private List<String> longList;//粉丝去重
     public AnchorControlPresenterImpl() {
@@ -238,13 +235,6 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
     @Override
     public void shutUp(String roomNumber, String memberId, boolean isForbidden) {
         mIMModel.shutUp(roomNumber,memberId,isForbidden);
-    }
-
-    public void onDestroy() {
-        if (mEventBus != null) {
-            mEventBus.unregister(this);
-            mEventBus = null;
-        }
     }
 
 
