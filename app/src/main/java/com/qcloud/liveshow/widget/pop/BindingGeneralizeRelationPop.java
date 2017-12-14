@@ -5,6 +5,7 @@ import android.graphics.Point;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 
 import com.qcloud.liveshow.R;
@@ -44,6 +45,7 @@ public class BindingGeneralizeRelationPop extends BasePopupWindow {
     @Override
     protected void init() {
         super.init();
+        mEtCode.setImeOptions(EditorInfo.IME_ACTION_DONE);
         WindowManager manager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         Point size = new Point();
         manager.getDefaultDisplay().getSize(size);

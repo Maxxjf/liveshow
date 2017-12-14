@@ -83,7 +83,11 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
         mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                RoomActivity.openActivity(getActivity(), i, mAdapter.getList());
+                if (mAdapter.getList()!=null&&mAdapter.getList().get(i).isLive()){
+                    RoomActivity.openActivity(getActivity(), i, mAdapter.getList());
+                } else {
+                    ToastUtils.ToastMessage(mContext,getResources().getString(R.string.tag_tip_anchor_is_no_live));
+                }
             }
         });
 

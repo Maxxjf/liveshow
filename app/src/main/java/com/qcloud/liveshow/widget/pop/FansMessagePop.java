@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -67,13 +68,13 @@ public class FansMessagePop extends BasePopupWindow {
 
     @Override
     protected void initAfterViews() {
+        mEtMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
         PullRefreshUtil.setRefresh(mListMessage, false, true);
         mListMessage.setOnPullUpRefreshListener(() -> mListMessage.refreshFinish());
 
         mListMessage.setLayoutManager(new LinearLayoutManager(mContext));
         mAdapter = new FansMessageAdapter(mContext);
         mListMessage.setAdapter(mAdapter);
-
         //监听键盘
         mEtMessage.setOnEditorActionListener((v, actionId, event) -> {
             switch (actionId) {

@@ -42,7 +42,11 @@ public class FollowAdapter extends CommonRecyclerAdapter<RoomBean> {
             holder.setImageResource(R.id.img_user_sex, anchorBean.getSexIcon());
         }
         holder.setText(R.id.tv_room_type, bean.getType());
-        holder.setText(R.id.tv_watch_num, String.format(watchNumStr, bean.getWatchNum()));
+        if (bean.isLive()){
+            holder.setText(R.id.tv_watch_num, String.format(watchNumStr, bean.getWatchNum()));
+        }else {
+            holder.setText(R.id.tv_watch_num,mContext.getResources().getString(R.string.tag_tip_anchor_is_no_live));
+        }
         holder.setText(R.id.tv_title, bean.getTitle());
 
         RatioImageView imgCover = holder.get(R.id.img_cover);

@@ -18,6 +18,15 @@ public class RoomBean implements Serializable {
     int rates;              // 直播间收费标准
     boolean isAttention;    // 是否关注了该主播员
     AnchorBean member;      // 主播员信息
+    boolean isLive;         // 直播
+
+    public boolean isLive() {
+        return isLive;
+    }
+
+    public void setLive(boolean live) {
+        isLive = live;
+    }
 
     public long getRoomId() {
         return roomId;
@@ -106,6 +115,7 @@ public class RoomBean implements Serializable {
                 ", rates=" + rates +
                 ", isAttention=" + isAttention +
                 ", member=" + member +
+                ", isLive=" + isLive +
                 '}';
     }
 }

@@ -41,12 +41,14 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
     private IMineModel mineModel;
     private IIMModel mIMModel;
     private Bus mEventBus = BusProvider.getInstance();
-    private List<String> idList;//去重
+    private List<String> idList;//会话列表去重
+    private List<String> longList;//粉丝去重
     public AnchorControlPresenterImpl() {
         mModel = new AnchorModelImpl();
         mIMModel = new IMModelImpl();
         mineModel=new MineModelImpl();
         idList=new ArrayList<>();
+        longList=new ArrayList<>();
         mEventBus.register(this);
         initRxBusEvent();
     }
@@ -66,7 +68,11 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                             break;
                         case R.id.netty_room_member_join:
                             // 成员加入
-                            mView.addMember((NettyRoomMemberBean) rxBusEvent.getObj());
+                            NettyRoomMemberBean member = (NettyRoomMemberBean) rxBusEvent.getObj();
+                            if (!longList.contains(member.getUser().getIdStr())){
+                                longList.add(member.getUser().getIdStr());
+                                mView.addMember(member);
+                            }
                             break;
                         case R.id.netty_group_chat:
                             // 群聊消息

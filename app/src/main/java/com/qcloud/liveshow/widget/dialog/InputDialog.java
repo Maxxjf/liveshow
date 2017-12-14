@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -63,6 +64,7 @@ public class InputDialog extends Dialog {
     }
 
     private void initDialog() {
+        mEtMessage.setImeOptions(EditorInfo.IME_ACTION_UNSPECIFIED);
         WindowManager windowManager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(dm);
@@ -104,11 +106,15 @@ public class InputDialog extends Dialog {
         mEtMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+               Timber.e(String.valueOf(event.getKeyCode()));
                 switch (actionId) {
                     case KeyEvent.KEYCODE_ENDCALL:
                     case KeyEvent.KEYCODE_ENTER:
                         onFinishClick();
                         return true;
+//                    case KeyEvent.KEYCODE_:
+//                        onFinishClick();
+//                        return true;
                     case KeyEvent.KEYCODE_BACK:
                         dismiss();
                         return false;

@@ -82,7 +82,8 @@ public class RoomMessageLayout extends BaseLinearLayout {
             if (memberBean != null) {
                 GlideUtil.loadImage(mContext, imgAnchorLevel, memberBean.getIcon(), R.drawable.icon_member_level_1, true, false);
 
-                imgIsFans.setVisibility(memberBean.isAttention()? View.VISIBLE : View.GONE);
+//                imgIsFans.setVisibility(memberBean.isAttention()? View.VISIBLE : View.GONE);
+                imgIsFans.setVisibility(View.GONE);
 
                 tvNickname.setText(memberBean.getNickName() + ":");
             }

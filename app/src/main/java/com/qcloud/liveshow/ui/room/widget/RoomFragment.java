@@ -524,7 +524,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     public void addMember(NettyRoomMemberBean bean) {
         if (isInFragment) {
             if (bean != null && bean.getUser() != null && mFansAdapter != null) {
-                mFansAdapter.addListBeanAtEnd(bean.getUser());
+                mFansAdapter.addListBeanAtStart(bean.getUser());
+                mTvWatchNum.setText(String.valueOf(mFansAdapter.getItemCount()));
             }
         }
     }
@@ -559,7 +560,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     @Override
     public void userOutGroup(NettyNoticeBean bean) {
         if (isInFragment) {
-            if (bean != null && mFansAdapter != null) {
+            if (bean != null && mFansAdapter != null && bean.getUser()!=null) {
                 mFansAdapter.removeBeanByUserId(bean.getUser().getIdStr());
             }
         }

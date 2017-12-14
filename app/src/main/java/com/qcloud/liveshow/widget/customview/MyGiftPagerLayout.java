@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.widget.customview;
 
+
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;

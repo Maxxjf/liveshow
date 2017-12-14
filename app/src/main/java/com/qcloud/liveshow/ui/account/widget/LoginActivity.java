@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -97,6 +98,8 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
 
     private void initView() {
         mBtnClause.setText(getString(R.string.tag_clause), LineTextView.BOTTOM);
+        mEtAccount.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        mEtPassword.setImeOptions(EditorInfo.IME_ACTION_DONE);
     }
 
     private void toMain() {
