@@ -46,7 +46,6 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
         mineModel=new MineModelImpl();
         idList=new ArrayList<>();
         longList=new ArrayList<>();
-        mEventBus.register(this);
         initRxBusEvent();
     }
 

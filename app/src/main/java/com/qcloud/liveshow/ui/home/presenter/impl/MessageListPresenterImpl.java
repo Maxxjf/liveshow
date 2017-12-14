@@ -27,7 +27,6 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
 
     public MessageListPresenterImpl() {
         mModel = new IMModelImpl();
-        mEventBus.register(this);
         initRxBusEvent();
     }
 
