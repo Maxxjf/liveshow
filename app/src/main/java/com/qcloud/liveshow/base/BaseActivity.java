@@ -3,6 +3,7 @@ package com.qcloud.liveshow.base;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -293,5 +294,10 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCom
             loadingDialog.dismiss();
         }
         loadingDialog = null;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+//        super.onSaveInstanceState(outState, outPersistentState);
     }
 }

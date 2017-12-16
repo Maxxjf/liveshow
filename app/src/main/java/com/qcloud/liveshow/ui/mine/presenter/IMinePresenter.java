@@ -8,4 +8,5 @@ import com.qcloud.qclib.base.BtnClickPresenter;
  * Date: 2017/8/10 9:57.
  */
 public interface IMinePresenter extends BtnClickPresenter {
+    void onResume();
 }

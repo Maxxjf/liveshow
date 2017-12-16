@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.base;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 
 import com.qcloud.qclib.base.BasePresenter;
@@ -49,6 +50,8 @@ public abstract class SwipeBaseActivity<V, T extends BasePresenter<V>> extends B
         getSwipeBackLayout().setEnableGesture(enable);
     }
 
+
+
     @Override
     public void scrollToFinishActivity() {
         SwipeBackUtils.convertActivityToTranslucent(this);
@@ -59,5 +62,9 @@ public abstract class SwipeBaseActivity<V, T extends BasePresenter<V>> extends B
     protected void onDestroy() {
         super.onDestroy();
         mHelper = null;
+    }
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+//        super.onSaveInstanceState(outState, outPersistentState);
     }
 }

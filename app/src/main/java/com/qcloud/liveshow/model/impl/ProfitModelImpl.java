@@ -201,4 +201,14 @@ public class ProfitModelImpl implements IProfitModel {
 
         BaseApi.dispose(IProfitApi.withdraw2Card(mParams), callback);
     }
+
+    @Override
+    public void sendGift(String giftId, String id, String roomId, DataCallback<ReturnEmptyBean> callback) {
+        mParams=OkGoRequest.getAppParams();
+        mParams.put("giftId",giftId);
+        mParams.put("id",id);
+        mParams.put("roomId",roomId);
+
+        BaseApi.dispose(IProfitApi.sendGift(mParams),callback);
+    }
 }

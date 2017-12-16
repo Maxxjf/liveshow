@@ -6,7 +6,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.AnchorBean;
 import com.qcloud.liveshow.beans.GiftBean;
+import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.model.impl.ProfitModelImpl;
 import com.qcloud.liveshow.utils.BasicsUtil;
 import com.qcloud.liveshow.widget.customview.DiamondsPagerLayout;
@@ -17,6 +20,7 @@ import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.toast.ToastUtils;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * 类说明：发送礼物弹窗
@@ -34,9 +38,16 @@ public class SendGiftPop extends BasePopupWindow {
     TextView mBtnBuy;
 
     private GiftBean currBean;
-
-    public SendGiftPop(Context context) {
+    private String roomId="";
+    private String id="";
+    private Context mContext;
+    public SendGiftPop(Context context, RoomBean roomBean, AnchorBean anchorBean) {
         super(context);
+        mContext=context;
+        if (roomBean!=null&&anchorBean!=null){
+            this.roomId = roomBean.getRoomIdStr();
+            this.id = anchorBean.getIdStr();
+        }
     }
 
     @Override
@@ -65,13 +76,31 @@ public class SendGiftPop extends BasePopupWindow {
             @Override
             public void onItemClick(Object o) {
                 currBean = (GiftBean) o;
-                if (currBean != null) {
-                    ToastUtils.ToastMessage(mContext, currBean.getName());
-                }
+//                if (currBean != null) {
+//                    ToastUtils.ToastMessage(mContext, currBean.getName());
+//                }
             }
         });
 
         loadData();
+    }
+
+    @OnClick(R.id.btn_buy)
+    void onClickSend() {
+        if (currBean!=null){
+            new ProfitModelImpl().sendGift(currBean.getIdStr(), id, roomId, new DataCallback<ReturnEmptyBean>() {
+                @Override
+                public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+                    ToastUtils.ToastMessage(mContext,mContext.getResources().getString(R.string.toast_send_gift_success));
+
+                }
+
+                @Override
+                public void onError(int status, String errMsg) {
+                    ToastUtils.ToastMessage(mContext,errMsg);
+                }
+            });
+        }
     }
 
     @Override

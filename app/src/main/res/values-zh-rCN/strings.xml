@@ -103,7 +103,11 @@
     <string name="toast_withdraw2card_fail">请输入%s邮箱收到的验证码</string>
     <string name="toast_add_blacklist_success">成功拉入黑名单</string>
     <string name="toast_set_success">设置成功</string>
-    
+    <string name="toast_format_account">请输入6-12位数字和字母组合的账号</string>
+    <string name="toast_format_passage">请输入6-12位数字和字母组合的密码</string>
+    <string name="toast_send_gift_success">发送礼物成功</string>
+    <string name="toast_send_gift_fail">发送礼物失败</string>
+
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>
     <string name="tip_confirm">确定</string>

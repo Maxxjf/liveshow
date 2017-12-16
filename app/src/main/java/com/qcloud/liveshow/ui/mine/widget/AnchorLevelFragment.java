@@ -2,6 +2,7 @@ package com.qcloud.liveshow.ui.mine.widget;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.qcloud.liveshow.ui.mine.view.IAnchorLevelView;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.widget.customview.RatioImageView;
 
 import java.util.List;
@@ -90,9 +92,12 @@ public class AnchorLevelFragment extends BaseFragment<IAnchorLevelView, AnchorLe
     @Override
     public void refreshData(AnchorGradeBean bean) {
         if (isInFragment && bean != null) {
-            GlideUtil.loadCircleImage(getActivity(), mImgLevel, bean.getAnchorGradeIcon(),
-                    R.drawable.icon_anchor_level_1, 0, 0, true, false);
-
+            if (StringUtils.isEmptyString(bean.getAnchorGradeIcon())){
+                mImgLevel.setVisibility(View.GONE);
+            }else {
+                GlideUtil.loadCircleImage(getActivity(), mImgLevel, bean.getAnchorGradeIcon(),
+                        R.drawable.icon_anchor_level_1, 0, 0, true, false);
+            }
             mTvContactWay.setText(bean.getContact());
         }
     }

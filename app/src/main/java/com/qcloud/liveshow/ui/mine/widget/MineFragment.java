@@ -85,6 +85,12 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.onResume();
+    }
+
     private void initRxBusEvent() {
         mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, new Consumer<RxBusEvent>() {
             @Override

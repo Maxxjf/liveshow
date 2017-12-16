@@ -100,5 +100,11 @@ public class IProfitApi {
 
         return OkGoRequest.getRequest(UrlConstants.WITHDRAW_CARD, type, params);
     }
+    /**发礼物*/
+    public static Observable<BaseResponse<ReturnEmptyBean>> sendGift(HttpParams params){
+        Type type=new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
+        return OkGoRequest.getRequest(UrlConstants.SEND_GIFT,type,params);
+    }
+
 
 }

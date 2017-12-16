@@ -21,6 +21,7 @@ import com.qcloud.liveshow.ui.account.view.IForgetPassWordView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.StringUtils;
+import com.qcloud.qclib.utils.ValidateUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -162,7 +163,6 @@ public class ForgetPassWordActivity extends SwipeBaseActivity<IForgetPassWordVie
     public void getCodeSuccess(String code) {
         if (isRunning) {
             ToastUtils.ToastMessage(this, getResources().getString(R.string.toast_has_been_sent));
-            startTimer();
         }
     }
 
@@ -191,7 +191,7 @@ public class ForgetPassWordActivity extends SwipeBaseActivity<IForgetPassWordVie
         if (checkEmailAndAccound()) {
             mPresenter.forgetPasswordCode(account);
             btnGetCode.setEnabled(false);
-
+            startTimer();
         }
     }
 
@@ -259,6 +259,10 @@ public class ForgetPassWordActivity extends SwipeBaseActivity<IForgetPassWordVie
         }
         if (StringUtils.isEmptyString(passWord)) {
             loadErr(true, getResources().getString(R.string.input_password_hint));
+            return false;
+        }
+        if(!ValidateUtil.isAccount(passWord)){
+            ToastUtils.ToastMessage(mContext,getResources().getString(R.string.toast_format_passage));
             return false;
         }
         return true;

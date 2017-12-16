@@ -26,6 +26,7 @@ import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.ConstantUtil;
 import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.utils.TokenUtil;
+import com.qcloud.qclib.utils.ValidateUtil;
 import com.qcloud.qclib.widget.customview.ClearEditText;
 import com.qcloud.qclib.widget.customview.LineTextView;
 import com.umeng.socialize.UMAuthListener;
@@ -185,7 +186,7 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
     private boolean check() {
         passwork = mEtPassword.getText().toString().trim();
 
-        if (!checkMobile()) {
+        if (!checkAccount()) {
             return false;
         }
 
@@ -194,11 +195,20 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
             mEtPassword.requestFocus();
             return false;
         }
+        if (!ValidateUtil.isAccount(passwork)) {
+            ToastUtils.ToastMessage(this, R.string.toast_format_passage);
+            mEtPassword.requestFocus();
+            return false;
+        }
 
         return true;
     }
 
-    public boolean checkMobile() {
+    /**
+     * 检查账号
+     * @return
+     */
+    public boolean checkAccount() {
         account = mEtAccount.getText().toString().trim();
 
         if (StringUtils.isEmptyString(account)) {
@@ -207,11 +217,11 @@ public class LoginActivity extends BaseActivity<ILoginView, LoginPresenterImpl> 
             return false;
         }
 
-//        if (!ValidateUtil.isMobilePhone(account)) {
-//            ToastUtils.ToastMessage(this, R.string.toast_right_mobile_phone);
-//            mEtAccount.requestFocus();
-//            return false;
-//        }
+        if (!ValidateUtil.isAccount(account)) {
+            ToastUtils.ToastMessage(this, R.string.toast_format_account);
+            mEtAccount.requestFocus();
+            return false;
+        }
 
         return true;
     }

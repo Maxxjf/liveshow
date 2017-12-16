@@ -76,6 +76,8 @@ public class ResponseChannelHandler extends ChannelHandlerSuper {
             while (NettyClientBus.isRun) {
                 try {
                     String response = mMessageDeque.take();
+                    Timber.e("response"+response);
+                    Timber.e("receiveMsg"+receiveMsg);
                     if (JsonUtil.isGoodJson(response)) {
                         // 取到一个完整的json，则之前取到的不完整json先解析
                         String receiveMsgStr = String.valueOf(receiveMsg);
@@ -103,7 +105,7 @@ public class ResponseChannelHandler extends ChannelHandlerSuper {
                         // 粘包/拆包数据
                         receiveMsg.append(response);
                     }
-                    Thread.sleep(600);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (Exception ignored) {

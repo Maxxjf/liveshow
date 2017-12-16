@@ -29,6 +29,10 @@ public class AnchorBean implements Serializable {
         return id;
     }
 
+    public String getIdStr() {
+        return String.valueOf(id);
+    }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -90,7 +94,7 @@ public class AnchorBean implements Serializable {
     }
 
     public String getAnchorGrade() {
-        return StringUtils.isEmptyString(anchorGrade)? "" : anchorGrade;
+        return StringUtils.isEmptyString(anchorGrade) ? "" : anchorGrade;
     }
 
     public void setAnchorGrade(String anchorGrade) {
@@ -114,7 +118,7 @@ public class AnchorBean implements Serializable {
     }
 
     public String getMemberGrade() {
-        return StringUtils.isEmptyString(memberGrade)? "Lv.0" : memberGrade;
+        return StringUtils.isEmptyString(memberGrade) ? "Lv.0" : memberGrade;
     }
 
     public void setMemberGrade(String memberGrade) {

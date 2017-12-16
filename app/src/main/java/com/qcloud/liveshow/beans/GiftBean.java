@@ -17,7 +17,9 @@ public class GiftBean {
     public long getId() {
         return id;
     }
-
+    public String getIdStr(){
+        return String.valueOf(id);
+    }
     public void setId(long id) {
         this.id = id;
     }

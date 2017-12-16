@@ -297,7 +297,9 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * 初始化发送礼物弹窗
      * */
     private void initGiftPop() {
-        mGiftPop = new SendGiftPop(mContext);
+        if (mCurrBean!=null&&mAnchorBean!=null){
+            mGiftPop = new SendGiftPop(mContext,mCurrBean,mAnchorBean);
+        }
     }
 
     /**

@@ -33,6 +33,7 @@
             android:gravity="center_vertical"
             android:hint="@string/input_account_hint"
             android:imeOptions="actionNext"
+            android:maxLength="12"
             android:lines="1"
             android:paddingLeft="@dimen/margin_2"
             android:paddingRight="@dimen/margin_2"
@@ -57,9 +58,9 @@
                 android:gravity="center_vertical"
                 android:hint="@string/input_password_hint"
                 android:imeOptions="actionDone"
-                android:inputType="number"
+                android:inputType="textPassword"
                 android:lines="1"
-                android:maxLength="6"
+                android:maxLength="12"
                 android:paddingLeft="@dimen/margin_2"
                 android:paddingRight="@dimen/margin_2"
                 android:textColor="@color/colorText"
@@ -85,6 +86,18 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_forget_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/layout_login"
+        android:layout_alignRight="@+id/layout_login"
+        android:layout_below="@+id/layout_login"
+        android:layout_gravity="right"
+        android:layout_marginTop="8dp"
+        android:text="@string/btn_forget_password"
+        android:textColor="@color/colorBlue"
+        android:textSize="@dimen/small_text_size" />
     <LinearLayout
         android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
@@ -95,15 +108,7 @@
         android:layout_marginLeft="@dimen/margin_10"
         android:layout_marginRight="@dimen/margin_10"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_forget_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingBottom="@dimen/margin_1"
-            android:text="@string/btn_forget_password"
-            android:textColor="@color/colorText"
-            android:textSize="@dimen/badge_text_size" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

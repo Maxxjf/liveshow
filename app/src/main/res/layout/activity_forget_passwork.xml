@@ -110,8 +110,8 @@
             android:id="@+id/et_set_password"
             style="@style/ApplyEditTextStyle"
             android:imeOptions="actionNext"
-            android:inputType="numberPassword"
-            android:maxLength="6"
+            android:inputType="textPassword"
+            android:maxLength="12"
             android:hint="@string/input_six_number_hint"/>
 
         <CheckBox
@@ -126,7 +126,29 @@
             android:checked="false"
             android:drawableLeft="@drawable/check_eye"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/layout_margin"
+        >
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/micro_text_size"
+            android:text="@string/tag_customer_service_contact_way"/>
+
+        <TextView
+            android:id="@+id/tv_contact_way"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/micro_text_size"
+            tools:text="微信454646746"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/btn_confirm"
         android:layout_width="match_parent"

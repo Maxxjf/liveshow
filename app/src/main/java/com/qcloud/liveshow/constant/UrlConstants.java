@@ -79,6 +79,9 @@ public interface UrlConstants {
     String GET_LIVEINFO = URL_PREFIX_APP + "room/beginCreate";
     /**判断该用户身份(主播,守护,观众)*/
     String GET_USER_STATUS = URL_PREFIX_APP + "room/estimateIdentity";
+    /**发礼物*/
+    String SEND_GIFT = URL_PREFIX_APP + "room/sendGift";
+
 
     /**
      * 我的有关
@@ -125,6 +128,7 @@ public interface UrlConstants {
     String SUBMIT_BINDING = URL_PREFIX_APP + "index/bindingGeneralizeRelation";
     /**提现*/
     String WITHDRAW_CARD = URL_PREFIX_APP + "member/withdraw2card";
+
 
 
     /**

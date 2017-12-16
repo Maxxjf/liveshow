@@ -21,6 +21,7 @@ public interface AppConstants {
 
     /**Netty 服务器*/
     String NETTY_HOST = "10.10.22.123";
+//    String NETTY_HOST = "10.10.100.195";
     int NETTY_PORT = 2071;
 
 

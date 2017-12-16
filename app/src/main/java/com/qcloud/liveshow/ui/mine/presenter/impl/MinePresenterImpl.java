@@ -3,6 +3,7 @@ package com.qcloud.liveshow.ui.mine.presenter.impl;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.ui.mine.presenter.IMinePresenter;
 import com.qcloud.liveshow.ui.mine.view.IMineView;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.base.BasePresenter;
 
 /**
@@ -50,5 +51,9 @@ public class MinePresenterImpl extends BasePresenter<IMineView> implements IMine
                 mView.onSetClick();
                 break;
         }
+    }
+    @Override
+    public void onResume() {
+        UserInfoUtil.loadUserInfo();
     }
 }

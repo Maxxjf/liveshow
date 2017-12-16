@@ -73,7 +73,7 @@ public class LevelViewPagerAdapter extends IndicatorViewPager.IndicatorFragmentP
                 }
                 fragment = mUserFragment;
                 break;
-            case 1: // 最新
+            case 1: // 主播登记
                 if (mAnchorFragment == null) {
                     mAnchorFragment = new AnchorLevelFragment();
                 }

@@ -49,4 +49,7 @@ public interface IProfitModel {
 
     /**取现*/
     void withdraw2Card(String cash, String name, String cardNumber, Integer bankCode, String password, DataCallback<ReturnWithdrawSuccessBean> callback);
+
+    /**发送礼物*/
+    void sendGift(String giftId,String id,String roomId,DataCallback<ReturnEmptyBean> callback);
 }
