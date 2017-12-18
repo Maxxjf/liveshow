@@ -24,7 +24,7 @@ import com.qcloud.liveshow.widget.pop.TollStandardPicker;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.beans.UploadFileBean;
 import com.qcloud.qclib.image.GlideUtil;
-import com.qcloud.qclib.imageselect.ProcessImage2Activity;
+import com.qcloud.qclib.imageselect.ProcessImageActivity;
 import com.qcloud.qclib.imageselect.utils.ImageSelectUtil;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.DateUtils;
@@ -182,7 +182,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
                             ImageSelectUtil.startCamera(getActivity(), REQUEST_CODE, screenW, screenW);
                 } else if (view.getId() == R.id.btn_album) {
 //                    ImageSelectUtil.openPhoto(getActivity(), REQUEST_CODE, false);
-                    getActivity().startActivity(new Intent(getActivity(), ProcessImage2Activity.class));
+                    getActivity().startActivity(new Intent(getActivity(), ProcessImageActivity.class));
                 }
             }
         });

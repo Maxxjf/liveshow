@@ -35,7 +35,7 @@
     <application
         android:name=".base.BaseApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -54,16 +54,16 @@
             android:name=".ui.main.widget.LaunchActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.main.widget.GuideActivity"
             android:label="@string/title_guild"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop" />
         <activity
             android:name=".ui.main.widget.MainActivity"
             android:label="@string/title_main"
@@ -78,10 +78,11 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!--下面所设置的质需要和html端对调-->
-                <!--在data里设置了 scheme和host，则该Activity可以接收和处理类似于 "sharetest://data/XXX"的链接-->
+                <!-- 下面所设置的质需要和html端对调 -->
+                <!-- 在data里设置了 scheme和host，则该Activity可以接收和处理类似于 "sharetest://data/XXX"的链接 -->
                 <data
                     android:host="data"
                     android:scheme="sharetest" />
@@ -169,7 +170,7 @@
             android:name=".ui.mine.widget.SettingActivity"
             android:label="@string/title_setting"
             android:launchMode="singleTask"
-            android:theme="@style/AppSwipeBackTheme"></activity>
+            android:theme="@style/AppSwipeBackTheme" />
         <activity
             android:name=".ui.mine.widget.MyGiftsActivity"
             android:label="@string/title_my_gifts"
@@ -260,7 +261,7 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!--PayPal有关-->
+        <!-- PayPal有关 -->
         <service
             android:name="com.paypal.android.sdk.payments.PayPalService"
             android:exported="false" />
@@ -276,22 +277,23 @@
             android:name="io.card.payment.CardIOActivity"
             android:configChanges="keyboardHidden|orientation" />
         <activity android:name="io.card.payment.DataEntryActivity" />
-        <!--end of paypal requirements  -->
+        <!-- end of paypal requirements -->
 
-        <!--支付宝支付页面-->
+
+        <!-- 支付宝支付页面 -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.alipay.sdk.app.H5AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
-        <!--end of 支付宝  -->
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <!-- end of 支付宝 -->
         <provider
             android:name="com.umeng.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider176951416183947"
