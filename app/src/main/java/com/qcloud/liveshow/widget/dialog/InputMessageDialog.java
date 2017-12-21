@@ -97,7 +97,7 @@ public class InputMessageDialog extends Dialog {
                         onSendClick();
                         return true;
                     case KeyEvent.KEYCODE_BACK:
-                        dismiss();
+                        onSendClick();
                         return false;
                     default:
                         return false;

@@ -21,6 +21,8 @@ public interface IAnchorControlView extends BaseView {
 
     void userOutGroup(NettyNoticeBean bean);
 
+    void upDateMessageSendStatus(String chatId, int charStatus);
+
     /**点击公告*/
     void onNoticeClick();
 

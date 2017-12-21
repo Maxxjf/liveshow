@@ -28,4 +28,8 @@ public interface IFansMessageView extends BaseView {
 
     /**隐藏空布局*/
     void hideEmptyView();
+
+
+    /**更新列表*/
+    void upDateApater(String chatId,int isSuccess);
 }

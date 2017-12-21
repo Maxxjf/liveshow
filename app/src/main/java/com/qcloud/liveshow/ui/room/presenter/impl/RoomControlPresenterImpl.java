@@ -7,6 +7,7 @@ import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.enums.CharStatusEnum;
 import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.model.IAnchorModel;
 import com.qcloud.liveshow.model.IIMModel;
@@ -44,7 +45,7 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
         mIMModel = new IMModelImpl();
         anchorModel=new AnchorModelImpl();
         longList=new ArrayList<>();
-
+        idList=new ArrayList<>();
         initRxBusEvent();
     }
 
@@ -85,6 +86,10 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                             // 公告
                             mView.refreshNotice((NettyLiveNoticeBean) rxBusEvent.getObj());
                             break;
+                        case R.id.netty_message_send_success:
+                            //消息发送成功
+                            String chatId = (String) rxBusEvent.getObj();
+                            mView.upDateApater(chatId, CharStatusEnum.SUCCESS.getKey());
                     }
                 }
             }

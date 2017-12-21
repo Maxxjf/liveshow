@@ -130,7 +130,6 @@ public class ResponseChannelHandler extends ChannelHandlerSuper {
             for (int i = 0; i < response.length(); i++) {
                 indexStr = response.substring(i, i+1);
                 jsonObjStr.append(indexStr);
-
                 if (indexStr.equals("{")) {
                     bracket += 1;
                 } else if (indexStr.equals("}")) {

@@ -203,7 +203,8 @@ public class ForgetPassWordActivity extends SwipeBaseActivity<IForgetPassWordVie
     }
 
     private void startTimer() {
-        mDisposable = Observable.interval(1, TimeUnit.SECONDS).take(60).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        mDisposable = Observable.interval(1, TimeUnit.SECONDS).take(60)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .doOnDispose(new Action() {
                     @Override
                     public void run() throws Exception {

@@ -10,12 +10,18 @@ import android.widget.TextView;
 import com.github.lzyzsd.jsbridge.BridgeWebView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
+import com.qcloud.liveshow.beans.UserBean;
+import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.liveshow.ui.mine.presenter.impl.ExtensionPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IExtensionView;
+import com.qcloud.liveshow.utils.ShareUtil;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import butterknife.Bind;
+import butterknife.BindString;
 import butterknife.OnClick;
 import timber.log.Timber;
 
@@ -39,6 +45,13 @@ public class ExtensionActivity extends SwipeBaseActivity<IExtensionView, Extensi
     @Bind(R.id.btn_facebook)
     ImageView mBtnFacebook;
 
+    @BindString(R.string.tag_extension)
+    String extension;
+
+    private ShareUtil shareUtil;
+    private UserBean user;
+    private String experienceCode;
+
     @Override
     protected int initLayout() {
         return R.layout.activity_extension;
@@ -61,7 +74,13 @@ public class ExtensionActivity extends SwipeBaseActivity<IExtensionView, Extensi
 
     @Override
     protected void initViewAndData() {
-
+        shareUtil = new ShareUtil(this);
+        user = UserInfoUtil.mUser;
+        if (user!=null){
+            extension=String.format(extension,user.getIdAccount());
+            mTvExperienceCode.setText(extension);
+            experienceCode=user.getIdAccount();
+        }
     }
 
     @OnClick({R.id.btn_we_chat, R.id.btn_wexin_circle, R.id.btn_facebook})
@@ -71,17 +90,20 @@ public class ExtensionActivity extends SwipeBaseActivity<IExtensionView, Extensi
 
     @Override
     public void onWeChatClick() {
-
+            shareUtil.shareWeb(SHARE_MEDIA.WEIXIN, UrlConstants.SHARP_Generalize_URL +"?idAccount="+experienceCode, "http://store.happytify.cc/uploads/20170928/85/854533C5512Ew600h624.jpeg",
+                    "快来看我直播吧", "直播吃香蕉中.....");
     }
 
     @Override
     public void onWeiXinCircleClick() {
-
+            shareUtil.shareWeb(SHARE_MEDIA.WEIXIN_CIRCLE, UrlConstants.SHARP_Generalize_URL +"?idAccount="+experienceCode, "http://store.happytify.cc/uploads/20170928/85/854533C5512Ew600h624.jpeg",
+                    "快来看我直播吧", "直播吃香蕉中.....");
     }
 
     @Override
     public void onFacebookClick() {
-
+            shareUtil.shareWeb(SHARE_MEDIA.FACEBOOK, UrlConstants.SHARP_Generalize_URL +"?idAccount="+experienceCode, "http://store.happytify.cc/uploads/20170928/85/854533C5512Ew600h624.jpeg",
+                    "快来看我直播吧", "直播吃香蕉中.....");
     }
 
     @Override
@@ -93,6 +115,12 @@ public class ExtensionActivity extends SwipeBaseActivity<IExtensionView, Extensi
                 Timber.e(errMsg);
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        shareUtil.detach();
     }
 
     public static void openActivity(Context context) {

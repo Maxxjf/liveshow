@@ -105,6 +105,8 @@
     <string name="toast_set_success">设置成功</string>
     <string name="toast_format_account">请输入6-12位数字和字母组合的账号</string>
     <string name="toast_format_passage">请输入6-12位数字和字母组合的密码</string>
+    <string name="toast_send_gift_success">发送礼物成功</string>
+    <string name="toast_send_gift_fail">发送礼物失败</string>
 
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>
@@ -289,5 +291,6 @@
     <string name="tag_account">账号</string>
     <string name="tag_input_again">再次输入</string>
     <string name="tag_tip_anchor_is_no_live">该直播未开启直播~</string>
+    <string name="tag_extension">推广码：%s</string>
 
 </resources>

@@ -35,6 +35,7 @@ import com.qcloud.liveshow.widget.pop.GuarderPop;
 import com.qcloud.liveshow.widget.pop.MessageListPop;
 import com.qcloud.liveshow.widget.pop.SharePop;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.widget.customview.MarqueeView;
 
 import java.util.List;
@@ -277,6 +278,13 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     }
 
     /**
+     * 更新发送状态
+     */
+    @Override
+    public void upDateMessageSendStatus(String chatId, int charStatus){
+        mFansMessagePop.upDateApater(chatId,charStatus);
+    }
+    /**
      * 初始化消息列表弹窗
      */
     private void initMessagePop() {
@@ -294,7 +302,10 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      * 初始化消息列表弹窗
      */
     private void initSharePop() {
-        mSharePop = new SharePop(mContext);
+        String roomId = ((AnchorActivity) getActivity()).getRoomId();
+        if (roomId!=null&& StringUtils.isNotEmptyString(roomId)){
+            mSharePop = new SharePop(mContext,roomId);
+        }
     }
 
     /**

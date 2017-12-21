@@ -49,7 +49,7 @@ public class SettingPresenterImpl extends BasePresenter<ISettingView> implements
             @Override
             public void onSuccess(ReturnEmptyBean returnEmptyBean) {
                 if (mView != null) {
-                    mView.logoutSuccess();
+//                    mView.logoutSuccess();
                 }
             }
 

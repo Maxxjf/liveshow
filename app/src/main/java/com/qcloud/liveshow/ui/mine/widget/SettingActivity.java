@@ -147,6 +147,7 @@ public class SettingActivity extends SwipeBaseActivity<ISettingView, SettingPres
             public void onViewClick(View view) {
                 if (view.getId() == R.id.btn_ok) {
                     mPresenter.logout();
+                    logoutSuccess();
                 }
             }
         });

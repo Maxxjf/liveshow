@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.qcloud.liveshow.beans.NettyBaseResponse;
 import com.qcloud.liveshow.enums.NettyResponseCode;
-import com.qcloud.qclib.callback.DataCallback;
+import com.qcloud.qclib.callback.NettyDataCallback;
 
 import java.lang.reflect.Type;
 
@@ -28,7 +28,7 @@ public class NettyDispose {
     /**
      * 数据处理
      * */
-    public static <T> void dispose(@NonNull JsonElement jsonStr, final Type type, @NonNull final DataCallback<T> callback) {
+    public static <T> void dispose(@NonNull JsonElement jsonStr, final Type type, @NonNull final NettyDataCallback<T> callback) {
         Observable.just(jsonStr).map(new Function<JsonElement, NettyBaseResponse<T>>() {
             @Override
             public NettyBaseResponse<T> apply(@NonNull JsonElement jsonStr) throws Exception {
@@ -50,7 +50,7 @@ public class NettyDispose {
                         switch (bean.getCode()) {
                             case 0://成功
                                 Timber.e("" + bean);
-                                callback.onSuccess(bean.getData());
+                                callback.onSuccess(bean.getData(), bean.getUuid());
                                 break;
                             case 1://失败
                             case 2://鉴权失败

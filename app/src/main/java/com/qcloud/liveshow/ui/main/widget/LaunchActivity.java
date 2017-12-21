@@ -3,6 +3,7 @@ package com.qcloud.liveshow.ui.main.widget;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
@@ -67,8 +68,24 @@ public class LaunchActivity extends BaseActivity<ILaunchView, LaunchPresenterImp
         SystemBarUtil.transparencyNavBar(this);
         initRxBusEvent();
         startTimer();
+        getShareDate();
     }
 
+    /**
+     * 分享页唤醒APP的时候有数据
+     */
+    private void getShareDate(){
+        Uri uriData = this.getIntent().getData();
+        if (uriData!=null){
+            String mydata = uriData.getQueryParameter("roomId");
+            String mydata2 = uriData.getQueryParameter("data");
+            String mydata3 = uriData.getQueryParameter("scheme");
+            Timber.e("uriData:"+uriData);
+            Timber.e("mydata2:"+mydata2);
+            Timber.e("mydata:"+mydata);
+            Timber.e("mydata3:"+mydata3);
+        }
+    }
     private void initRxBusEvent() {
         mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, rxBusEvent -> {
             switch (rxBusEvent.getType()) {

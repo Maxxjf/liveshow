@@ -58,7 +58,7 @@
                         android:textColor="@color/colorStart"
                         android:textSize="@dimen/xlarge_text_size"
                         android:textStyle="bold"
-                        android:text="推广码：BD1234"/>
+                        android:text="@string/tag_extension"/>
                 </LinearLayout>
             </FrameLayout>
 

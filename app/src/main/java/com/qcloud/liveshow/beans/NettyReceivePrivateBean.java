@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.beans;
 
+import com.qcloud.liveshow.enums.CharStatusEnum;
 import com.qcloud.qclib.utils.DateUtils;
 
 import io.realm.RealmObject;
@@ -18,6 +19,18 @@ public class NettyReceivePrivateBean extends RealmObject {
     /**这接收过来本来是时间戳，但Realm排列不接受Long类型，只能String*/
     String date_time;           //接收时间
     boolean isSend = false;     // false为未读的，true为自己发的
+    int sendStatus= CharStatusEnum.INPROGRESS.getKey();       //聊天的发送状态  1为成功，2为失败，3是发送中
+
+
+
+
+    public int getSendStatus() {
+        return sendStatus;
+    }
+
+    public void setSendStatus(int sendStatus) {
+        this.sendStatus = sendStatus;
+    }
 
     public String getFrom_user_id() {
         return from_user_id;
@@ -74,6 +87,7 @@ public class NettyReceivePrivateBean extends RealmObject {
                 ", content=" + content +
                 ", date_time='" + date_time + '\'' +
                 ", isSend=" + isSend +
+                ", sendStatus=" + sendStatus +
                 '}';
     }
 }

@@ -291,5 +291,6 @@
     <string name="tag_account">账号</string>
     <string name="tag_input_again">再次输入</string>
     <string name="tag_tip_anchor_is_no_live">该直播未开启直播~</string>
+    <string name="tag_extension">推广码：%s</string>
 
 </resources>

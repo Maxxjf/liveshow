@@ -19,6 +19,7 @@ import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.constant.AppConstants;
+import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.ui.home.presenter.impl.FansMessagePresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IFansMessageView;
 import com.qcloud.liveshow.utils.EmojiClickManagerUtil;
@@ -68,9 +69,13 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     private Rect tmp = new Rect();
     private int mScreenHeight;
 
-    /**是否显示表情*/
+    /**
+     * 是否显示表情
+     */
     private boolean isShowEmoji;
-    /**表情全局工具类*/
+    /**
+     * 表情全局工具类
+     */
     private EmojiClickManagerUtil mClickManager;
 
     @Override
@@ -107,7 +112,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
         if (mMemberBean != null) {
             mAdapter.refreshMember(mMemberBean);
             String fromUserId = mMemberBean.getIdStr();
-            if (mPresenter != null){
+            if (mPresenter != null) {
                 mPresenter.getChars(fromUserId);//获取所有私聊列表
             }
 
@@ -117,7 +122,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
 
     /**
      * 初始化刷新布局
-     * */
+     */
     private void initRefreshList() {
         PullRefreshUtil.setRefresh(mListMessage, false, false);
         mListMessage.setOnPullDownRefreshListener(() -> mListMessage.refreshFinish());
@@ -132,7 +137,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
 
     /**
      * 初始化表情布局
-     * */
+     */
     private void initEmojiLayout() {
         mLayoutEmoji.initIndicator(getSupportFragmentManager());
         mLayoutEmoji.setOnViewClickListener(view -> onSendClick());
@@ -142,7 +147,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
 
     /**
      * 初始化输入弹窗
-     * */
+     */
     private void initEditMessage() {
         int defaultHeight = DensityUtils.dp2px(this, 240);
         int height = ConstantUtil.getInt(AppConstants.LAST_KEYBOARD_HEIGHT, defaultHeight);
@@ -205,7 +210,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
 
     /**
      * 显示表情布局
-     * */
+     */
     private void showEmoji() {
         if (mLayoutEmoji.getVisibility() != View.VISIBLE) {
             mLayoutEmoji.setVisibility(View.VISIBLE);
@@ -214,7 +219,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
 
     /**
      * 隐藏表情布局
-     * */
+     */
     private void hideEmoji() {
         if (mLayoutEmoji.getVisibility() != View.GONE) {
             mLayoutEmoji.setVisibility(View.GONE);
@@ -223,14 +228,14 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
 
     /**
      * 表情布局是否显示
-     * */
+     */
     private boolean isEmojiVisible() {
         return mLayoutEmoji.getVisibility() == View.VISIBLE;
     }
 
     /**
      * 是否显示键盘
-     * */
+     */
     private boolean isKeyboardVisible() {
         return (getDistanceFromInputToBottom() > AppConstants.DISTANCE_SLOP && !isEmojiVisible())
                 || (getDistanceFromInputToBottom() > (mLayoutEmoji.getHeight() + AppConstants.DISTANCE_SLOP) && isEmojiVisible());
@@ -283,7 +288,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
 
     /**
      * 加并且刷新消息
-     * */
+     */
     @Override
     public void addMessage(NettyReceivePrivateBean bean) {
         if (isRunning) {
@@ -326,6 +331,20 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
             mListMessage.hideEmptyView();
         }
     }
+
+    @Override
+    public void upDateApater(String chatId, int charStatus) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                RealmHelper.getInstance().updateMessageStatus(chatId, charStatus);
+                mAdapter.upDateSendStatus(chatId, charStatus);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
+    }
+
     @Override
     public void loadErr(boolean isShow, String errMsg) {
         if (isRunning) {
@@ -362,8 +381,8 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
 
     public static void openActivity(Context context, MemberBean fromUserId) {
         Intent intent = new Intent(context, FansMessageActivity.class);
-        Bundle bundle=new Bundle();
-        bundle.putSerializable("formUser",fromUserId);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("formUser", fromUserId);
         intent.putExtras(bundle);
         context.startActivity(intent);
     }

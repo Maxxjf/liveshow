@@ -70,4 +70,6 @@ public interface IRoomControlView {
     void refreshNotice(NettyLiveNoticeBean bean);
     /**添加消息列表*/
     void addMessage(MemberBean bean);
+    /**添加消息列表*/
+    void upDateApater(String charId,int charStatus);
 }

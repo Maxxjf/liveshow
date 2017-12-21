@@ -19,7 +19,7 @@ public interface IIMModel {
     /**
      * 发送私聊消息
      */
-    void sendPrivateChat(String userId, String content);
+    void sendPrivateChat(String userId, String content,String UUid);
 
     /**
      * 发送群聊消息

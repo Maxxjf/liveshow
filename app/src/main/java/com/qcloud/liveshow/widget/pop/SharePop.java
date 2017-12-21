@@ -2,16 +2,17 @@ package com.qcloud.liveshow.widget.pop;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.liveshow.adapter.ShareAdapter;
+import com.qcloud.liveshow.constant.UrlConstants;
+import com.qcloud.liveshow.utils.ShareUtil;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.base.BasePopupWindow;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -24,15 +25,20 @@ import butterknife.OnClick;
 public class SharePop extends BasePopupWindow {
     @Bind(R.id.tv_title)
     TextView mTvTitle;
-    @Bind(R.id.list_share)
-    RecyclerView mListShare;
     @Bind(R.id.btn_cancel)
     TextView mBtnCancel;
-
-    private ShareAdapter mAdapter;
-
-    public SharePop(Context context) {
+    private final String roomId;
+    private final ShareUtil shareUtil;
+    private String idAccount;
+    private String imageUrl;
+    public SharePop(Context context,String roomId) {
         super(context);
+        this.roomId=roomId;
+        if (UserInfoUtil.mUser!=null){
+            idAccount =UserInfoUtil.mUser.getIdAccount();
+            imageUrl =UserInfoUtil.mUser.getHeadImg();
+        }
+        shareUtil = new ShareUtil(mActivity);
     }
 
     @Override
@@ -47,10 +53,28 @@ public class SharePop extends BasePopupWindow {
 
     @Override
     protected void initAfterViews() {
-        mAdapter = new ShareAdapter(mContext);
-        LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-        mListShare.setLayoutManager(manager);
-        mListShare.setAdapter(mAdapter);
+
+    }
+
+    @OnClick(R.id.btn_share_wechat)
+    void setBtnShareWechat() {
+        shareUtil.shareWeb(SHARE_MEDIA.WEIXIN, UrlConstants.SHARP_LIVR_URL +"?idAccount="+ idAccount+"&roomId="+roomId,
+                "http://store.happytify.cc/uploads/20170928/85/854533C5512Ew600h624.jpeg",
+                "快来看我直播吧", "直播吃蕉.....");
+    }
+
+    @OnClick(R.id.btn_share_wechat_circle)
+    void setBtnShareWechatCircle() {
+        shareUtil.shareWeb(SHARE_MEDIA.WEIXIN_CIRCLE, UrlConstants.SHARP_LIVR_URL +"?idAccount="+ idAccount+"&roomId="+roomId,
+                "http://store.happytify.cc/uploads/20170928/85/854533C5512Ew600h624.jpeg",
+                "快来看我直播吧", "直播吃蕉.....");
+    }
+
+    @OnClick(R.id.btn_facebook)
+    void setBtnShareFacebook() {
+        shareUtil.shareWeb(SHARE_MEDIA.FACEBOOK, UrlConstants.SHARP_LIVR_URL +"?idAccount="+ idAccount+"&roomId="+roomId,
+                "http://store.happytify.cc/uploads/20170928/85/854533C5512Ew600h624.jpeg",
+                "快来看我直播吧", "直播吃蕉.....");
     }
 
     @Override

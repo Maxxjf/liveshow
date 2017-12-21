@@ -72,7 +72,7 @@ public class IMModelImpl implements IIMModel {
      * @time 2017/11/2 10:25
      */
     @Override
-    public void sendPrivateChat(String userId, String content) {
+    public void sendPrivateChat(String userId, String content,String uuid) {
         NettyContentBean contentBean = new NettyContentBean(content);
         NettySendPrivateBean bean =new NettySendPrivateBean();
         bean.setToken(TokenUtil.getToken());
@@ -81,7 +81,7 @@ public class IMModelImpl implements IIMModel {
 
         NettyRequestBean<NettySendPrivateBean> requestBean=new NettyRequestBean<>();
         requestBean.setAction_type(RequestDataEnum.ActionType.PRIVATE_CHAT.getKey());
-        requestBean.setUuid(DateUtils.getTimeStamp());
+        requestBean.setUuid(uuid);
         requestBean.setData(bean);
         NettyClientBus.request(mGson.toJson(requestBean));
 

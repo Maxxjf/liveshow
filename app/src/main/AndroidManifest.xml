@@ -59,6 +59,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- 下面所设置的质需要和html端对调 -->
+                <!-- 在data里设置了 scheme和host，则该Activity可以接收和处理类似于 "sharetest://data/XXX"的链接 -->
+                <data
+                    android:host="data"
+                    android:scheme="scheme" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.main.widget.GuideActivity"
@@ -76,17 +86,7 @@
             android:name=".ui.account.widget.LoginActivity"
             android:label="@string/title_login"
             android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- 下面所设置的质需要和html端对调 -->
-                <!-- 在data里设置了 scheme和host，则该Activity可以接收和处理类似于 "sharetest://data/XXX"的链接 -->
-                <data
-                    android:host="data"
-                    android:scheme="sharetest" />
-            </intent-filter>
         </activity>
 
         <!-- 直播间有关 -->
@@ -303,7 +303,8 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-
+        <activity android:name=".Test.TestActivity">
+        </activity>
     </application>
 
 </manifest>

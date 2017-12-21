@@ -34,7 +34,8 @@ import timber.log.Timber;
  * Author: Kuzan
  * Date: 2017/8/1 13:50.
  */
-public abstract class BaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity {
+public abstract class
+BaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity {
     protected Context mContext;
     protected BaseApplication application = BaseApplication.getInstance();
     protected Bus mEventBus = BusProvider.getInstance();

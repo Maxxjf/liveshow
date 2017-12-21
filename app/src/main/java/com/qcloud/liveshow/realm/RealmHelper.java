@@ -3,6 +3,7 @@ package com.qcloud.liveshow.realm;
 import android.annotation.SuppressLint;
 
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 
@@ -137,6 +138,22 @@ public class RealmHelper {
      *
      * @param clazz 继承RealmObject的实体类
      * @param fieldName 数据库对应的字段
+     * @param id 数据库对应的值
+     *
+     * */
+    public <T extends RealmObject> T queryBeanById(Class<T> clazz, String fieldName, final String id) {
+        if (mRealm == null) {
+            Timber.e("realm is null");
+            return null;
+        }
+        return mRealm.where(clazz).equalTo(fieldName, id).findFirst();
+    }
+
+    /**
+     * 查找
+     *
+     * @param clazz 继承RealmObject的实体类
+     * @param fieldName 数据库对应的字段
      * @param value 数据库对应的值
      * */
     public <T extends RealmObject> T queryBeanByValue(Class<T> clazz, String fieldName, final String value) {
@@ -251,6 +268,26 @@ public class RealmHelper {
             mRealm.commitTransaction();
         }
     }
+
+
+    /**
+     *
+     * @param chatId
+     * */
+    public void updateMessageStatus(String chatId,int messageStatus) {
+        if (mRealm == null) {
+            Timber.e("realm is null");
+            return;
+        }
+
+        NettyReceivePrivateBean bean = mRealm.where(NettyReceivePrivateBean.class).equalTo("chat_id", chatId).findFirst();
+        if (bean != null) {
+            mRealm.beginTransaction();
+            bean.setSendStatus(messageStatus);
+            mRealm.commitTransaction();
+        }
+    }
+
 
     /**
      * 关闭Realm

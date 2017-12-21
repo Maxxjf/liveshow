@@ -3,6 +3,7 @@ package com.qcloud.liveshow.ui.home.presenter.impl;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.NettyContentBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
+import com.qcloud.liveshow.enums.CharStatusEnum;
 import com.qcloud.liveshow.model.IIMModel;
 import com.qcloud.liveshow.model.impl.IMModelImpl;
 import com.qcloud.liveshow.realm.RealmHelper;
@@ -13,6 +14,13 @@ import com.qcloud.qclib.beans.RxBusEvent;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 类说明：粉丝消息
@@ -21,6 +29,7 @@ import java.util.UUID;
  */
 public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> implements IFansMessagePresenter {
     private IIMModel mModel;
+    private Disposable disposable;
 
     public FansMessagePresenterImpl() {
         mModel = new IMModelImpl();
@@ -45,6 +54,14 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
                     case R.id.netty_notice_out_group:
                         // 通知
                         break;
+                    case R.id.netty_message_send_success:
+                        //消息发送成功
+                        String chatId = (String) rxBusEvent.getObj();
+                        mView.upDateApater(chatId, CharStatusEnum.SUCCESS.getKey());
+                        if (disposable != null && !disposable.isDisposed()) {
+                            disposable.dispose();
+                        }
+                        break;
                 }
             }
         }));
@@ -53,7 +70,7 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
     @Override
     public void getChars(String fromUserId) {
         List<NettyReceivePrivateBean> charList = RealmHelper.getInstance().queryListByValue(
-                NettyReceivePrivateBean.class, "from_user_id", fromUserId,"date_time");
+                NettyReceivePrivateBean.class, "from_user_id", fromUserId, "date_time");
         if (charList != null) {
             mView.replaceList(charList);
         }
@@ -69,10 +86,31 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
         nettyReceivePrivateBean.setFrom_user_id(userId);
         nettyReceivePrivateBean.setSend(true);
         nettyReceivePrivateBean.setContent(contentBean);
+        nettyReceivePrivateBean.setSendStatus(CharStatusEnum.INPROGRESS.getKey());
         mView.addMessage(nettyReceivePrivateBean);
         RealmHelper.getInstance().addOrUpdateBean(nettyReceivePrivateBean);
+        mModel.sendPrivateChat(userId, content, nettyReceivePrivateBean.getChat_id());
+        startTime(nettyReceivePrivateBean);
 
-        mModel.sendPrivateChat(userId, content);
+    }
+
+    public void startTime(NettyReceivePrivateBean bean) {
+        disposable = Observable.timer(5, TimeUnit.SECONDS).observeOn(Schedulers.io()).
+                subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        mView.upDateApater(bean.getChat_id(), CharStatusEnum.FAIL.getKey());
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mView.upDateApater(bean.getChat_id(), CharStatusEnum.FAIL.getKey());
+                    }
+                });
     }
 
     @Override

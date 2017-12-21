@@ -390,7 +390,9 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * 初始化消息列表弹窗
      * */
     private void initSharePop() {
-        mSharePop = new SharePop(mContext);
+        if (mCurrBean!=null){
+            mSharePop = new SharePop(mContext,mCurrBean.getRoomIdStr());
+        }
     }
 
     /**
@@ -605,6 +607,12 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
             }
         }
     }
+
+    @Override
+    public void upDateApater(String charId, int charStatus) {
+        mFansMessagePop.upDateApater(charId,charStatus);
+    }
+
     public static RoomFragment newInstance() {
         Bundle args = new Bundle();
         RoomFragment fragment = new RoomFragment();

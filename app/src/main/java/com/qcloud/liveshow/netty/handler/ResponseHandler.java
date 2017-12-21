@@ -16,9 +16,8 @@ import com.qcloud.liveshow.netty.callback.ResponseListener;
 import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.utils.NettyUtil;
 import com.qcloud.qclib.beans.RxBusEvent;
-import com.qcloud.qclib.callback.DataCallback;
+import com.qcloud.qclib.callback.NettyDataCallback;
 import com.qcloud.qclib.rxbus.BusProvider;
-import com.qcloud.qclib.utils.StringUtils;
 
 import java.lang.reflect.Type;
 
@@ -89,9 +88,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
     public void disposeAuth(JsonElement msgConfig) {
         Type type = new TypeToken<NettyBaseResponse<NettyAuthBean>>() {
         }.getType();
-        NettyDispose.dispose(msgConfig, type, new DataCallback<NettyAuthBean>() {
+        NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyAuthBean>() {
             @Override
-            public void onSuccess(NettyAuthBean nettyAuthBean) {
+            public void onSuccess(NettyAuthBean nettyAuthBean, String uuid) {
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_auth_success).build());
                 NettyUtil.saveIsAuth(true);
             }
@@ -114,9 +113,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
     public void disposeGroup(JsonElement msgConfig) {
         Type type = new TypeToken<NettyBaseResponse<NettyReceiveGroupBean>>() {
         }.getType();
-        NettyDispose.dispose(msgConfig, type, new DataCallback<NettyReceiveGroupBean>() {
+        NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyReceiveGroupBean>() {
             @Override
-            public void onSuccess(NettyReceiveGroupBean bean) {
+            public void onSuccess(NettyReceiveGroupBean bean, String uuid) {
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_group_chat).setObj(bean).build());
             }
 
@@ -136,18 +135,16 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
     public void disposePrivate(JsonElement msgConfig) {
         Type type = new TypeToken<NettyBaseResponse<NettyReceivePrivateBean>>() {
         }.getType();
-        NettyDispose.dispose(msgConfig, type, new DataCallback<NettyReceivePrivateBean>() {
+        NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyReceivePrivateBean>() {
             @Override
-            public void onSuccess(NettyReceivePrivateBean bean) {
-                // 设置消息为未读
-                bean.setSend(false);
-                // 添加到本地数据
-                RealmHelper.getInstance().addOrUpdateBean(bean);
-                // 更新Realm数据库某条数据
-                if (StringUtils.isNotEmptyString(bean.getFrom_user_id())) {
-                    RealmHelper.getInstance().updateMember(Long.valueOf(bean.getFrom_user_id()));
+            public void onSuccess(NettyReceivePrivateBean bean, String uuid) {
+
+                if (bean.getChat_id()!=null){//收到别人的消息
+
+                    BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_private_chat).setObj(bean).build());
+                }else {//自己消息发送成功
+                    BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_message_send_success).setObj(uuid).build());
                 }
-                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_private_chat).setObj(bean).build());
             }
 
             @Override
@@ -166,9 +163,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
     public void disposeChatList(JsonElement msgConfig) {
         Type type = new TypeToken<NettyBaseResponse<MemberBean>>() {
         }.getType();
-        NettyDispose.dispose(msgConfig, type, new DataCallback<MemberBean>() {
+        NettyDispose.dispose(msgConfig, type, new NettyDataCallback<MemberBean>() {
             @Override
-            public void onSuccess(MemberBean bean) {
+            public void onSuccess(MemberBean bean, String uuid) {
                 RealmHelper.getInstance().addOrUpdateBean(bean);//添加到本地数据
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_get_chat_list_success)
                         .setObj(bean).build());
@@ -191,9 +188,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
     public void disposeUserOutGroup(JsonElement msgConfig) {
         Type type = new TypeToken<NettyBaseResponse<NettyNoticeBean>>() {
         }.getType();
-        NettyDispose.dispose(msgConfig, type, new DataCallback<NettyNoticeBean>() {
+        NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyNoticeBean>() {
             @Override
-            public void onSuccess(NettyNoticeBean bean) {
+            public void onSuccess(NettyNoticeBean bean, String uuid) {
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_notice_out_group).setObj(bean).build());
             }
 
@@ -213,9 +210,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
     public void disposeNotice(JsonElement msgConfig) {
         Type type = new TypeToken<NettyBaseResponse<NettyLiveNoticeBean>>() {
         }.getType();
-        NettyDispose.dispose(msgConfig, type, new DataCallback<NettyLiveNoticeBean>() {
+        NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyLiveNoticeBean>() {
             @Override
-            public void onSuccess(NettyLiveNoticeBean bean) {
+            public void onSuccess(NettyLiveNoticeBean bean, String uuid) {
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_notice).setObj(bean).build());
             }
 
@@ -235,9 +232,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
     public void disposeGroupMember(JsonElement msgConfig) {
         Type type = new TypeToken<NettyBaseResponse<NettyRoomMemberBean>>() {
         }.getType();
-        NettyDispose.dispose(msgConfig, type, new DataCallback<NettyRoomMemberBean>() {
+        NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyRoomMemberBean>() {
             @Override
-            public void onSuccess(NettyRoomMemberBean bean) {
+            public void onSuccess(NettyRoomMemberBean bean, String uuid) {
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_room_member_join).setObj(bean).build());
             }
 

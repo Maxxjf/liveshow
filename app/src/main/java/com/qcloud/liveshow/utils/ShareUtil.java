@@ -18,50 +18,54 @@ import com.umeng.socialize.media.UMWeb;
 public class ShareUtil {
     Activity mContext;
 
-    public  ShareUtil(Activity context){
-        this.mContext=context;
+    public ShareUtil(Activity context) {
+        this.mContext = context;
 
     }
 
     /**
      * 内存泄露处理方法
-     在使用分享或者授权的Activity中，写在onDestory()方法：
+     * 在使用分享或者授权的Activity中，写在onDestory()方法：
      */
-    public  void detach(){
+    public void detach() {
         UMShareAPI.get(mContext).release();
     }
+
     /**
      * 分享文字
      */
-    public void shareText(String msg){
-       new ShareAction(mContext)
-                .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
-                .withText(msg)//分享内容
-                .setCallback(shareListener)//回调监听器
+    public void shareText(SHARE_MEDIA sharePlatfrom, String msg) {
+        new ShareAction(mContext)
+                .setPlatform(sharePlatfrom)//传入平台
+                .withText(msg)
+                .setCallback(shareListener)
                 .share();
     }
+
+
     /**
      * 分享图片
      */
-    public void shareImg(String imgUrl){
+    public void shareImg(SHARE_MEDIA sharePlatfrom, String imgUrl) {
         UMImage image = new UMImage(mContext, imgUrl);//网络图片
         new ShareAction(mContext)
-                .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
+                .setPlatform(sharePlatfrom)//传入平台
                 .withMedia(image)
-                .setCallback(shareListener)//回调监听器
+                .setCallback(shareListener)
                 .share();
     }
+
     /**
      * 分享网页
      */
-    public void shareWeb(String weburl,String imgurl){
-        UMImage image = new UMImage(mContext, imgurl);//网络图片
-        UMWeb web = new UMWeb(weburl);
-        web.setTitle("我们开始直播了");//标题
+    public void shareWeb(SHARE_MEDIA sharePlatfrom, String webUrl, String imageUrl, String title, String descrption) {
+        UMImage image = new UMImage(mContext, imageUrl);//网络图片
+        UMWeb web = new UMWeb(webUrl);
+        web.setTitle(title);//标题
         web.setThumb(image);  //缩略图
-        web.setDescription("直播吃番薯中");//描述
+        web.setDescription(descrption);//描述
         new ShareAction(mContext)
-                .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
+                .setPlatform(sharePlatfrom)//传入平台
                 .withMedia(web)
                 .setCallback(shareListener)//回调监听器
                 .share();
@@ -70,7 +74,6 @@ public class ShareUtil {
     /**
      * 分享的监听
      */
-
 
     private UMShareListener shareListener = new UMShareListener() {
         /**
@@ -88,7 +91,7 @@ public class ShareUtil {
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            ToastUtils.ToastMessage(mContext,"成功了");
+            ToastUtils.ToastMessage(mContext, "分享成功");
         }
 
         /**
@@ -98,7 +101,7 @@ public class ShareUtil {
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            ToastUtils.ToastMessage(mContext,"失败"+t.getMessage());
+            ToastUtils.ToastMessage(mContext, "失败" + t.getMessage());
         }
 
         /**
@@ -107,7 +110,7 @@ public class ShareUtil {
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            ToastUtils.ToastMessage(mContext,"取消了");
+            ToastUtils.ToastMessage(mContext, "取消了");
 
         }
     };

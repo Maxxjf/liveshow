@@ -15,6 +15,7 @@ import com.qcloud.liveshow.adapter.FansMessageAdapter;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyContentBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
+import com.qcloud.liveshow.enums.CharStatusEnum;
 import com.qcloud.liveshow.model.impl.IMModelImpl;
 import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.utils.UserInfoUtil;
@@ -27,9 +28,15 @@ import com.qcloud.qclib.widget.customview.ClearEditText;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -51,6 +58,7 @@ public class FansMessagePop extends BasePopupWindow {
     private String mMessage;
 
     private FansMessageAdapter mAdapter;
+    private Disposable disposable;
 
     public FansMessagePop(Context context) {
         super(context);
@@ -77,13 +85,14 @@ public class FansMessagePop extends BasePopupWindow {
         mListMessage.setAdapter(mAdapter);
         //监听键盘
         mEtMessage.setOnEditorActionListener((v, actionId, event) -> {
+            Timber.e("keycode:"+actionId);
             switch (actionId) {
                 case KeyEvent.KEYCODE_ENDCALL:
                 case KeyEvent.KEYCODE_ENTER:
                     onSendClick();
                     return true;
                 case KeyEvent.KEYCODE_BACK:
-                    dismiss();
+                    onSendClick();
                     return false;
                 default:
                     return false;
@@ -101,7 +110,7 @@ public class FansMessagePop extends BasePopupWindow {
 
     /**
      * 刷新用户信息
-     * */
+     */
     public void refreshMemberInfo(MemberBean bean) {
         if (bean != null) {
             currMember = bean;
@@ -111,31 +120,33 @@ public class FansMessagePop extends BasePopupWindow {
             initDate();
         }
     }
+
     //初始化所有私聊记录
     private void initDate() {
-        if (currMember != null){
+        if (currMember != null) {
             String fromUserId = currMember.getIdStr();
-            List<NettyReceivePrivateBean> charList = RealmHelper.getInstance().queryListByValue(NettyReceivePrivateBean.class,"from_user_id", fromUserId,"date_time");
+            List<NettyReceivePrivateBean> charList = RealmHelper.getInstance().queryListByValue(NettyReceivePrivateBean.class, "from_user_id", fromUserId, "date_time");
             replaceList(charList);
         }
 
     }
+
     public void replaceList(List<NettyReceivePrivateBean> beans) {
-            if (mListMessage != null) {
-                mListMessage.refreshFinish();
+        if (mListMessage != null) {
+            mListMessage.refreshFinish();
+        }
+        if (beans != null && beans.size() > 0) {
+            if (mAdapter != null) {
+                mAdapter.replaceList(beans);
             }
-            if (beans != null && beans.size() > 0) {
-                if (mAdapter != null) {
-                    mAdapter.replaceList(beans);
-                }
-            } else {
-                Timber.e("私聊列表为空");
-            }
+        } else {
+            Timber.e("私聊列表为空");
+        }
     }
 
     /**
      * 刷新消息
-     * */
+     */
     public void addMessage(NettyReceivePrivateBean bean) {
 
         if (mAdapter != null && bean != null && currMember.getIdStr().equals(bean.getFrom_user_id())) {
@@ -165,16 +176,15 @@ public class FansMessagePop extends BasePopupWindow {
 
     /**
      * 发送消息
-     * */
+     */
     public void onSendClick() {
         if (currMember != null) {
             if (check()) {
-                new IMModelImpl().sendPrivateChat(currMember.getIdStr(), mMessage);
-                NettyContentBean contentBean=new NettyContentBean();
+                NettyContentBean contentBean = new NettyContentBean();
                 contentBean.setText(mMessage);
-                NettyReceivePrivateBean nettyReceivePrivateBean=new NettyReceivePrivateBean();
+                NettyReceivePrivateBean nettyReceivePrivateBean = new NettyReceivePrivateBean();
                 nettyReceivePrivateBean.setDate_time(String.valueOf(System.currentTimeMillis()));
-                nettyReceivePrivateBean.setChat_id(""+ UUID.randomUUID());
+                nettyReceivePrivateBean.setChat_id("" + UUID.randomUUID());
                 nettyReceivePrivateBean.setFrom_user_id(currMember.getIdStr());
                 nettyReceivePrivateBean.setSend(true);
                 nettyReceivePrivateBean.setContent(contentBean);
@@ -182,9 +192,53 @@ public class FansMessagePop extends BasePopupWindow {
                 addMessage(nettyReceivePrivateBean);
                 mEtMessage.setText("");
                 hideInput();
+                new IMModelImpl().sendPrivateChat(currMember.getIdStr(), mMessage, nettyReceivePrivateBean.getChat_id());
+                startTime(nettyReceivePrivateBean);
             }
         }
     }
+
+    /**
+     * 开始计时，5秒后发送失败
+     *
+     * @param bean
+     */
+    public void startTime(NettyReceivePrivateBean bean) {
+        disposable = Observable.timer(5, TimeUnit.SECONDS).observeOn(Schedulers.io()).
+                subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        upDateApater(bean.getChat_id(), CharStatusEnum.FAIL.getKey());
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        upDateApater(bean.getChat_id(), CharStatusEnum.FAIL.getKey());
+                    }
+                });
+    }
+
+    /**
+     * 更新发送的状态
+     */
+    public void upDateApater(String chatId, int charStatus) {
+        mActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                RealmHelper.getInstance().updateMessageStatus(chatId, charStatus);
+                mAdapter.upDateSendStatus(chatId, charStatus);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+        if (disposable != null && !disposable.isDisposed()) {
+            disposable.dispose();
+        }
+    }
+
 
     private boolean check() {
         mMessage = mEtMessage.getText().toString();

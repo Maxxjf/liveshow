@@ -41,5 +41,9 @@
     <item name="netty_notice_out_group" type="id"/>
     <!--修改公告-->
     <item name="netty_notice" type="id"/>
+    <!--私聊消息发送成功-->
+    <item name="netty_message_send_success" type="id"/>
+    <!--群聊消息发送成功-->
+    <item name="netty_group_message_send_success" type="id"/>
 
 </resources>
