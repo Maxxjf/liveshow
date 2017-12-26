@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.qcloud.liveshow.R;
@@ -23,6 +24,7 @@ public class RoomMessageAdapter extends CommonRecyclerAdapter<NettyReceiveGroupB
     public int onCreateViewLayoutID(int viewType) {
         return R.layout.item_of_room_message_2;
     }
+
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         final NettyReceiveGroupBean bean = mList.get(position);
@@ -43,7 +45,24 @@ public class RoomMessageAdapter extends CommonRecyclerAdapter<NettyReceiveGroupB
 //            TextView tvMessage = holder.get(R.id.tv_message);
 //            tvMessage.setText(contentBean.getText());
 //        }
-        RoomMessageLayout messageLayout=holder.get(R.id.room_message_layout);
+        RoomMessageLayout messageLayout = holder.get(R.id.room_message_layout);
         messageLayout.refreshUserInfo(bean);
     }
+
+    /**
+     * 更新发送状态
+     *
+     * @param status
+     */
+    public void upDateMessageStatus(int position, int status) {
+        ((Activity) mContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mList.get(position).setCharStatusEnum(status);
+//                notifyItemChanged(position);
+                notifyItemChanged(position, mList.get(position));
+            }
+        });
+    }
+
 }

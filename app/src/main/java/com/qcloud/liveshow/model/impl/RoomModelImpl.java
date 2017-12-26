@@ -10,6 +10,8 @@ import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.network.BaseApi;
 import com.qcloud.qclib.network.OkGoRequest;
 
+import timber.log.Timber;
+
 /**
  * 类说明：直播间有关
  * Author: Kuzan
@@ -80,5 +82,18 @@ public class RoomModelImpl implements IRoomModel {
         mParams.put("pageSize", pageSize);
 
         BaseApi.dispose(IRoomApi.getSearchList(mParams), callback);
+    }
+
+    /**
+     * 获取主播间信息
+     *
+     * @time 2017/9/21 14:15
+     */
+    @Override
+    public void getRoomInfo(String memberId, DataCallback<ReturnDataBean<RoomBean>> callback) {
+        mParams = OkGoRequest.getAppParams();
+        mParams.put("memberId", memberId);
+        Timber.e("memberId:"+memberId);
+        BaseApi.dispose(IRoomApi.getRoomInfo(mParams), callback);
     }
 }

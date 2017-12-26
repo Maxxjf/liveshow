@@ -406,8 +406,10 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     public void createLiveSuccess(RoomBean bean) {
         if (isInFragment) {
             stopLoadingDialog();
-            ((AnchorActivity)getActivity()).setNotice(mEtNotice.getText().toString().trim());
-            ((AnchorActivity)getActivity()).setRoomId(bean.getRoomIdStr());
+            if (bean!=null){
+                ((AnchorActivity)getActivity()).setNotice(mEtNotice.getText().toString().trim());
+                ((AnchorActivity)getActivity()).setRoom(bean);
+            }
             if (mListener != null) {
                 mListener.onBtnClick(mBtnBegin);
             }

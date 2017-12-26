@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
@@ -12,10 +13,18 @@ import com.qcloud.liveshow.base.BaseApplication;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyContentBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
+import com.qcloud.liveshow.enums.CharStatusEnum;
 import com.qcloud.qclib.base.BaseLinearLayout;
+import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.image.GlideUtil;
+import com.qcloud.qclib.rxbus.Bus;
+import com.qcloud.qclib.rxbus.BusProvider;
 import com.qcloud.qclib.utils.DensityUtils;
 import com.qcloud.qclib.utils.ScreenUtils;
+
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 /**
  * 类说明：图文混合信息
@@ -23,16 +32,47 @@ import com.qcloud.qclib.utils.ScreenUtils;
  * Date: 2017/11/10
  */
 public class RoomMessageLayout extends BaseLinearLayout {
-    private  ImageView imgAnchorLevel;
-    private  ImageView imgIsFans;
+    private ImageView imgAnchorLevel;
+    private ImageView imgIsFans;
     private TextView tvNickname;
     private TextView tvMessage;
-    private  TextView tvMessage2;
+    private TextView tvMessage2;
+    private ProgressBar progressBar;
+    private ImageView imgSendFail;
 
     private int ScreenWidth;
+    protected Bus mEventBus = BusProvider.getInstance();
+    private NettyReceiveGroupBean mCurrentBean;//当前的群聊
+
     public RoomMessageLayout(Context context) {
         this(context, null);
+        initRxBusEvent();
+        mEventBus.register(this);
 
+    }
+    private void initRxBusEvent() {
+        mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, new Consumer<RxBusEvent>() {
+            @Override
+            public void accept(@NonNull RxBusEvent rxBusEvent) throws Exception {
+                if (mView != null) {
+                    switch (rxBusEvent.getType()) {
+                        case R.id.netty_group_message_send_success:
+                            //群聊消息发送成功
+                            String chatId2 = (String) rxBusEvent.getObj();
+                            upDateMessageStatus(chatId2, CharStatusEnum.SUCCESS.getKey());
+                            break;
+                    }
+                }
+            }
+        }));
+    }
+
+    private void upDateMessageStatus(String chatId2, Integer charStatus) {
+        Timber.e("mCurrentBean:"+mCurrentBean);
+        Timber.e("chatId2:"+chatId2);
+            if (mCurrentBean.getChatId().equals(chatId2)){
+                mCurrentBean.setCharStatusEnum(charStatus);
+            }
     }
 
     public RoomMessageLayout(Context context, AttributeSet attrs) {
@@ -71,42 +111,52 @@ public class RoomMessageLayout extends BaseLinearLayout {
         tvNickname = (TextView) mView.findViewById(R.id.tv_nickname);
         tvMessage = (TextView) mView.findViewById(R.id.tv_message);
         tvMessage2 = (TextView) mView.findViewById(R.id.tv_message2);
-
+        progressBar = (ProgressBar) mView.findViewById(R.id.progressBar);
+        imgSendFail = (ImageView) mView.findViewById(R.id.img_send_fail);
     }
 
     public void refreshUserInfo(NettyReceiveGroupBean bean) {
         if (bean != null) {
-             MemberBean memberBean = bean.getUser();
-             NettyContentBean contentBean = bean.getContent();
+            this.mCurrentBean=bean;
+            MemberBean memberBean = bean.getUser();
+            NettyContentBean contentBean = bean.getContent();
 
             if (memberBean != null) {
                 GlideUtil.loadImage(mContext, imgAnchorLevel, memberBean.getIcon(), R.drawable.icon_member_level_1, true, false);
-
 //                imgIsFans.setVisibility(memberBean.isAttention()? View.VISIBLE : View.GONE);
                 imgIsFans.setVisibility(View.GONE);
-
                 tvNickname.setText(memberBean.getNickName() + ":");
-            }
-
-            if (contentBean != null) {
-                setText(contentBean,memberBean);
+                if (bean.getCharStatusEnum() == CharStatusEnum.SUCCESS.getKey()) {
+                    progressBar.setVisibility(View.GONE);
+                    imgSendFail.setVisibility(View.GONE);
+                } else if (bean.getCharStatusEnum() == CharStatusEnum.FAIL.getKey()) {
+                    progressBar.setVisibility(View.GONE);
+                    imgSendFail.setVisibility(View.VISIBLE);
+                } else if (bean.getCharStatusEnum() == CharStatusEnum.INPROGRESS.getKey()) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    imgSendFail.setVisibility(View.GONE);
+                }
+                if (contentBean != null) {
+                    setText(contentBean, memberBean);
+                }
             }
         }
     }
 
 
-    public void setText(NettyContentBean contentBean,MemberBean memberBean) {
-        String nickName=memberBean.getNickName()+":";
-        String text=contentBean.getText();
+    public void setText(NettyContentBean contentBean, MemberBean memberBean) {
+        String nickName = memberBean.getNickName() + ":";
+        String text = contentBean.getText();
+        Timber.e("text:"+text);
         ScreenWidth = ScreenUtils.getScreenWidth(BaseApplication.getInstance());//屏幕的长度
         String result;
         int resultWidth;
-        int iconWidth = DensityUtils.dp2px(BaseApplication.getInstance(),160);//图标的长度
-        for (int i=0; i<text.length(); i++) {
+        int iconWidth = DensityUtils.dp2px(BaseApplication.getInstance(), 160);//图标的长度
+        for (int i = 0; i < text.length(); i++) {
             char single = text.charAt(i);//单个字节
-            result = nickName+text.substring(0,i);//文字的长度
-            resultWidth = getCharacterWidth(result,getResources().getDimension(R.dimen.micro_text_size));
-            if ((iconWidth+resultWidth)<ScreenWidth) {
+            result = nickName + text.substring(0, i);//文字的长度
+            resultWidth = getCharacterWidth(result, getResources().getDimension(R.dimen.micro_text_size));
+            if ((iconWidth + resultWidth) < ScreenWidth) {
                 tvMessage.append(String.valueOf(single));
             } else {
                 tvMessage2.setVisibility(View.VISIBLE);
@@ -114,8 +164,9 @@ public class RoomMessageLayout extends BaseLinearLayout {
             }
         }
     }
+
     public static int getCharacterWidth(String text, float size) {
-        if (null == text || "".equals(text)){
+        if (null == text || "".equals(text)) {
             return 0;
         }
         Paint paint = new Paint();

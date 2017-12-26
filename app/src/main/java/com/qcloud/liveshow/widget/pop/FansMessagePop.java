@@ -22,6 +22,7 @@ import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
+import com.qcloud.qclib.rxbus.Bus;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.widget.customview.ClearEditText;
@@ -59,6 +60,7 @@ public class FansMessagePop extends BasePopupWindow {
 
     private FansMessageAdapter mAdapter;
     private Disposable disposable;
+    private Bus mEventBus;
 
     public FansMessagePop(Context context) {
         super(context);
@@ -85,14 +87,13 @@ public class FansMessagePop extends BasePopupWindow {
         mListMessage.setAdapter(mAdapter);
         //监听键盘
         mEtMessage.setOnEditorActionListener((v, actionId, event) -> {
-            Timber.e("keycode:"+actionId);
             switch (actionId) {
                 case KeyEvent.KEYCODE_ENDCALL:
                 case KeyEvent.KEYCODE_ENTER:
                     onSendClick();
                     return true;
                 case KeyEvent.KEYCODE_BACK:
-                    onSendClick();
+                    dismiss();
                     return false;
                 default:
                     return false;
@@ -226,17 +227,13 @@ public class FansMessagePop extends BasePopupWindow {
      * 更新发送的状态
      */
     public void upDateApater(String chatId, int charStatus) {
-        mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                RealmHelper.getInstance().updateMessageStatus(chatId, charStatus);
-                mAdapter.upDateSendStatus(chatId, charStatus);
-                mAdapter.notifyDataSetChanged();
-            }
-        });
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
         }
+        RealmHelper.getInstance().updateMessageStatus(chatId, charStatus);
+        mAdapter.upDateSendStatus(chatId, charStatus);
+        mAdapter.notifyDataSetChanged();
+
     }
 
 

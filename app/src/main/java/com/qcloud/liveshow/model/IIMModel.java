@@ -24,6 +24,10 @@ public interface IIMModel {
     /**
      * 发送群聊消息
      */
+    void sendGroupChat(String roomNum, String content,String uuid);
+    /**
+     * 发送群聊消息
+     */
     void sendGroupChat(String roomNum, String content);
 
     /**

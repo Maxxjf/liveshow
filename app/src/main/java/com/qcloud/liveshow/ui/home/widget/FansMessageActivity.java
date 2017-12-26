@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -24,7 +25,6 @@ import com.qcloud.liveshow.ui.home.presenter.impl.FansMessagePresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IFansMessageView;
 import com.qcloud.liveshow.utils.EmojiClickManagerUtil;
 import com.qcloud.liveshow.widget.customview.EmojiLayout;
-import com.qcloud.liveshow.widget.customview.KeyBackEditText;
 import com.qcloud.liveshow.widget.customview.NoDataView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
@@ -53,7 +53,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     @Bind(R.id.list_message)
     PullRefreshRecyclerView mListMessage;
     @Bind(R.id.et_message)
-    KeyBackEditText mEtMessage;
+    EditText mEtMessage;
     @Bind(R.id.btn_emoticon)
     ImageView mBtnEmoticon;
     @Bind(R.id.layout_parent)
@@ -142,7 +142,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
         mLayoutEmoji.initIndicator(getSupportFragmentManager());
         mLayoutEmoji.setOnViewClickListener(view -> onSendClick());
         mClickManager = EmojiClickManagerUtil.getInstance();
-        mClickManager.attachToEditText(mEtMessage);
+//        mClickManager.attachToEditText(mEtMessage);
     }
 
     /**
@@ -196,16 +196,16 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
             return true;
         });
 
-        mEtMessage.setOnBackPressedListener(() -> {
-            if (isEmojiVisible()) {
-                hideEmoji();
-                return true;
-            } else if (isKeyboardVisible()) {
-                KeyBoardUtils.hideKeybord(this, mEtMessage);
-                return true;
-            }
-            return false;
-        });
+//        mEtMessage.setOnBackPressedListener(() -> {
+//            if (isEmojiVisible()) {
+//                hideEmoji();
+//                return true;
+//            } else if (isKeyboardVisible()) {
+//                KeyBoardUtils.hideKeybord(this, mEtMessage);
+//                return true;
+//            }
+//            return false;
+//        });
     }
 
     /**

@@ -23,6 +23,8 @@ public interface IAnchorControlView extends BaseView {
 
     void upDateMessageSendStatus(String chatId, int charStatus);
 
+    void upDateGroupMessageStatus(int chatPosition, int charStatus);
+
     /**点击公告*/
     void onNoticeClick();
 

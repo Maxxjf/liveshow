@@ -22,6 +22,7 @@ import com.ksyun.media.streamer.kit.StreamerConstants;
 import com.ksyun.media.streamer.logstats.StatsLogReport;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
+import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.constant.CameraConstants;
 import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.AnchorPresenterImpl;
@@ -61,15 +62,16 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     private boolean mIsFileRecording = false;
     private boolean mIsFlashOpened = false;
     private String mUrl = UrlConstants.STREAM_URL;
-    private String mDebugInfo = "";
-    private String mBgmPath = "/sdcard/test.mp3";
-    private String mLogoPath = "file:///sdcard/test.png";
-    private String mAnimatedLogoPath = "assets://ksyun.webp";
-    private String mBgImagePath = "assets://bg.jpg";
-    private String mRecordUrl = "/sdcard/rec_test.mp4";
+//    private String mDebugInfo = "";
+//    private String mBgmPath = "/sdcard/test.mp3";
+//    private String mLogoPath = "file:///sdcard/test.png";
+//    private String mAnimatedLogoPath = "assets://ksyun.webp";
+//    private String mBgImagePath = "assets://bg.jpg";
+//    private String mRecordUrl = "/sdcard/rec_test.mp4";
 
-    String roomId = "";//直播室的id
-    String notice ="";//直播公告
+    boolean isLiveStart = false;//直播已经开始
+    RoomBean room ;//直播室的id
+    String notice = "";//直播公告
     /**
      * 是否支持硬编
      */
@@ -152,9 +154,6 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     }
 
 
-
-
-
     /**
      * 打开摄像头
      */
@@ -200,7 +199,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         List<ImgFilterBase> filters = mStreamer.getImgTexFilterMgt().getFilter();
         if (filters != null && !filters.isEmpty()) {
             final ImgFilterBase filter = filters.get(0);
-            filter.setGrindRatio(1.0f);     // 磨皮0~1.0f
+            filter.setGrindRatio(0.3f);     // 磨皮0~1.0f
             filter.setWhitenRatio(1.0f);    // 美白0~1.0f
             filter.setRuddyRatio(0.5f);     // 红润0~1.0f
         }
@@ -246,12 +245,14 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
         startCameraPreview();
     }
+
     /**
      * 得到公告
      */
     public String getNotice() {
         return notice;
     }
+
     /**
      * 设置公告
      */
@@ -262,15 +263,15 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     /**
      * 得到房间ID
      */
-    public String getRoomId() {
-        return roomId;
+    public RoomBean getRoom() {
+        return room;
     }
 
     /**
      * 设置房间ID
      */
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public void setRoom(RoomBean room) {
+        this.room = room;
     }
 
     /**
@@ -410,6 +411,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         if (mControlFragment == null) {
             initControlFragment();
         }
+        isLiveStart = true;
         replaceFragment(mControlFragment, R.id.fragment_container, false);
         mPreFragment.detach();//解决BUG：2个Fargment复用的情况
         startStream();
@@ -660,7 +662,11 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            finishLive();
+            if (isLiveStart){
+                finishLive();
+            }else {
+                finish();
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);

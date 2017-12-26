@@ -19,7 +19,7 @@ public interface IAnchorControlPresenter extends BtnClickPresenter {
     void joinGroup(String roomNumber);
 
     /**发送群聊消息*/
-    void sendGroupMessage(String roomNum, String content);
+    void sendGroupMessage(String roomNum, String content,int position);
 
     void sendGroupNotice(String roomNum, String content);
 

@@ -19,7 +19,7 @@ public interface IRoomControlPresenter extends BtnClickPresenter {
     void joinGroup(String roomNumber);
 
     /**发送群聊消息*/
-    void sendGroupMessage(String roomNum, String content);
+    void sendGroupMessage(String roomNum, String content,int position);
 
     /**设置守护/取消守护*/
     void  inOutGuard(long memberId, boolean isGuard);

@@ -57,6 +57,8 @@ public interface UrlConstants {
     String GET_FOLLOW_LIST = URL_PREFIX_APP + "index/attentionList";
     /**获取搜索主播间*/
     String GET_SEARCH_LIST = URL_PREFIX_APP + "index/search";
+    /**获取主播间信息（分享专用）*/
+    String GET_ROOM_INFO = URL_PREFIX_APP + "index/shareGetRoom";
 
     /**
      * 直播有关

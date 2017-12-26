@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.ui.room.widget;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -281,7 +282,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mInputDialog.setNoNotice();
         mInputDialog.setOnMessageSendListener((message, isNotice) -> {
             if (mCurrBean != null) {
-                mPresenter.sendGroupMessage(mCurrBean.getRoomIdStr(), message);
+                mPresenter.sendGroupMessage(mCurrBean.getRoomIdStr(), message,mMessageAdapter.getItemCount());
             }
         });
     }
@@ -391,7 +392,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * */
     private void initSharePop() {
         if (mCurrBean!=null){
-            mSharePop = new SharePop(mContext,mCurrBean.getRoomIdStr());
+            mSharePop = new SharePop(mContext);
         }
     }
 
@@ -423,6 +424,17 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mListMessage.setAdapter(mMessageAdapter);
     }
 
+    @Override
+    public void upDateGroupMessageStatus(int position, int charStatus) {
+        ((Activity)mContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mMessageAdapter.upDateMessageStatus(position, charStatus);
+//                mMessageAdapter.notifyDataSetChanged();
+            }
+        });
+
+    }
     @OnClick({R.id.btn_follow, R.id.btn_notice, R.id.btn_send_message, R.id.btn_buy_diamonds,
             R.id.btn_share, R.id.btn_receive_message, R.id.btn_send_gift, R.id.btn_exit})
     void onBtnClick(View view) {
@@ -541,7 +553,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     public void addGroupChat(NettyReceiveGroupBean bean) {
         if (isInFragment) {
             if (bean != null && mMessageAdapter != null) {
-                mMessageAdapter.addListBeanAtStart(bean);
+                mMessageAdapter.addListBeanAtEnd(bean);
             }
         }
     }

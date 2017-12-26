@@ -13,6 +13,7 @@ import com.qcloud.liveshow.enums.StartMainEnum;
 import com.qcloud.liveshow.ui.account.widget.LoginActivity;
 import com.qcloud.liveshow.ui.main.presenter.impl.LaunchPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.ILaunchView;
+import com.qcloud.liveshow.utils.RoomInfoUtil;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.network.BaseApi;
@@ -77,13 +78,10 @@ public class LaunchActivity extends BaseActivity<ILaunchView, LaunchPresenterImp
     private void getShareDate(){
         Uri uriData = this.getIntent().getData();
         if (uriData!=null){
-            String mydata = uriData.getQueryParameter("roomId");
-            String mydata2 = uriData.getQueryParameter("data");
-            String mydata3 = uriData.getQueryParameter("scheme");
+            String mydata = uriData.getQueryParameter("memberId");
             Timber.e("uriData:"+uriData);
-            Timber.e("mydata2:"+mydata2);
             Timber.e("mydata:"+mydata);
-            Timber.e("mydata3:"+mydata3);
+            RoomInfoUtil.loadRoomInfo(mydata);
         }
     }
     private void initRxBusEvent() {

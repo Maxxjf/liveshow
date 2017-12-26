@@ -15,6 +15,7 @@ import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.netty.callback.ResponseListener;
 import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.utils.NettyUtil;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.callback.NettyDataCallback;
 import com.qcloud.qclib.rxbus.BusProvider;
@@ -116,7 +117,15 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyReceiveGroupBean>() {
             @Override
             public void onSuccess(NettyReceiveGroupBean bean, String uuid) {
-                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_group_chat).setObj(bean).build());
+                if (bean==null){
+                    BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_group_message_send_success).setObj(uuid).build());
+                    return;
+                }
+                if (UserInfoUtil.mUser!=null&&bean.getUser()!=null&&bean.getUser().getIdAccount().equals(UserInfoUtil.mUser.getIdAccount())){//判断是不是本人
+//                    BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_group_message_send_success).setObj(uuid).build());
+                }else {
+                    BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_group_chat).setObj(bean).build());
+                }
             }
 
             @Override

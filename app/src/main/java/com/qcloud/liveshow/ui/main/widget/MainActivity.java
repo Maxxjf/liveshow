@@ -24,8 +24,10 @@ import com.qcloud.liveshow.ui.home.widget.HomeFragment;
 import com.qcloud.liveshow.ui.main.presenter.impl.MainPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.IMainView;
 import com.qcloud.liveshow.ui.mine.widget.MineFragment;
+import com.qcloud.liveshow.ui.room.widget.RoomActivity;
 import com.qcloud.liveshow.utils.BasicsUtil;
 import com.qcloud.liveshow.utils.NettyUtil;
+import com.qcloud.liveshow.utils.RoomInfoUtil;
 import com.qcloud.liveshow.widget.pop.BindingGeneralizeRelationPop;
 import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.toast.ToastUtils;
@@ -86,6 +88,15 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         loadBasicData();
         mBtnLiveShow.post(() -> bindingGeneralizeRelation());
         connectIM();
+        jumpToRoomActivity();
+    }
+    /**
+     * 如果有分享接收到，会跳到直播间
+     * */
+    private void jumpToRoomActivity() {
+        if (RoomInfoUtil.mRoomBean!=null){
+            RoomActivity.openActivity(this,0,RoomInfoUtil.mRoomBean);
+        }
     }
 
     /**

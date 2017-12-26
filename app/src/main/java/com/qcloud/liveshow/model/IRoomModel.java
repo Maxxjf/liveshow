@@ -22,4 +22,7 @@ public interface IRoomModel {
 
     /**搜索直播间*/
     void getSearchRoom(String keyword, int pageNum, int pageSize, DataCallback<ReturnDataBean<RoomBean>> callback);
+
+    /**直播间信息*/
+    void getRoomInfo(String memberId, DataCallback<ReturnDataBean<RoomBean>> callback);
 }

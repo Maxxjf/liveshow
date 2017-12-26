@@ -46,4 +46,11 @@ public class IRoomApi {
 
         return OkGoRequest.getRequest(UrlConstants.GET_SEARCH_LIST, type, params);
     }
+
+    /**获取直播间信息*/
+    public static Observable<BaseResponse<ReturnDataBean<RoomBean>>> getRoomInfo(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ReturnDataBean<RoomBean>>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.GET_ROOM_INFO, type, params);
+    }
 }

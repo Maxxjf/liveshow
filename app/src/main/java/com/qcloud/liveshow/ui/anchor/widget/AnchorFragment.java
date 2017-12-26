@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.ui.anchor.widget;
 
+import android.app.Activity;
 import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,9 +23,11 @@ import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.UserBean;
+import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.AnchorControlPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IAnchorControlView;
+import com.qcloud.liveshow.utils.ShareUtil;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.liveshow.widget.dialog.InputMessageDialog;
@@ -34,9 +37,11 @@ import com.qcloud.liveshow.widget.pop.FansMessagePop;
 import com.qcloud.liveshow.widget.pop.GuarderPop;
 import com.qcloud.liveshow.widget.pop.MessageListPop;
 import com.qcloud.liveshow.widget.pop.SharePop;
+import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.widget.customview.MarqueeView;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.List;
 
@@ -130,6 +135,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     private FansMessagePop mFansMessagePop;
 
     private MemberBean mMemberBean;
+    private ShareUtil shareUtil;
 
     @Override
     protected int getLayoutId() {
@@ -177,7 +183,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      */
     private void intoRoom() {
         if (isInFragment) {
-            String roomId = ((AnchorActivity) getActivity()).getRoomId();
+            String roomId = ((AnchorActivity) getActivity()).getRoom().getRoomIdStr();
             mPresenter.joinGroup(roomId);
         }
     }
@@ -225,10 +231,10 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         mInputDialog = new InputMessageDialog(getActivity());
         mInputDialog.setOnMessageSendListener((message, isNotice) -> {
 
-            String roomId = ((AnchorActivity) getActivity()).getRoomId();
+            String roomId = ((AnchorActivity) getActivity()).getRoom().getRoomIdStr();
             if (roomId != null && !"".equals(roomId)) {
                 if (!isNotice) {  //发送群聊
-                    mPresenter.sendGroupMessage(roomId, message);
+                    mPresenter.sendGroupMessage(roomId, message, mMessageAdapter.getItemCount());
                 } else { //修改公告
                     mPresenter.sendGroupNotice(roomId, message);
                 }
@@ -237,6 +243,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
         });
     }
+
     @Override
     public void addMessage(MemberBean bean) {
         if (isInFragment) {
@@ -247,6 +254,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
             }
         }
     }
+
     /**
      * 初始化粉丝信息弹窗
      */
@@ -278,12 +286,13 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     }
 
     /**
-     * 更新发送状态
+     * 更新私聊信息发送状态
      */
     @Override
-    public void upDateMessageSendStatus(String chatId, int charStatus){
-        mFansMessagePop.upDateApater(chatId,charStatus);
+    public void upDateMessageSendStatus(String chatId, int charStatus) {
+        mFansMessagePop.upDateApater(chatId, charStatus);
     }
+
     /**
      * 初始化消息列表弹窗
      */
@@ -302,9 +311,35 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      * 初始化消息列表弹窗
      */
     private void initSharePop() {
-        String roomId = ((AnchorActivity) getActivity()).getRoomId();
-        if (roomId!=null&& StringUtils.isNotEmptyString(roomId)){
-            mSharePop = new SharePop(mContext,roomId);
+        String roomId = ((AnchorActivity) getActivity()).getRoom().getRoomIdStr();
+        if (roomId != null && StringUtils.isNotEmptyString(roomId)) {
+            mSharePop = new SharePop(mContext);
+            shareUtil = new ShareUtil(getActivity());
+            mSharePop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+                @Override
+                public void onViewClick(View view) {
+                    switch (view.getId()) {
+                        case R.id.btn_share_wechat:
+                            shareUtil.shareWeb(SHARE_MEDIA.WEIXIN, UrlConstants.SHARP_LIVR_URL +
+                                            "?idAccount=" + mUserBean.getIdAccount() + "&room=" + roomId,
+                                    mUserBean.getHeadImg(),
+                                    "快来看我直播吧", "直播吃蕉.....");
+                            break;
+                        case R.id.btn_share_wechat_circle:
+                            shareUtil.shareWeb(SHARE_MEDIA.WEIXIN_CIRCLE, UrlConstants.SHARP_LIVR_URL + "?idAccount=" +
+                                            mUserBean.getIdAccount() + "&room=" + roomId,
+                                    "http://store.happytify.cc/uploads/20170928/85/854533C5512Ew600h624.jpeg",
+                                    "快来看我直播吧", "直播吃蕉.....");
+                            break;
+                        case R.id.btn_facebook:
+                            shareUtil.shareWeb(SHARE_MEDIA.FACEBOOK, UrlConstants.SHARP_LIVR_URL + "?idAccount=" +
+                                            mUserBean.getIdAccount() + "&room=" + roomId,
+                                    "http://store.happytify.cc/uploads/20170928/85/854533C5512Ew600h624.jpeg",
+                                    "快来看我直播吧", "直播吃蕉.....");
+                            break;
+                    }
+                }
+            });
         }
     }
 
@@ -326,7 +361,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
                     mGuarderPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
                     break;
                 case R.id.btn_gag:
-                    mPresenter.shutUp(((AnchorActivity) getActivity()).getRoomId(), mMemberBean.getIdStr(), true);
+                    mPresenter.shutUp(((AnchorActivity) getActivity()).getRoom().getRoomIdStr(), mMemberBean.getIdStr(), true);
                     break;
                 case R.id.btn_add_blacklist:
                     mPresenter.submitAttention(StartFansEnum.Blacklist.getKey(), mMemberBean.getId(), true);
@@ -370,6 +405,21 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         mListMessage.setLayoutManager(manager);
         mListMessage.setAdapter(mMessageAdapter);
     }
+
+    /**
+     * 更新群聊信息发送的状态
+     */
+    @Override
+    public void upDateGroupMessageStatus(int position, int charStatus) {
+        ((Activity) mContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mMessageAdapter.upDateMessageStatus(position, charStatus);
+            }
+        });
+
+    }
+
 
     /**
      * 开始计时
@@ -501,13 +551,14 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     public void addGroupChat(NettyReceiveGroupBean bean) {
         if (isInFragment) {
             if (bean != null && mMessageAdapter != null) {
-                mMessageAdapter.addListBeanAtStart(bean);
+                mMessageAdapter.addListBeanAtEnd(bean);
             }
         }
     }
 
     /**
      * 修改公告
+     *
      * @param bean NettyLiveNoticeBean通知的实体类
      */
     @Override
@@ -522,6 +573,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
             }
         }
     }
+
     /**
      * 用户退出群聊
      */
@@ -570,7 +622,6 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
             }
         }
     }
-
 
 
     @Override

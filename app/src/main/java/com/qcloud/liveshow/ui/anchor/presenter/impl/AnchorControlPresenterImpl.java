@@ -2,6 +2,7 @@ package com.qcloud.liveshow.ui.anchor.presenter.impl;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyContentBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
@@ -22,6 +23,7 @@ import com.qcloud.qclib.base.BasePresenter;
 import com.qcloud.qclib.beans.ReturnDataBean;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.callback.DataCallback;
+import com.qcloud.qclib.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +93,12 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                             //消息发送成功
                             String chatId = (String) rxBusEvent.getObj();
                             mView.upDateMessageSendStatus(chatId, CharStatusEnum.SUCCESS.getKey());
+                            break;
+                        case R.id.netty_group_message_send_success:
+                            //群聊消息发送成功
+                            String uuid=(String)rxBusEvent.getObj();
+                            int chatPosition = Integer.valueOf(uuid);
+                            mView.upDateGroupMessageStatus(chatPosition, CharStatusEnum.SUCCESS.getKey());
                             break;
                     }
                 }
@@ -210,8 +218,26 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
      * @time 2017/11/8 10:21
      */
     @Override
-    public void sendGroupMessage(String roomNum, String content) {
-        mIMModel.sendGroupChat(roomNum, content);
+    public void sendGroupMessage(String roomNum, String content,int position) {
+        if (StringUtils.isNotEmptyString(content)){
+            MemberBean user=new MemberBean();
+            user.setMemberGrade(UserInfoUtil.mUser.getMemberGradeIcon());
+            user.setAnchorGrade(UserInfoUtil.mUser.getAnchorGradeIcon());
+            user.setNickName(UserInfoUtil.mUser.getNickName());
+
+            NettyContentBean contentBean=new NettyContentBean();
+            contentBean.setText(content);
+
+            NettyReceiveGroupBean bean=new NettyReceiveGroupBean();
+            bean.setChatId(String.valueOf(position));
+            bean.setCharStatusEnum(CharStatusEnum.INPROGRESS.getKey());
+            bean.setContent(contentBean);
+            bean.setRoom_number(roomNum);
+            bean.setUser(user);
+            mView.addGroupChat(bean);
+            mView.upDateGroupMessageStatus(position,CharStatusEnum.INPROGRESS.getKey());
+            mIMModel.sendGroupChat(roomNum, content,String.valueOf(position));
+        }
     }
     @Override
     public void sendGroupNotice(String roomNum, String content) {

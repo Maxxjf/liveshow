@@ -15,6 +15,7 @@ import java.util.List;
  * Date: 2017/8/23 11:42.
  */
 public interface IRoomControlView {
+
     /**点击关注*/
     void onFollowClick();
 
@@ -72,4 +73,7 @@ public interface IRoomControlView {
     void addMessage(MemberBean bean);
     /**添加消息列表*/
     void upDateApater(String charId,int charStatus);
+
+    /**更新信息发送状态*/
+    void upDateGroupMessageStatus(int charPosition, int charStatus);
 }

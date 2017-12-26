@@ -14,6 +14,8 @@ import com.qcloud.liveshow.netty.NettyClientBus;
 import com.qcloud.qclib.utils.DateUtils;
 import com.qcloud.qclib.utils.TokenUtil;
 
+import java.util.UUID;
+
 /**
  * 类说明：IM通讯有关
  * Author: Kuzan
@@ -93,6 +95,25 @@ public class IMModelImpl implements IIMModel {
      * @time 2017/11/2 10:26
      */
     @Override
+    public void sendGroupChat(String roomNum, String content,String uuid) {
+        NettyContentBean contentBean = new NettyContentBean(content);
+        NettyGroupBean bean = new NettyGroupBean();
+        bean.setRoom_number(roomNum);
+        bean.setToken(TokenUtil.getToken());
+        bean.setContent(contentBean);
+
+        NettyRequestBean<NettyGroupBean> requestBean = new NettyRequestBean<>();
+        requestBean.setAction_type(RequestDataEnum.ActionType.GROUP_CHAT.getKey());
+        requestBean.setUuid(uuid);
+        requestBean.setData(bean);
+        NettyClientBus.request(mGson.toJson(requestBean));
+    }
+    /**
+     * 发送群聊消息
+     *
+     * @time 2017/11/2 10:26
+     */
+    @Override
     public void sendGroupChat(String roomNum, String content) {
         NettyContentBean contentBean = new NettyContentBean(content);
         NettyGroupBean bean = new NettyGroupBean();
@@ -102,7 +123,7 @@ public class IMModelImpl implements IIMModel {
 
         NettyRequestBean<NettyGroupBean> requestBean = new NettyRequestBean<>();
         requestBean.setAction_type(RequestDataEnum.ActionType.GROUP_CHAT.getKey());
-        requestBean.setUuid(DateUtils.getTimeStamp());
+        requestBean.setUuid(""+ UUID.randomUUID());
         requestBean.setData(bean);
         NettyClientBus.request(mGson.toJson(requestBean));
     }
