@@ -1,10 +1,12 @@
 package com.qcloud.liveshow.ui.anchor.widget;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Chronometer;
@@ -13,17 +15,22 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.sahasbhop.apngview.ApngDrawable;
+import com.github.sahasbhop.apngview.ApngImageLoader;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.RoomFansAdapter;
 import com.qcloud.liveshow.adapter.RoomMessageAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
+import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.liveshow.constant.UrlConstants;
+import com.qcloud.liveshow.enums.GiftTypeEnum;
 import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.AnchorControlPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IAnchorControlView;
@@ -31,6 +38,8 @@ import com.qcloud.liveshow.utils.ShareUtil;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.liveshow.widget.dialog.InputMessageDialog;
+import com.qcloud.liveshow.widget.giftlayout.GiftControl;
+import com.qcloud.liveshow.widget.giftlayout.widget.CustormAnim;
 import com.qcloud.liveshow.widget.pop.FansInfoPop;
 import com.qcloud.liveshow.widget.pop.FansManagerPop;
 import com.qcloud.liveshow.widget.pop.FansMessagePop;
@@ -44,9 +53,17 @@ import com.qcloud.qclib.widget.customview.MarqueeView;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -94,6 +111,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     RelativeLayout mLayoutBottom;
     @Bind(R.id.btn_exit)
     ImageView mBtnExit;
+//    @Bind(R.id.gift)
+//    CustomGiftView mGiftShow;
 
     private UserBean mUserBean;
 
@@ -137,6 +156,18 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     private MemberBean mMemberBean;
     private ShareUtil shareUtil;
 
+    @Bind(R.id.layout_small_gift)
+    LinearLayout giftParent;
+    @Bind(R.id.layout_big_gift)
+    LinearLayout BigGiftParent;
+
+    @Bind(R.id.img_gift_gif)
+    ImageView imgGiftGif;
+    private GiftControl smallGiftControl;
+    private GiftControl bigGigtControl;
+    private Disposable disposable;
+
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_anchor;
@@ -152,7 +183,24 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         initFansLayout();
         initMessageLayout();
         initMessagePop();
+        initGiftParent();
     }
+
+    private void initGiftParent() {
+        smallGiftControl = new GiftControl(getActivity());
+        smallGiftControl.setGiftLayout(giftParent, 2)
+                .setHideMode(false)
+                .setCustormAnim(new CustormAnim());//这里可以自定义礼物动画
+        smallGiftControl.setDisplayMode(GiftControl.FROM_TOP_TO_BOTTOM);
+
+        bigGigtControl = new GiftControl(getActivity());
+        bigGigtControl.setGiftLayout(BigGiftParent, 1)
+                .setHideMode(false)
+                .setCustormAnim(new CustormAnim());
+        bigGigtControl.setDisplayMode(GiftControl.FROM_TOP_TO_BOTTOM);
+
+    }
+
 
     @Override
     protected void beginLoad() {
@@ -255,6 +303,64 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         }
     }
 
+    @Override
+    public void showGift(NettyGiftBean gift) {
+        if (isInFragment) {
+            if (gift.getGift().getType() == GiftTypeEnum.BigGift.getKey()) {//大礼物
+                bigGigtControl.loadGift(gift);
+                imgGiftGif.setVisibility(View.VISIBLE);
+                if (StringUtils.isNotEmptyString(gift.getGift().getGiftKey())) {
+                    startThread();
+//                    Glide.with(mContext).load(gift.getGift().getGiftKey()).into(imgGiftGif);
+                    ApngImageLoader.getInstance()
+                            .displayApng(gift.getGift().getGiftKey(), imgGiftGif,
+                                    new ApngImageLoader.ApngConfig(8, false));
+//                    imgGiftGif.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            ApngDrawable apngDrawable = ApngDrawable.getFromView(v);
+//                            if (apngDrawable == null) return;
+//
+//                            if (apngDrawable.isRunning()) {
+//                                apngDrawable.stop(); // Stop animation
+//                            } else {
+//                                apngDrawable.setNumPlays(3); // Fix number of repetition
+//                                apngDrawable.start(); // Start animation
+//                            }
+//                        }
+//                    });
+//                    imgGiftGif.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+//                        @Override
+//                        public void onSystemUiVisibilityChange(int i) {
+//
+//                        }
+//                    });
+                }
+            } else {//小礼物
+                smallGiftControl.loadGift(gift);
+            }
+        }
+    }
+    public  void startThread(){
+        disposable = Observable.interval(1, TimeUnit.SECONDS).take(10).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .doOnDispose(new Action() {
+                    @Override
+                    public void run() throws Exception {
+
+                    }
+                }).subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        ApngDrawable apngDrawable = ApngDrawable.getFromView(imgGiftGif);
+                        if (apngDrawable == null) return;
+                        if (apngDrawable.isRunning()) {
+                            imgGiftGif.setVisibility(View.VISIBLE);
+                        } else {
+                            imgGiftGif.setVisibility(View.GONE);
+                        }
+                    }
+                });
+    }
     /**
      * 初始化粉丝信息弹窗
      */
@@ -311,8 +417,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      * 初始化消息列表弹窗
      */
     private void initSharePop() {
-        String roomId = ((AnchorActivity) getActivity()).getRoom().getRoomIdStr();
-        if (roomId != null && StringUtils.isNotEmptyString(roomId)) {
+        RoomBean room = ((AnchorActivity) getActivity()).getRoom();
+        if (room != null && room.getRoomIdStr() != null && StringUtils.isNotEmptyString(room.getRoomIdStr())) {
             mSharePop = new SharePop(mContext);
             shareUtil = new ShareUtil(getActivity());
             mSharePop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
@@ -321,21 +427,21 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
                     switch (view.getId()) {
                         case R.id.btn_share_wechat:
                             shareUtil.shareWeb(SHARE_MEDIA.WEIXIN, UrlConstants.SHARP_LIVR_URL +
-                                            "?idAccount=" + mUserBean.getIdAccount() + "&room=" + roomId,
+                                            "?idAccount=" + mUserBean.getIdAccount() + "&roomId=" + room.getRoomIdStr(),
                                     mUserBean.getHeadImg(),
-                                    "快来看我直播吧", "直播吃蕉.....");
+                                    room.getTitle(), "AV8D，快来看我直播吧，现在有" + room.getWatchNumStr() + "人看我直播呢");
                             break;
                         case R.id.btn_share_wechat_circle:
-                            shareUtil.shareWeb(SHARE_MEDIA.WEIXIN_CIRCLE, UrlConstants.SHARP_LIVR_URL + "?idAccount=" +
-                                            mUserBean.getIdAccount() + "&room=" + roomId,
-                                    "http://store.happytify.cc/uploads/20170928/85/854533C5512Ew600h624.jpeg",
-                                    "快来看我直播吧", "直播吃蕉.....");
+                            shareUtil.shareWeb(SHARE_MEDIA.WEIXIN_CIRCLE, UrlConstants.SHARP_LIVR_URL +
+                                            "?idAccount=" + mUserBean.getIdAccount() + "&roomId=" + room.getRoomIdStr(),
+                                    mUserBean.getHeadImg(),
+                                    room.getTitle(), "AV8D，快来看我直播吧，现在有" + room.getWatchNumStr() + "人看我直播呢");
                             break;
                         case R.id.btn_facebook:
-                            shareUtil.shareWeb(SHARE_MEDIA.FACEBOOK, UrlConstants.SHARP_LIVR_URL + "?idAccount=" +
-                                            mUserBean.getIdAccount() + "&room=" + roomId,
-                                    "http://store.happytify.cc/uploads/20170928/85/854533C5512Ew600h624.jpeg",
-                                    "快来看我直播吧", "直播吃蕉.....");
+                            shareUtil.shareWeb(SHARE_MEDIA.FACEBOOK, UrlConstants.SHARP_LIVR_URL +
+                                            "?idAccount=" + mUserBean.getIdAccount() + "&roomId=" + room.getRoomIdStr(),
+                                    mUserBean.getHeadImg(),
+                                    room.getTitle(), "AV8D，快来看我直播吧，现在有" + room.getWatchNumStr() + "人看我直播呢");
                             break;
                     }
                 }
@@ -654,5 +760,19 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     public static AnchorFragment newInstance() {
         AnchorFragment fragment = new AnchorFragment();
         return fragment;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 }

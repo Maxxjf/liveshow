@@ -84,7 +84,7 @@
                     style="@style/LineHorizontal"/>
 
                 <com.qcloud.liveshow.widget.customview.ItemLayout
-                    android:id="@+id/layout_gift"
+                    android:id="@+id/layout_small_gift"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/tab_height"
                     item:item_icon="@drawable/icon_gift"

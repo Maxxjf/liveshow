@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.github.sahasbhop.apngview.ApngImageLoader;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -81,6 +82,9 @@ public class BaseApplication extends Application {
         QueuedWork.isUseThreadPool = false;
         UMShareAPI.get(this);
         PlatformConfig.setWeixin(AppConstants.WX_APP_ID, AppConstants.WX_APP_SECRET);
+
+        //apng初始化
+        ApngImageLoader.getInstance().init(getApplicationContext());
     }
 
     @Override

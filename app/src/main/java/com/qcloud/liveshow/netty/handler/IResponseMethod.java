@@ -19,6 +19,8 @@ public interface IResponseMethod {
     /**私聊*/
     void disposePrivate(@NonNull JsonElement msgConfig);
 
+    void disposeGift(JsonElement msgConfig);
+
     /**私聊会话列表*/
     void disposeChatList(@NonNull JsonElement msgConfig);
 

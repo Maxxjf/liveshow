@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:id="@+id/infoRl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/bg_black_alpha_20_circular_small">
+
+        <ImageView
+            android:id="@+id/headIv"
+            android:layout_width="39dp"
+            android:layout_height="39dp"
+            android:layout_margin="3dp"
+            android:scaleType="centerCrop"
+            android:layout_centerVertical="true"
+            android:src="@drawable/bitmap_user_head" />
+
+        <TextView
+            android:id="@+id/nickNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@id/headIv"
+            android:text="nickName"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/infoTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/nickNameTv"
+            android:layout_below="@id/nickNameTv"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:text="送了一个+U鹿"
+            android:textColor="#ffea79"
+            android:textSize="11sp" />
+
+        <ImageView
+            android:id="@+id/giftIv"
+            android:layout_width="39dp"
+            android:layout_height="39dp"
+            android:layout_marginLeft="@dimen/margin_2"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/infoTv" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+         />
+
+
+    <com.qcloud.liveshow.widget.giftlayout.widget.StrokeTextView
+        android:id="@+id/animation_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="x 1"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/margin_2"
+        android:layout_marginBottom="@dimen/margin_2"
+        android:textColor="#fc9520"
+        android:textSize="@dimen/xlarge_text_size"
+        app:innnerColor="#fc9520"
+        app:outerColor="#ffffff" />
+
+</LinearLayout>

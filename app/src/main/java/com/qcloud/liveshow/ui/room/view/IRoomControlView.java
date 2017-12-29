@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.ui.room.view;
 
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
@@ -18,6 +19,8 @@ public interface IRoomControlView {
 
     /**点击关注*/
     void onFollowClick();
+
+    void showGift(NettyGiftBean gift);
 
     /**点击公告*/
     void onNoticeClick();

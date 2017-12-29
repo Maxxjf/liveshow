@@ -3,6 +3,7 @@ package com.qcloud.liveshow.ui.anchor.presenter.impl;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyContentBean;
+import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
@@ -99,6 +100,15 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                             String uuid=(String)rxBusEvent.getObj();
                             int chatPosition = Integer.valueOf(uuid);
                             mView.upDateGroupMessageStatus(chatPosition, CharStatusEnum.SUCCESS.getKey());
+                            break;
+                        case R.id.netty_gift_show:
+                            //收到礼物消息
+                            NettyGiftBean gift=(NettyGiftBean)rxBusEvent.getObj();
+                            if (gift.getGift()!=null){
+                                gift.getGift().setGiftCount(1);
+                                gift.getGift().setSendGiftTime(System.currentTimeMillis());
+                            }
+                            mView.showGift(gift);
                             break;
                     }
                 }

@@ -45,5 +45,9 @@
     <item name="netty_message_send_success" type="id"/>
     <!--群聊消息发送成功-->
     <item name="netty_group_message_send_success" type="id"/>
+    <!--群聊消息发送成功-->
+    <item name="tag_imageview" type="id"/>
+    <!--收到礼物通知房间-->
+    <item name="netty_gift_show" type="id"/>
 
 </resources>

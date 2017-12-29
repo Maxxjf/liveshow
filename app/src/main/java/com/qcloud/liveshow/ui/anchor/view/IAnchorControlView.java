@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.ui.anchor.view;
 
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
@@ -63,4 +64,6 @@ public interface IAnchorControlView extends BaseView {
     void refreshNotice(NettyLiveNoticeBean bean);
     /**添加消息列表*/
     void addMessage(MemberBean bean);
+    /**展示礼物*/
+    void showGift(NettyGiftBean gift);
 }

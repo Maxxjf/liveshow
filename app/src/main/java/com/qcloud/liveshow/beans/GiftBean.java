@@ -13,6 +13,69 @@ public class GiftBean {
     String giftKey;     // 礼物key
     String number;         // 礼物获得数量
     int ordinal;        // 排序
+    int type;           //1是大礼物，0是小礼物
+    private String giftPrice;//礼物的价格
+    private int hitCombo;//上一次要连击的礼物数
+    private Long sendGiftTime;//发送礼物的时间
+    private boolean currentStart;//是否从当前数开始连击
+    private int giftCount;//一次发送礼物的数量
+    private int jumpCombo;//跳到指定连击数，例如：从1直接显示3，这里的值就是2
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getGiftPrice() {
+        return giftPrice;
+    }
+
+    public void setGiftPrice(String giftPrice) {
+        this.giftPrice = giftPrice;
+    }
+
+    public int getHitCombo() {
+        return hitCombo;
+    }
+
+    public void setHitCombo(int hitCombo) {
+        this.hitCombo = hitCombo;
+    }
+
+    public Long getSendGiftTime() {
+        return sendGiftTime;
+    }
+
+    public void setSendGiftTime(Long sendGiftTime) {
+        this.sendGiftTime = sendGiftTime;
+    }
+
+    public boolean isCurrentStart() {
+        return currentStart;
+    }
+
+    public void setCurrentStart(boolean currentStart) {
+        this.currentStart = currentStart;
+    }
+
+    public int getGiftCount() {
+        return giftCount;
+    }
+
+    public void setGiftCount(int giftCount) {
+        this.giftCount = giftCount;
+    }
+
+    public int getJumpCombo() {
+        return jumpCombo;
+    }
+
+    public void setJumpCombo(int jumpCombo) {
+        this.jumpCombo = jumpCombo;
+    }
 
     public long getId() {
         return id;
@@ -80,8 +143,15 @@ public class GiftBean {
                 ", image='" + image + '\'' +
                 ", virtualCoin=" + virtualCoin +
                 ", giftKey='" + giftKey + '\'' +
-                ", number=" + number +
+                ", number='" + number + '\'' +
                 ", ordinal=" + ordinal +
+                ", type=" + type +
+                ", giftPrice='" + giftPrice + '\'' +
+                ", hitCombo=" + hitCombo +
+                ", sendGiftTime=" + sendGiftTime +
+                ", currentStart=" + currentStart +
+                ", giftCount=" + giftCount +
+                ", jumpCombo=" + jumpCombo +
                 '}';
     }
 }

@@ -3,6 +3,7 @@ package com.qcloud.liveshow.utils;
 import android.app.Activity;
 
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.widget.dialog.LoadingDialog;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
@@ -17,10 +18,12 @@ import com.umeng.socialize.media.UMWeb;
  */
 public class ShareUtil {
     Activity mContext;
-
+    LoadingDialog loading;
     public ShareUtil(Activity context) {
         this.mContext = context;
-
+        if (loading==null){
+            loading=new LoadingDialog(mContext);
+        }
     }
 
     /**
@@ -35,6 +38,7 @@ public class ShareUtil {
      * 分享文字
      */
     public void shareText(SHARE_MEDIA sharePlatfrom, String msg) {
+        loading.show();
         new ShareAction(mContext)
                 .setPlatform(sharePlatfrom)//传入平台
                 .withText(msg)
@@ -47,6 +51,7 @@ public class ShareUtil {
      * 分享图片
      */
     public void shareImg(SHARE_MEDIA sharePlatfrom, String imgUrl) {
+        loading.show();
         UMImage image = new UMImage(mContext, imgUrl);//网络图片
         new ShareAction(mContext)
                 .setPlatform(sharePlatfrom)//传入平台
@@ -59,10 +64,11 @@ public class ShareUtil {
      * 分享网页
      */
     public void shareWeb(SHARE_MEDIA sharePlatfrom, String webUrl, String imageUrl, String title, String descrption) {
+        loading.show();
         UMImage image = new UMImage(mContext, imageUrl);//网络图片
         UMWeb web = new UMWeb(webUrl);
         web.setTitle(title);//标题
-        web.setThumb(image);  //缩略图
+        web.setThumb(image);  //图片
         web.setDescription(descrption);//描述
         new ShareAction(mContext)
                 .setPlatform(sharePlatfrom)//传入平台
@@ -91,6 +97,7 @@ public class ShareUtil {
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
+            loading.dismiss();
             ToastUtils.ToastMessage(mContext, "分享成功");
         }
 
@@ -101,6 +108,7 @@ public class ShareUtil {
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
+            loading.dismiss();
             ToastUtils.ToastMessage(mContext, "失败" + t.getMessage());
         }
 
@@ -108,8 +116,9 @@ public class ShareUtil {
          * @descrption 分享取消的回调
          * @param platform 平台类型
          */
-        @Override
+        @Override///
         public void onCancel(SHARE_MEDIA platform) {
+            loading.dismiss();
             ToastUtils.ToastMessage(mContext, "取消了");
 
         }

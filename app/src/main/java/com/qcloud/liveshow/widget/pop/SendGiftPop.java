@@ -40,10 +40,8 @@ public class SendGiftPop extends BasePopupWindow {
     private GiftBean currBean;
     private String roomId="";
     private String id="";
-    private Context mContext;
     public SendGiftPop(Context context, RoomBean roomBean, AnchorBean anchorBean) {
         super(context);
-        mContext=context;
         if (roomBean!=null&&anchorBean!=null){
             this.roomId = roomBean.getRoomIdStr();
             this.id = anchorBean.getIdStr();

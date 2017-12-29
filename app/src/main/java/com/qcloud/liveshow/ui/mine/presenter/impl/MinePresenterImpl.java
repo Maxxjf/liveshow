@@ -38,7 +38,7 @@ public class MinePresenterImpl extends BasePresenter<IMineView> implements IMine
             case R.id.layout_diamonds:
                 mView.onDiamondsClick();
                 break;
-            case R.id.layout_gift:
+            case R.id.layout_small_gift:
                 mView.onGiftsClick();
                 break;
             case R.id.layout_inviting_friends:

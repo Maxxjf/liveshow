@@ -13,6 +13,5 @@
    <com.qcloud.liveshow.widget.customview.RoomMessageLayout
        android:id="@+id/room_message_layout"
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       ></com.qcloud.liveshow.widget.customview.RoomMessageLayout>
+       android:layout_height="wrap_content" />
 </LinearLayout>

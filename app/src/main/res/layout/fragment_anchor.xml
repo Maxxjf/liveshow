@@ -102,7 +102,44 @@
             tools:text="1234"/>
         
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_big_gift"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_id"
+        android:layout_marginTop="@dimen/margin_2"
+        android:orientation="vertical">
+        <!--<com.qcloud.liveshow.widget.customview.CustomGiftView-->
+        <!--android:orientation="vertical"-->
+        <!--android:id="@+id/gift"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
+        <!--</com.qcloud.liveshow.widget.customview.CustomGiftView>-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_small_gift"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_id"
+        android:layout_marginTop="@dimen/margin_90dp"
+        android:orientation="vertical">
+        <!--<com.qcloud.liveshow.widget.customview.CustomGiftView-->
+        <!--android:orientation="vertical"-->
+        <!--android:id="@+id/gift"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--</com.qcloud.liveshow.widget.customview.CustomGiftView>-->
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_gift_gif"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="fitCenter" />
     <LinearLayout
         android:id="@+id/layout_notice"
         android:layout_width="match_parent"

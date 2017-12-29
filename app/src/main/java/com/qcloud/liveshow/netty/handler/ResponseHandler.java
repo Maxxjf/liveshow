@@ -7,6 +7,7 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyAuthBean;
 import com.qcloud.liveshow.beans.NettyBaseResponse;
+import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
@@ -64,6 +65,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                     break;
                 case 2: // 私聊
                     disposePrivate(jsonStr);
+                    break;
+                case 3: // 送礼物
+                    disposeGift(jsonStr);
                     break;
                 case 12://直播公告
                     disposeNotice(jsonStr);
@@ -153,6 +157,30 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_private_chat).setObj(bean).build());
                 }else {//自己消息发送成功
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_message_send_success).setObj(uuid).build());
+                }
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+                Timber.e(errMsg);
+            }
+        });
+    }
+    /**
+     * 私聊
+     *
+     * @time 2017/11/8 14:45
+     */
+    @Override
+    public void disposeGift(JsonElement msgConfig) {
+        Type type = new TypeToken<NettyBaseResponse<NettyGiftBean>>() {
+        }.getType();
+        NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyGiftBean>() {
+            @Override
+            public void onSuccess(NettyGiftBean bean, String uuid) {
+
+                if (bean!=null){//收到别人的消息
+                    BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_gift_show).setObj(bean).build());
                 }
             }
 

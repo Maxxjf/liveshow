@@ -15,15 +15,10 @@ import com.qcloud.liveshow.beans.NettyContentBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.enums.CharStatusEnum;
 import com.qcloud.qclib.base.BaseLinearLayout;
-import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.image.GlideUtil;
-import com.qcloud.qclib.rxbus.Bus;
-import com.qcloud.qclib.rxbus.BusProvider;
 import com.qcloud.qclib.utils.DensityUtils;
 import com.qcloud.qclib.utils.ScreenUtils;
 
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 /**
@@ -41,39 +36,12 @@ public class RoomMessageLayout extends BaseLinearLayout {
     private ImageView imgSendFail;
 
     private int ScreenWidth;
-    protected Bus mEventBus = BusProvider.getInstance();
     private NettyReceiveGroupBean mCurrentBean;//当前的群聊
 
     public RoomMessageLayout(Context context) {
         this(context, null);
-        initRxBusEvent();
-        mEventBus.register(this);
-
-    }
-    private void initRxBusEvent() {
-        mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, new Consumer<RxBusEvent>() {
-            @Override
-            public void accept(@NonNull RxBusEvent rxBusEvent) throws Exception {
-                if (mView != null) {
-                    switch (rxBusEvent.getType()) {
-                        case R.id.netty_group_message_send_success:
-                            //群聊消息发送成功
-                            String chatId2 = (String) rxBusEvent.getObj();
-                            upDateMessageStatus(chatId2, CharStatusEnum.SUCCESS.getKey());
-                            break;
-                    }
-                }
-            }
-        }));
     }
 
-    private void upDateMessageStatus(String chatId2, Integer charStatus) {
-        Timber.e("mCurrentBean:"+mCurrentBean);
-        Timber.e("chatId2:"+chatId2);
-            if (mCurrentBean.getChatId().equals(chatId2)){
-                mCurrentBean.setCharStatusEnum(charStatus);
-            }
-    }
 
     public RoomMessageLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);

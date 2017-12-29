@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.model;
 
+import com.qcloud.qclib.callback.DownloadCallback;
 import com.qcloud.qclib.callback.UploadCallback;
 
 import java.util.List;
@@ -12,4 +13,6 @@ import java.util.List;
 public interface IFileModel {
     /**上传图片*/
     void uploadFile(List<String> paths, UploadCallback callback);
+    /**下载gif文件*/
+    void downloadFile(String path, DownloadCallback callback);
 }

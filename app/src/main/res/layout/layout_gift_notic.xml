@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:background="@drawable/bg_black_alpha_20_circular_small"
+        android:id="@+id/ll_gift_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/margin_8"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.qcloud.liveshow.widget.customview.UserHeadImageView
+            android:id="@+id/gift_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_1"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_gift_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/micro_text_size"
+                tools:text="小黄人" />
+
+            <TextView
+                android:id="@+id/tv_gift_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_1"
+                android:lines="1"
+                android:textColor="@color/chuck_colorAccent"
+                android:textSize="@dimen/micro_text_size"
+                tools:text="送出告白气球" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_send_gift" />
+    </LinearLayout>
+    <com.qcloud.liveshow.widget.customview.SGTextView
+        android:textColor="@color/chuck_colorAccent"
+        android:textSize="@dimen/large_text_size"
+        android:id="@+id/gift_number"
+        android:text="x123"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

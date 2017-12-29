@@ -1,5 +1,7 @@
 package com.qcloud.liveshow.constant;
 
+import com.qcloud.qclib.FrameConfig;
+
 /**
  * 类说明：接口Url常量
  * Author: Kuzan
@@ -138,11 +140,13 @@ public interface UrlConstants {
      * */
     /**上传图片*/
     String UPLOAD_FILE = URL_PREFIX_APP + "file/add";
+    /**下载文件*/
+    String DOWNLOAD_FILE ="";
 
     /**
      * 分享页面url
      */
 //    String SHARP_LIVR_URL= FrameConfig.server+"fep/app/share/shareLive";
-    String SHARP_LIVR_URL = "http://10.10.100.195:8082/fep/app/share/shareLive";
-    String SHARP_Generalize_URL= "http://10.10.100.195:8082/fep/app/share/shareGeneralize";
+    String SHARP_LIVR_URL = FrameConfig.server+"fep/app/share/shareLive";
+    String SHARP_Generalize_URL= FrameConfig.server+"fep/app/share/shareGeneralize";
 }

@@ -52,12 +52,6 @@
             android:textColor="@color/colorText"
             android:textSize="@dimen/micro_text_size"
             tools:text="不知不觉关注了你，在未来的日子，我将成为你的最好的朋友，欢迎关注我" />
-
-        <TextView
-            android:id="@+id/s"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save" />
     </LinearLayout>
 
     <LinearLayout

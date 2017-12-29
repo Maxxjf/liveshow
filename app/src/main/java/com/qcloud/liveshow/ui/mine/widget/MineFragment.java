@@ -40,7 +40,7 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
     ItemLayout mLayoutLevel;
     @Bind(R.id.layout_diamonds)
     ItemLayout mLayoutDiamonds;
-    @Bind(R.id.layout_gift)
+    @Bind(R.id.layout_small_gift)
     ItemLayout mLayoutGift;
     @Bind(R.id.layout_inviting_friends)
     ItemLayout mLayoutInvitingFriends;
@@ -103,7 +103,7 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
     }
 
     @OnClick({R.id.layout_user, R.id.layout_follow, R.id.layout_fans, R.id.layout_profit, R.id.layout_level,
-            R.id.layout_diamonds, R.id.layout_gift, R.id.layout_inviting_friends, R.id.layout_extension_code,
+            R.id.layout_diamonds, R.id.layout_small_gift, R.id.layout_inviting_friends, R.id.layout_extension_code,
             R.id.layout_set})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());

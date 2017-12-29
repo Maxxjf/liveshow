@@ -3,6 +3,7 @@ package com.qcloud.liveshow.ui.room.presenter.impl;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyContentBean;
+import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
@@ -98,6 +99,16 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                             String uuid=(String)rxBusEvent.getObj();
                             int chatPosition = Integer.valueOf(uuid);
                             mView.upDateGroupMessageStatus(chatPosition, CharStatusEnum.SUCCESS.getKey());
+                            break;
+                        case R.id.netty_gift_show:
+                            //收到礼物消息
+                            NettyGiftBean gift=(NettyGiftBean)rxBusEvent.getObj();
+                            if (gift!=null&&gift.getGift()!=null){
+                                gift.getGift().setGiftCount(1);
+                                gift.getGift().setSendGiftTime(System.currentTimeMillis());
+                                mView.showGift(gift);
+                            }
+
                             break;
                     }
                 }
@@ -212,8 +223,8 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
             bean.setContent(contentBean);
             bean.setRoom_number(roomNum);
             bean.setUser(user);
-//            mView.addGroupChat(bean);
-//            mView.upDateGroupMessageStatus(position,CharStatusEnum.INPROGRESS.getKey());
+            mView.addGroupChat(bean);
+            mView.upDateGroupMessageStatus(position,CharStatusEnum.INPROGRESS.getKey());
             mIMModel.sendGroupChat(roomNum, content,String.valueOf(position));
 
         }

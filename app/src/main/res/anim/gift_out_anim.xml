@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding= "utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillAfter="true">
+<!--进进出出动画。直播中礼物通告用上-->
+    <translate
+        android:interpolator="@android:anim/bounce_interpolator"
+        android:fromXDelta= "-100%"
+        android:fromYDelta= "0"
+        android:toXDelta= "0"
+        android:toYDelta= "0"
+        android:duration= "1000" />
+    <!--<alpha-->
+        <!--android:startOffset="2000"-->
+        <!--android:interpolator="@android:anim/linear_interpolator"-->
+        <!--android:fromAlpha= "0.9"-->
+        <!--android:repeatMode="restart"-->
+        <!--android:repeatCount="1"-->
+        <!--android:toAlpha= "1.0"-->
+        <!--android:duration= "3000" />-->
+    <!--<translate-->
+        <!--android:interpolator="@android:anim/bounce_interpolator"-->
+        <!--android:startOffset= "10000"-->
+        <!--android:fromXDelta= "0"-->
+        <!--android:fromYDelta= "0"-->
+        <!--android:toXDelta= "-100%"-->
+        <!--android:toYDelta= "0"-->
+        <!--android:duration= "2000" />-->
+    <!--<scale-->
+        <!--android:fromXScale= "0.0"-->
+        <!--android:toXScale= "1.0"-->
+        <!--android:fromYScale= "0.0"-->
+        <!--android:toYScale= "1.0"-->
+        <!--android:pivotX= "50%"-->
+        <!--android:pivotY= "50%"-->
+        <!--android:duration= "3000" />-->
+
+    <!--<rotate-->
+        <!--android:fromDegrees= "0"-->
+        <!--android:toDegrees= "720"-->
+        <!--android:pivotX= "50%"-->
+        <!--android:pivotY= "50%"-->
+        <!--android:duration= "3000"/>-->
+
+</set>

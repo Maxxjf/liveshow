@@ -52,20 +52,26 @@ public class SharePop extends BasePopupWindow {
 
     @OnClick(R.id.btn_share_wechat)
     void setBtnShareWechat() {
-        mViewClick.onViewClick(btnShareWechat);
+        if (mViewClick!=null){
+            mViewClick.onViewClick(btnShareWechat);
+        }
 
     }
 
     @OnClick(R.id.btn_share_wechat_circle)
     void setBtnShareWechatCircle() {
-        mViewClick.onViewClick(btnShareWechatCircle);
+        if (mViewClick!=null){
+            mViewClick.onViewClick(btnShareWechatCircle);
+
+        }
 
     }
 
     @OnClick(R.id.btn_facebook)
     void setBtnShareFacebook() {
-        mViewClick.onViewClick(btnFacebook);
-
+        if (mViewClick!=null){
+            mViewClick.onViewClick(btnFacebook);
+        }
     }
 
     @Override

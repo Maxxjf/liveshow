@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.qcloud.qclib.widget.customview.FitWindowLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:toolbar="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_parent"
@@ -64,4 +64,4 @@
         android:layout_height="wrap_content"
         android:visibility="gone"/>
 
-</LinearLayout>
+</com.qcloud.qclib.widget.customview.FitWindowLinearLayout>

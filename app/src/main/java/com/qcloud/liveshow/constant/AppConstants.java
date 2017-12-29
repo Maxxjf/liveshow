@@ -12,8 +12,8 @@ public interface AppConstants {
     String IS_NO_FIRST_START = "is_no_first_start";
     /**是否第一次登录*/
     String IS_FIRST_LOGIN = "is_first_login";
-    /**APP是否第一次登录*/
-    String IS_APP_FIRST_LOGIN = "is_app_first_login";
+//    /**APP是否第一次登录*/
+//    String IS_APP_FIRST_LOGIN = "is_app_first_login";
 
     /**微信appId和appSecret*/
     String WX_APP_ID = "wx8d335bf844b9c273";
@@ -26,7 +26,8 @@ public interface AppConstants {
 
 
     /**推拉流 服务器*/
-    String IO_HOST = "10.10.22.123";
+//    String IO_HOST = "10.10.22.123";
+    String IO_HOST = "10.10.22.120";
     int IO_PORT = 1935;
 
     /**弹起键盘坡度*/
