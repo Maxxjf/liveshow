@@ -70,8 +70,6 @@ public class MineFragment extends BaseFragment<IMineView, MinePresenterImpl> imp
 
     @Override
     protected void initViewAndData() {
-        String s=null;
-        s.length();
         initRxBusEvent();
     }
 
