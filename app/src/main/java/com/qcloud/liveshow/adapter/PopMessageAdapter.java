@@ -7,6 +7,7 @@ import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
 import com.qcloud.qclib.adapter.recyclerview.BaseViewHolder;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
+import com.qcloud.qclib.utils.DateUtils;
 
 /**
  * 类说明：弹窗消息列表
@@ -32,6 +33,6 @@ public class PopMessageAdapter extends CommonRecyclerAdapter<MemberBean> {
         holder.setText(R.id.tv_name, bean.getNickName());
         holder.setImageResource(R.id.img_sex, bean.getSexIcon());
         holder.setText(R.id.tv_message, bean.getSignature());
-        holder.setText(R.id.tv_time, bean.getLast_send_message_datetime());
+        holder.setText(R.id.tv_time, DateUtils.longToString(Long.parseLong(bean.getLast_send_message_datetime()), DateUtils.MMddHHmmss));
     }
 }

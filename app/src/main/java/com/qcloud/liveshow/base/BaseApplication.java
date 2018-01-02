@@ -85,6 +85,14 @@ public class BaseApplication extends Application {
 
         //apng初始化
         ApngImageLoader.getInstance().init(getApplicationContext());
+        //异常铺抓的初始化
+        initCatchExceptionHandler();
+    }
+
+    private void initCatchExceptionHandler() {
+        //设置该CrashHandler为程序的默认处理器
+        CatchExceptionHandler catchExcep = new CatchExceptionHandler(AppManager.getInstance());
+        Thread.setDefaultUncaughtExceptionHandler(catchExcep);
     }
 
     @Override

@@ -28,6 +28,7 @@ import com.qcloud.qclib.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -104,11 +105,17 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                         case R.id.netty_gift_show:
                             //收到礼物消息
                             NettyGiftBean gift=(NettyGiftBean)rxBusEvent.getObj();
-                            if (gift.getGift()!=null){
+                            if (gift.getGift()!=null&&gift.getUser()!=null){
                                 gift.getGift().setGiftCount(1);
                                 gift.getGift().setSendGiftTime(System.currentTimeMillis());
+                                mView.showGift(gift);
+                                NettyReceiveGroupBean groupBean=new NettyReceiveGroupBean();
+                                groupBean.setUser(gift.getUser());
+                                groupBean.setChatId(""+ UUID.randomUUID());
+                                groupBean.setContent(new NettyContentBean(gift.getUser().getNickName()+"送出了"+gift.getGift().getName()));
+                                // 群聊消息
+                                mView.addGroupChat(groupBean);
                             }
-                            mView.showGift(gift);
                             break;
                     }
                 }

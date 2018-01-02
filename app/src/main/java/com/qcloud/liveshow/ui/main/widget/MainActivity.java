@@ -90,6 +90,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         connectIM();
         jumpToRoomActivity();
 //        startActivity(new Intent(this, TestActivity.class));
+
     }
     /**
      * 如果有分享接收到，会跳到直播间

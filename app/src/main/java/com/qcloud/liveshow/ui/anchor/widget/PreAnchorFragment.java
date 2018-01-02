@@ -408,6 +408,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
             stopLoadingDialog();
             if (bean!=null){
                 ((AnchorActivity)getActivity()).setNotice(mEtNotice.getText().toString().trim());
+                bean.setTitle(mEtTitle.getText().toString());
                 ((AnchorActivity)getActivity()).setRoom(bean);
             }
             if (mListener != null) {

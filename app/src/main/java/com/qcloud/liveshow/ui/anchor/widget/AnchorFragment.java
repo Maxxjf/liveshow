@@ -429,19 +429,19 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
                             shareUtil.shareWeb(SHARE_MEDIA.WEIXIN, UrlConstants.SHARP_LIVR_URL +
                                             "?idAccount=" + mUserBean.getIdAccount() + "&roomId=" + room.getRoomIdStr(),
                                     mUserBean.getHeadImg(),
-                                    room.getTitle(), "AV8D，快来看我直播吧，现在有" + room.getWatchNumStr() + "人看我直播呢");
+                                    room.getTitle(), "AV8D，快来看我直播吧");
                             break;
                         case R.id.btn_share_wechat_circle:
                             shareUtil.shareWeb(SHARE_MEDIA.WEIXIN_CIRCLE, UrlConstants.SHARP_LIVR_URL +
                                             "?idAccount=" + mUserBean.getIdAccount() + "&roomId=" + room.getRoomIdStr(),
                                     mUserBean.getHeadImg(),
-                                    room.getTitle(), "AV8D，快来看我直播吧，现在有" + room.getWatchNumStr() + "人看我直播呢");
+                                    room.getTitle(), "AV8D，快来看我直播吧");
                             break;
                         case R.id.btn_facebook:
                             shareUtil.shareWeb(SHARE_MEDIA.FACEBOOK, UrlConstants.SHARP_LIVR_URL +
                                             "?idAccount=" + mUserBean.getIdAccount() + "&roomId=" + room.getRoomIdStr(),
                                     mUserBean.getHeadImg(),
-                                    room.getTitle(), "AV8D，快来看我直播吧，现在有" + room.getWatchNumStr() + "人看我直播呢");
+                                    room.getTitle(), "AV8D，快来看我直播吧");
                             break;
                     }
                 }
