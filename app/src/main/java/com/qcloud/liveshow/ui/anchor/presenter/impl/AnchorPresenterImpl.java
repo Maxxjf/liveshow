@@ -1,6 +1,6 @@
 package com.qcloud.liveshow.ui.anchor.presenter.impl;
 
-import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.beans.FinishIncomeBean;
 import com.qcloud.liveshow.model.IAnchorModel;
 import com.qcloud.liveshow.model.impl.AnchorModelImpl;
 import com.qcloud.liveshow.ui.anchor.presenter.IAnchorPresenter;
@@ -25,9 +25,9 @@ public class AnchorPresenterImpl extends BasePresenter<IAnchorView> implements I
 
     @Override
     public void finishLive() {
-        mModel.finishLive(new DataCallback<ReturnEmptyBean>() {
+        mModel.finishLive(new DataCallback<FinishIncomeBean>() {
             @Override
-            public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+            public void onSuccess(FinishIncomeBean returnEmptyBean) {
                 Timber.e("关闭直播成功");
             }
 

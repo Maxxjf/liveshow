@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.ui.anchor.view;
 
+import com.qcloud.liveshow.beans.FinishIncomeBean;
 import com.qcloud.qclib.base.BaseView;
 
 /**
@@ -10,4 +11,6 @@ import com.qcloud.qclib.base.BaseView;
 public interface IAnchorFinishView extends BaseView {
     /**点击返回首页*/
     void onGoHomeClick();
+    /**加载数据*/
+    void loadData(FinishIncomeBean bean);
 }

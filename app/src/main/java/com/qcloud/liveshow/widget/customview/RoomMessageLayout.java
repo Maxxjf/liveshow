@@ -19,8 +19,6 @@ import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.utils.DensityUtils;
 import com.qcloud.qclib.utils.ScreenUtils;
 
-import timber.log.Timber;
-
 /**
  * 类说明：图文混合信息
  * Author: iceberg
@@ -115,11 +113,12 @@ public class RoomMessageLayout extends BaseLinearLayout {
     public void setText(NettyContentBean contentBean, MemberBean memberBean) {
         String nickName = memberBean.getNickName() + ":";
         String text = contentBean.getText();
-        Timber.e("text:"+text);
         ScreenWidth = ScreenUtils.getScreenWidth(BaseApplication.getInstance());//屏幕的长度
         String result;
         int resultWidth;
         int iconWidth = DensityUtils.dp2px(BaseApplication.getInstance(), 160);//图标的长度
+        tvMessage.setText("");
+        tvMessage2.setText("");
         for (int i = 0; i < text.length(); i++) {
             char single = text.charAt(i);//单个字节
             result = nickName + text.substring(0, i);//文字的长度

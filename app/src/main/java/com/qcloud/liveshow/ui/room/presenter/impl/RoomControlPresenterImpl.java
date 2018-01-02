@@ -27,9 +27,15 @@ import com.qcloud.qclib.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 类说明：直播间
@@ -43,6 +49,7 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
 
     private List<String> idList;//会话列表去重
     private List<String> longList;//粉丝去重
+    private Disposable disposable;
 
     public RoomControlPresenterImpl() {
         mModel = new MineModelImpl();
@@ -99,14 +106,23 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                             String uuid=(String)rxBusEvent.getObj();
                             int chatPosition = Integer.valueOf(uuid);
                             mView.upDateGroupMessageStatus(chatPosition, CharStatusEnum.SUCCESS.getKey());
+                            if (disposable!=null){
+                                disposable.dispose();
+                            }
                             break;
                         case R.id.netty_gift_show:
                             //收到礼物消息
                             NettyGiftBean gift=(NettyGiftBean)rxBusEvent.getObj();
-                            if (gift!=null&&gift.getGift()!=null){
+                            if (gift.getGift()!=null&&gift.getUser()!=null){
                                 gift.getGift().setGiftCount(1);
                                 gift.getGift().setSendGiftTime(System.currentTimeMillis());
                                 mView.showGift(gift);
+                                NettyReceiveGroupBean groupBean=new NettyReceiveGroupBean();
+                                groupBean.setUser(gift.getUser());
+                                groupBean.setChatId(""+ UUID.randomUUID());
+                                groupBean.setContent(new NettyContentBean("送出了"+gift.getGift().getName()));
+                                // 群聊消息
+                                mView.addGroupChat(groupBean);
                             }
 
                             break;
@@ -226,10 +242,32 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
             mView.addGroupChat(bean);
             mView.upDateGroupMessageStatus(position,CharStatusEnum.INPROGRESS.getKey());
             mIMModel.sendGroupChat(roomNum, content,String.valueOf(position));
-
+            startTime(position);
         }
     }
-
+    /**
+     * 开始计时，5秒后发送失败
+     *
+     * @param
+     */
+    public void startTime(int position) {
+        disposable = Observable.timer(5, TimeUnit.SECONDS).observeOn(Schedulers.io()).
+                subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        mView.upDateGroupMessageStatus(position, CharStatusEnum.FAIL.getKey());
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mView.upDateGroupMessageStatus(position, CharStatusEnum.FAIL.getKey());
+                    }
+                });
+    }
     /**
      * 设置/取消守护
      *

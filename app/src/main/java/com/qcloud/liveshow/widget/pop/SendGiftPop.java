@@ -89,7 +89,7 @@ public class SendGiftPop extends BasePopupWindow {
             new ProfitModelImpl().sendGift(currBean.getIdStr(), id, roomId, new DataCallback<ReturnEmptyBean>() {
                 @Override
                 public void onSuccess(ReturnEmptyBean returnEmptyBean) {
-                    ToastUtils.ToastMessage(mContext,mContext.getResources().getString(R.string.toast_send_gift_success));
+//                    ToastUtils.ToastMessage(mContext,mContext.getResources().getString(R.string.toast_send_gift_success));
 
                 }
 
@@ -98,6 +98,9 @@ public class SendGiftPop extends BasePopupWindow {
                     ToastUtils.ToastMessage(mContext,errMsg);
                 }
             });
+            if (currBean.getType()==1){
+                this.dismiss();
+            }
         }
     }
 

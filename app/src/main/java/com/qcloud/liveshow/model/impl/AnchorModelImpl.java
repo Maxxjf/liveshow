@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.ApplyStatusBean;
+import com.qcloud.liveshow.beans.FinishIncomeBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.LiveInfoBean;
 import com.qcloud.liveshow.beans.MemberBean;
@@ -136,7 +137,7 @@ public class AnchorModelImpl implements IAnchorModel {
      * @time 2017/9/26 15:47
      */
     @Override
-    public void finishLive(DataCallback<ReturnEmptyBean> callback) {
+    public void finishLive(DataCallback<FinishIncomeBean> callback) {
         mParams = OkGoRequest.getAppParams();
 
         BaseApi.dispose(IAnchorApi.finishLive(mParams), callback);

@@ -29,9 +29,14 @@ import com.qcloud.qclib.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 类说明：直播间控制页面
@@ -45,6 +50,8 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
     private IIMModel mIMModel;
     private List<String> idList;//会话列表去重
     private List<String> longList;//粉丝去重
+    private Disposable disposable;
+
     public AnchorControlPresenterImpl() {
         mModel = new AnchorModelImpl();
         mIMModel = new IMModelImpl();
@@ -101,6 +108,9 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                             String uuid=(String)rxBusEvent.getObj();
                             int chatPosition = Integer.valueOf(uuid);
                             mView.upDateGroupMessageStatus(chatPosition, CharStatusEnum.SUCCESS.getKey());
+                            if (disposable!=null){
+                                disposable.dispose();
+                            }
                             break;
                         case R.id.netty_gift_show:
                             //收到礼物消息
@@ -254,11 +264,36 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
             mView.addGroupChat(bean);
             mView.upDateGroupMessageStatus(position,CharStatusEnum.INPROGRESS.getKey());
             mIMModel.sendGroupChat(roomNum, content,String.valueOf(position));
+            startTime(position);
         }
     }
     @Override
     public void sendGroupNotice(String roomNum, String content) {
         mIMModel.sendGroupNotice(roomNum, content);
+    }
+
+    /**
+     * 开始计时，5秒后发送失败
+     *
+     * @param
+     */
+    public void startTime(int position) {
+        disposable = Observable.timer(5, TimeUnit.SECONDS).observeOn(Schedulers.io()).
+                subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        mView.upDateGroupMessageStatus(position, CharStatusEnum.FAIL.getKey());
+                    }
+                }, new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mView.upDateGroupMessageStatus(position, CharStatusEnum.FAIL.getKey());
+                    }
+                });
     }
     /**
      * 设置/取消守护

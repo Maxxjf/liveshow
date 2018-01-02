@@ -23,7 +23,7 @@ public class PaypalUtil {
     /**配置何种支付环境，一般沙盒，正式*/
     private static final String CONFIG_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
     /**你所注册的APP Id */
-    private static final String CONFIG_CLIENT_ID = "你所注册的CLient Id";
+    private static final String CONFIG_CLIENT_ID = "AfUcYT0DqJ8xZkRh-6PRuvx6h5ZSfAt5QIjpPK00SrUVyHd5rImlcXQwkTlDba8B6Z8RWaclOhu9-DHC";
     private static final int REQUEST_CODE_PAYMENT = 1;
     private static final int REQUEST_CODE_FUTURE_PAYMENT = 2;
     /** note that these credentials will differ between live & sandbox environments.*/

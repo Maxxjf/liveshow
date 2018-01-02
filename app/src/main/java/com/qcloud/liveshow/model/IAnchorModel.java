@@ -3,6 +3,7 @@ package com.qcloud.liveshow.model;
 import android.support.annotation.NonNull;
 
 import com.qcloud.liveshow.beans.ApplyStatusBean;
+import com.qcloud.liveshow.beans.FinishIncomeBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.LiveInfoBean;
 import com.qcloud.liveshow.beans.MemberBean;
@@ -39,7 +40,7 @@ public interface IAnchorModel {
     void inOutGuard(long memberId, boolean isGuard, DataCallback<ReturnEmptyBean> callback);
 
     /**结束直播间*/
-    void finishLive(DataCallback<ReturnEmptyBean> callback);
+    void finishLive(DataCallback<FinishIncomeBean> callback);
 
     /**直播前获取直播消息*/
     void getLiveinfo(DataCallback<LiveInfoBean> callback);

@@ -39,7 +39,7 @@ public class CatchExceptionHandler implements Thread.UncaughtExceptionHandler {
             try{
                 Thread.sleep(2000);
             }catch (InterruptedException e){
-                Timber.e("error"+e);
+                Timber.e(e);
             }
             Intent intent = new Intent(application.getTopActivity(), LaunchActivity.class);
             @SuppressLint("WrongConstant") PendingIntent restartIntent = PendingIntent.getActivity(
@@ -71,6 +71,7 @@ public class CatchExceptionHandler implements Thread.UncaughtExceptionHandler {
             public void run() {
                 Looper.prepare();
                 ToastUtils.ToastMessage(application.getTopActivity(), "很抱歉,程序出现异常,即将退出.");
+                Timber.e(ex);
                 Looper.loop();
             }
         }.start();

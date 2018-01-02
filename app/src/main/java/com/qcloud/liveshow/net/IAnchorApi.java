@@ -3,6 +3,7 @@ package com.qcloud.liveshow.net;
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.ApplyStatusBean;
+import com.qcloud.liveshow.beans.FinishIncomeBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.LiveInfoBean;
 import com.qcloud.liveshow.beans.MemberBean;
@@ -67,8 +68,8 @@ public class IAnchorApi {
     }
 
     /**结束直播*/
-    public static Observable<BaseResponse<ReturnEmptyBean>> finishLive(HttpParams params) {
-        Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
+    public static Observable<BaseResponse<FinishIncomeBean>> finishLive(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<FinishIncomeBean>>(){}.getType();
 
         return OkGoRequest.getRequest(UrlConstants.FINISH_LIVE, type, params);
     }

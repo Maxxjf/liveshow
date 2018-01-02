@@ -10,8 +10,11 @@ import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
+import com.qcloud.liveshow.beans.FinishIncomeBean;
+import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.AnchorFinishPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IAnchorFinishView;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.widget.customview.RatioImageView;
@@ -69,7 +72,8 @@ public class AnchorFinishActivity extends BaseActivity<IAnchorFinishView, Anchor
 
     @Override
     protected void initViewAndData() {
-        GlideUtil.loadCircleImage(this, mImgUserHead, "", R.drawable.bitmap_user_head, 0, 0, true, false);
+        mPresenter.finishLive();
+//        GlideUtil.loadCircleImage(this, mImgUserHead, "", R.drawable.bitmap_user_head, 0, 0, true, false);
     }
 
     @Override
@@ -91,6 +95,24 @@ public class AnchorFinishActivity extends BaseActivity<IAnchorFinishView, Anchor
     @Override
     public void onGoHomeClick() {
         finish();
+    }
+
+    @Override
+    public void loadData(FinishIncomeBean bean) {
+        if (isRunning&&bean!=null){
+            UserBean user= UserInfoUtil.mUser;
+            GlideUtil.loadCircleImage(mContext, mImgUserHead, user.getHeadImg(), R.drawable.bitmap_user_head,
+                    0, 0, true, false);
+            GlideUtil.loadCircleImage(mContext, mImgAnchorLevel, user.getAnchorGradeIcon(), R.drawable.icon_anchor_level_1,
+                    0, 0, true, false);
+            mTvId.setText(user.getIdAccount());
+            mTvNickname.setText(user.getNickName());
+            mTvCurrProfit.setText(bean.getEarnings());
+            mTvAudience.setText(bean.getWatchTotal());
+            mTvGiftProfit.setText(bean.getGiftEarnings());
+            mTvCurrIncome.setText(bean.getTotalEarnings());
+
+        }
     }
 
     public static void openActivity(Context context) {

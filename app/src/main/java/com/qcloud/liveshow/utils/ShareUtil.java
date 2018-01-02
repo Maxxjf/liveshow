@@ -11,6 +11,8 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
+import timber.log.Timber;
+
 /**
  * 类说明：分享工具类
  * Author: iceberg
@@ -88,7 +90,8 @@ public class ShareUtil {
          */
         @Override
         public void onStart(SHARE_MEDIA platform) {
-
+            Timber.e("-----------------------Onstart");
+            loading.dismiss();
         }
 
         /**
@@ -97,7 +100,6 @@ public class ShareUtil {
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            loading.dismiss();
             ToastUtils.ToastMessage(mContext, "分享成功");
         }
 
@@ -108,7 +110,6 @@ public class ShareUtil {
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            loading.dismiss();
             ToastUtils.ToastMessage(mContext, "失败" + t.getMessage());
         }
 
@@ -118,7 +119,7 @@ public class ShareUtil {
          */
         @Override///
         public void onCancel(SHARE_MEDIA platform) {
-            loading.dismiss();
+            Timber.e("----------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             ToastUtils.ToastMessage(mContext, "取消了");
 
         }

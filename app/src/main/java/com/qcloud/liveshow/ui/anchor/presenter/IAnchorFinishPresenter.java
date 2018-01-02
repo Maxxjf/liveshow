@@ -8,4 +8,8 @@ import com.qcloud.qclib.base.BtnClickPresenter;
  * Date: 2017/9/2 16:45.
  */
 public interface IAnchorFinishPresenter extends BtnClickPresenter {
+    /**
+     * 结束直播的收益
+     */
+    void finishLive();
 }
