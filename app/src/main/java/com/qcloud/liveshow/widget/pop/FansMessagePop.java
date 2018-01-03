@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.widget.pop;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.KeyEvent;
@@ -93,7 +94,7 @@ public class FansMessagePop extends BasePopupWindow {
                     onSendClick();
                     return true;
                 case KeyEvent.KEYCODE_BACK:
-                    dismiss();
+                    onSendClick();
                     return false;
                 default:
                     return false;
@@ -192,7 +193,7 @@ public class FansMessagePop extends BasePopupWindow {
                 RealmHelper.getInstance().addOrUpdateBean(nettyReceivePrivateBean);
                 addMessage(nettyReceivePrivateBean);
                 mEtMessage.setText("");
-                hideInput();
+//                hideInput();
                 new IMModelImpl().sendPrivateChat(currMember.getIdStr(), mMessage, nettyReceivePrivateBean.getChat_id());
                 startTime(nettyReceivePrivateBean);
             }
@@ -230,9 +231,14 @@ public class FansMessagePop extends BasePopupWindow {
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
         }
-        RealmHelper.getInstance().updateMessageStatus(chatId, charStatus);
-        mAdapter.upDateSendStatus(chatId, charStatus);
-        mAdapter.notifyDataSetChanged();
+        ((Activity)mContext).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                RealmHelper.getInstance().updateMessageStatus(chatId, charStatus);
+                mAdapter.upDateSendStatus(chatId, charStatus);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
 
     }
 

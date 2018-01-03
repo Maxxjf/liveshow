@@ -1,9 +1,13 @@
 package com.qcloud.liveshow.ui.home.widget;
 
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.FollowAdapter;
@@ -15,6 +19,8 @@ import com.qcloud.liveshow.ui.home.view.IFollowView;
 import com.qcloud.liveshow.ui.room.widget.RoomActivity;
 import com.qcloud.liveshow.widget.customview.EmptyView;
 import com.qcloud.liveshow.widget.customview.NoFollowView;
+import com.qcloud.qclib.beans.RxBusEvent;
+import com.qcloud.qclib.rxbus.BusProvider;
 import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
 import com.qcloud.qclib.swiperefresh.SwipeRecyclerView;
 import com.qcloud.qclib.swiperefresh.SwipeRefreshUtil;
@@ -26,6 +32,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.BindColor;
 import butterknife.BindDimen;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 /**
@@ -42,6 +50,8 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
     int dividerHeight;
     @BindColor(R.color.colorBg)
     int dividerBg;
+    @Bind(R.id.btn_return)
+    TextView btnReturn;
 
     private NoFollowView mEmptyView;
 
@@ -83,17 +93,17 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
         mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (mAdapter.getList()!=null&&mAdapter.getList().get(i).isLive()){
+                if (mAdapter.getList() != null && mAdapter.getList().get(i).isLive()) {
                     RoomActivity.openActivity(getActivity(), i, mAdapter.getList());
                 } else {
-                    ToastUtils.ToastMessage(mContext,getResources().getString(R.string.tag_tip_anchor_is_no_live));
+                    ToastUtils.ToastMessage(mContext, getResources().getString(R.string.tag_tip_anchor_is_no_live));
                 }
             }
         });
 
         SwipeRefreshUtil.setLoadMore(mListFollow, true);
         SwipeRefreshUtil.setRefreshImage(getActivity(), mListFollow, R.drawable.icon_refresh_icon, CustomSwipeRefreshLayout.ANIM_IN_LEFT);
-        mListFollow.setOnRefreshListener(new CustomSwipeRefreshLayout.OnRefreshListener(){
+        mListFollow.setOnRefreshListener(new CustomSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 pageNum = 1;
@@ -165,6 +175,7 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
     public void showEmptyView(String tip) {
         if (mListFollow != null) {
             mListFollow.showEmptyView();
+            btnReturn.setVisibility(View.VISIBLE);
         }
     }
 
@@ -172,6 +183,7 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
     public void hideEmptyView() {
         if (mListFollow != null) {
             mListFollow.hideEmptyView();
+            btnReturn.setVisibility(View.GONE);
         }
     }
 
@@ -187,5 +199,25 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
                 Timber.e(errMsg);
             }
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @OnClick(R.id.btn_return)
+    public void onClick() {
+        Timber.e("------------>>>>>>>>>btn_return");
+        BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.return_hot_fragment).build());
     }
 }

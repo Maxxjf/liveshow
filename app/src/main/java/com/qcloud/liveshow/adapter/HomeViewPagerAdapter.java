@@ -96,4 +96,8 @@ public class HomeViewPagerAdapter extends IndicatorViewPager.IndicatorFragmentPa
         }
         return fragment;
     }
+
+    public void returnHotFragment(){
+        getFragmentForPage(0);
+    }
 }

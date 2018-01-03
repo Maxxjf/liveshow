@@ -16,7 +16,6 @@ import java.util.List;
  */
 public class HomePresenterImpl extends BasePresenter<IHomeView> implements IHomePresenter {
     public HomePresenterImpl() {
-
     }
 
     @Override

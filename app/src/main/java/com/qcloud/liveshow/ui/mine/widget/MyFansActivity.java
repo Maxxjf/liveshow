@@ -19,7 +19,8 @@ import com.qcloud.liveshow.ui.home.widget.FansMessageActivity;
 import com.qcloud.liveshow.ui.mine.presenter.impl.MyFansPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IMyFansView;
 import com.qcloud.liveshow.utils.UserInfoUtil;
-import com.qcloud.liveshow.widget.customview.NoFollowView;
+import com.qcloud.liveshow.widget.customview.NoBlackListView;
+import com.qcloud.liveshow.widget.customview.NoFansView;
 import com.qcloud.liveshow.widget.pop.FansInfoPop;
 import com.qcloud.liveshow.widget.pop.FansManagerPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
@@ -29,6 +30,7 @@ import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.widget.customview.BaseEmptyView;
 
 import java.util.List;
 
@@ -49,7 +51,7 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
 
     private MyFansAdapter mAdapter;
 
-    private NoFollowView mEmptyView;
+    private BaseEmptyView mEmptyView;
 
     private int type = StartFansEnum.MyFollow.getKey();
 
@@ -143,7 +145,11 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
 //                mFansPop.showAtLocation(mListMyFans, Gravity.BOTTOM, 0, 0);
             }
         });
-        mEmptyView = new NoFollowView(this);
+        if (type==StartFansEnum.MyFans.getKey()){
+            mEmptyView = new NoFansView(this);
+        }else {
+            mEmptyView = new NoBlackListView(this);
+        }
         mListMyFans.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
     }
 

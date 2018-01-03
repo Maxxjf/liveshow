@@ -10,5 +10,7 @@ import java.util.List;
  * Date: 2017/8/10 9:46.
  */
 public interface IHomeView {
+    void returnHotFragment();
+
     void replaceList(List<HomeViewPageBean> beans);
 }

@@ -2,6 +2,7 @@ package com.qcloud.liveshow.utils;
 
 import android.app.Activity;
 
+import com.qcloud.liveshow.R;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.widget.dialog.LoadingDialog;
 import com.umeng.socialize.ShareAction;
@@ -71,7 +72,7 @@ public class ShareUtil {
         UMWeb web = new UMWeb(webUrl);
         web.setTitle(title);//标题
         web.setThumb(image);  //图片
-        web.setDescription(descrption);//描述
+        web.setDescription(mContext.getResources().getString(R.string.tip_room_descrption));//描述
         new ShareAction(mContext)
                 .setPlatform(sharePlatfrom)//传入平台
                 .withMedia(web)

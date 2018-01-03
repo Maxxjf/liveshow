@@ -88,7 +88,7 @@ public class RoomMessageLayout extends BaseLinearLayout {
             NettyContentBean contentBean = bean.getContent();
 
             if (memberBean != null) {
-                GlideUtil.loadImage(mContext, imgAnchorLevel, memberBean.getIcon(), R.drawable.icon_member_level_1, true, false);
+                GlideUtil.loadImage(mContext, imgAnchorLevel, memberBean.getIcon(), R.drawable.icon_member_level_1, false, true);
 //                imgIsFans.setVisibility(memberBean.isAttention()? View.VISIBLE : View.GONE);
                 imgIsFans.setVisibility(View.GONE);
                 tvNickname.setText(memberBean.getNickName() + ":");

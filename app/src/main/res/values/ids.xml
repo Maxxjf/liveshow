@@ -49,5 +49,7 @@
     <item name="tag_imageview" type="id"/>
     <!--收到礼物通知房间-->
     <item name="netty_gift_show" type="id"/>
+    <!--回到-->
+    <item name="return_hot_fragment" type="id"/>
 
 </resources>

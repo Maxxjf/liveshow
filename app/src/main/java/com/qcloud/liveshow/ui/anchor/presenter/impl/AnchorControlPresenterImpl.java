@@ -248,10 +248,10 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
     public void sendGroupMessage(String roomNum, String content,int position) {
         if (StringUtils.isNotEmptyString(content)){
             MemberBean user=new MemberBean();
-            user.setMemberGrade(UserInfoUtil.mUser.getMemberGradeIcon());
-            user.setAnchorGrade(UserInfoUtil.mUser.getAnchorGradeIcon());
+            user.setMemberGradeIcon(UserInfoUtil.mUser.getMemberGradeIcon());
+            user.setAnchorGradeIcon(UserInfoUtil.mUser.getAnchorGradeIcon());
             user.setNickName(UserInfoUtil.mUser.getNickName());
-
+            user.setAnchor(UserInfoUtil.mUser.isAnchor());
             NettyContentBean contentBean=new NettyContentBean();
             contentBean.setText(content);
 

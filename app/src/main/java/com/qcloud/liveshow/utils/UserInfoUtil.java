@@ -27,6 +27,7 @@ public class UserInfoUtil {
             public void onSuccess(UserBean userBean) {
                 if (userBean != null) {
                     mUser = userBean;
+                    Timber.e("uesr:"+userBean);
                     initRealm();
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.get_user_info_success).setObj(userBean).build());
                 } else {

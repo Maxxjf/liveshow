@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.opengl.GLSurfaceView;
+import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -14,7 +15,6 @@ import android.view.WindowManager;
 import com.ksyun.media.streamer.capture.CameraCapture;
 import com.ksyun.media.streamer.capture.ViewCapture;
 import com.ksyun.media.streamer.capture.camera.CameraTouchHelper;
-import com.ksyun.media.streamer.filter.imgtex.ImgFilterBase;
 import com.ksyun.media.streamer.filter.imgtex.ImgTexFilterBase;
 import com.ksyun.media.streamer.filter.imgtex.ImgTexFilterMgt;
 import com.ksyun.media.streamer.kit.KSYStreamer;
@@ -25,6 +25,7 @@ import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.constant.CameraConstants;
 import com.qcloud.liveshow.constant.UrlConstants;
+import com.qcloud.liveshow.enums.BeautyUiEnum;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.AnchorPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IAnchorView;
 import com.qcloud.liveshow.utils.UserInfoUtil;
@@ -33,9 +34,8 @@ import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
 
-import java.util.List;
-
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import timber.log.Timber;
 
 /**
@@ -70,7 +70,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 //    private String mRecordUrl = "/sdcard/rec_test.mp4";
 
     boolean isLiveStart = false;//直播已经开始
-    RoomBean room ;//直播室的id
+    RoomBean room;//直播室的id
     String notice = "";//直播公告
     /**
      * 是否支持硬编
@@ -187,7 +187,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         /**设置耳返*/
         mStreamer.setEnableAudioPreview(false);
         /**设置美颜*/
-        mStreamer.getImgTexFilterMgt().setFilter(mStreamer.getGLRender(), CameraConstants.BEAUTY_UI);
+        mStreamer.getImgTexFilterMgt().setFilter(mStreamer.getGLRender(), BeautyUiEnum.PRO3.getKey());
         mStreamer.getImgTexFilterMgt().setOnErrorListener(new ImgTexFilterBase.OnErrorListener() {
             @Override
             public void onError(ImgTexFilterBase filter, int errno) {
@@ -196,13 +196,15 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
                         ImgTexFilterMgt.KSY_FILTER_BEAUTY_DISABLE);
             }
         });
-        List<ImgFilterBase> filters = mStreamer.getImgTexFilterMgt().getFilter();
-        if (filters != null && !filters.isEmpty()) {
-            final ImgFilterBase filter = filters.get(0);
-            filter.setGrindRatio(0.3f);     // 磨皮0~1.0f
-            filter.setWhitenRatio(1.0f);    // 美白0~1.0f
-            filter.setRuddyRatio(0.5f);     // 红润0~1.0f
-        }
+//        List<ImgFilterBase> filters = mStreamer.getImgTexFilterMgt().getFilter();
+//        if (filters != null && !filters.isEmpty()) {
+//            final ImgFilterBase filter = filters.get(0);
+//            filter.setGrindRatio(0.5f);     // 磨皮0~1.0f
+//            filter.setWhitenRatio(1.0f);    // 美白0~1.0f
+//            filter.setRuddyRatio(1.0f);     // 红润0~1.0f
+//        }
+//
+//        mStreamer.getImgTexFilterMgt().setFilter(filters);
         /**设置采集帧率为24*/
         mStreamer.setPreviewFps(CameraConstants.FRAME_RATE);
         mStreamer.setTargetFps(CameraConstants.FRAME_RATE);
@@ -662,9 +664,9 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if (isLiveStart){
+            if (isLiveStart) {
                 finishLive();
-            }else {
+            } else {
                 finish();
             }
             return true;
@@ -686,4 +688,13 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     public void surfaceDestroyed(SurfaceHolder holder) {
         Timber.e("摄像头摧毁");
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+
 }

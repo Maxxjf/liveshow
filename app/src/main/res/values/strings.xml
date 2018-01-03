@@ -115,6 +115,8 @@
     <string name="tip_confirm_to_logout">您确定要退出登录吗?</string>
     <string name="tip_confirm_to_exit_room">您确定要退出房间吗?</string>
     <string name="tip_no_follow">你还没有关注的主播呢~</string>
+    <string name="tip_no_balck_list">这里一个人都没有</string>
+    <string name="tip_no_fans_list">您还没有粉丝，开播让更多的人关注你吧</string>
     <string name="tip_no_record">还没有交易记录呢~</string>
     <string name="tip_no_search_res">没有搜索出来呢，换个关键词试试~</string>
     <string name="tip_no_message">暂时没有消息通知哦~</string>
@@ -122,6 +124,7 @@
     <string name="tip_err_request">页面丢失啦，点击图标刷新一下吧~</string>
     <string name="tip_is_call">是否播号</string>
     <string name="tip_input_recommend_code">请输入推荐人推广码</string>
+    <string name="tip_room_descrption">好看的根本停不下来啊啊啊啊</string>
 
     <string name="input_mobile_hint">请输入手机号</string>
     <string name="input_account_hint">请输入账号</string>

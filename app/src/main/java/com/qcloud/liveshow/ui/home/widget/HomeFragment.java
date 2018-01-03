@@ -41,7 +41,9 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
     private IndicatorViewPager mIndicatorViewPager;
     private HomeViewPagerAdapter mAdapter;
 
-    /**显示与隐藏TitleBar动画*/
+    /**
+     * 显示与隐藏TitleBar动画
+     */
     private ObjectAnimator mAnimator;
 
     @Override
@@ -75,22 +77,26 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
             if (rxBusEvent.getType() == R.id.show_hide_title_bar) {
                 boolean isShow = (boolean) rxBusEvent.getObj();
                 showOrHideTitle(isShow);
-            }else if (rxBusEvent.getType()==R.id.netty_private_chat){
+            } else if (rxBusEvent.getType() == R.id.netty_private_chat) {
                 checkMessageIsRead();
-            }else if (rxBusEvent.getType()==R.id.check_no_read_chat){
+            } else if (rxBusEvent.getType() == R.id.check_no_read_chat) {
                 checkMessageIsRead();
+            } else if(rxBusEvent.getType()==R.id.return_hot_fragment){
+
+                returnHotFragment();
             }
         }));
     }
 
-    private void checkMessageIsRead(){
-        int noReadNumber= MessageUtil.getInstance().getNoReadNumber();//未读消息数量
-        if (noReadNumber!=0){
+    private void checkMessageIsRead() {
+        int noReadNumber = MessageUtil.getInstance().getNoReadNumber();//未读消息数量
+        if (noReadNumber != 0) {
             mTitleBar.setIsRead(false);
-        }else {
+        } else {
             mTitleBar.setIsRead(true);
         }
     }
+
     private void initTitleBar() {
         mTitleBar.setOnBtnListener(view -> {
             switch (view.getId()) {
@@ -104,10 +110,14 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
         });
     }
 
+    @Override
+    public void returnHotFragment() {
+        mIndicatorViewPager.setCurrentItem(0, true);
+    }
 
     /**
      * 初始化指示器
-     * */
+     */
     private void initIndicator() {
         ColorBar bar = new ColorBar(getActivity(), ContextCompat.getColor(getContext(), R.color.colorTitle), 5);
         bar.setWidth(DensityUtils.dp2px(getActivity(), 60));
@@ -128,12 +138,14 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
         mAdapter = new HomeViewPagerAdapter(getActivity(), getChildFragmentManager());
         mIndicatorViewPager.setAdapter(mAdapter);
 
+
+
         mPresenter.createViewPager();
     }
 
     /**
      * 显示或隐藏标题栏
-     * */
+     */
     private void showOrHideTitle(boolean isShow) {
 //        if (mLayoutTitle != null) {
 //            if (isShow) {

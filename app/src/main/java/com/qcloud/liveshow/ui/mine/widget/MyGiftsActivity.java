@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.ui.mine.widget;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
@@ -88,12 +89,13 @@ public class MyGiftsActivity extends SwipeBaseActivity<IMyGiftsView, MyGiftsPres
         mPageGift.setCountNum(4, 2);
     }
 
+    @SuppressLint("NewApi")
     private void initRefreshLayout() {
-        PullRefreshUtil.setRefresh(mRefreshView, true, true);
+        PullRefreshUtil.setRefresh(mRefreshView, false, true);
         mRefreshView.setOnPullDownRefreshListener(new PullRefreshView.OnPullDownRefreshListener() {
             @Override
             public void onRefresh() {
-                pageNum = 1;
+                pageNum=1;
                 mRefreshView.isMore(true);
                 loadData();
             }
