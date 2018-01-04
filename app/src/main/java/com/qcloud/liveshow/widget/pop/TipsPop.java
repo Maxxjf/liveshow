@@ -96,6 +96,7 @@ public class TipsPop extends BasePopupWindow {
 
     public void setTitle(String title) {
         if (mTvTitle != null) {
+            mTvTitle.setVisibility(View.VISIBLE);
             if (StringUtils.isNotEmptyString(title)) {
                 mTvTitle.setText(title);
             } else {
@@ -106,6 +107,7 @@ public class TipsPop extends BasePopupWindow {
 
     public void setTitle(@StringRes int resId) {
         if (mTvTitle != null) {
+            mTvTitle.setVisibility(View.VISIBLE);
             if (resId > 0) {
                 mTvTitle.setText(resId);
             } else {

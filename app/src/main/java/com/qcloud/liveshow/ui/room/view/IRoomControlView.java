@@ -72,10 +72,15 @@ public interface IRoomControlView {
 
     /**刷新群聊公告*/
     void refreshNotice(NettyLiveNoticeBean bean);
+
     /**添加消息列表*/
     void addMessage(MemberBean bean);
+
     /**添加消息列表*/
     void upDateApater(String charId,int charStatus);
+
+    /**钻石币不够,要去充值*/
+    void noMoney(String tip);
 
     /**更新信息发送状态*/
     void upDateGroupMessageStatus(int charPosition, int charStatus);

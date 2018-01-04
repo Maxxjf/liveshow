@@ -415,7 +415,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         }
         isLiveStart = true;
         replaceFragment(mControlFragment, R.id.fragment_container, false);
-        mPreFragment.detach();//解决BUG：2个Fargment复用的情况
+        mPreFragment.detach();//防止2个Fargment复用的情况
         startStream();
     }
 

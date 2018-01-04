@@ -125,6 +125,7 @@
     <string name="tip_is_call">是否播号</string>
     <string name="tip_input_recommend_code">请输入推荐人推广码</string>
     <string name="tip_room_descrption">好看的根本停不下来啊啊啊啊</string>
+    <string name="tip_no_diamonds">您的钻石币不足啦,快去充值吧~</string>
 
     <string name="input_mobile_hint">请输入手机号</string>
     <string name="input_account_hint">请输入账号</string>

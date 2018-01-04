@@ -47,6 +47,7 @@ import com.qcloud.liveshow.widget.pop.MessageListPop;
 import com.qcloud.liveshow.widget.pop.SendGiftPop;
 import com.qcloud.liveshow.widget.pop.SharePop;
 import com.qcloud.liveshow.widget.pop.SystemMessagePop;
+import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.StringUtils;
@@ -381,7 +382,36 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private void initGiftPop() {
         if (mCurrBean != null && mAnchorBean != null) {
             mGiftPop = new SendGiftPop(mContext, mCurrBean, mAnchorBean);
+            mGiftPop.setOnNoMoneyLinstener(new SendGiftPop.NoMoneyListener() {
+                @Override
+                public void hasNoMoney() {
+                    noMoney(getResources().getString(R.string.tip_no_diamonds));
+                    mGiftPop.dismiss();
+                }
+
+                @Override
+                public void goToPay() {
+                    onBuyDiamondsClick();
+                    mGiftPop.dismiss();
+                }
+            });
         }
+    }
+
+    /**
+     * 钻石币不够,要去充值
+     */
+    @Override
+    public void noMoney(String tip) {
+        TipsPop pop = new TipsPop(mContext);
+        pop.setTips(tip);
+        pop.showAtLocation(mLayoutBottom, Gravity.CENTER, 0, 0);
+        pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                onBuyDiamondsClick();
+            }
+        });
     }
 
     /**
@@ -597,8 +627,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         }
     }
 
-    public  void startThread(){
-         disposable = Observable.interval(1, TimeUnit.SECONDS).take(10).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+    public void startThread() {
+        disposable = Observable.interval(1, TimeUnit.SECONDS).take(10).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .doOnDispose(new Action() {
                     @Override
                     public void run() throws Exception {
@@ -617,6 +647,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
                     }
                 });
     }
+
     @Override
     public void onNoticeClick() {
         if (mTvNotice != null) {
@@ -711,6 +742,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
             if (bean != null && bean.getUser() != null && mFansAdapter != null) {
                 mFansAdapter.addListBeanAtStart(bean.getUser());
                 mTvWatchNum.setText(String.valueOf(mFansAdapter.getItemCount()));
+                mListFans.scrollToPosition(0);
             }
         }
     }
@@ -723,6 +755,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         if (isInFragment) {
             if (bean != null && mMessageAdapter != null) {
                 mMessageAdapter.addListBeanAtEnd(bean);
+                mListMessage.scrollToPosition(mMessageAdapter.getItemCount()-1);
             }
         }
     }

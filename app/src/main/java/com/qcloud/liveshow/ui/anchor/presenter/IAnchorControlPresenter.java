@@ -13,18 +13,22 @@ public interface IAnchorControlPresenter extends BtnClickPresenter {
 
     /**拉入/解除黑名单*/
     void submitAttention(int type, long id, boolean isAttention);
+
     /**得到成员列表*/
     void getChatList();
+
     /**加入群聊*/
     void joinGroup(String roomNumber);
 
     /**发送群聊消息*/
     void sendGroupMessage(String roomNum, String content,int position);
 
+    /**更改房间公告*/
     void sendGroupNotice(String roomNum, String content);
 
     /**设置/取消守护*/
     void inOutGuard(long memberId, boolean isGuard);
+
     /**禁言/解除禁言*/
     void shutUp(String roomNumber, String memberId, boolean isForbidden);
 }

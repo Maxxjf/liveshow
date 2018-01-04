@@ -2,6 +2,7 @@ package com.qcloud.liveshow.ui.room.presenter.impl;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyContent2Bean;
 import com.qcloud.liveshow.beans.NettyContentBean;
 import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
@@ -125,6 +126,11 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                                 mView.addGroupChat(groupBean);
                             }
 
+                            break;
+                        case R.id.netty_no_money:
+                            NettyContent2Bean contentBean= (NettyContent2Bean) rxBusEvent.getObj();
+                            String content=contentBean.getContent();
+                            mView.noMoney(content);
                             break;
                     }
                 }

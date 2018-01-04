@@ -310,7 +310,7 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
 
             @Override
             public void onError(int status, String errMsg) {
-                mView.inOutGuardError(errMsg);
+                mView.loadErr(true,errMsg);
             }
         });
     }

@@ -28,6 +28,8 @@ public interface IResponseMethod {
     void disposeUserOutGroup(@NonNull JsonElement msgConfig);
     /**通知*/
     void disposeNotice(JsonElement msgConfig);
+    /**钻石币不足*/
+    void disposeNoMoney(JsonElement msgConfig);
 
     /**看直播成员*/
     void disposeGroupMember(@NonNull JsonElement msgConfig);

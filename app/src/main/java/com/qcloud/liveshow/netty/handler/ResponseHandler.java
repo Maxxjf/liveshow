@@ -7,6 +7,7 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyAuthBean;
 import com.qcloud.liveshow.beans.NettyBaseResponse;
+import com.qcloud.liveshow.beans.NettyContent2Bean;
 import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
@@ -71,6 +72,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                     break;
                 case 12://直播公告
                     disposeNotice(jsonStr);
+                    break;
+                case 16://钻石币不足
+                    disposeNoMoney(jsonStr);
                     break;
                 case 104:   // 获取私聊列表
                     disposeChatList(jsonStr);
@@ -251,6 +255,27 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
             @Override
             public void onSuccess(NettyLiveNoticeBean bean, String uuid) {
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_notice).setObj(bean).build());
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+                Timber.e(errMsg);
+            }
+        });
+    }
+    /**
+     * 钻石币不足
+     *
+     * @time 2018/1/4
+     */
+    @Override
+    public void disposeNoMoney(JsonElement msgConfig) {
+        Type type = new TypeToken<NettyBaseResponse<NettyContent2Bean>>() {
+        }.getType();
+        NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyContent2Bean>() {
+            @Override
+            public void onSuccess(NettyContent2Bean bean, String uuid) {
+                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_no_money).setObj(bean).build());
             }
 
             @Override

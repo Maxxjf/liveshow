@@ -16,14 +16,18 @@ import java.util.List;
  * Date: 2017/9/2 15:37.
  */
 public interface IAnchorControlView extends BaseView {
-    void replaceChatList(List<MemberBean> beans);
 
+
+    /**群聊消息*/
     void addGroupChat(NettyReceiveGroupBean bean);
 
+    /**有人退出房间*/
     void userOutGroup(NettyNoticeBean bean);
 
+    /**更新私聊消息的状态*/
     void upDateMessageSendStatus(String chatId, int charStatus);
 
+    /**更新群聊消息的状态*/
     void upDateGroupMessageStatus(int chatPosition, int charStatus);
 
     /**点击公告*/
@@ -53,12 +57,13 @@ public interface IAnchorControlView extends BaseView {
     /**通知成员加入*/
     void addMember(NettyRoomMemberBean bean);
 
+    /**加入黑名单成功*/
     void backListSuccess();
 
+    /**设为守护成功*/
     void inOutGuardSuccess();
 
-    void inOutGuardError(String msg);
-
+    /**关注是否成功*/
     void onFollowRes(boolean isSuccess);
 
     void refreshNotice(NettyLiveNoticeBean bean);

@@ -632,22 +632,12 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         if (isInFragment) {
             if (bean != null && bean.getUser() != null && mFansAdapter != null) {
                 mFansAdapter.addListBeanAtStart(bean.getUser());
+                mListFans.scrollToPosition(0);
                 mTvWatchNum.setText(String.valueOf(mFansAdapter.getItemCount()));
             }
         }
     }
 
-    /**
-     * 会话列表
-     */
-    @Override
-    public void replaceChatList(List<MemberBean> beans) {
-        if (isInFragment) {
-            if (beans != null && mMessagePop != null) {
-                mMessagePop.replaceList(beans);
-            }
-        }
-    }
 
 
     /**
@@ -658,6 +648,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         if (isInFragment) {
             if (bean != null && mMessageAdapter != null) {
                 mMessageAdapter.addListBeanAtEnd(bean);
+                mListMessage.scrollToPosition(mMessageAdapter.getItemCount()-1);
             }
         }
     }
@@ -713,10 +704,6 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         ToastUtils.ToastMessage(mContext, R.string.toast_gurad_success);
     }
 
-    @Override
-    public void inOutGuardError(String msg) {
-        ToastUtils.ToastMessage(mContext, msg);
-    }
 
     @Override
     public void onFollowRes(boolean isSuccess) {

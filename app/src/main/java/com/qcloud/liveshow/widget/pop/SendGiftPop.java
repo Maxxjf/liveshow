@@ -12,6 +12,7 @@ import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.model.impl.ProfitModelImpl;
 import com.qcloud.liveshow.utils.BasicsUtil;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.customview.DiamondsPagerLayout;
 import com.qcloud.liveshow.widget.customview.GiftPagerLayout;
 import com.qcloud.qclib.base.BasePopupWindow;
@@ -40,12 +41,25 @@ public class SendGiftPop extends BasePopupWindow {
     private GiftBean currBean;
     private String roomId="";
     private String id="";
+    private long virtualCoin;
+    private NoMoneyListener noMoneyListener;
+
     public SendGiftPop(Context context, RoomBean roomBean, AnchorBean anchorBean) {
         super(context);
         if (roomBean!=null&&anchorBean!=null){
             this.roomId = roomBean.getRoomIdStr();
             this.id = anchorBean.getIdStr();
+            UserInfoUtil.loadUserInfo();
+            this.virtualCoin= UserInfoUtil.mUser.getVirtualCoin();
         }
+        mTvDiamonds.setText(virtualCoin+"钻石币");
+        mBtnRecharge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                noMoneyListener.goToPay();
+            }
+        });
+
     }
 
     @Override
@@ -86,24 +100,35 @@ public class SendGiftPop extends BasePopupWindow {
     @OnClick(R.id.btn_buy)
     void onClickSend() {
         if (currBean!=null){
-            new ProfitModelImpl().sendGift(currBean.getIdStr(), id, roomId, new DataCallback<ReturnEmptyBean>() {
-                @Override
-                public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+            try {
+                //Android端控制余额不足，其实服务端也做了处理，并受到IM type为16的通知，此判断可以去掉
+                long giftPrice=(long) currBean.getVirtualCoin();
+                if (virtualCoin-giftPrice<0){
+                    noMoneyListener.hasNoMoney();
+                    return;
+                }
+                virtualCoin-=giftPrice;
+                mTvDiamonds.setText(virtualCoin+"钻石币");
+                new ProfitModelImpl().sendGift(currBean.getIdStr(), id, roomId, new DataCallback<ReturnEmptyBean>() {
+                    @Override
+                    public void onSuccess(ReturnEmptyBean returnEmptyBean) {
 //                    ToastUtils.ToastMessage(mContext,mContext.getResources().getString(R.string.toast_send_gift_success));
 
-                }
+                    }
 
-                @Override
-                public void onError(int status, String errMsg) {
-                    ToastUtils.ToastMessage(mContext,errMsg);
+                    @Override
+                    public void onError(int status, String errMsg) {
+                        ToastUtils.ToastMessage(mContext,errMsg);
+                    }
+                });
+                if (currBean.getType()==1){
+                    this.dismiss();
                 }
-            });
-            if (currBean.getType()==1){
-                this.dismiss();
+            }catch (Exception e){
+                e.printStackTrace();
             }
         }
     }
-
     @Override
     public void showAtLocation(View parent, int gravity, int x, int y) {
         super.showAtLocation(parent, gravity, x, y);
@@ -133,5 +158,12 @@ public class SendGiftPop extends BasePopupWindow {
                 }
             });
         }
+    }
+   public void setOnNoMoneyLinstener(NoMoneyListener noMoneyListener){
+        this.noMoneyListener=noMoneyListener;
+    }
+    public interface NoMoneyListener {
+        void hasNoMoney();
+        void goToPay();
     }
 }
