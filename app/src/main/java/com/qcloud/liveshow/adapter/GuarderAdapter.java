@@ -1,7 +1,6 @@
 package com.qcloud.liveshow.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -48,11 +47,9 @@ public class GuarderAdapter extends CommonRecyclerAdapter<MemberBean> {
 
         if (bean.isAttention()) {
             btnFollow.setText(unGuardStr);
-            btnFollow.setTextColor(ContextCompat.getColor(mContext, R.color.colorText));
             btnFollow.setBackgroundResource(R.drawable.frame_gray_circular);
         } else {
             btnFollow.setText(guardStr);
-            btnFollow.setTextColor(ContextCompat.getColor(mContext, R.color.colorStart));
             btnFollow.setBackgroundResource(R.drawable.frame_orange_circular);
         }
 

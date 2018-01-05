@@ -92,7 +92,6 @@ public class ShareUtil {
         @Override
         public void onStart(SHARE_MEDIA platform) {
             Timber.e("-----------------------Onstart");
-            loading.dismiss();
         }
 
         /**
@@ -101,6 +100,7 @@ public class ShareUtil {
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
+            loading.dismiss();
             ToastUtils.ToastMessage(mContext, "分享成功");
         }
 
@@ -111,6 +111,7 @@ public class ShareUtil {
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
+            loading.dismiss();
             ToastUtils.ToastMessage(mContext, "失败" + t.getMessage());
         }
 
@@ -121,6 +122,7 @@ public class ShareUtil {
         @Override///
         public void onCancel(SHARE_MEDIA platform) {
             Timber.e("----------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            loading.dismiss();
             ToastUtils.ToastMessage(mContext, "取消了");
 
         }

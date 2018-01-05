@@ -442,13 +442,13 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      */
     private void initFansManagerPop() {
         mManagerPop = new FansManagerPop(mContext);
+        mManagerPop.noGuarder();
         mManagerPop.setOnHolderClick(view -> {
             switch (view.getId()) {
                 case R.id.btn_set_guarder:
                     mPresenter.inOutGuard(mMemberBean.getId(), true);
                     break;
                 case R.id.btn_my_guarder_list:
-
                     if (mGuarderPop == null) {
                         initGuarderPop();
                     }
@@ -463,7 +463,6 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
             }
         });
     }
-
     /**
      * 初始化粉守护者弹窗
      */

@@ -100,27 +100,31 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/layout_margin"
         android:background="@color/white"
-        android:padding="@dimen/layout_margin">
+        tools:ignore="WebViewLayout">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorTitle"
-            android:textSize="@dimen/small_text_size"
-            android:text="@string/tag_how_to_go_up"/>
-
-        <TextView
-            android:id="@+id/tv_how_to_go_up"
+        <WebView
+            android:id="@+id/webView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_1"
-            android:lineSpacingExtra="@dimen/text_padding"
-            android:textColor="@color/colorText"
-            android:textSize="@dimen/mini_text_size"
-            tools:text="每次充值1个钻石币可以获得10个经验值，每天不设上限，快来充值吧！"/>
+            android:layout_height="match_parent"></WebView>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/colorTitle"-->
+            <!--android:textSize="@dimen/small_text_size"-->
+            <!--android:text="@string/tag_how_to_go_up"/>-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_how_to_go_up"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/margin_1"-->
+            <!--android:lineSpacingExtra="@dimen/text_padding"-->
+            <!--android:textColor="@color/colorText"-->
+            <!--android:textSize="@dimen/mini_text_size"-->
+            <!--tools:text="每次充值1个钻石币可以获得10个经验值，每天不设上限，快来充值吧！"/>-->
     </LinearLayout>
 </LinearLayout>

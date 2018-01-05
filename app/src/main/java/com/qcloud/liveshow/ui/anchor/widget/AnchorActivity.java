@@ -33,6 +33,7 @@ import com.qcloud.liveshow.widget.cameraview.CameraHintView;
 import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.umeng.socialize.UMShareAPI;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -629,6 +630,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     }
 
 
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -650,6 +652,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             if (mPreFragment != null) {
                 mPreFragment.onActivityResult(requestCode, resultCode, data);

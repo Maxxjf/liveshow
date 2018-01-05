@@ -82,6 +82,7 @@ public interface IRoomControlView {
     /**钻石币不够,要去充值*/
     void noMoney(String tip);
 
+
     /**更新信息发送状态*/
     void upDateGroupMessageStatus(int charPosition, int charStatus);
 }

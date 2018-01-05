@@ -18,6 +18,7 @@ import com.qcloud.liveshow.utils.ShareUtil;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import butterknife.Bind;
@@ -104,6 +105,12 @@ public class ExtensionActivity extends SwipeBaseActivity<IExtensionView, Extensi
     public void onFacebookClick() {
             shareUtil.shareWeb(SHARE_MEDIA.FACEBOOK, UrlConstants.SHARP_Generalize_URL +"?idAccount="+experienceCode, "http://store.happytify.cc/uploads/20170928/85/854533C5512Ew600h624.jpeg",
                     "快来看我直播吧", "直播吃香蕉中.....");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

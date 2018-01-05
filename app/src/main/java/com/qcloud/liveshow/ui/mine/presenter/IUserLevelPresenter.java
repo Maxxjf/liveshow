@@ -8,4 +8,6 @@ package com.qcloud.liveshow.ui.mine.presenter;
 public interface IUserLevelPresenter {
     /**获取会员等级*/
     void getMemberGrade();
+
+    void getRuleWebUrl(int type);
 }

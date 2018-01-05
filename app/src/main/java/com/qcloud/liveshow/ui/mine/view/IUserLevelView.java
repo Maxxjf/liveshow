@@ -14,4 +14,6 @@ public interface IUserLevelView extends BaseView {
 
     /**会员等级*/
     void refreshData(MemberGradeBean bean);
+
+    void displayWeb(String webUrl);
 }

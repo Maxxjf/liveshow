@@ -113,8 +113,8 @@
                     item:item_icon="@drawable/icon_extension_code"
                     item:item_name="@string/tag_user_center_extension_code"/>
 
-                <View
-                    style="@style/LineHorizontal"/>
+                <!--<View-->
+                    <!--style="@style/LineHorizontal"/>-->
 
                 <com.qcloud.liveshow.widget.customview.ItemLayout
                     android:id="@+id/layout_set"

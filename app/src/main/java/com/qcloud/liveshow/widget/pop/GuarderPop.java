@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.widget.pop;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,6 +57,7 @@ public class GuarderPop extends BasePopupWindow {
         return R.style.AnimationPopupWindow_bottom_to_up;
     }
 
+    @SuppressLint("StringFormatInvalid")
     @Override
     protected void initAfterViews() {
         PullRefreshUtil.setRefresh(mRefreshView, false, false);
@@ -90,6 +92,7 @@ public class GuarderPop extends BasePopupWindow {
             }
         });
         mListGuarder.setAdapter(mAdapter);
+
     }
 
     @Override
@@ -110,6 +113,7 @@ public class GuarderPop extends BasePopupWindow {
         this.mList = beans;
         if (mList != null && mAdapter != null) {
             mAdapter.replaceList(mList);
+            mTvCurrGuarderNum.setText(String.format(mContext.getResources().getString(R.string.tag_current_number),mList.size()));
         }
     }
 }

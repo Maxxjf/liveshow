@@ -25,6 +25,7 @@ import com.qcloud.liveshow.ui.room.presenter.impl.RoomPresenterImpl;
 import com.qcloud.liveshow.ui.room.view.IRoomView;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.widget.customview.VerticalViewPager;
+import com.umeng.socialize.UMShareAPI;
 
 import java.io.Serializable;
 import java.util.List;
@@ -234,6 +235,12 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         if (mPlayer != null) {
             mPlayer.onDestroy();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

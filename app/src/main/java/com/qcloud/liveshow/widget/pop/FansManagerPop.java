@@ -5,10 +5,12 @@ import android.graphics.Point;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.qclib.base.BasePopupWindow;
 
+import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
@@ -17,6 +19,11 @@ import butterknife.OnClick;
  * Date: 2017/9/21 16:25.
  */
 public class FansManagerPop extends BasePopupWindow {
+    @Bind(R.id.btn_my_guarder_list)
+    TextView btnMyGuarderList;
+    @Bind(R.id.line_guarder)
+    View lineGuarder;
+
     public FansManagerPop(Context context) {
         super(context);
     }
@@ -55,6 +62,14 @@ public class FansManagerPop extends BasePopupWindow {
     public void showAtLocation(View parent, int gravity, int x, int y) {
         super.showAtLocation(parent, gravity, x, y);
         setPopWindowBg(1.0f);
+    }
+
+    /**
+     * 在roomFragment那里是没有守护者列表的
+     */
+    public void noGuarder() {
+        btnMyGuarderList.setVisibility(View.GONE);
+        lineGuarder.setVisibility(View.GONE);
     }
 
     @OnClick({R.id.btn_set_guarder, R.id.btn_my_guarder_list, R.id.btn_gag,

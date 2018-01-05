@@ -32,6 +32,7 @@
             android:text="@string/btn_set_guarder"/>
 
         <View
+            android:id="@+id/line_guarder"
             style="@style/LineHorizontal"/>
 
         <TextView
