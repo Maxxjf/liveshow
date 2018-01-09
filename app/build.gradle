@@ -81,7 +81,7 @@ android {
 }
 
 def releaseTime() {
-    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+    return new Date().format("yyyy-MM-dd-hhmm", TimeZone.getTimeZone("UTC"))
 }
 
 dependencies {

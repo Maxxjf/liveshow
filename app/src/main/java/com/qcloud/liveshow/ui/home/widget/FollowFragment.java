@@ -217,7 +217,6 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
 
     @OnClick(R.id.btn_return)
     public void onClick() {
-        Timber.e("------------>>>>>>>>>btn_return");
         BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.return_hot_fragment).build());
     }
 }

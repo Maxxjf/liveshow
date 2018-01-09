@@ -11,4 +11,6 @@ import java.util.List;
  */
 public interface IMyLevelView {
     void replaceList(List<LevelViewPageBean> beans);
+
+    void isNoAnchor();
 }

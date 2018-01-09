@@ -160,7 +160,7 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
             public void onSuccess(NettyReceivePrivateBean bean, String uuid) {
 
                 if (bean.getChat_id()!=null){//收到别人的消息
-
+                    RealmHelper.getInstance().addOrUpdateBean(bean);//添加到本地数据
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_private_chat).setObj(bean).build());
                 }else {//自己消息发送成功
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_message_send_success).setObj(uuid).build());
@@ -174,7 +174,7 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         });
     }
     /**
-     * 私聊
+     * 礼物
      *
      * @time 2017/11/8 14:45
      */

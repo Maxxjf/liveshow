@@ -61,6 +61,8 @@ public class AnchorLevelFragment extends BaseFragment<IAnchorLevelView, AnchorLe
         initSubCommissionLayout();
     }
 
+
+
     @Override
     protected void beginLoad() {
         refreshUser();

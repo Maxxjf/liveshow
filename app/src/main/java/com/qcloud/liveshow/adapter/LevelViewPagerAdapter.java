@@ -29,9 +29,10 @@ public class LevelViewPagerAdapter extends IndicatorViewPager.IndicatorFragmentP
     private List<LevelViewPageBean> mList;
     private UserLevelFragment mUserFragment;
     private AnchorLevelFragment mAnchorFragment;
-
+    private Context mContext;
     public LevelViewPagerAdapter(Context context, FragmentManager fragmentManager) {
         super(fragmentManager);
+        this.mContext=context;
         inflate = LayoutInflater.from(context);
         mList = new ArrayList<>();
     }
@@ -88,4 +89,5 @@ public class LevelViewPagerAdapter extends IndicatorViewPager.IndicatorFragmentP
         }
         return fragment;
     }
+
 }

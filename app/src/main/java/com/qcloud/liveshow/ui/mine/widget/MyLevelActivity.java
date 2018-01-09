@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.LevelViewPagerAdapter;
@@ -11,9 +12,12 @@ import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.beans.LevelViewPageBean;
 import com.qcloud.liveshow.ui.mine.presenter.impl.MyLevelPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IMyLevelView;
+import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
+import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.DensityUtils;
 import com.qcloud.qclib.widget.indicator.FixedIndicatorView;
+import com.qcloud.qclib.widget.indicator.Indicator;
 import com.qcloud.qclib.widget.indicator.IndicatorViewPager;
 import com.qcloud.qclib.widget.indicator.slidebar.ColorBar;
 import com.qcloud.qclib.widget.indicator.transition.OnTransitionTextListener;
@@ -87,10 +91,26 @@ public class MyLevelActivity extends SwipeBaseActivity<IMyLevelView, MyLevelPres
         mIndicatorViewPager.setAdapter(mAdapter);
 
         mPresenter.createViewPager();
+        mIndicatorViewPager.setOnIndicatorItemClickListener(new Indicator.OnIndicatorItemClickListener() {
+            @Override
+            public boolean onItemClick(View clickItemView, int position) {
+                    if (position==1&&!UserInfoUtil.mUser.isAnchor()){
+                        isNoAnchor();
+                        return true;
+                    }
+                return false;
+            }
+        });
     }
 
     public static void openActivity(Context context) {
         context.startActivity(new Intent(context, MyLevelActivity.class));
+    }
+
+    @Override
+    public void isNoAnchor() {
+        ToastUtils.ToastMessage(this,getResources().getString(R.string.toast_is_not_anchor));
+        mIndicatorViewPager.setCurrentItem(0,true);
     }
 
     @Override

@@ -55,5 +55,7 @@
     <item name="netty_no_money" type="id"/>
     <!--强制关闭直播，-->
     <item name="netty_close_room" type="id"/>
+    <!--还不是直播-->
+    <item name="is_not_anchor" type="id"/>
 
 </resources>
