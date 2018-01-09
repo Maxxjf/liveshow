@@ -79,6 +79,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                 case 104:   // 获取私聊列表
                     disposeChatList(jsonStr);
                     break;
+                case 106:   // 后台强制关闭直播间
+                    disposeCloseRoom(jsonStr);
+                    break;
                 case 203: // 有用户从直播室群聊退出
                     disposeUserOutGroup(jsonStr);
                     break;
@@ -216,6 +219,27 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
             public void onError(int status, String errMsg) {
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_get_chat_list_failure)
                         .setObj(errMsg).build());
+            }
+        });
+    }
+    /**
+     * 强制关闭房间
+     *
+     * @time 2018/1/6
+     */
+    @Override
+    public void disposeCloseRoom(JsonElement msgConfig) {
+        Type type = new TypeToken<NettyBaseResponse<NettyContent2Bean>>() {
+        }.getType();
+        NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyContent2Bean>() {
+            @Override
+            public void onSuccess(NettyContent2Bean bean, String uuid) {
+                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_close_room).setObj(bean).build());
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+                Timber.e(errMsg);
             }
         });
     }

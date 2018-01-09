@@ -106,6 +106,8 @@ public interface UrlConstants {
     String GET_MEMBER_GRADE = URL_PREFIX_APP + "mine/memberGrade";
     /**主播等级*/
     String GET_ANCHOR_GRADE = URL_PREFIX_APP + "mine/anchorGrade";
+    /**钻石币记录*/
+    String DIAMONDS_RECORD = URL_PREFIX_APP + "mine/virtualCoinRecord";
 
     /**
      * 收益有关

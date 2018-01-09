@@ -6,4 +6,5 @@ package com.qcloud.liveshow.ui.profit.presenter;
  * Date: 2017/9/1 16:27.
  */
 public interface IDiamondsRecordPresenter {
+    void loadData(int pageNum, int pageSize);
 }

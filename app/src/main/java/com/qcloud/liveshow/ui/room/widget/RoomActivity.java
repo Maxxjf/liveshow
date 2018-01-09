@@ -24,6 +24,7 @@ import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.liveshow.ui.room.presenter.impl.RoomPresenterImpl;
 import com.qcloud.liveshow.ui.room.view.IRoomView;
 import com.qcloud.qclib.image.GlideUtil;
+import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.widget.customview.VerticalViewPager;
 import com.umeng.socialize.UMShareAPI;
 
@@ -123,7 +124,8 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
             public boolean onInfo(IMediaPlayer iMediaPlayer, int i, int i1) {
                 if (i == PlayStateParams.STATE_COMPLETED) {
                     // 播放完成
-                    RoomFinishActivity.openActivity(RoomActivity.this);
+                    ToastUtils.ToastMessage(RoomActivity.this,"播放完成");
+//                    RoomFinishActivity.openActivity(RoomActivity.this);
                 }
                 return true;
             }

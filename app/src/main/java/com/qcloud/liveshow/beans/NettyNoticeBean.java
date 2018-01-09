@@ -8,7 +8,7 @@ package com.qcloud.liveshow.beans;
 public class NettyNoticeBean {
     String room_number;     // 房间号
     MemberBean user;         // 用户id
-
+    String user_id;           //用户id   这是主播退出，房间其他人收到的
     public String getRoom_number() {
         return room_number;
     }
@@ -25,11 +25,20 @@ public class NettyNoticeBean {
         this.user = user;
     }
 
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
     @Override
     public String toString() {
         return "NettyNoticeBean{" +
                 "room_number='" + room_number + '\'' +
                 ", user=" + user +
+                ", user_id='" + user_id + '\'' +
                 '}';
     }
 }

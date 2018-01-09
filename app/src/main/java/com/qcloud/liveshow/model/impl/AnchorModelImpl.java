@@ -99,8 +99,6 @@ public class AnchorModelImpl implements IAnchorModel {
         mParams.put("title", bean.getTitle());
         mParams.put("notice", bean.getNotice());
         mParams.put("rates", bean.getRates());
-        mParams.put("feeStartTime", bean.getFeeStartTime());
-        mParams.put("feeEndTime", bean.getFeeEndTime());
 
         BaseApi.dispose(IAnchorApi.createLive(mParams), callback);
     }

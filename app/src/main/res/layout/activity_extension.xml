@@ -4,21 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorBg"
+    android:orientation="vertical"
     tools:context=".ui.mine.widget.ExtensionActivity">
 
     <com.qcloud.liveshow.widget.toolbar.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
-        toolbar:is_title="true"
-        toolbar:title_text="@string/title_extension"
         toolbar:is_left="true"
-        toolbar:left_icon="@drawable/icon_normal_back"/>
+        toolbar:is_title="true"
+        toolbar:left_icon="@drawable/icon_normal_back"
+        toolbar:title_text="@string/title_extension" />
 
-    <View
-        style="@style/LineHorizontal"/>
+    <View style="@style/LineHorizontal" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -37,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
-                    android:src="@drawable/bg_extension_banner"/>
+                    android:src="@drawable/bg_extension_banner" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -47,7 +46,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:layout_weight="175"/>
+                        android:layout_weight="175" />
 
                     <TextView
                         android:id="@+id/tv_experience_code"
@@ -55,89 +54,112 @@
                         android:layout_height="0dp"
                         android:layout_weight="75"
                         android:gravity="center"
+                        android:text="@string/tag_extension"
                         android:textColor="@color/colorStart"
                         android:textSize="@dimen/xlarge_text_size"
-                        android:textStyle="bold"
-                        android:text="@string/tag_extension"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
             </FrameLayout>
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/layout_top">
+            <!--<FrameLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_below="@+id/layout_top">-->
 
-                <com.github.lzyzsd.jsbridge.BridgeWebView
-                    android:id="@+id/webView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/margin_30"/>
+            <!--<com.github.lzyzsd.jsbridge.BridgeWebView-->
+            <!--android:id="@+id/webView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginBottom="@dimen/margin_30" />-->
+            <LinearLayout
+                android:layout_marginTop="@dimen/margin_6"
+                android:layout_marginLeft="@dimen/margin_6"
+                android:layout_marginRight="@dimen/margin_6"
+                android:id="@+id/layout_center"
+                android:orientation="vertical"
+                android:layout_below="@+id/layout_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="      每邀请好友注册APP即可获得3个钻石币，还在等什么？赶快行动！一起播！一起嗨~" />
+                <TextView
+                    android:layout_marginTop="@dimen/margin_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="邀请奖励规则：该用户每次充值您都会获得收益哦~多多分享一起赚钱吧" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/margin_9"
+                android:layout_below="@id/layout_center"
+                android:id="@+id/layout_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_30"
+                android:layout_gravity="bottom"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/layout_bottom"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin_30"
-                    android:orientation="vertical"
-                    android:layout_gravity="bottom">
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/line_height"
+                        android:layout_weight="1"
+                        android:background="@color/colorLineWhite" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center">
+                        android:layout_marginLeft="@dimen/margin_2"
+                        android:layout_marginRight="@dimen/margin_2"
+                        android:text="@string/tag_share_way"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorText"
+                        android:textSize="@dimen/medium_text_size" />
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/line_height"
-                            android:layout_weight="1"
-                            android:background="@color/colorLineWhite"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/margin_2"
-                            android:layout_marginRight="@dimen/margin_2"
-                            android:textAllCaps="false"
-                            android:textColor="@color/colorText"
-                            android:textSize="@dimen/medium_text_size"
-                            android:text="@string/tag_share_way"/>
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/line_height"
-                            android:layout_weight="1"
-                            android:background="@color/colorLineWhite"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:layout_marginTop="@dimen/margin_3">
-
-                        <ImageView
-                            android:id="@+id/btn_we_chat"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/icon_we_chat"/>
-
-                        <ImageView
-                            android:id="@+id/btn_wexin_circle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/icon_wexin_circle"
-                            android:layout_marginLeft="@dimen/margin_10"/>
-
-                        <ImageView
-                            android:id="@+id/btn_facebook"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/icon_facebook"
-                            android:layout_marginLeft="@dimen/margin_10"/>
-                    </LinearLayout>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/line_height"
+                        android:layout_weight="1"
+                        android:background="@color/colorLineWhite" />
                 </LinearLayout>
-            </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_3"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/btn_we_chat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_we_chat" />
+
+                    <ImageView
+                        android:id="@+id/btn_wexin_circle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:src="@drawable/icon_wexin_circle" />
+
+                    <ImageView
+                        android:id="@+id/btn_facebook"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:src="@drawable/icon_facebook" />
+                </LinearLayout>
+            </LinearLayout>
+            <!--</FrameLayout>-->
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

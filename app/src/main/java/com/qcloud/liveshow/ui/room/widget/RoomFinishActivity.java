@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
+import com.qcloud.liveshow.beans.AnchorBean;
 import com.qcloud.liveshow.ui.room.presenter.impl.RoomFinishPresenterImpl;
 import com.qcloud.liveshow.ui.room.view.IRoomFinishView;
 import com.qcloud.qclib.image.GlideUtil;
@@ -35,14 +35,8 @@ public class RoomFinishActivity extends BaseActivity<IRoomFinishView, RoomFinish
     FrameLayout mLayoutUser;
     @Bind(R.id.tv_nickname)
     TextView mTvNickname;
-    @Bind(R.id.tv_id)
-    TextView mTvId;
-    @Bind(R.id.layout_id)
-    LinearLayout mLayoutId;
     @Bind(R.id.tv_anchor_state)
     TextView mTvAnchorState;
-    @Bind(R.id.tv_curr_income)
-    TextView mTvCurrIncome;
     @Bind(R.id.btn_go_home)
     TextView mBtnGoHome;
 
@@ -63,7 +57,17 @@ public class RoomFinishActivity extends BaseActivity<IRoomFinishView, RoomFinish
 
     @Override
     protected void initViewAndData() {
-        GlideUtil.loadCircleImage(this, mImgUserHead, "", R.drawable.bitmap_user_head, 0, 0, true, false);
+        refreshInfo();
+    }
+
+    private void refreshInfo() {
+        AnchorBean bean= (AnchorBean) getIntent().getSerializableExtra("anchor");
+        if (bean!=null){
+            GlideUtil.loadCircleImage(this, mImgUserHead, bean.getHeadImg(), R.drawable.bitmap_user_head, 0, 0, true, false);
+            GlideUtil.loadCircleImage(this, mImgAnchorLevel, bean.getAnchorGradeIcon(), R.drawable.bitmap_user_head, 0, 0, true, false);
+            mTvNickname.setText(bean.getNickName());
+        }
+
     }
 
     @OnClick({R.id.btn_go_home})
@@ -89,5 +93,11 @@ public class RoomFinishActivity extends BaseActivity<IRoomFinishView, RoomFinish
 
     public static void openActivity(Context context) {
         context.startActivity(new Intent(context, RoomFinishActivity.class));
+    }
+
+    public static void openActivity(Context context, AnchorBean bean) {
+        Intent intent=new Intent(context,RoomFinishActivity.class);
+        intent.putExtra("anchor",bean);
+        context.startActivity(intent);
     }
 }

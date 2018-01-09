@@ -264,7 +264,7 @@
     <string name="tag_toll_period_remark">不设置的话默认全程哦</string>
     <string name="tag_anchor_state_not">直播还未开始</string>
     <string name="tag_anchor_state_ing">直播正在进行中</string>
-    <string name="tag_anchor_state_finish">直播已结束</string>
+    <string name="tag_anchor_state_finish">——————直播已结束——————</string>
     <string name="tag_curr_income">本场收益</string>
     <string name="tag_audience">观看人数</string>
     <string name="tag_curr_profit2">当前收益</string>

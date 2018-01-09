@@ -14,4 +14,8 @@ public interface IAnchorView {
 
     /**开始直播*/
     void onBeginAnchorClick();
+    /**
+     * 结束直播(强制退出)
+     */
+    void closeRoom();
 }

@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.model;
 
 import com.qcloud.liveshow.beans.AnchorGradeBean;
+import com.qcloud.liveshow.beans.DiamondsRecordBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.MemberGradeBean;
@@ -35,4 +36,6 @@ public interface IMineModel {
 
     /**忘记密码*/
     void forgetPassword(String loginAccount,String code,String newPassword,DataCallback<ReturnEmptyBean> callback);
+
+    void diamondsRecord(int pageNum, int pagesize, DataCallback<ReturnDataBean<DiamondsRecordBean>> callback);
 }

@@ -4,17 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.DiamondsRecordAdapter;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
+import com.qcloud.liveshow.beans.DiamondsRecordBean;
+import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.ui.profit.presenter.impl.DiamondsRecordPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.IDiamondsRecordView;
+import com.qcloud.liveshow.widget.customview.NoRecordView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
 import com.qcloud.qclib.toast.ToastUtils;
+
+import java.util.List;
 
 import butterknife.Bind;
 import timber.log.Timber;
@@ -30,8 +36,10 @@ public class DiamondsRecordActivity extends SwipeBaseActivity<IDiamondsRecordVie
     TitleBar mTitleBar;
     @Bind(R.id.list_record)
     PullRefreshRecyclerView mListRecord;
-
+    @Bind(R.id.no_record)
+    NoRecordView mEmptyView;
     private DiamondsRecordAdapter mAdapter;
+    private int pageNum = 1;
 
     @Override
     protected int initLayout() {
@@ -56,20 +64,25 @@ public class DiamondsRecordActivity extends SwipeBaseActivity<IDiamondsRecordVie
     @Override
     protected void initViewAndData() {
         initListView();
+        mPresenter.loadData(pageNum, AppConstants.PAGE_SIZE);
     }
+
 
     private void initListView() {
         PullRefreshUtil.setRefresh(mListRecord, true, true);
         mListRecord.setOnPullDownRefreshListener(new PullRefreshView.OnPullDownRefreshListener() {
             @Override
             public void onRefresh() {
-                mListRecord.refreshFinish();
+                pageNum = 1;
+                mListRecord.isMore(true);
+                loadData();
             }
         });
         mListRecord.setOnPullUpRefreshListener(new PullRefreshView.OnPullUpRefreshListener() {
             @Override
             public void onRefresh() {
-                mListRecord.refreshFinish();
+                pageNum++;
+                loadData();
             }
         });
 
@@ -78,6 +91,57 @@ public class DiamondsRecordActivity extends SwipeBaseActivity<IDiamondsRecordVie
         mListRecord.setAdapter(mAdapter);
     }
 
+    private void loadData() {
+        mPresenter.loadData(pageNum, AppConstants.PAGE_SIZE);
+    }
+
+    @Override
+    public void replaceList(List<DiamondsRecordBean> beans, boolean isNext) {
+        if (isRunning && mListRecord != null && mAdapter != null) {
+            if (beans != null && beans.size() > 0) {
+                mAdapter.replaceList(beans);
+                mListRecord.isMore(isNext);
+                hideEmptyView();
+            } else {
+                showEmptyView();
+            }
+            mListRecord.refreshFinish();
+        }
+    }
+
+    @Override
+    public void addListAtEnd(List<DiamondsRecordBean> beans, boolean isNext) {
+        if (isRunning && mListRecord != null && mAdapter != null) {
+            if (beans != null && beans.size() > 0) {
+                mAdapter.addListAtEnd(beans);
+                mListRecord.isMore(isNext);
+            } else {
+                ToastUtils.ToastMessage(this, R.string.toast_no_more_data);
+                mListRecord.isMore(false);
+            }
+            mListRecord.refreshFinish();
+        }
+    }
+
+    @Override
+    public void showEmptyView() {
+        if (mListRecord != null) {
+            mListRecord.setVisibility(View.GONE);
+        }
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void hideEmptyView() {
+        if (mListRecord != null) {
+            mListRecord.setVisibility(View.VISIBLE);
+        }
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.GONE);
+        }
+    }
     @Override
     public void loadErr(boolean isShow, String errMsg) {
         if (isRunning) {

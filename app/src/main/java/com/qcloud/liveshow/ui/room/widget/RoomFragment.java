@@ -261,7 +261,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         } else {
             mBtnFollow.setVisibility(View.VISIBLE);
         }
-
+        mMessageAdapter.removeAll();
+        mFansAdapter.removeAll();
         intoRoom();
     }
 
@@ -778,7 +779,13 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     public void userOutGroup(NettyNoticeBean bean) {
         if (isInFragment) {
             if (bean != null && mFansAdapter != null && bean.getUser() != null) {
-                mFansAdapter.removeBeanByUserId(bean.getUser().getIdStr());
+                if (bean.getUser().getIdStr().equals(mAnchorBean.getIdStr())){//主播退出房间
+                    RoomFinishActivity.openActivity(mContext,mAnchorBean);
+                    getActivity().finish();
+                }else {
+                    mFansAdapter.removeBeanByUserId(bean.getUser().getIdStr());
+                }
+
             }
         }
     }

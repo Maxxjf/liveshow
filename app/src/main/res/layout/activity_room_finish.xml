@@ -44,30 +44,30 @@
         android:textStyle="bold"
         android:text="主播昵称"/>
 
-    <LinearLayout
-        android:id="@+id/layout_id"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/small_btn_height"
-        android:orientation="horizontal"
-        android:layout_marginTop="@dimen/layout_margin">
+    <!--<LinearLayout-->
+        <!--android:id="@+id/layout_id"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="@dimen/small_btn_height"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_marginTop="@dimen/layout_margin">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textColor="@color/white"
-            android:textSize="@dimen/micro_text_size"
-            android:text="@string/tag_app_id"/>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="@dimen/micro_text_size"-->
+            <!--android:text="@string/tag_app_id"/>-->
 
-        <TextView
-            android:id="@+id/tv_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textColor="@color/white"
-            android:textSize="@dimen/micro_text_size"
-            tools:text="1234"/>
-    </LinearLayout>
+        <!--<TextView-->
+            <!--android:id="@+id/tv_id"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="@dimen/micro_text_size"-->
+            <!--tools:text="1234"/>-->
+    <!--</LinearLayout>-->
 
     <TextView
         android:id="@+id/tv_anchor_state"
@@ -78,37 +78,6 @@
         android:textSize="@dimen/xmedium_text_size"
         android:text="@string/tag_anchor_state_finish"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="@dimen/margin_10"
-        android:layout_marginRight="@dimen/margin_10"
-        android:layout_marginTop="@dimen/margin_4"
-        android:gravity="center_horizontal">
-
-        <View style="@style/LineHorizontalBlack"/>
-
-        <TextView
-            android:id="@+id/tv_curr_income"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_3"
-            android:textColor="@color/colorEnd"
-            android:textSize="@dimen/xlarge_text_size"
-            android:text="¥123.25"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_2"
-            android:layout_marginBottom="@dimen/margin_3"
-            android:textColor="@color/white"
-            android:textSize="@dimen/small_text_size"
-            android:text="@string/tag_curr_spend"/>
-
-        <View style="@style/LineHorizontalBlack"/>
-    </LinearLayout>
 
     <TextView
         android:id="@+id/btn_go_home"

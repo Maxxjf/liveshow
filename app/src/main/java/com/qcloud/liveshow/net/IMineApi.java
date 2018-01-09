@@ -3,6 +3,7 @@ package com.qcloud.liveshow.net;
 import com.google.gson.reflect.TypeToken;
 import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.AnchorGradeBean;
+import com.qcloud.liveshow.beans.DiamondsRecordBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.MemberGradeBean;
@@ -91,5 +92,12 @@ public class IMineApi {
         Type type = new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
 
         return OkGoRequest.getRequest(UrlConstants.FORGET_PASSWORD, type, params);
+    }
+
+    /**钻石币记录*/
+    public static Observable<BaseResponse<ReturnDataBean<DiamondsRecordBean>>> diamondsRecord(HttpParams params) {
+        Type type = new TypeToken<BaseResponse<ReturnDataBean<DiamondsRecordBean>>>(){}.getType();
+
+        return OkGoRequest.getRequest(UrlConstants.DIAMONDS_RECORD, type, params);
     }
 }

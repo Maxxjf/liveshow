@@ -2,7 +2,6 @@ package com.qcloud.liveshow.ui.anchor.widget;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -27,15 +26,10 @@ import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.imageselect.ProcessImageActivity;
 import com.qcloud.qclib.imageselect.utils.ImageSelectUtil;
 import com.qcloud.qclib.toast.ToastUtils;
-import com.qcloud.qclib.utils.DateUtils;
 import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.widget.customview.RatioImageView;
-import com.qcloud.qclib.widget.customview.wheelview.DateTimePicker;
-import com.qcloud.qclib.widget.customview.wheelview.TimePicker;
-import com.qcloud.qclib.widget.customview.wheelview.WheelView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.BindString;
@@ -72,10 +66,6 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     TextView mTvTollStandard;
     @Bind(R.id.tv_toll_standard_remark)
     TextView mTvTollStandardRemark;
-    @Bind(R.id.btn_time_start)
-    TextView mBtnTimeStart;
-    @Bind(R.id.btn_time_end)
-    TextView mBtnTimeEnd;
     @Bind(R.id.btn_begin)
     TextView mBtnBegin;
 
@@ -92,10 +82,6 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     private SelectPicturePop mPicturePop;
 
     private TollStandardPicker mTollPicker;
-    private TimePicker mStartPicker;
-    private TimePicker mEndPicker;
-    private String mStartTime;
-    private String mEndTime = "";
 
     private String mTitle;
     private String mNotice;
@@ -119,9 +105,6 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
 
     @Override
     protected void initViewAndData() {
-        mStartTime = DateUtils.getCurrTime("HH:mm");
-        mBtnTimeStart.setText(mStartTime);
-//        new AnchorPresenterImpl().finishLive();//已经在Activity那结束直播了
         mPresenter.getLiveinfo(); //得到上一次的直播信息
 
     }
@@ -133,40 +116,6 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         }
     }
 
-    /**
-     * 初始化输入消息弹窗
-     * */
-//    private void initInputDialog() {
-//        mInputDialog = new InputDialog(getActivity());
-//        mInputDialog.setOnFinishInputListener(new InputDialog.OnFinishInputListener() {
-//            @Override
-//            public void onFinishInput(String message) {
-//                mInputDialog.dismiss();
-//            }
-//        });
-//        mInputDialog.setOnTextChangeListener(new InputDialog.OnTextChangeListener() {
-//            @Override
-//            public void onTextChange(String message) {
-//                if (isInputTitle) {
-//                    mTvTitle.append(message);
-//                    if (mImgTitleClear.getVisibility() != View.VISIBLE) {
-//                        mImgTitleClear.setVisibility(View.VISIBLE);
-//                    }
-//                } else {
-//                    mTvNotice.append(message);
-//                    if (mImgNoticeClear.getVisibility() != View.VISIBLE) {
-//                        mImgNoticeClear.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//            }
-//        });
-//        mInputDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//            @Override
-//            public void onDismiss(DialogInterface dialogInterface) {
-//                //SystemBarUtil.hideNavBar(getActivity());
-//            }
-//        });
-//    }
 
     private void initSelectPicturePop() {
         DisplayMetrics dm = new DisplayMetrics();
@@ -210,103 +159,11 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         });
     }
 
-    private void initStartPicker() {
-        mStartPicker = new TimePicker(getActivity(), DateTimePicker.HOUR_24);
-        mStartPicker.setUseWeight(true);
-        mStartPicker.setCycleDisable(false);
-        mStartPicker.setTextColor(ContextCompat.getColor(mContext, R.color.colorTitle), ContextCompat.getColor(mContext, R.color.colorSubTitle));
-        mStartPicker.setLineSpaceMultiplier(3);
-        mStartPicker.setTextSize(14);
 
-        mStartPicker.setRangeStart(0, 0);//00:00
-        mStartPicker.setRangeEnd(23, 59);//23:59
-        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        int currentMinute = Calendar.getInstance().get(Calendar.MINUTE);
-
-        mStartPicker.setSelectedItem(currentHour, currentMinute);
-
-        mStartPicker.setCancelTextColor(ContextCompat.getColor(mContext, R.color.colorStart));
-        mStartPicker.setFinishTextColor(ContextCompat.getColor(mContext, R.color.colorStart));
-        mStartPicker.setTitleText(R.string.tag_start_time);
-        mStartPicker.setTitleTextColor(ContextCompat.getColor(mContext, R.color.colorTitle));
-        mStartPicker.setTopBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
-
-        // 选中线条颜色
-        WheelView.DividerConfig config = new WheelView.DividerConfig();
-        config.setColor(ContextCompat.getColor(mContext, R.color.colorLineWhite));//线颜色
-        mStartPicker.setDividerConfig(config);
-        mStartPicker.setLabel(":", "");
-
-        mStartPicker.initWheelView();
-        mStartPicker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
-            @Override
-            public void onTimePicked(String hour, String minute) {
-                mStartTime = String.format(tagHourMinute, hour, minute);
-                mBtnTimeStart.setText(mStartTime);
-                if (DateUtils.compareTime(mStartTime, mEndTime, "HH:mm") > 0) {
-                    mBtnTimeEnd.setText("次日" + mEndTime);
-                } else {
-                    mBtnTimeEnd.setText(mEndTime);
-                }
-            }
-        });
-        mStartPicker.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                //SystemBarUtil.hideNavBar(getActivity());
-            }
-        });
-    }
-
-    private void initEndPicker() {
-        mEndPicker = new TimePicker(getActivity(), DateTimePicker.HOUR_24);
-        mEndPicker.setUseWeight(true);
-        mEndPicker.setCycleDisable(false);
-        mEndPicker.setTextColor(ContextCompat.getColor(mContext, R.color.colorTitle), ContextCompat.getColor(mContext, R.color.colorSubTitle));
-        mEndPicker.setLineSpaceMultiplier(3);
-        mEndPicker.setTextSize(14);
-
-        mEndPicker.setRangeStart(0, 0);//00:00
-        mEndPicker.setRangeEnd(23, 59);//23:59
-        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        int currentMinute = Calendar.getInstance().get(Calendar.MINUTE);
-        mEndPicker.setSelectedItem(currentHour, currentMinute);
-
-        mEndPicker.setCancelTextColor(ContextCompat.getColor(mContext, R.color.colorStart));
-        mEndPicker.setFinishTextColor(ContextCompat.getColor(mContext, R.color.colorStart));
-        mEndPicker.setTitleText(R.string.tag_end_time);
-        mEndPicker.setTitleTextColor(ContextCompat.getColor(mContext, R.color.colorTitle));
-        mEndPicker.setTopBackgroundColor(ContextCompat.getColor(mContext, R.color.white));
-
-        // 选中线条颜色
-        WheelView.DividerConfig config = new WheelView.DividerConfig();
-        config.setColor(ContextCompat.getColor(mContext, R.color.colorLineWhite));//线颜色
-        mEndPicker.setDividerConfig(config);
-        mEndPicker.setLabel(":", "");
-
-        mEndPicker.initWheelView();
-        mEndPicker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
-            @Override
-            public void onTimePicked(String hour, String minute) {
-                mEndTime = String.format(tagHourMinute, hour, minute);
-                if (DateUtils.compareTime(mStartTime, mEndTime, "HH:mm") > 0) {
-                    mBtnTimeEnd.setText("次日" + mEndTime);
-                } else {
-                    mBtnTimeEnd.setText(mEndTime);
-                }
-            }
-        });
-        mEndPicker.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                //SystemBarUtil.hideNavBar(getActivity());
-            }
-        });
-    }
 
     @OnClick({R.id.btn_exit, R.id.btn_switch_camera, R.id.btn_begin, R.id.layout_change_cover,
             R.id.img_title_clear, R.id.img_notice_clear,
-            tv_toll_standard, R.id.btn_time_start, R.id.btn_time_end})
+            tv_toll_standard})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
     }
@@ -331,23 +188,6 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mPicturePop.showAtLocation(mImgCover, Gravity.BOTTOM, 0, 0);
     }
 
-//    @Override
-//    public void onInputTitleClick() {
-//        isInputTitle = true;
-//        if (mInputDialog == null) {
-//            initInputDialog();
-//        }
-//        mInputDialog.show();
-//    }
-//
-//    @Override
-//    public void onInputNoticeClick() {
-//        isInputTitle = false;
-//        if (mInputDialog == null) {
-//            initInputDialog();
-//        }
-//        mInputDialog.show();
-//    }
 
     @Override
     public void onClearTitleClick() {
@@ -370,21 +210,6 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mTollPicker.showAtLocation(mTvTollStandard, Gravity.BOTTOM, 0, 0);
     }
 
-    @Override
-    public void onTimeStartClick() {
-        if (mStartPicker == null) {
-            initStartPicker();
-        }
-        mStartPicker.showAtLocation(mBtnTimeStart, Gravity.BOTTOM, 0, 0);
-    }
-
-    @Override
-    public void onTimeEndClick() {
-        if (mEndPicker == null) {
-            initEndPicker();
-        }
-        mEndPicker.showAtLocation(mBtnTimeEnd, Gravity.BOTTOM, 0, 0);
-    }
 
     @Override
     public void onBeginAnchorClick() {
@@ -471,9 +296,6 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mSubmitBean.setTitle(mTitle);
         mSubmitBean.setNotice(mNotice);
         mSubmitBean.setRates(mDiamonds);
-        mSubmitBean.setFeeStartTime(mStartTime);
-        mSubmitBean.setFeeEndTime(mEndTime);
-
         return true;
     }
 
@@ -505,13 +327,6 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         if (mTollPicker != null && mTollPicker.isShowing()) {
             mTollPicker.dismiss();
         }
-        if (mStartPicker != null && mStartPicker.isShowing()) {
-            mStartPicker.dismiss();
-        }
-        if (mEndPicker != null && mEndPicker.isShowing()) {
-            mEndPicker.dismiss();
-        }
-
     }
 
     /**

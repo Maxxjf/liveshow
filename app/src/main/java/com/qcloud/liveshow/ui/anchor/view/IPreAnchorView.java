@@ -35,11 +35,6 @@ public interface IPreAnchorView extends BaseView {
     /**点击选择钻石币*/
     void onSelectDiamondsClick();
 
-    /**点击开始时间*/
-    void onTimeStartClick();
-
-    /**点击结束时间*/
-    void onTimeEndClick();
 
     /**点击开始直播*/
     void onBeginAnchorClick();

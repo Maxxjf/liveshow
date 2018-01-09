@@ -90,7 +90,7 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
 //                            mView.addPrivateChat((NettyReceivePrivateBean) rxBusEvent.getObj());
                             break;
                         case R.id.netty_notice_out_group:
-                            // 通知
+                            // 有人退出群聊
                             mView.userOutGroup((NettyNoticeBean) rxBusEvent.getObj());
                             break;
                         case R.id.netty_notice:

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.BaseActivity;
@@ -39,6 +40,14 @@ public class LaunchActivity extends BaseActivity<ILaunchView, LaunchPresenterImp
     private String[] PERMISSIONS = new String[] {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.CALL_PHONE,
+            Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
+            Manifest.permission.RECORD_AUDIO};
+    // 权限申请 7.0
+    private String[] PERMISSIONS2 = new String[] {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+//            Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA,
             Manifest.permission.CALL_PHONE,
             Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
@@ -109,6 +118,9 @@ public class LaunchActivity extends BaseActivity<ILaunchView, LaunchPresenterImp
      * 申请应用需要的权限
      * */
     private void requestPermission() {
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            PERMISSIONS=PERMISSIONS2;
+        }
         final PermissionsManager manager = new PermissionsManager(this);
         manager.setLogging(true);
         manager.request(PERMISSIONS)

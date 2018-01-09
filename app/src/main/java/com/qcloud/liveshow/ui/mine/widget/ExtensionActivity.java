@@ -3,11 +3,12 @@ package com.qcloud.liveshow.ui.mine.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.lzyzsd.jsbridge.BridgeWebView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.beans.UserBean;
@@ -37,8 +38,8 @@ public class ExtensionActivity extends SwipeBaseActivity<IExtensionView, Extensi
     TitleBar mTitleBar;
     @Bind(R.id.tv_experience_code)
     TextView mTvExperienceCode;
-    @Bind(R.id.webView)
-    BridgeWebView mWebView;
+//    @Bind(R.id.webView)
+//    BridgeWebView mWebView;
     @Bind(R.id.btn_we_chat)
     ImageView mBtnWeChat;
     @Bind(R.id.btn_wexin_circle)
@@ -82,6 +83,8 @@ public class ExtensionActivity extends SwipeBaseActivity<IExtensionView, Extensi
             mTvExperienceCode.setText(extension);
             experienceCode=user.getIdAccount();
         }
+        Spanned str = Html.fromHtml("      每邀请好友注册APP即可获得<font color='#FFDC35'>3个钻石币</font>，还在等什么？赶快行动！一起播！一起嗨~");
+        ((TextView)findViewById(R.id.tv_description)).setText(str);
     }
 
     @OnClick({R.id.btn_we_chat, R.id.btn_wexin_circle, R.id.btn_facebook})

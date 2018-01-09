@@ -19,7 +19,12 @@
 
     <View
         style="@style/LineHorizontal"/>
-
+    <com.qcloud.liveshow.widget.customview.NoRecordView
+        android:id="@+id/no_record"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"></com.qcloud.liveshow.widget.customview.NoRecordView>
     <com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView
         android:id="@+id/list_record"
         android:layout_width="match_parent"

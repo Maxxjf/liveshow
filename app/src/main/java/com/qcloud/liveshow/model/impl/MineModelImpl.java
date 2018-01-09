@@ -2,6 +2,7 @@ package com.qcloud.liveshow.model.impl;
 
 import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.AnchorGradeBean;
+import com.qcloud.liveshow.beans.DiamondsRecordBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.MemberGradeBean;
@@ -134,5 +135,13 @@ public class MineModelImpl implements IMineModel {
         mParams.put("code",code);
         mParams.put("newPassword",newPassword);
         BaseApi.dispose(IMineApi.forgetPassWord(mParams),callback);
+    }
+
+    @Override
+    public void diamondsRecord(int pageNum, int pageSize, DataCallback<ReturnDataBean<DiamondsRecordBean>> callback) {
+        mParams=OkGoRequest.getAppParams();
+        mParams.put("pageNum",pageNum);
+        mParams.put("pageSize",pageSize);
+        BaseApi.dispose(IMineApi.diamondsRecord(mParams),callback);
     }
 }

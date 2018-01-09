@@ -10,8 +10,6 @@ public class SubmitStartLiveBean {
     String title;       // 标题
     String notice;      // 公告
     String rates;       // 收费标准
-    String feeEndTime;  // 收费结束时间
-    String feeStartTime;// 收费开始时间
 
     public String getCover() {
         return cover;
@@ -45,22 +43,6 @@ public class SubmitStartLiveBean {
         this.rates = rates;
     }
 
-    public String getFeeEndTime() {
-        return feeEndTime;
-    }
-
-    public void setFeeEndTime(String feeEndTime) {
-        this.feeEndTime = feeEndTime;
-    }
-
-    public String getFeeStartTime() {
-        return feeStartTime;
-    }
-
-    public void setFeeStartTime(String feeStartTime) {
-        this.feeStartTime = feeStartTime;
-    }
-
     @Override
     public String toString() {
         return "SubmitStartLiveBean{" +
@@ -68,8 +50,6 @@ public class SubmitStartLiveBean {
                 ", title='" + title + '\'' +
                 ", notice='" + notice + '\'' +
                 ", rates='" + rates + '\'' +
-                ", feeEndTime='" + feeEndTime + '\'' +
-                ", feeStartTime='" + feeStartTime + '\'' +
                 '}';
     }
 }

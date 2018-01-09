@@ -23,6 +23,8 @@ public interface IResponseMethod {
 
     /**私聊会话列表*/
     void disposeChatList(@NonNull JsonElement msgConfig);
+    /**强制关闭房间*/
+    void disposeCloseRoom(JsonElement msgConfig);
 
     /**有人退出群*/
     void disposeUserOutGroup(@NonNull JsonElement msgConfig);

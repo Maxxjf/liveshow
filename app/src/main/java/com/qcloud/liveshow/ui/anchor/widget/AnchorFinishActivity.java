@@ -119,4 +119,9 @@ public class AnchorFinishActivity extends BaseActivity<IAnchorFinishView, Anchor
         Intent intent = new Intent(context, AnchorFinishActivity.class);
         context.startActivity(intent);
     }
+    public static void openActivity(Context context,boolean isForceToExit) {
+        Intent intent = new Intent(context, AnchorFinishActivity.class);
+        intent.putExtra("isForceToExit",isForceToExit);
+        context.startActivity(intent);
+    }
 }

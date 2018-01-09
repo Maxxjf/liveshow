@@ -623,12 +623,20 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
             @Override
             public void onViewClick(View view) {
 //                mPresenter.finishLive();
-                AnchorFinishActivity.openActivity(AnchorActivity.this);
+                AnchorFinishActivity.openActivity(AnchorActivity.this,false);
                 finish();
             }
         });
     }
 
+    /**
+     * 结束直播(强制退出)
+     */
+    @Override
+    public void closeRoom(){
+        AnchorFinishActivity.openActivity(AnchorActivity.this,true);
+        finish();
+    }
 
 
     @Override
@@ -640,6 +648,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     @Override
     protected void onDestroy() {
         mPresenter.finishLive();
+        mPresenter.outGroup(room.getRoomIdStr());
         super.onDestroy();
         if (mMainHandler != null) {
             mMainHandler.removeCallbacksAndMessages(null);

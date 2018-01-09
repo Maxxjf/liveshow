@@ -13,7 +13,7 @@ public class RoomBean implements Serializable {
     long roomId;            // 房间id
     String cover;           // 封面url
     String title;           // 房间标题
-    String type;            // 房间类型
+    String type;            // 房间类型  （VIP 或者 普通房）
     int watchNum;           // 观看人数
     int rates;              // 直播间收费标准
     boolean isAttention;    // 是否关注了该主播员
