@@ -29,8 +29,8 @@ public class UserBean {
     private long fansNum;    // 粉丝数量
     private long giftNum;    // 礼物数量
     private double money;   // 收益余额
-
-
+    private String anchorGradeIconLong;//直播长图标
+    private String memberGradeIconLong;//会员长图标
 
 
     public long getId() {
@@ -225,6 +225,27 @@ public class UserBean {
         this.money = money;
     }
 
+
+    public void setAnchorGradeIconLong(String anchorGradeIconLong) {
+        this.anchorGradeIconLong = anchorGradeIconLong;
+    }
+
+
+    public void setMemberGradeIconLong(String memberGradeIconLong) {
+        this.memberGradeIconLong = memberGradeIconLong;
+    }
+    public String getCharIcon(){
+        return isAnchor ? anchorGradeIconLong : memberGradeIconLong;
+    }
+
+    public String getAnchorGradeIconLong() {
+        return anchorGradeIconLong;
+    }
+
+    public String getMemberGradeIconLong() {
+        return memberGradeIconLong;
+    }
+
     @Override
     public String toString() {
         return "UserBean{" +
@@ -248,6 +269,8 @@ public class UserBean {
                 ", fansNum=" + fansNum +
                 ", giftNum=" + giftNum +
                 ", money=" + money +
+                ", anchorGradeIconLong='" + anchorGradeIconLong + '\'' +
+                ", memberGradeIconLong='" + memberGradeIconLong + '\'' +
                 '}';
     }
 }

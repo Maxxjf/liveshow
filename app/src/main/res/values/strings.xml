@@ -133,7 +133,7 @@
     <string name="input_code_hint">短信验证码</string>
     <string name="input_password_hint">请输入密码</string>
     <string name="input_message_or_notice_hint">说点什么吧~</string>
-    <string name="input_search_anchor_hint">请输入用户名或用户ID进行搜索</string>
+    <string name="input_search_anchor_hint">请输入主播名或主播ID进行搜索</string>
     <string name="input_real_name_hint">请输入真实姓名</string>
     <string name="input_nickname_hint">请输入昵称</string>
     <string name="input_email_hint">请输入邮箱</string>

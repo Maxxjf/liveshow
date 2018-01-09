@@ -103,10 +103,11 @@
     <string name="toast_withdraw2card_fail">请输入%s邮箱收到的验证码</string>
     <string name="toast_add_blacklist_success">成功拉入黑名单</string>
     <string name="toast_set_success">设置成功</string>
-    <string name="toast_format_account">请输入6-12位数字和字母组合的账号</string>
-    <string name="toast_format_passage">请输入6-12位数字和字母组合的密码</string>
+    <string name="toast_format_account">请输入6-10位数字和字母组合的账号</string>
+    <string name="toast_format_passage">请输入6-10位数字和字母组合的密码</string>
     <string name="toast_send_gift_success">发送礼物成功</string>
     <string name="toast_send_gift_fail">发送礼物失败</string>
+    <string name="toast_is_not_anchor">您还不是主播喔^v^</string>
 
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>
@@ -132,7 +133,7 @@
     <string name="input_code_hint">短信验证码</string>
     <string name="input_password_hint">请输入密码</string>
     <string name="input_message_or_notice_hint">说点什么吧~</string>
-    <string name="input_search_anchor_hint">请输入用户名或用户ID进行搜索</string>
+    <string name="input_search_anchor_hint">请输入主播名或主播ID进行搜索</string>
     <string name="input_real_name_hint">请输入真实姓名</string>
     <string name="input_nickname_hint">请输入昵称</string>
     <string name="input_email_hint">请输入邮箱</string>
@@ -264,7 +265,7 @@
     <string name="tag_toll_period_remark">不设置的话默认全程哦</string>
     <string name="tag_anchor_state_not">直播还未开始</string>
     <string name="tag_anchor_state_ing">直播正在进行中</string>
-    <string name="tag_anchor_state_finish">直播已结束</string>
+    <string name="tag_anchor_state_finish">——————直播已结束——————</string>
     <string name="tag_curr_income">本场收益</string>
     <string name="tag_audience">观看人数</string>
     <string name="tag_curr_profit2">当前收益</string>
@@ -297,4 +298,5 @@
     <string name="tag_tip_anchor_is_no_live">该直播未开启直播~</string>
     <string name="tag_extension">推广码：%s</string>
     <string name="tag_gift_name">送出了%s</string>
+    <string name="tag_current_number">当前%d人</string>
 </resources>

@@ -232,8 +232,8 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
     public void sendGroupMessage(String roomNum, String content,int position) {
         if (UserInfoUtil.mUser!=null&&StringUtils.isNotEmptyString(content)){
             MemberBean user=new MemberBean();
-            user.setMemberGradeIcon(UserInfoUtil.mUser.getMemberGradeIcon());
-            user.setAnchorGradeIcon(UserInfoUtil.mUser.getAnchorGradeIcon());
+            user.setMemberGradeIcon(UserInfoUtil.mUser.getMemberGradeIconLong());
+            user.setAnchorGradeIcon(UserInfoUtil.mUser.getAnchorGradeIconLong());
             user.setNickName(UserInfoUtil.mUser.getNickName());
             user.setAnchor(UserInfoUtil.mUser.isAnchor());
 

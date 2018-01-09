@@ -47,10 +47,10 @@ public class LaunchActivity extends BaseActivity<ILaunchView, LaunchPresenterImp
     // 权限申请 7.0
     private String[] PERMISSIONS2 = new String[] {
             Manifest.permission.READ_EXTERNAL_STORAGE,
-//            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA,
             Manifest.permission.CALL_PHONE,
-            Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
+//            Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
             Manifest.permission.RECORD_AUDIO};
 
     @Override
