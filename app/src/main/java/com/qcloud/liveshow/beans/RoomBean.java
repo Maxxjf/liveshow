@@ -14,6 +14,7 @@ public class RoomBean implements Serializable {
     String cover;           // 封面url
     String title;           // 房间标题
     String type;            // 房间类型  （VIP 或者 普通房）
+    int freeTime;           //免费时长
     int watchNum;           // 观看人数
     int rates;              // 直播间收费标准
     boolean isAttention;    // 是否关注了该主播员
@@ -104,6 +105,14 @@ public class RoomBean implements Serializable {
         this.member = member;
     }
 
+    public int getFreeTime() {
+        return freeTime;
+    }
+
+    public void setFreeTime(int freeTime) {
+        this.freeTime = freeTime;
+    }
+
     @Override
     public String toString() {
         return "RoomBean{" +
@@ -111,6 +120,7 @@ public class RoomBean implements Serializable {
                 ", cover='" + cover + '\'' +
                 ", title='" + title + '\'' +
                 ", type='" + type + '\'' +
+                ", freeTime=" + freeTime +
                 ", watchNum=" + watchNum +
                 ", rates=" + rates +
                 ", isAttention=" + isAttention +

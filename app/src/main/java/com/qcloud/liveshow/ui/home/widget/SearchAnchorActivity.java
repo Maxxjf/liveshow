@@ -72,6 +72,7 @@ public class SearchAnchorActivity extends SwipeBaseActivity<ISearchAnchorView, S
         initTitleBar();
 
         initListView();
+        loadData();
     }
 
     private void loadData() {

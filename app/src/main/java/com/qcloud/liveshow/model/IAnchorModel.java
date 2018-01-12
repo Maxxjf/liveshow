@@ -47,4 +47,9 @@ public interface IAnchorModel {
 
 
     void getUserStatus(String memberId, String roomId, DataCallback<UserStatusBean> callback);
+
+
+    void shareGetCoin(DataCallback<ReturnEmptyBean> callback);
+
+    void watchCalculate(String roomId, DataCallback<ReturnEmptyBean> callback);
 }

@@ -208,7 +208,7 @@ public class ApplyAnchorActivity extends BaseActivity<IApplyAnchorView, ApplyAnc
     }
 
     private void showExitPop() {
-        final TipsPop pop = new TipsPop(this);
+        TipsPop pop = new TipsPop(this);
         pop.setTips(R.string.toast_give_up_to_apply);
         pop.showAtLocation(mImgHeader, Gravity.CENTER, 0, 0);
         pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {

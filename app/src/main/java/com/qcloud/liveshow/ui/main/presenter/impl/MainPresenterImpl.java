@@ -4,13 +4,18 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.ApplyStatusBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.enums.ApplyStatusEnum;
+import com.qcloud.liveshow.enums.StartFansEnum;
+import com.qcloud.liveshow.enums.StartMainEnum;
 import com.qcloud.liveshow.model.IAnchorModel;
 import com.qcloud.liveshow.model.impl.AnchorModelImpl;
 import com.qcloud.liveshow.model.impl.ProfitModelImpl;
 import com.qcloud.liveshow.ui.main.presenter.IMainPresenter;
 import com.qcloud.liveshow.ui.main.view.IMainView;
 import com.qcloud.qclib.base.BasePresenter;
+import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.callback.DataCallback;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * 类说明：首页
@@ -23,6 +28,20 @@ public class MainPresenterImpl extends BasePresenter<IMainView> implements IMain
 
     public MainPresenterImpl() {
         mAnchorModel = new AnchorModelImpl();
+        initEventBus();
+    }
+
+    private void initEventBus() {
+        mEventBus.registerSubscriber(this,mEventBus.obtainSubscriber(RxBusEvent.class, new Consumer<RxBusEvent>() {
+            @Override
+            public void accept(RxBusEvent rxBusEvent) throws Exception {
+                switch (rxBusEvent.getType()){
+                    case R.id.return_hot_fragment:
+                        mView.switchFragment(StartMainEnum.StartHome.getKey());
+                        break;
+                }
+            }
+        }));
     }
 
     @Override

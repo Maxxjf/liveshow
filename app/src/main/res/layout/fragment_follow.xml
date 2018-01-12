@@ -11,17 +11,4 @@
         android:layout_height="match_parent"
         android:background="@color/colorBg" />
 
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/btn_return"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/large_btn_height"
-        android:layout_centerInParent="true"
-        android:background="@drawable/frame_orange_circular"
-        android:gravity="center"
-        android:layout_margin="@dimen/margin_10"
-        android:text="去热门逛逛"
-        android:textAllCaps="false"
-        android:textColor="@color/colorStart"
-        android:textSize="@dimen/small_text_size" />
 </RelativeLayout>

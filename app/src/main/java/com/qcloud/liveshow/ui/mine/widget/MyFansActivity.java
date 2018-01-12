@@ -21,14 +21,17 @@ import com.qcloud.liveshow.ui.mine.view.IMyFansView;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.customview.NoBlackListView;
 import com.qcloud.liveshow.widget.customview.NoFansView;
+import com.qcloud.liveshow.widget.customview.NoFollowView;
 import com.qcloud.liveshow.widget.pop.FansInfoPop;
 import com.qcloud.liveshow.widget.pop.FansManagerPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.adapter.recyclerview.CommonRecyclerAdapter;
 import com.qcloud.qclib.base.BasePopupWindow;
+import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
+import com.qcloud.qclib.rxbus.BusProvider;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.widget.customview.BaseEmptyView;
 
@@ -147,8 +150,17 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
         });
         if (type==StartFansEnum.MyFans.getKey()){
             mEmptyView = new NoFansView(this);
-        }else {
+        }else if (type==StartFansEnum.Blacklist.getKey()){
             mEmptyView = new NoBlackListView(this);
+        }else {
+            mEmptyView=new NoFollowView(this);
+            mEmptyView.setOnRefreshListener(new BaseEmptyView.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.return_hot_fragment).build());
+                    finish();
+                }
+            });
         }
         mListMyFans.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
     }

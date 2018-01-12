@@ -8,6 +8,7 @@ import com.qcloud.liveshow.beans.GiftBean;
 import com.qcloud.liveshow.beans.ProfitBean;
 import com.qcloud.liveshow.beans.ProfitRecordBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.beans.ReturnGiftBean;
 import com.qcloud.liveshow.beans.ReturnSuccessBean;
 import com.qcloud.liveshow.beans.ReturnWithdrawSuccessBean;
 import com.qcloud.liveshow.constant.UrlConstants;
@@ -101,10 +102,12 @@ public class IProfitApi {
         return OkGoRequest.getRequest(UrlConstants.WITHDRAW_CARD, type, params);
     }
     /**发礼物*/
-    public static Observable<BaseResponse<ReturnEmptyBean>> sendGift(HttpParams params){
-        Type type=new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
+    public static Observable<BaseResponse<ReturnGiftBean>> sendGift(HttpParams params){
+        Type type=new TypeToken<BaseResponse<ReturnGiftBean>>(){}.getType();
         return OkGoRequest.getRequest(UrlConstants.SEND_GIFT,type,params);
     }
+
+
 
 
 }

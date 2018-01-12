@@ -230,9 +230,8 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
 
     @Override
     protected void onDestroy() {
-        if (mCurrBean != null) {
-            mPresenter.outGroup(mCurrBean.getRoomIdStr());
-        }
+
+
         super.onDestroy();
         if (mPlayer != null) {
             mPlayer.onDestroy();

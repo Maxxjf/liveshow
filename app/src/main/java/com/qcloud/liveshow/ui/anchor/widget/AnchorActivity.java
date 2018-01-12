@@ -622,9 +622,16 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
             @Override
             public void onViewClick(View view) {
-//                mPresenter.finishLive();
-                AnchorFinishActivity.openActivity(AnchorActivity.this,false);
-                finish();
+                switch (view.getId()){
+                    case R.id.btn_ok:
+                        //                mPresenter.finishLive();
+                        AnchorFinishActivity.openActivity(AnchorActivity.this, false);
+                        finish();
+                        break;
+                    case R.id.btn_cancel:
+                        pop.dismiss();
+                        break;
+                }
             }
         });
     }
@@ -633,8 +640,8 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
      * 结束直播(强制退出)
      */
     @Override
-    public void closeRoom(){
-        AnchorFinishActivity.openActivity(AnchorActivity.this,true);
+    public void closeRoom() {
+        AnchorFinishActivity.openActivity(AnchorActivity.this, true);
         finish();
     }
 
@@ -647,8 +654,12 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
     @Override
     protected void onDestroy() {
-        mPresenter.finishLive();
-        mPresenter.outGroup(room.getRoomIdStr());
+        if (mPresenter != null) {
+            mPresenter.finishLive();
+            if (room != null) {
+                mPresenter.outGroup(room.getRoomIdStr());
+            }
+        }
         super.onDestroy();
         if (mMainHandler != null) {
             mMainHandler.removeCallbacksAndMessages(null);

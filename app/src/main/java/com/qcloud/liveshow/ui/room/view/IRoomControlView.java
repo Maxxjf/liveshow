@@ -4,6 +4,7 @@ import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
+import com.qcloud.liveshow.beans.NettyPayVipRoomReveice;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
@@ -80,9 +81,12 @@ public interface IRoomControlView {
     void upDateApater(String charId,int charStatus);
 
     /**钻石币不够,要去充值*/
-    void noMoney(String tip);
-
+    void noMoney();
 
     /**更新信息发送状态*/
     void upDateGroupMessageStatus(int charPosition, int charStatus);
+
+    /**收费房间收到消息*/
+    void payVipRoom(NettyPayVipRoomReveice payVipRoomReveice);
+
 }

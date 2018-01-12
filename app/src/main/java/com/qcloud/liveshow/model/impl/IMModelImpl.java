@@ -5,6 +5,7 @@ import com.qcloud.liveshow.beans.NettyAuthBean;
 import com.qcloud.liveshow.beans.NettyContentBean;
 import com.qcloud.liveshow.beans.NettyDeleteMessageBean;
 import com.qcloud.liveshow.beans.NettyGroupBean;
+import com.qcloud.liveshow.beans.NettyPayVipRoom;
 import com.qcloud.liveshow.beans.NettyRequestBean;
 import com.qcloud.liveshow.beans.NettySendPrivateBean;
 import com.qcloud.liveshow.beans.NettyShupUpBean;
@@ -218,6 +219,23 @@ public class IMModelImpl implements IIMModel {
 
         NettyRequestBean<NettyDeleteMessageBean> requestBean = new NettyRequestBean<>();
         requestBean.setAction_type(RequestDataEnum.ActionType.DELETE_MESSAGE_CHAT.getKey());
+        requestBean.setUuid(DateUtils.getTimeStamp());
+        requestBean.setData(bean);
+
+        NettyClientBus.request(mGson.toJson(requestBean));
+    }
+    /**
+     * 收费直播计算（每一分钟调用一次）
+     * @time 2017/11/20 14:28
+     */
+    @Override
+    public void payVipRoom(String roomId) {
+        NettyPayVipRoom bean=new NettyPayVipRoom();
+        bean.setToken(TokenUtil.getToken());
+        bean.setRoom_id(roomId);
+
+        NettyRequestBean<NettyPayVipRoom> requestBean = new NettyRequestBean<>();
+        requestBean.setAction_type(RequestDataEnum.ActionType.PAY_VIP_ROOM.getKey());
         requestBean.setUuid(DateUtils.getTimeStamp());
         requestBean.setData(bean);
 

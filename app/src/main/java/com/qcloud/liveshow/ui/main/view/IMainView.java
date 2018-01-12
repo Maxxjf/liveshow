@@ -34,4 +34,6 @@ public interface IMainView extends BaseView {
 
     /**绑定分佣关系成功*/
     void bindingSuccess();
+    /**切换到主页**/
+    void switchFragment(int key);
 }

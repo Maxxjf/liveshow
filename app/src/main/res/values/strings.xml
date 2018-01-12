@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AV8D</string>
 
-    <string name="facebook_app_id">176951416183947</string>
+    <string name="facebook_app_id">9104e5facc4555cb15e6798912f71ac4</string>
 
     <string name="save">保存</string>
     <string name="edit">编辑</string>
@@ -106,7 +106,7 @@
     <string name="toast_format_account">请输入6-10位数字和字母组合的账号</string>
     <string name="toast_format_passage">请输入6-10位数字和字母组合的密码</string>
     <string name="toast_send_gift_success">发送礼物成功</string>
-    <string name="toast_send_gift_fail">发送礼物失败</string>
+    <string name="toast_send_gift_fail">发送礼物失败，钻石币不足</string>
     <string name="toast_is_not_anchor">您还不是主播喔^v^</string>
 
     <string name="tip_title">温馨提示</string>
@@ -127,6 +127,7 @@
     <string name="tip_input_recommend_code">请输入推荐人推广码</string>
     <string name="tip_room_descrption">好看的根本停不下来啊啊啊啊</string>
     <string name="tip_no_diamonds">您的钻石币不足啦,快去充值吧~</string>
+    <string name="tip_pay_for_vip_room">观看的房间是个vip房间，是否继续观看</string>
 
     <string name="input_mobile_hint">请输入手机号</string>
     <string name="input_account_hint">请输入账号</string>
@@ -177,6 +178,7 @@
     <string name="btn_my_guarder_list">我的守护列表</string>
     <string name="btn_gag">禁言</string>
     <string name="btn_forget_password">忘记密码</string>
+    <string name="go_to_hot">去热门逛逛</string>
 
     <string name="tag_agree_clause">登录即代表您同意</string>
     <string name="tag_clause">《免责条款》</string>
@@ -299,4 +301,5 @@
     <string name="tag_extension">推广码：%s</string>
     <string name="tag_gift_name">送出了%s</string>
     <string name="tag_current_number">当前%d人</string>
+    <string name="tag_vip_room">VIP房</string>
 </resources>

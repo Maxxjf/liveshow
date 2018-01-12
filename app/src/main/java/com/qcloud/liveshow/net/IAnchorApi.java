@@ -87,4 +87,15 @@ public class IAnchorApi {
 
         return OkGoRequest.getRequest(UrlConstants.GET_USER_STATUS, type, params);
     }
+    /**分享获取钻石币*/
+    public static Observable<BaseResponse<ReturnEmptyBean>> shareGetCoin(HttpParams params){
+        Type type=new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
+        return OkGoRequest.getRequest(UrlConstants.SHARE_GET_COIN,type,params);
+    }
+    /**观看结算
+     * */
+    public static Observable<BaseResponse<ReturnEmptyBean>> watchCalculate(HttpParams params){
+        Type type=new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
+        return OkGoRequest.getRequest(UrlConstants.WATCH_CALCULATE,type,params);
+    }
 }

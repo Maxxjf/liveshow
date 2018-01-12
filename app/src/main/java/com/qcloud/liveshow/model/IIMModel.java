@@ -57,7 +57,7 @@ public interface IIMModel {
     void deleteMessage(String to_user_id);
     /**拉黑某用户*/
 
-    /**踢出某用户*/
-
+    /**VIP直播收费*/
+    void payVipRoom(String room_id);
 
 }

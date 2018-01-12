@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.FollowAdapter;
@@ -33,7 +32,6 @@ import butterknife.Bind;
 import butterknife.BindColor;
 import butterknife.BindDimen;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import timber.log.Timber;
 
 /**
@@ -50,8 +48,6 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
     int dividerHeight;
     @BindColor(R.color.colorBg)
     int dividerBg;
-    @Bind(R.id.btn_return)
-    TextView btnReturn;
 
     private NoFollowView mEmptyView;
 
@@ -124,7 +120,8 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
         mEmptyView.setOnRefreshListener(new EmptyView.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadData();
+                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.return_hot_fragment).build());
+//                loadData();
             }
         });
     }
@@ -175,7 +172,6 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
     public void showEmptyView(String tip) {
         if (mListFollow != null) {
             mListFollow.showEmptyView();
-            btnReturn.setVisibility(View.VISIBLE);
         }
     }
 
@@ -183,7 +179,6 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
     public void hideEmptyView() {
         if (mListFollow != null) {
             mListFollow.hideEmptyView();
-            btnReturn.setVisibility(View.GONE);
         }
     }
 
@@ -215,8 +210,4 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
         ButterKnife.unbind(this);
     }
 
-    @OnClick(R.id.btn_return)
-    public void onClick() {
-        BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.return_hot_fragment).build());
-    }
 }

@@ -2,11 +2,11 @@ package com.qcloud.liveshow.ui.room.presenter.impl;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.MemberBean;
-import com.qcloud.liveshow.beans.NettyContent2Bean;
 import com.qcloud.liveshow.beans.NettyContentBean;
 import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
+import com.qcloud.liveshow.beans.NettyPayVipRoomReveice;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
@@ -127,10 +127,14 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                             }
 
                             break;
-                        case R.id.netty_no_money:
-                            NettyContent2Bean contentBean= (NettyContent2Bean) rxBusEvent.getObj();
-                            String content=contentBean.getContent();
-                            mView.noMoney(content);
+//                        case R.id.netty_no_money:
+//                            NettyContent2Bean contentBean= (NettyContent2Bean) rxBusEvent.getObj();
+//                            String content=contentBean.getContent();
+//                            mView.noMoney(content);
+//                            break;
+                        case R.id.netty_vip_pay_room:
+                            NettyPayVipRoomReveice payVipRoomReveice= (NettyPayVipRoomReveice) rxBusEvent.getObj();
+                            mView.payVipRoom(payVipRoomReveice);
                             break;
                     }
                 }
@@ -301,5 +305,37 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
         mIMModel.shutUp(roomNumber, memberId, isForbidden);
     }
 
+    /**
+     * 直播收费（每一分钟调用一次）
+     * @param roomId
+     */
+    @Override
+    public void payVip(String roomId) {
+        mIMModel.payVipRoom(roomId);
+    }
+    /**
+     * 退出群聊
+     *
+     * @time 2017/11/8 16:23
+     */
+    @Override
+    public void outGroup(String roomNum) {
+        mIMModel.outGroup(roomNum);
+        watchCalculate(roomNum);
+    }
+    @Override
+    public  void watchCalculate(String roomNum){
+        anchorModel.watchCalculate(roomNum, new DataCallback<ReturnEmptyBean>() {
+            @Override
+            public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+
+            }
+        });
+    }
 
 }

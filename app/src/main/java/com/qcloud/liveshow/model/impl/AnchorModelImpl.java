@@ -160,4 +160,16 @@ public class AnchorModelImpl implements IAnchorModel {
         mParams.put("roomId", roomId);
         BaseApi.dispose(IAnchorApi.getUserStatus(mParams), callback);
     }
+    @Override
+    public void shareGetCoin(DataCallback<ReturnEmptyBean> callback) {
+        mParams = OkGoRequest.getAppParams();
+        BaseApi.dispose(IAnchorApi.shareGetCoin(mParams), callback);
+    }
+    @Override
+    public void watchCalculate(String roomId, DataCallback<ReturnEmptyBean> callback) {
+        mParams=OkGoRequest.getAppParams();
+        mParams.put("roomId",roomId);
+
+        BaseApi.dispose(IAnchorApi.watchCalculate(mParams),callback);
+    }
 }

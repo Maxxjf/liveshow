@@ -7,6 +7,7 @@ import com.qcloud.liveshow.beans.GiftBean;
 import com.qcloud.liveshow.beans.ProfitBean;
 import com.qcloud.liveshow.beans.ProfitRecordBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.beans.ReturnGiftBean;
 import com.qcloud.liveshow.beans.ReturnSuccessBean;
 import com.qcloud.liveshow.beans.ReturnWithdrawSuccessBean;
 import com.qcloud.liveshow.model.IProfitModel;
@@ -203,7 +204,7 @@ public class ProfitModelImpl implements IProfitModel {
     }
 
     @Override
-    public void sendGift(String giftId, String id, String roomId, DataCallback<ReturnEmptyBean> callback) {
+    public void sendGift(String giftId, String id, String roomId, DataCallback<ReturnGiftBean> callback) {
         mParams=OkGoRequest.getAppParams();
         mParams.put("giftId",giftId);
         mParams.put("id",id);
@@ -211,4 +212,5 @@ public class ProfitModelImpl implements IProfitModel {
 
         BaseApi.dispose(IProfitApi.sendGift(mParams),callback);
     }
+
 }

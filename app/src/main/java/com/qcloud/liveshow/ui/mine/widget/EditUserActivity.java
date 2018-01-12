@@ -169,7 +169,7 @@ public class EditUserActivity extends BaseActivity<IEditUserView, EditUserPresen
     }
 
     private void showExitPop() {
-        final TipsPop pop = new TipsPop(this);
+         TipsPop pop = new TipsPop(this);
         pop.setTips(R.string.toast_give_up_to_edit);
         pop.showAtLocation(mImgUserHead, Gravity.CENTER, 0, 0);
         pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {

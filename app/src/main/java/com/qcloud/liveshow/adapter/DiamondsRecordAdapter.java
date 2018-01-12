@@ -28,7 +28,7 @@ public class DiamondsRecordAdapter extends CommonRecyclerAdapter<DiamondsRecordB
         holder.setText(R.id.tv_title,bean.getTypeName());
         holder.setText(R.id.tv_time,bean.getTime());
         holder.setText(R.id.tv_profit,bean.getVirtualCoin());
-        holder.setText(R.id.tv_brand_code,String.format(mContext.getResources().getString(R.string.tag_brand_code),String.valueOf(bean.getBalance())));
+        holder.setText(R.id.tv_brand_code,String.format(mContext.getResources().getString(R.string.tag_brand_code),String.valueOf(bean.getBalance())));//这个要取消掉，所以在xml上设计为GONE了
     }
 
     @Override

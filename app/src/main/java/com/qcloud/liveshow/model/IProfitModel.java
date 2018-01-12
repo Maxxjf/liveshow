@@ -6,6 +6,7 @@ import com.qcloud.liveshow.beans.GiftBean;
 import com.qcloud.liveshow.beans.ProfitBean;
 import com.qcloud.liveshow.beans.ProfitRecordBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.beans.ReturnGiftBean;
 import com.qcloud.liveshow.beans.ReturnSuccessBean;
 import com.qcloud.liveshow.beans.ReturnWithdrawSuccessBean;
 import com.qcloud.qclib.beans.ReturnDataBean;
@@ -51,5 +52,6 @@ public interface IProfitModel {
     void withdraw2Card(String cash, String name, String cardNumber, Integer bankCode, String password, DataCallback<ReturnWithdrawSuccessBean> callback);
 
     /**发送礼物*/
-    void sendGift(String giftId,String id,String roomId,DataCallback<ReturnEmptyBean> callback);
+    void sendGift(String giftId,String id,String roomId,DataCallback<ReturnGiftBean> callback);
+
 }

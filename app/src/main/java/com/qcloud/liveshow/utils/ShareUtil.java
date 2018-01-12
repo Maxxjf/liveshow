@@ -3,6 +3,9 @@ package com.qcloud.liveshow.utils;
 import android.app.Activity;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.model.impl.AnchorModelImpl;
+import com.qcloud.qclib.callback.DataCallback;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.widget.dialog.LoadingDialog;
 import com.umeng.socialize.ShareAction;
@@ -102,6 +105,17 @@ public class ShareUtil {
         public void onResult(SHARE_MEDIA platform) {
             loading.dismiss();
             ToastUtils.ToastMessage(mContext, "分享成功");
+            new AnchorModelImpl().shareGetCoin(new DataCallback<ReturnEmptyBean>() {
+                @Override
+                public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+
+                }
+
+                @Override
+                public void onError(int status, String errMsg) {
+
+                }
+            });
         }
 
         /**
@@ -121,10 +135,8 @@ public class ShareUtil {
          */
         @Override///
         public void onCancel(SHARE_MEDIA platform) {
-            Timber.e("----------------------->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             loading.dismiss();
             ToastUtils.ToastMessage(mContext, "取消了");
-
         }
     };
 

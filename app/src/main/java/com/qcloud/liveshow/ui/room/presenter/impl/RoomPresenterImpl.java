@@ -1,6 +1,8 @@
 package com.qcloud.liveshow.ui.room.presenter.impl;
 
+import com.qcloud.liveshow.model.IAnchorModel;
 import com.qcloud.liveshow.model.IIMModel;
+import com.qcloud.liveshow.model.impl.AnchorModelImpl;
 import com.qcloud.liveshow.model.impl.IMModelImpl;
 import com.qcloud.liveshow.ui.room.presenter.IRoomPresenter;
 import com.qcloud.liveshow.ui.room.view.IRoomView;
@@ -13,8 +15,9 @@ import com.qcloud.qclib.base.BasePresenter;
  */
 public class RoomPresenterImpl extends BasePresenter<IRoomView> implements IRoomPresenter {
     private IIMModel mIModel;
-
+    private IAnchorModel anchorModel;
     public RoomPresenterImpl() {
+        anchorModel=new AnchorModelImpl();
         mIModel=new IMModelImpl();
     }
 
@@ -23,13 +26,5 @@ public class RoomPresenterImpl extends BasePresenter<IRoomView> implements IRoom
 
     }
 
-    /**
-     * 退出群聊
-     *
-     * @time 2017/11/8 16:23
-     */
-    @Override
-    public void outGroup(String roomNum) {
-        mIModel.outGroup(roomNum);
-    }
+
 }

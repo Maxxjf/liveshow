@@ -85,6 +85,10 @@ public interface UrlConstants {
     String GET_USER_STATUS = URL_PREFIX_APP + "room/estimateIdentity";
     /**发礼物*/
     String SEND_GIFT = URL_PREFIX_APP + "room/sendGift";
+    /**观看的结算*/
+    String WATCH_CALCULATE = URL_PREFIX_APP + "room/watchCalculate";
+    /**分享送钻石币*/
+    String SHARE_GET_COIN = URL_PREFIX_APP + "share/giveShareRewards";
 
 
     /**

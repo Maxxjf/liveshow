@@ -27,4 +27,9 @@ public interface IRoomControlPresenter extends BtnClickPresenter {
     void  shutUp(String roomNumber,String memberId,boolean isForbidden);
 
 
+    void payVip(String roomId);
+
+    void outGroup(String roomNum);
+
+    void watchCalculate(String roomNum);
 }

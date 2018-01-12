@@ -90,7 +90,17 @@
             android:src="@drawable/bitmap_user"
             android:scaleType="fitXY"
             myapp:ratio="1"/>
-
+        <ImageView
+            android:scaleType="fitXY"
+            android:src="@drawable/img_top_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_8" />
+        <ImageView
+            android:layout_gravity="bottom"
+            android:scaleType="fitXY"
+            android:src="@drawable/img_bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_8" />
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"

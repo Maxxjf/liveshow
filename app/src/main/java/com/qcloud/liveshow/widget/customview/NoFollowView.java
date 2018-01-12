@@ -45,4 +45,29 @@ public class NoFollowView extends BaseEmptyView {
     protected int paddingTop() {
         return 180;
     }
+
+    @Override
+    protected boolean showBtn() {
+        return true;
+    }
+
+    @Override
+    protected int setBtnName() {
+        return R.string.go_to_hot;
+    }
+
+    @Override
+    protected int setBtnColor() {
+        return ContextCompat.getColor(mContext,R.color.colorStart);
+    }
+
+    @Override
+    protected float setBtnWidth() {
+        return getResources().getDimension(R.dimen.margin_40);
+    }
+
+    @Override
+    protected int setBtnBg() {
+        return R.drawable.frame_orange_circular;
+    }
 }

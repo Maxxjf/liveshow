@@ -111,8 +111,15 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
         }
         pop.showAtLocation(mListMessage, Gravity.CENTER, 0, 0);
         pop.setOnHolderClick(view -> {
-           mPresenter.deleteMessage(mCurrentBean);
-           mAdapter.remove(mCurrentBean);
+            switch (view.getId()){
+                case R.id.btn_ok:
+                    mPresenter.deleteMessage(mCurrentBean);
+                    mAdapter.remove(mCurrentBean);
+                    break;
+                case R.id.btn_cancel:
+                    pop.dismiss();
+                    break;
+            }
         });
     }
     @Override

@@ -101,6 +101,8 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         }
     }
 
+
+
     /**
      * 加载基础数据
      * */
@@ -171,6 +173,10 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         mPresenter.onBtnClick(view.getId());
     }
 
+    @Override
+    public void switchFragment(int key) {
+        mNavigationBar.selectTab(key);
+    }
     @Override
     public void onHomeClick() {
         if (mHomeFragment == null) {

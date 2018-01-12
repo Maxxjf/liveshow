@@ -11,6 +11,7 @@ import com.qcloud.liveshow.beans.NettyContent2Bean;
 import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
+import com.qcloud.liveshow.beans.NettyPayVipRoomReveice;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
@@ -75,6 +76,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                     break;
                 case 16://钻石币不足
                     disposeNoMoney(jsonStr);
+                    break;
+                case 17://直播收费返回
+                    disposeVipRoomPay(jsonStr);
                     break;
                 case 104:   // 获取私聊列表
                     disposeChatList(jsonStr);
@@ -309,6 +313,20 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         });
     }
 
+    public  void disposeVipRoomPay(JsonElement msgConfig){
+        Type type=new TypeToken<NettyBaseResponse<NettyPayVipRoomReveice>>(){}.getType();
+        NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyPayVipRoomReveice>() {
+            @Override
+            public void onSuccess(NettyPayVipRoomReveice bean, String uuid) {
+                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_vip_pay_room).setObj(bean).build());
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+
+            }
+        });
+    }
     /**
      * 看直播成员
      *
@@ -321,7 +339,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyRoomMemberBean>() {
             @Override
             public void onSuccess(NettyRoomMemberBean bean, String uuid) {
-                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_room_member_join).setObj(bean).build());
+                if (bean!=null){
+                    BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_room_member_join).setObj(bean).build());
+                }
             }
 
             @Override

@@ -24,6 +24,7 @@ import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
+import com.qcloud.liveshow.beans.NettyPayVipRoomReveice;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
@@ -176,6 +177,9 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private GiftControl smallGiftControl;
     private GiftControl bigGigtControl;
     private Disposable disposable;
+    private TipsPop payPop;
+    private Disposable payDisposable;
+    private Disposable freeTimeDisposable;
 
     @Override
     protected int getLayoutId() {
@@ -197,6 +201,86 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         initMessagePop();
 
         initGiftControl();
+
+    }
+
+    /**
+     * 免费观看时长，过了之后弹框，是否继续观看
+     */
+    private void initFreeTime() {
+        if (mCurrBean != null&&mCurrBean.getFreeTime()>0 && mCurrBean.getType().equals(getResources().getString(R.string.tag_vip_room))) {//
+            Timber.e("--------------->>>>>>>>>>>>>>>>>ininFreeTime:" + mCurrBean.getFreeTime());
+           freeTimeDisposable= Observable.timer(mCurrBean.getFreeTime(), TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
+                    subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(Long aLong) throws Exception {
+                            if (payPop == null) {
+                                initPayWindow();
+                            }
+                            payPop.showAtLocation(mLayoutNotice, Gravity.CENTER, 0, 0);
+                        }
+                    });
+        }
+    }
+
+
+    private void initPayWindow() {
+        payPop = new TipsPop(getActivity());
+        payPop.setTips(getResources().getString(R.string.tip_pay_for_vip_room));
+        payPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                switch (view.getId()) {
+                    case R.id.btn_ok:
+                        startTime();
+                        break;
+                    case R.id.btn_cancel:
+                        payPop.dismiss();
+                        break;
+                }
+            }
+        });
+    }
+    //计费开始，一秒钟一次
+    private void startTime() {
+        if (payDisposable == null) {
+            payDisposable = Observable.interval(5, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
+                    doOnDispose(new Action() {
+                        @Override
+                        public void run() throws Exception {
+                            mPresenter.watchCalculate(mCurrBean.getRoomIdStr());
+                        }
+                    }).subscribe(new Consumer<Long>() {
+                @Override
+                public void accept(Long aLong) throws Exception {
+                    mPresenter.payVip(mCurrBean.getRoomIdStr());
+                }
+            });
+        }
+    }
+
+    public void cancelPay() {
+        if (payDisposable != null && !payDisposable.isDisposed()) {
+            payDisposable.dispose();
+        }
+    }
+    public void cancelStratTime() {
+        if (freeTimeDisposable != null && !freeTimeDisposable.isDisposed()) {
+            freeTimeDisposable.dispose();
+        }
+    }
+    /**收到IM为17时*/
+    @Override
+    public void payVipRoom(NettyPayVipRoomReveice bean) {
+        if (bean!=null){
+            if (mGiftPop!=null){
+                mGiftPop.setVirtualCoin(bean.getVirtualCoin());
+            }
+            if (!bean.isCanWatch()){
+                cancelPay();
+                noMoney();
+            }
+        }
     }
 
     private void initGiftControl() {
@@ -213,6 +297,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
                 .setCustormAnim(new CustormAnim());
         bigGigtControl.setDisplayMode(GiftControl.FROM_TOP_TO_BOTTOM);
         bigGigtControl.setHideMode(true);
+        initFreeTime();
     }
 
     @Override
@@ -221,6 +306,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         if (isFirstInRoom) {
             isFirstInRoom = false;
         } else {
+            cancelStratTime();//先取消免费时长
+            initFreeTime();//再初始化免费时长
             refreshAndLoadData();
         }
     }
@@ -250,6 +337,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         if (mCurrBean == null) {
             return;
         }
+
         mAnchorBean = mCurrBean.getMember();
         refreshAnchor(mAnchorBean);
 
@@ -263,6 +351,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         }
         mMessageAdapter.removeAll();
         mFansAdapter.removeAll();
+
         intoRoom();
     }
 
@@ -386,7 +475,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
             mGiftPop.setOnNoMoneyLinstener(new SendGiftPop.NoMoneyListener() {
                 @Override
                 public void hasNoMoney() {
-                    noMoney(getResources().getString(R.string.tip_no_diamonds));
+                    noMoney();
                     mGiftPop.dismiss();
                 }
 
@@ -403,16 +492,24 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * 钻石币不够,要去充值
      */
     @Override
-    public void noMoney(String tip) {
+    public void noMoney() {
         TipsPop pop = new TipsPop(mContext);
-        pop.setTips(tip);
-        pop.showAtLocation(mLayoutBottom, Gravity.CENTER, 0, 0);
+        pop.setTips(getResources().getString(R.string.tip_no_diamonds));
         pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
             @Override
             public void onViewClick(View view) {
-                onBuyDiamondsClick();
+                switch (view.getId()){
+                    case R.id.btn_ok:
+                        onBuyDiamondsClick();
+                        break;
+                    case R.id.btn_cancel:
+                        pop.dismiss();
+                        break;
+                }
+
             }
         });
+        pop.showAtLocation(mLayoutBottom, Gravity.CENTER, 0, 0);
     }
 
     /**
@@ -464,6 +561,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
             }
         });
     }
+
     /**
      * 初始化粉守护者弹窗
      */
@@ -628,11 +726,10 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     }
 
     public void startThread() {
-        disposable = Observable.interval(1, TimeUnit.SECONDS).take(10).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        disposable = Observable.interval(60, TimeUnit.SECONDS).take(10).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .doOnDispose(new Action() {
                     @Override
                     public void run() throws Exception {
-
                     }
                 }).subscribe(new Consumer<Long>() {
                     @Override
@@ -755,7 +852,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         if (isInFragment) {
             if (bean != null && mMessageAdapter != null) {
                 mMessageAdapter.addListBeanAtEnd(bean);
-                mListMessage.scrollToPosition(mMessageAdapter.getItemCount()-1);
+                mListMessage.scrollToPosition(mMessageAdapter.getItemCount() - 1);
             }
         }
     }
@@ -779,10 +876,10 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     public void userOutGroup(NettyNoticeBean bean) {
         if (isInFragment) {
             if (bean != null && mFansAdapter != null && bean.getUser() != null) {
-                if (bean.getUser().getIdStr().equals(mAnchorBean.getIdStr())){//主播退出房间
-                    RoomFinishActivity.openActivity(mContext,mAnchorBean);
+                if (bean.getUser().getIdStr().equals(mAnchorBean.getIdStr())) {//主播退出房间
+                    RoomFinishActivity.openActivity(mContext, mAnchorBean);
                     getActivity().finish();
-                }else {
+                } else {
                     mFansAdapter.removeBeanByUserId(bean.getUser().getIdStr());
                 }
 
@@ -864,6 +961,15 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         }
         if (mFansMessagePop != null && mFansMessagePop.isShowing()) {
             mFansMessagePop.dismiss();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        cancelPay();
+        if (mCurrBean != null) {
+            mPresenter.outGroup(mCurrBean.getRoomIdStr());
         }
     }
 

@@ -238,6 +238,9 @@ public class TipsPop extends BasePopupWindow {
     @OnClick(R.id.btn_cancel)
     void onCancelClick() {
         dismiss();
+        if (mViewClick != null) {
+            mViewClick.onViewClick(mBtnCancel);
+        }
     }
 
     @OnClick(R.id.btn_ok)
