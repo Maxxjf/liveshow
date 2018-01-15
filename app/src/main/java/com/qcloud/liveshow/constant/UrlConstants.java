@@ -14,11 +14,16 @@ public interface UrlConstants {
     String URL_PREFIX_APP = URL_PREFIX + "app/";
 
     /**
-     * 直播url
+     * 推流
      * rtmp://10.10.22.123:1935/room/
      * */
-    String STREAM_URL = "rtmp://"+AppConstants.IO_HOST+":"+AppConstants.IO_PORT+"/room/";
-//    String STREAM_URL = "rtmp://10.10.22.120:1935/room/";
+    String STREAM_OUT_URL = "rtmp://"+AppConstants.IO_HOST+":"+AppConstants.IO_PORT+"/room/";
+    /**
+     * 拉流
+     * http://10.10.22.123/room/
+     * */
+    String STREAM_IN_URL = "http://"+AppConstants.IO_HOST+"/room/";
+//    String STREAM_OUT_URL = "rtmp://10.10.22.120:1935/room/";
 
     /**
      * 用户有关

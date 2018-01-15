@@ -206,9 +206,8 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
 
     private String initStreamUrl(String id) {
         StringBuffer url = new StringBuffer();
-        url.append(UrlConstants.STREAM_URL);
-        url.append(id);
-
+        url.append(UrlConstants.STREAM_IN_URL);
+        url.append(id+".flv");
         return url.toString();
     }
 

@@ -96,13 +96,11 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private TextView mTvId;
     private LinearLayout mLayoutId;
 
-    private ImageView mBtnNotice;
     private MarqueeView mTvNotice;
     private LinearLayout mLayoutNoticeBg;
     private RecyclerView mListMessage;
     private LinearLayout mLayoutNotice;
 
-    private ImageView mBtnSendMessage;
     private ImageView mBtnBuyDiamonds;
     private ImageView mBtnShare;
     private ImageView mBtnReceiveMessage;
@@ -387,13 +385,11 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mTvId = mView.findViewById(R.id.tv_id);
         mLayoutId = mView.findViewById(R.id.layout_id);
 
-        mBtnNotice = mView.findViewById(R.id.btn_notice);
         mTvNotice = mView.findViewById(R.id.tv_notice);
         mLayoutNoticeBg = mView.findViewById(R.id.layout_notice_bg);
         mListMessage = mView.findViewById(R.id.list_message);
         mLayoutNotice = mView.findViewById(R.id.layout_notice);
 
-        mBtnSendMessage = mView.findViewById(R.id.btn_send_message);
         mBtnBuyDiamonds = mView.findViewById(R.id.btn_buy_diamonds);
         mBtnShare = mView.findViewById(R.id.btn_share);
         mBtnReceiveMessage = mView.findViewById(R.id.btn_receive_message);
@@ -529,7 +525,9 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
                 }
                 mFansMessagePop.refreshMemberInfo(mFansPop.getCurrMember());
                 mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
-            } else {
+            } else if(view.getId()==R.id.btn_follow){
+                ToastUtils.ToastMessage(getActivity(),"点击了关注按钮");
+            }else  {
                 mFansPop.dismiss();
             }
         });

@@ -26,8 +26,8 @@ public interface AppConstants {
 
 
     /**推拉流 服务器*/
-//    String IO_HOST = "10.10.22.123";
-    String IO_HOST = "10.10.22.120";
+    String IO_HOST = "10.10.22.123";
+//    String IO_HOST = "10.10.22.120";
     int IO_PORT = 1935;
 
     /**弹起键盘坡度*/

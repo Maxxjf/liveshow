@@ -62,7 +62,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     private boolean mRecording = false;
     private boolean mIsFileRecording = false;
     private boolean mIsFlashOpened = false;
-    private String mUrl = UrlConstants.STREAM_URL;
+    private String mUrl = UrlConstants.STREAM_OUT_URL;
 //    private String mDebugInfo = "";
 //    private String mBgmPath = "/sdcard/test.mp3";
 //    private String mLogoPath = "file:///sdcard/test.png";

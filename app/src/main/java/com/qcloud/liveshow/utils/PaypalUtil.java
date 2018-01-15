@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 
 /**
  * 类说明：PayPal支付工具类
- * Author: iceberg
+ * Author: xie_max
  * Date: 2017/11/29.
  */
 public class PaypalUtil {

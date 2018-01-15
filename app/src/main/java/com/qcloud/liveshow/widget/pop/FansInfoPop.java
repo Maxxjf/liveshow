@@ -52,7 +52,6 @@ public class FansInfoPop extends BasePopupWindow {
     @Bind(R.id.layout_user)
     FrameLayout layoutUser;
 
-    private String isAttention;
     private MemberBean mCurrMember;
 
     public FansInfoPop(Context context) {

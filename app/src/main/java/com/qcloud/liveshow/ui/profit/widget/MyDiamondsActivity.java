@@ -232,7 +232,7 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        paypalUtil.unRegister(this);
+        paypalUtil.unRegister(this);
     }
 
     public static void openActivity(Context context) {
