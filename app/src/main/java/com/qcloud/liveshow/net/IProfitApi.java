@@ -5,6 +5,7 @@ import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.DiamondsBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.GiftBean;
+import com.qcloud.liveshow.beans.PayResult;
 import com.qcloud.liveshow.beans.ProfitBean;
 import com.qcloud.liveshow.beans.ProfitRecordBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
@@ -105,6 +106,11 @@ public class IProfitApi {
     public static Observable<BaseResponse<ReturnGiftBean>> sendGift(HttpParams params){
         Type type=new TypeToken<BaseResponse<ReturnGiftBean>>(){}.getType();
         return OkGoRequest.getRequest(UrlConstants.SEND_GIFT,type,params);
+    }
+    /**支付*/
+    public static Observable<BaseResponse<PayResult>> paypal(HttpParams params){
+        Type type=new TypeToken<BaseResponse<PayResult>>(){}.getType();
+        return OkGoRequest.getRequest(UrlConstants.PAYPAL_PAY,type,params);
     }
 
 

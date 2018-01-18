@@ -29,7 +29,7 @@ public class PaypalUtil {
     /** note that these credentials will differ between live & sandbox environments.*/
 
     private static final int REQUEST_CODE_PROFILE_SHARING = 3;
-    private static PayPalConfiguration config = new PayPalConfiguration().environment(CONFIG_ENVIRONMENT)
+    public static PayPalConfiguration config = new PayPalConfiguration().environment(CONFIG_ENVIRONMENT)
             .clientId(CONFIG_CLIENT_ID);
     /**
      * 以下配置是授权支付的时候用到的

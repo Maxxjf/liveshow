@@ -1,8 +1,8 @@
 package com.qcloud.liveshow.ui.profit.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
@@ -11,28 +11,27 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.paypal.android.sdk.payments.PaymentActivity;
-import com.paypal.android.sdk.payments.PaymentConfirmation;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.DiamondsAdapter;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.beans.DiamondsBean;
+import com.qcloud.liveshow.beans.PayResult;
 import com.qcloud.liveshow.enums.ClauseRuleEnum;
 import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.liveshow.ui.profit.presenter.impl.MyDiamondsPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.IMyDiamondsView;
 import com.qcloud.liveshow.utils.BasicsUtil;
-import com.qcloud.liveshow.utils.PaypalUtil;
+import com.qcloud.liveshow.utils.PayPalHelper;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.pop.CallPop;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
+import com.qcloud.qclib.FrameConfig;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.NetUtils;
 import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.utils.SystemBarUtil;
 import com.qcloud.qclib.widget.customview.LineTextView;
 import com.qcloud.qclib.widget.layoutManager.FullyGridLayoutManager;
-
-import org.json.JSONException;
 
 import java.util.List;
 
@@ -70,7 +69,10 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
 
     private CallPop mCallPop;
     private String mTelephone;
-    private PaypalUtil paypalUtil;
+    DiamondsBean mCurrentBean;
+    PayPalHelper payPalHelper=PayPalHelper.getInstance();
+    private String address="";
+
     @Override
     protected int initLayout() {
         return R.layout.activity_my_diamonds;
@@ -90,7 +92,7 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
     protected void initViewAndData() {
         /**解决状态栏与内容重叠*/
         SystemBarUtil.remeasureTitleBar(this, mTitleBar);
-        paypalUtil=PaypalUtil.getInstance(this);
+        initPayPalHelper();
         initTitleBar();
         initDiamondsList();
 
@@ -106,6 +108,10 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
         }
 
         loadData();
+    }
+
+    private void initPayPalHelper() {
+        payPalHelper.startPayPalService(this);
     }
 
     /**
@@ -139,6 +145,7 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 DiamondsBean bean = mAdapter.refreshSelect(i);
+                mCurrentBean=bean;
                 if (bean != null) {
                     ToastUtils.ToastMessage(mContext, bean.getName()+"");
                 }
@@ -168,7 +175,30 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
 
     @Override
     public void onDiamondsClick() {
-        paypalUtil.goToPlay(this,"0.01");
+        try {
+             address=FrameConfig.server.split("/")[2];
+             if (address.contains(":")){
+                 address=address.split(":")[0];
+             }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        startLoadingDialog();
+        NetUtils.isNetWorkAvailable(address, new Comparable<Boolean>() {
+            @Override
+            public int compareTo(@NonNull Boolean aBoolean) {
+                stopLoadingDialog();
+               if (aBoolean){
+                   if (mCurrentBean!=null&&mCurrentBean.isSelect()){
+                       payPalHelper.doPayPalPay(MyDiamondsActivity.this,mCurrentBean.getName(),mCurrentBean.getMoney(),mCurrentBean.getIdStr());
+                    }
+               }else {
+                   ToastUtils.ToastMessage(MyDiamondsActivity.this,"服务器出错，请重新试试");
+               }
+                return 0;
+            }
+        });
+
 //        AlipayUtil alipayUtil=new AlipayUtil(this);
 //        alipayUtil.pay("0.01");
 //        alipayUtil.pay("0.02");
@@ -209,30 +239,71 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            PaymentConfirmation confirm =
-                    data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
-            if (confirm != null) {
-                try {
-                    Timber.e(confirm.toJSONObject().toString(4));
-                    Timber.e(confirm.getPayment().toJSONObject().toString(4));
-        //这里可以把PayPal带回来的json数据传给服务器以确认你的款项是否收到或者收全
-        //可以直接把 confirm.toJSONObject() 这个带给服务器，
-        //得到服务器返回的结果，你就可以跳转成功页面或者做相应的处理了
-                } catch (JSONException e) {
-                    Timber.e("一个极其不可能的失败发生了:");
+        startLoadingDialog();
+        payPalHelper.confirmPayResult(requestCode, resultCode, data,mCurrentBean.getMoney(),mCurrentBean.getIdStr(),
+                new PayPalHelper.DoResult() {
+            @Override
+            public void confirmSuccess(PayResult param) {
+                if (param.getState()==1){//成功
+                    mTvCurrDiamonds.setText(""+param.getVirtualCoin());
+                    ToastUtils.ToastMessage(MyDiamondsActivity.this,getResources().getString(R.string.tip_diamonds_success));
+                    stopLoadingDialog();
+                    Timber.e("confirmSuccess");
+                }else if (param.getState()==2){
+                    ToastUtils.ToastMessage(MyDiamondsActivity.this,getResources().getString(R.string.tip_diamonds_again));
+                }else {
+                    ToastUtils.ToastMessage(MyDiamondsActivity.this,getResources().getString(R.string.tip_diamonds_fail));
                 }
             }
-        } else if (resultCode == Activity.RESULT_CANCELED) {
-            Timber.e("用户取消了.");
-        } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
-            Timber.e( "提交了无效的支付或PayPal配置。请参见文档。");
-        }
+
+            @Override
+            public void confirmNetWorkError() {
+                stopLoadingDialog();
+                Timber.e("confirmNetWorkError");
+            }
+
+            @Override
+            public void customerCanceled() {
+                stopLoadingDialog();
+                Timber.e("customerCanceled");
+            }
+
+            @Override
+            public void confirmFuturePayment() {
+                stopLoadingDialog();
+                Timber.e("confirmFuturePayment");
+            }
+
+            @Override
+            public void invalidPaymentConfiguration() {
+                stopLoadingDialog();
+                Timber.e("invalidPaymentConfiguration");
+            }
+        });
+//        if (resultCode == Activity.RESULT_OK) {
+//            PaymentConfirmation confirm =
+//                    data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+//            if (confirm != null) {
+//                try {
+//                    Timber.e(confirm.toJSONObject().toString(4));
+//                    Timber.e(confirm.getPayment().toJSONObject().toString(4));
+//        //这里可以把PayPal带回来的json数据传给服务器以确认你的款项是否收到或者收全
+//        //可以直接把 confirm.toJSONObject() 这个带给服务器，
+//        //得到服务器返回的结果，你就可以跳转成功页面或者做相应的处理了
+//                } catch (JSONException e) {
+//                    Timber.e("返回的Json数据有误:");
+//                }
+//            }
+//        } else if (resultCode == Activity.RESULT_CANCELED) {
+//            Timber.e("用户取消了.");
+//        } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+//            Timber.e( "提交了无效的支付或PayPal配置。请参见文档。");
+//        }
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        paypalUtil.unRegister(this);
+        payPalHelper.stopPayPalService(this);
     }
 
     public static void openActivity(Context context) {

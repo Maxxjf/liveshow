@@ -143,6 +143,8 @@ public interface UrlConstants {
     String SUBMIT_BINDING = URL_PREFIX_APP + "index/bindingGeneralizeRelation";
     /**提现*/
     String WITHDRAW_CARD = URL_PREFIX_APP + "member/withdraw2card";
+    /**支付*/
+    String PAYPAL_PAY = URL_PREFIX_APP + "pay/android/verifyPayment";
 
 
 

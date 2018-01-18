@@ -17,6 +17,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -95,7 +96,7 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
     }
 
     public void startTime(NettyReceivePrivateBean bean) {
-        disposable = Observable.timer(5, TimeUnit.SECONDS).observeOn(Schedulers.io()).
+        disposable = Observable.timer(5, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
                 subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
@@ -103,12 +104,18 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        mView.upDateApater(bean.getChat_id(), CharStatusEnum.FAIL.getKey());
+                        RealmHelper.getInstance().updateMessageStatus(bean.getChat_id(), CharStatusEnum.FAIL.getKey());
+                        if (mView!=null){
+                            mView.upDateApater(bean.getChat_id(), CharStatusEnum.FAIL.getKey());
+                        }
                     }
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
-                        mView.upDateApater(bean.getChat_id(), CharStatusEnum.FAIL.getKey());
+                        RealmHelper.getInstance().updateMessageStatus(bean.getChat_id(), CharStatusEnum.FAIL.getKey());
+                        if (mView!=null){
+                            mView.upDateApater(bean.getChat_id(), CharStatusEnum.FAIL.getKey());
+                        }
                     }
                 });
     }

@@ -20,7 +20,8 @@ public interface AppConstants {
     String WX_APP_SECRET = "c23c1d9c477a29088e91ab1c72650be0";
 
     /**Netty 服务器*/
-    String NETTY_HOST = "10.10.22.123";
+//    String NETTY_HOST = "10.10.22.123";
+    String NETTY_HOST = "221.4.216.90";
 //    String NETTY_HOST = "10.10.100.195";
     int NETTY_PORT = 2071;
 

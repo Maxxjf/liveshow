@@ -337,7 +337,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                RealmHelper.getInstance().updateMessageStatus(chatId, charStatus);
+
                 mAdapter.upDateSendStatus(chatId, charStatus);
                 mAdapter.notifyDataSetChanged();
             }

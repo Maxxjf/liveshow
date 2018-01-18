@@ -32,6 +32,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
@@ -262,7 +263,7 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
      * @param
      */
     public void startTime(int position) {
-        disposable = Observable.timer(5, TimeUnit.SECONDS).observeOn(Schedulers.io()).
+        disposable = Observable.timer(5, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
                 subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {

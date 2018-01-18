@@ -4,6 +4,7 @@ import com.lzy.okgo.model.HttpParams;
 import com.qcloud.liveshow.beans.DiamondsBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.GiftBean;
+import com.qcloud.liveshow.beans.PayResult;
 import com.qcloud.liveshow.beans.ProfitBean;
 import com.qcloud.liveshow.beans.ProfitRecordBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
@@ -211,6 +212,23 @@ public class ProfitModelImpl implements IProfitModel {
         mParams.put("roomId",roomId);
 
         BaseApi.dispose(IProfitApi.sendGift(mParams),callback);
+    }
+
+    /**
+     *
+     * @param amount 总价
+     * @param id  礼物id
+     * @param paymentId 订单id
+     * @param callback
+     */
+    @Override
+    public void paypal(double amount, String id, String paymentId, DataCallback<PayResult> callback) {
+        mParams=OkGoRequest.getAppParams();
+        mParams.put("paymentId",paymentId);
+        mParams.put("amount",amount);
+        mParams.put("id",id);
+
+        BaseApi.dispose(IProfitApi.paypal(mParams),callback);
     }
 
 }

@@ -128,6 +128,9 @@
     <string name="tip_room_descrption">好看的根本停不下来啊啊啊啊</string>
     <string name="tip_no_diamonds">您的钻石币不足啦,快去充值吧~</string>
     <string name="tip_pay_for_vip_room">观看的房间是个vip房间，是否继续观看</string>
+    <string name="tip_diamonds_success">充值成功</string>
+    <string name="tip_diamonds_fail">充值失败</string>
+    <string name="tip_diamonds_again">充值已重复</string>
 
     <string name="input_mobile_hint">请输入手机号</string>
     <string name="input_account_hint">请输入账号</string>

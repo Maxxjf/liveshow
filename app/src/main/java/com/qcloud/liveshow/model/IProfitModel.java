@@ -3,6 +3,7 @@ package com.qcloud.liveshow.model;
 import com.qcloud.liveshow.beans.DiamondsBean;
 import com.qcloud.liveshow.beans.GetCodeResBean;
 import com.qcloud.liveshow.beans.GiftBean;
+import com.qcloud.liveshow.beans.PayResult;
 import com.qcloud.liveshow.beans.ProfitBean;
 import com.qcloud.liveshow.beans.ProfitRecordBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
@@ -54,4 +55,7 @@ public interface IProfitModel {
     /**发送礼物*/
     void sendGift(String giftId,String id,String roomId,DataCallback<ReturnGiftBean> callback);
 
+
+
+    void paypal(double amount, String appleID, String paymentId, DataCallback<PayResult> callback);
 }
