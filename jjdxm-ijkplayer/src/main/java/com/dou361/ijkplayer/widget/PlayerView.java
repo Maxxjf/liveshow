@@ -395,6 +395,7 @@ public class PlayerView {
     private final View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Log.e("PlayerView","viewId:"+v.getId());
             if (v.getId() == R.id.app_video_menu) {
                 /**菜单*/
                 showMenu();
@@ -436,12 +437,14 @@ public class PlayerView {
                     }
                 }
             } else if (v.getId() == R.id.app_video_netTie_icon) {
+                Log.e("PlayerView","继续播放");
                 /**使用移动网络提示继续播放*/
                 isGNetWork = false;
                 hideStatusUI();
                 startPlay();
                 updatePausePlay();
             } else if (v.getId() == R.id.app_video_replay_icon) {
+                Log.e("PlayerView","重新播放");
                 /**重新播放*/
                 status = PlayStateParams.STATE_ERROR;
                 hideStatusUI();
@@ -1023,7 +1026,10 @@ public class PlayerView {
         }
         hideStatusUI();
         if (isGNetWork && (NetworkUtils.getNetworkType(mContext) == 4 || NetworkUtils.getNetworkType(mContext) == 5 || NetworkUtils.getNetworkType(mContext) == 6)) {
-            query.id(R.id.app_video_netTie).visible();
+            if (errorLinstener!=null){
+                errorLinstener.use4GNetwork();
+            }
+//            query.id(R.id.app_video_netTie).visible();
         } else {
             if (isCharge && maxPlaytime < getCurrentPosition()) {
                 query.id(R.id.app_video_freeTie).visible();
@@ -1616,7 +1622,10 @@ public class PlayerView {
 
                 }
             } else {
-                query.id(R.id.app_video_netTie).visible();
+                if (errorLinstener!=null){
+                    errorLinstener.use4GNetwork();
+                }
+//                query.id(R.id.app_video_netTie).visible();
             }
 
         } else if (newStatus == PlayStateParams.STATE_ERROR
@@ -1643,18 +1652,30 @@ public class PlayerView {
                     }
                 }
             } else {
-                query.id(R.id.app_video_netTie).visible();
+                if (errorLinstener!=null){
+                    errorLinstener.use4GNetwork();
+                }
+//                query.id(R.id.app_video_netTie).visible();
             }
         }
+    }
+    private LoadingErrorListener errorLinstener;
+
+    public void setOnLoadingErrorLinstener(LoadingErrorListener errorLinstener){
+        this.errorLinstener=errorLinstener;
     }
 
     /**
      * 显示视频播放状态提示
      */
     private void showStatus(String statusText) {
-        query.id(R.id.app_video_replay).visible();
-        query.id(R.id.app_video_status_text).text(statusText);
+        if (errorLinstener!=null){
+            errorLinstener.showStatus(statusText);
+        }
+//        query.id(R.id.app_video_replay).visible();
+//        query.id(R.id.app_video_status_text).text(statusText);
     }
+
 
     /**
      * 界面方向改变是刷新界面
@@ -1700,7 +1721,6 @@ public class PlayerView {
         }
 
     }
-
     /**
      * 设置界面方向带隐藏actionbar
      */
@@ -2011,6 +2031,8 @@ public class PlayerView {
         }
     }
 
+
+
     /**
      * 播放器的手势监听
      */
@@ -2098,6 +2120,14 @@ public class PlayerView {
             }
             return true;
         }
+    }
+
+    /**
+     *
+     */
+    public interface LoadingErrorListener {
+        void showStatus(String errInfo);
+        void use4GNetwork();
     }
     /**
      * ==========================================内部方法=============================
