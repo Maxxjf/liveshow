@@ -4,7 +4,6 @@ import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.ApplyStatusBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.enums.ApplyStatusEnum;
-import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.enums.StartMainEnum;
 import com.qcloud.liveshow.model.IAnchorModel;
 import com.qcloud.liveshow.model.impl.AnchorModelImpl;
@@ -37,7 +36,9 @@ public class MainPresenterImpl extends BasePresenter<IMainView> implements IMain
             public void accept(RxBusEvent rxBusEvent) throws Exception {
                 switch (rxBusEvent.getType()){
                     case R.id.return_hot_fragment:
-                        mView.switchFragment(StartMainEnum.StartHome.getKey());
+                        if (mView!=null){
+                            mView.switchFragment(StartMainEnum.StartHome.getKey());
+                        }
                         break;
                 }
             }

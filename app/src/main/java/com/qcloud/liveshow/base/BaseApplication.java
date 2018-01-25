@@ -65,7 +65,8 @@ public class BaseApplication extends Application {
 
         // 初始化Realm
         Realm.init(this);
-
+        //异常铺抓的初始化.需要放到Bugly的前面
+        initCatchExceptionHandler();
         // 腾讯Bugly crash异常捕捉
         CrashReport.initCrashReport(getApplicationContext(), "d05326ee5c", false);
 
@@ -85,8 +86,7 @@ public class BaseApplication extends Application {
 
         //apng初始化
         ApngImageLoader.getInstance().init(getApplicationContext());
-        //异常铺抓的初始化
-        initCatchExceptionHandler();
+
     }
 
     private void initCatchExceptionHandler() {

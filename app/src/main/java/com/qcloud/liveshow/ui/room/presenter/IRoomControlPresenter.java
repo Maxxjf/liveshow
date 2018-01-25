@@ -24,7 +24,11 @@ public interface IRoomControlPresenter extends BtnClickPresenter {
     /**设置守护/取消守护*/
     void  inOutGuard(long memberId, boolean isGuard);
 
-    void  shutUp(String roomNumber,String memberId,boolean isForbidden);
+    void getUserIdentity(String memberId, String roomId);
+
+    void getUserIsAttention(String idStr, String roomIdStr);
+
+    void  shutUp(String roomNumber, String memberId, boolean isForbidden);
 
 
     void payVip(String roomId);

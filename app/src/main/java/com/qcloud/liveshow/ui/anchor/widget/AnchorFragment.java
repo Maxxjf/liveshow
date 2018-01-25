@@ -22,6 +22,7 @@ import com.qcloud.liveshow.adapter.RoomFansAdapter;
 import com.qcloud.liveshow.adapter.RoomMessageAdapter;
 import com.qcloud.liveshow.base.BaseFragment;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyForbiddenBean;
 import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
@@ -29,6 +30,7 @@ import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.beans.UserBean;
+import com.qcloud.liveshow.beans.UserStatusBean;
 import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.liveshow.enums.GiftTypeEnum;
 import com.qcloud.liveshow.enums.StartFansEnum;
@@ -428,20 +430,20 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
                         case R.id.btn_share_wechat:
                             shareUtil.shareWeb(SHARE_MEDIA.WEIXIN, UrlConstants.SHARP_LIVR_URL +
                                             "?idAccount=" + mUserBean.getIdAccount() + "&roomId=" + room.getRoomIdStr(),
-                                    mUserBean.getHeadImg(),
-                                    room.getTitle(), "AV8D，快来看我直播吧");
+                                    room.getCover(),
+                                    room.getTitle(), getResources().getString(R.string.tip_room_descrption));
                             break;
                         case R.id.btn_share_wechat_circle:
                             shareUtil.shareWeb(SHARE_MEDIA.WEIXIN_CIRCLE, UrlConstants.SHARP_LIVR_URL +
                                             "?idAccount=" + mUserBean.getIdAccount() + "&roomId=" + room.getRoomIdStr(),
-                                    mUserBean.getHeadImg(),
-                                    room.getTitle(), "AV8D，快来看我直播吧");
+                                    room.getCover(),
+                                    room.getTitle(), getResources().getString(R.string.tip_room_descrption));
                             break;
                         case R.id.btn_facebook:
                             shareUtil.shareWeb(SHARE_MEDIA.FACEBOOK, UrlConstants.SHARP_LIVR_URL +
                                             "?idAccount=" + mUserBean.getIdAccount() + "&roomId=" + room.getRoomIdStr(),
-                                    mUserBean.getHeadImg(),
-                                    room.getTitle(), "AV8D，快来看我直播吧");
+                                    room.getCover(),
+                                    room.getTitle(), getResources().getString(R.string.tip_room_descrption));
                             break;
                     }
                 }
@@ -494,14 +496,33 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         mListFans.setAdapter(mFansAdapter);
         mFansAdapter.setOnHolderClick((view, bean, position) -> {
             mMemberBean = bean;
+            RoomBean roomBean=((AnchorActivity)getActivity()).getRoom();
+            if (roomBean!=null){
+                mPresenter.getUserIsAttention(mMemberBean.getIdStr(),(roomBean.getRoomIdStr()));
+            }else {
+                Timber.e("roomBean为Null");
+            }
             if (mFansPop == null) {
                 initFansPop();
             }
-            mFansPop.refreshData(bean);
-            mFansPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+
         });
     }
-
+    /**
+     * 初始化Member的是否关注，是否被拉黑，是否被禁言。是否设置为守护
+     * @param userStatusBean
+     */
+    @Override
+    public void getUserIsAttention(UserStatusBean userStatusBean) {
+        if (mMemberBean!=null){
+            mMemberBean.setAttention(userStatusBean.isAttention());
+            mMemberBean.setBlack(userStatusBean.isBlack());
+            mMemberBean.setForbidden(userStatusBean.isForbidden());
+            mMemberBean.setGuard(userStatusBean.isGuard());
+            mFansPop.refreshData(mMemberBean);
+            mFansPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
+        }
+    }
     /**
      * 消息列表
      */
@@ -696,14 +717,21 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     @Override
     public void backListSuccess() {
-        ToastUtils.ToastMessage(mContext, R.string.toast_blacklist_success);
+        mMemberBean.refreshBlack();
+        ToastUtils.ToastMessage(mContext, getString(R.string.toast_edit_success));
     }
 
     @Override
     public void inOutGuardSuccess() {
-        ToastUtils.ToastMessage(mContext, R.string.toast_gurad_success);
+        mMemberBean.refreshGuard();
+        ToastUtils.ToastMessage(mContext, getString(R.string.toast_edit_success));
     }
 
+    @Override
+    public void refreshForbidden(NettyForbiddenBean obj) {
+        mMemberBean.refreshBlack();
+        ToastUtils.ToastMessage(mContext, getString(R.string.toast_edit_success));
+    }
 
     @Override
     public void onFollowRes(boolean isSuccess) {

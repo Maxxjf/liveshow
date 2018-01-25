@@ -40,7 +40,7 @@ public interface IAnchorModel {
     void inOutGuard(long memberId, boolean isGuard, DataCallback<ReturnEmptyBean> callback);
 
     /**结束直播间*/
-    void finishLive(DataCallback<FinishIncomeBean> callback);
+    void finishLive(String roomId,DataCallback<FinishIncomeBean> callback);
 
     /**直播前获取直播消息*/
     void getLiveinfo(DataCallback<LiveInfoBean> callback);

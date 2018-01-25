@@ -34,6 +34,42 @@ public class MemberBean extends RealmObject implements Serializable {
     int fansNum;        // 粉丝数量
     String idAccount;   // 直播id
     String last_send_message_datetime;//最后一次接受私聊信息时间
+    boolean isBlack; //是否黑名单
+    boolean isForbidden;//是否被禁言
+    boolean isGuard;//是否被设置守护
+    int identity;//当前人身份 0:观众 1:守护 2:主播
+
+    public boolean isBlack() {
+        return isBlack;
+    }
+
+    public void setBlack(boolean black) {
+        isBlack = black;
+    }
+
+    public boolean isForbidden() {
+        return isForbidden;
+    }
+
+    public void setForbidden(boolean forbidden) {
+        isForbidden = forbidden;
+    }
+
+    public boolean isGuard() {
+        return isGuard;
+    }
+
+    public void setGuard(boolean guard) {
+        isGuard = guard;
+    }
+
+    public int getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(int identity) {
+        this.identity = identity;
+    }
 
     public String getLast_send_message_datetime() {
         return last_send_message_datetime;
@@ -202,6 +238,15 @@ public class MemberBean extends RealmObject implements Serializable {
     public void refreshAttention() {
         isAttention = !isAttention;
     }
+    public void refreshForbidden() {
+        isForbidden = !isForbidden;
+    }
+    public void refreshBlack() {
+        isBlack = !isBlack;
+    }
+    public void refreshGuard() {
+        isGuard = !isGuard;
+    }
 
     @Override
     public String toString() {
@@ -223,6 +268,10 @@ public class MemberBean extends RealmObject implements Serializable {
                 ", fansNum=" + fansNum +
                 ", idAccount='" + idAccount + '\'' +
                 ", last_send_message_datetime='" + last_send_message_datetime + '\'' +
+                ", isBlack=" + isBlack +
+                ", isForbidden=" + isForbidden +
+                ", isGuard=" + isGuard +
+                ", identity=" + identity +
                 '}';
     }
 

@@ -110,7 +110,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     protected void initViewAndData() {
         //SystemBarUtil.hideNavBar(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        mPresenter.finishLive();//一进来结束直播
+//        mPresenter.finishLive();//一进来结束直播
         initStreamUrl();
 
         switchPreFragment();
@@ -292,6 +292,10 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
      * 开始直播
      */
     protected void startStream() {
+        /**设置推流URL*/
+        if (room!=null){
+            mStreamer.setUrl(mUrl+"/"+room.getRoomIdStr());
+        }
         mStreamer.startStream();
         mRecording = true;
     }
@@ -624,8 +628,9 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
             public void onViewClick(View view) {
                 switch (view.getId()){
                     case R.id.btn_ok:
-                        //                mPresenter.finishLive();
-                        AnchorFinishActivity.openActivity(AnchorActivity.this, false);
+                        if (getRoom()!=null){
+                            AnchorFinishActivity.openActivity(AnchorActivity.this, getRoom().getRoomIdStr());
+                        }
                         finish();
                         break;
                     case R.id.btn_cancel:
@@ -641,7 +646,9 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
      */
     @Override
     public void closeRoom() {
-        AnchorFinishActivity.openActivity(AnchorActivity.this, true);
+        if (getRoom()!=null){
+            AnchorFinishActivity.openActivity(AnchorActivity.this, getRoom().getRoomIdStr());
+        }
         finish();
     }
 
@@ -655,8 +662,8 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     @Override
     protected void onDestroy() {
         if (mPresenter != null) {
-            mPresenter.finishLive();
             if (room != null) {
+                mPresenter.finishLive(room.getRoomIdStr());
                 mPresenter.outGroup(room.getRoomIdStr());
             }
         }

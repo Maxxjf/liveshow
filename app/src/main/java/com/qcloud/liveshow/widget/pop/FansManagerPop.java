@@ -23,6 +23,12 @@ public class FansManagerPop extends BasePopupWindow {
     TextView btnMyGuarderList;
     @Bind(R.id.line_guarder)
     View lineGuarder;
+    @Bind(R.id.btn_set_guarder)
+    TextView btnSetGuarder;
+    @Bind(R.id.line_gag)
+    View lineGag;
+    @Bind(R.id.btn_gag)
+    TextView btnGag;
 
     public FansManagerPop(Context context) {
         super(context);
@@ -70,6 +76,21 @@ public class FansManagerPop extends BasePopupWindow {
     public void noGuarder() {
         btnMyGuarderList.setVisibility(View.GONE);
         lineGuarder.setVisibility(View.GONE);
+    }
+
+    /**
+     * 在roomFragment那里是没有守护者列表的
+     */
+    public void noGag() {
+        btnGag.setVisibility(View.GONE);
+        lineGag.setVisibility(View.GONE);
+    }
+
+    /**
+     * 在roomFragment那里是没有守护者列表的
+     */
+    public void noSetGuarder() {
+        btnSetGuarder.setVisibility(View.GONE);
     }
 
     @OnClick({R.id.btn_set_guarder, R.id.btn_my_guarder_list, R.id.btn_gag,

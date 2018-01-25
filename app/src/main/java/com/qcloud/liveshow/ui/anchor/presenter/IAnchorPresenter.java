@@ -7,7 +7,7 @@ package com.qcloud.liveshow.ui.anchor.presenter;
  */
 public interface IAnchorPresenter {
     /**结束直播*/
-    void finishLive();
+    void finishLive(String roomId);
     /**退出群聊*/
     void outGroup(String roomNum);
 }

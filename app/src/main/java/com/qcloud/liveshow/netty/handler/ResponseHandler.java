@@ -8,6 +8,7 @@ import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyAuthBean;
 import com.qcloud.liveshow.beans.NettyBaseResponse;
 import com.qcloud.liveshow.beans.NettyContent2Bean;
+import com.qcloud.liveshow.beans.NettyForbiddenBean;
 import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
@@ -73,6 +74,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                     break;
                 case 12://直播公告
                     disposeNotice(jsonStr);
+                    break;
+                case 13://禁言
+                    disposeForbidden(jsonStr);
                     break;
                 case 16://钻石币不足
                     disposeNoMoney(jsonStr);
@@ -283,6 +287,27 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
             @Override
             public void onSuccess(NettyLiveNoticeBean bean, String uuid) {
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_notice).setObj(bean).build());
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+                Timber.e(errMsg);
+            }
+        });
+    }
+    /**
+     * 禁言
+     *
+     * @time 2017/11/16 9:44
+     */
+    @Override
+    public void disposeForbidden(JsonElement msgConfig) {
+        Type type = new TypeToken<NettyBaseResponse<NettyForbiddenBean>>() {
+        }.getType();
+        NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyForbiddenBean>() {
+            @Override
+            public void onSuccess(NettyForbiddenBean bean, String uuid) {
+                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_forbidden).setObj(bean).build());
             }
 
             @Override

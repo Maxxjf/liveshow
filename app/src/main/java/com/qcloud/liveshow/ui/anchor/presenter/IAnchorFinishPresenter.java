@@ -11,5 +11,5 @@ public interface IAnchorFinishPresenter extends BtnClickPresenter {
     /**
      * 结束直播的收益
      */
-    void finishLive();
+    void finishLive(String roomId);
 }

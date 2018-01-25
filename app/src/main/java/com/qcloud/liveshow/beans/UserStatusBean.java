@@ -10,6 +10,15 @@ public class UserStatusBean {
     boolean isBlack;    //被查看人是否被拉黑 true:已拉黑 false:未拉黑	boolean
     boolean isForbidden;//	被查看人是否被禁言 true:已禁言 false:未禁言	boolean
     boolean isGuard;    //被查看人是否被设置为守护 true:是守护 false:不是守护	boolean
+    boolean isAttention;    //被查看人是否被关注 true:已关注 false:未关注
+
+    public boolean isAttention() {
+        return isAttention;
+    }
+
+    public void setAttention(boolean attention) {
+        isAttention = attention;
+    }
 
     public int getIdentity() {
         return identity;
@@ -50,6 +59,7 @@ public class UserStatusBean {
                 ", isBlack=" + isBlack +
                 ", isForbidden=" + isForbidden +
                 ", isGuard=" + isGuard +
+                ", isAttention=" + isAttention +
                 '}';
     }
 }

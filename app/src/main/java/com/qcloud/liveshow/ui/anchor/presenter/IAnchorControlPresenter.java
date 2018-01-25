@@ -31,4 +31,6 @@ public interface IAnchorControlPresenter extends BtnClickPresenter {
 
     /**禁言/解除禁言*/
     void shutUp(String roomNumber, String memberId, boolean isForbidden);
+
+    void getUserIsAttention(String idStr, String roomIdStr);
 }

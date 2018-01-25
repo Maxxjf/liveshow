@@ -45,8 +45,8 @@ public class AnchorPresenterImpl extends BasePresenter<IAnchorView> implements I
     }
 
     @Override
-    public void finishLive() {
-        mModel.finishLive(new DataCallback<FinishIncomeBean>() {
+    public void finishLive(String roomId) {
+        mModel.finishLive(roomId,new DataCallback<FinishIncomeBean>() {
             @Override
             public void onSuccess(FinishIncomeBean returnEmptyBean) {
                 Timber.e("关闭直播成功");

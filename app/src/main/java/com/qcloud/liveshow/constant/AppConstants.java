@@ -20,7 +20,7 @@ public interface AppConstants {
     String WX_APP_SECRET = "c23c1d9c477a29088e91ab1c72650be0";
 
     /**Netty 服务器*/
-//    String NETTY_HOST = "10.10.22.123";
+//    String NETTY_HOST = "10.10.22.124";
     String NETTY_HOST = "221.4.216.90";
 //    String NETTY_HOST = "10.10.100.195";
     int NETTY_PORT = 2071;
@@ -29,12 +29,14 @@ public interface AppConstants {
     /**推流 服务器*/
     String IO_HOST = "221.4.216.90";
 //    String IO_HOST = "10.10.22.123";
-//    String IO_HOST = "10.10.22.120";
     int IO_PORT = 2081;
+//    int IO_PORT = 1935;
 
     /**拉流服务器*/
+//    String PUSH_HOST = "10.10.22.123";
     String PUSH_HOST = "221.4.216.90";
     int PUSH_PORT = 2091;
+//    int PUSH_PORT = 80;
 
     /**弹起键盘坡度*/
     int DISTANCE_SLOP = 180;

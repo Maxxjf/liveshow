@@ -67,7 +67,6 @@ BaseActivity<V, T extends BasePresenter<V>> extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         mPresenter = initPresenter();
         if (mPresenter != null) {
             mPresenter.attach((V) this);

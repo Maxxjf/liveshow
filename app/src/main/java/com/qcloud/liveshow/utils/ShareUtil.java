@@ -2,7 +2,6 @@ package com.qcloud.liveshow.utils;
 
 import android.app.Activity;
 
-import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.model.impl.AnchorModelImpl;
 import com.qcloud.qclib.callback.DataCallback;
@@ -75,7 +74,23 @@ public class ShareUtil {
         UMWeb web = new UMWeb(webUrl);
         web.setTitle(title);//标题
         web.setThumb(image);  //图片
-        web.setDescription(mContext.getResources().getString(R.string.tip_room_descrption));//描述
+        web.setDescription(descrption);//描述
+        new ShareAction(mContext)
+                .setPlatform(sharePlatfrom)//传入平台
+                .withMedia(web)
+                .setCallback(shareListener)//回调监听器
+                .share();
+    }
+    /**
+     * 分享网页
+     */
+    public void shareWeb(SHARE_MEDIA sharePlatfrom, String webUrl, int imageResources, String title, String descrption) {
+        loading.show();
+        UMImage image = new UMImage(mContext, imageResources);//网络图片
+        UMWeb web = new UMWeb(webUrl);
+        web.setTitle(title);//标题
+        web.setThumb(image);  //图片
+        web.setDescription(descrption);//描述
         new ShareAction(mContext)
                 .setPlatform(sharePlatfrom)//传入平台
                 .withMedia(web)

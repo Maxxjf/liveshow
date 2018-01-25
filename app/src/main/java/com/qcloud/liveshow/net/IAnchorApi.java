@@ -81,7 +81,7 @@ public class IAnchorApi {
         return OkGoRequest.getRequest(UrlConstants.GET_LIVEINFO, type, params);
     }
 
-    /**开始直播前获取直播消息*/
+    /**判断该用户身份(主播,守护,观众)*/
     public static Observable<BaseResponse<UserStatusBean>> getUserStatus(HttpParams params) {
         Type type = new TypeToken<BaseResponse<UserStatusBean>>(){}.getType();
 
