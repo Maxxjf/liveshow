@@ -10,15 +10,15 @@ import java.util.List;
 import timber.log.Timber;
 
 /**
- * 类说明：用户信息
- * Author: Kuzan
- * Date: 2017/9/6 11:01.
+ * 类说明：房间工具（暂时只用于分享跳直播间）
+ * Author: iceberg
+ * Date: 2018/1/25
  */
 public class RoomInfoUtil {
     public static List<RoomBean> mRoomBean;
 
     /**
-     * 获取用户信息
+     * 获取房间信息
      * */
     public static void loadRoomInfo(String memberId) {
         new RoomModelImpl().getRoomInfo(memberId,new DataCallback<ReturnDataBean<RoomBean>>() {

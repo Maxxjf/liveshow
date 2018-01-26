@@ -39,6 +39,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * 类说明：直播间控制页面
@@ -69,13 +70,13 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
             public void accept(@NonNull RxBusEvent rxBusEvent) throws Exception {
                 if (mView != null) {
                     switch (rxBusEvent.getType()) {
-                        case R.id.netty_get_chat_list_success:
-                            MemberBean bean = (MemberBean) rxBusEvent.getObj();
-                            if (bean != null &&idList.contains(bean.getIdStr())) {
-                                mView.addMessage(bean);
-                                idList.add(bean.getIdStr());
-                            }
-                            break;
+//                        case R.id.netty_get_chat_list_success:
+//                            MemberBean bean = (MemberBean) rxBusEvent.getObj();
+//                            if (bean != null &&idList.contains(bean.getIdStr())) {
+//                                mView.addMessage(bean);
+//                                idList.add(bean.getIdStr());
+//                            }
+//                            break;
                         case R.id.netty_room_member_join:
                             // 成员加入
                             NettyRoomMemberBean member = (NettyRoomMemberBean) rxBusEvent.getObj();
@@ -132,6 +133,10 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                                 // 群聊消息
                                 mView.addGroupChat(groupBean);
                             }
+                            break;
+                        case R.id.netty_member_char://有新的成员会话加入
+                            Timber.e("char:"+"netty_member_char");
+                            mView.addMessage((MemberBean)rxBusEvent.getObj());
                             break;
                     }
                 }
@@ -202,7 +207,9 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
 
                 @Override
                 public void onError(int status, String errMsg) {
-
+                    if (mView != null) {
+                        mView.loadError(errMsg);
+                    }
                 }
             });
         }else {
@@ -218,7 +225,7 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                 @Override
                 public void onError(int status, String errMsg) {
                     if (mView != null) {
-                        mView.onFollowRes(false);
+                        mView.loadError(errMsg);
                     }
                 }
             });
@@ -343,7 +350,9 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
 
             @Override
             public void onError(int status, String errMsg) {
-
+                if (mView != null) {
+                    mView.loadError(errMsg);
+                }
             }
         });
     }

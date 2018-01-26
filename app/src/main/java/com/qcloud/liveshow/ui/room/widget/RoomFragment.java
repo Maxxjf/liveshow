@@ -60,6 +60,7 @@ import com.qcloud.liveshow.widget.pop.SystemMessagePop;
 import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.FrameConfig;
 import com.qcloud.qclib.base.BasePopupWindow;
+import com.qcloud.qclib.toast.SnackbarUtils;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.NetUtils;
 import com.qcloud.qclib.utils.StringUtils;
@@ -202,6 +203,10 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     }
 
     @Override
+    public void loadError(String errorMsg){
+        SnackbarUtils.showShortSnackbar(mLayoutBottom,errorMsg,getResources().getColor(R.color.colorGrayDark),getResources().getColor(R.color.colorOrange));
+    }
+    @Override
     protected void initViewAndData() {
         initView();
         initClearLayout();
@@ -316,6 +321,11 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
             mMemberBean.setForbidden(userStatusBean.isForbidden());
             mMemberBean.setGuard(userStatusBean.isGuard());
         }
+        if (mFansPop == null) {
+            initFansPop();
+        }
+        mFansPop.refreshData(mMemberBean);
+        mFansPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
     }
 
 
@@ -605,7 +615,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
                 mFansMessagePop.refreshMemberInfo(mFansPop.getCurrMember());
                 mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
             } else if(view.getId()==R.id.btn_follow){
-                ToastUtils.ToastMessage(getActivity(),"点击了关注按钮");
+                mPresenter.submitAttention(StartFansEnum.MyFans.getKey(),mMemberBean.getId(),!mMemberBean.isAttention());
             }else  {
                 mFansPop.dismiss();
             }
@@ -733,13 +743,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mListFans.setLayoutManager(manager);
         mListFans.setAdapter(mFansAdapter);
         mFansAdapter.setOnHolderClick((view, bean, position) -> {
-            mMemberBean = bean;
+            mMemberBean=bean;
             mPresenter.getUserIsAttention(mMemberBean.getIdStr(),mCurrBean.getRoomIdStr());
-            if (mFansPop == null) {
-                initFansPop();
-            }
-            mFansPop.refreshData(bean);
-            mFansPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
         });
     }
 
@@ -877,6 +882,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     @Override
     public void onReceiveMessageClick() {
+        mMessagePop.initData();
         if (mMessagePop == null) {
             initMessagePop();
         }
@@ -903,7 +909,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
                 if (mBtnFollow != null) {
                     mBtnFollow.setVisibility(View.GONE);
                 }
-                ToastUtils.ToastMessage(getActivity(), R.string.toast_follow_success);
+                ToastUtils.ToastMessage(getActivity(), R.string.toast_edit_success);
             } else {
                 ToastUtils.ToastMessage(getActivity(), R.string.toast_follow_failure);
             }

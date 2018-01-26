@@ -49,6 +49,7 @@ import com.qcloud.liveshow.widget.pop.GuarderPop;
 import com.qcloud.liveshow.widget.pop.MessageListPop;
 import com.qcloud.liveshow.widget.pop.SharePop;
 import com.qcloud.qclib.base.BasePopupWindow;
+import com.qcloud.qclib.toast.SnackbarUtils;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.widget.customview.MarqueeView;
@@ -113,6 +114,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     RelativeLayout mLayoutBottom;
     @Bind(R.id.btn_exit)
     ImageView mBtnExit;
+    @Bind(R.id.layout_root)
+    RelativeLayout layoutRoot;
 //    @Bind(R.id.gift)
 //    CustomGiftView mGiftShow;
 
@@ -178,6 +181,11 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     @Override
     protected AnchorControlPresenterImpl initPresenter() {
         return new AnchorControlPresenterImpl();
+    }
+
+    @Override
+    public void loadError(String errorMsg) {
+        SnackbarUtils.showShortSnackbar(layoutRoot, errorMsg, getResources().getColor(R.color.colorGrayDark), getResources().getColor(R.color.colorOrange));
     }
 
     @Override
@@ -298,6 +306,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     public void addMessage(MemberBean bean) {
         if (isInFragment) {
             if (isInFragment) {
+                Timber.e("char:" + "bean:" + bean);
                 if (bean != null && mMessagePop != null) {
                     mMessagePop.add(bean);
                 }
@@ -343,7 +352,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
             }
         }
     }
-    public  void startThread(){
+
+    public void startThread() {
         disposable = Observable.interval(1, TimeUnit.SECONDS).take(10).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .doOnDispose(new Action() {
                     @Override
@@ -363,6 +373,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
                     }
                 });
     }
+
     /**
      * 初始化粉丝信息弹窗
      */
@@ -380,6 +391,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
                 }
                 mFansMessagePop.refreshMemberInfo(mFansPop.getCurrMember());
                 mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
+            } else if (view.getId() == R.id.btn_follow) {
+                mPresenter.submitAttention(StartFansEnum.MyFans.getKey(), mMemberBean.getId(), !mMemberBean.isAttention());
             } else {
                 mFansPop.dismiss();
             }
@@ -496,33 +509,37 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         mListFans.setAdapter(mFansAdapter);
         mFansAdapter.setOnHolderClick((view, bean, position) -> {
             mMemberBean = bean;
-            RoomBean roomBean=((AnchorActivity)getActivity()).getRoom();
-            if (roomBean!=null){
-                mPresenter.getUserIsAttention(mMemberBean.getIdStr(),(roomBean.getRoomIdStr()));
-            }else {
+            RoomBean roomBean = ((AnchorActivity) getActivity()).getRoom();
+            if (roomBean != null) {
+                mPresenter.getUserIsAttention(mMemberBean.getIdStr(), (roomBean.getRoomIdStr()));
+            } else {
                 Timber.e("roomBean为Null");
             }
-            if (mFansPop == null) {
-                initFansPop();
-            }
+
 
         });
     }
+
     /**
      * 初始化Member的是否关注，是否被拉黑，是否被禁言。是否设置为守护
+     *
      * @param userStatusBean
      */
     @Override
     public void getUserIsAttention(UserStatusBean userStatusBean) {
-        if (mMemberBean!=null){
+        if (mMemberBean != null) {
             mMemberBean.setAttention(userStatusBean.isAttention());
             mMemberBean.setBlack(userStatusBean.isBlack());
             mMemberBean.setForbidden(userStatusBean.isForbidden());
             mMemberBean.setGuard(userStatusBean.isGuard());
-            mFansPop.refreshData(mMemberBean);
-            mFansPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
         }
+        if (mFansPop == null) {
+            initFansPop();
+        }
+        mFansPop.refreshData(mMemberBean);
+        mFansPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
     }
+
     /**
      * 消息列表
      */
@@ -598,6 +615,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     @Override
     public void onReceiveMessageClick() {
+        mMessagePop.initData();
         if (mMessagePop == null) {
             initMessagePop();
         }
@@ -660,7 +678,6 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     }
 
 
-
     /**
      * 群聊消息
      */
@@ -669,7 +686,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         if (isInFragment) {
             if (bean != null && mMessageAdapter != null) {
                 mMessageAdapter.addListBeanAtEnd(bean);
-                mListMessage.scrollToPosition(mMessageAdapter.getItemCount()-1);
+                mListMessage.scrollToPosition(mMessageAdapter.getItemCount() - 1);
             }
         }
     }
@@ -737,7 +754,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     public void onFollowRes(boolean isSuccess) {
         if (isInFragment) {
             if (isSuccess) {
-                ToastUtils.ToastMessage(getActivity(), R.string.toast_follow_success);
+                ToastUtils.ToastMessage(getActivity(), R.string.toast_edit_success);
             } else {
                 ToastUtils.ToastMessage(getActivity(), R.string.toast_follow_failure);
             }

@@ -16,8 +16,10 @@ import com.qcloud.liveshow.beans.NettyPayVipRoomReveice;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
+import com.qcloud.liveshow.model.impl.IMModelImpl;
 import com.qcloud.liveshow.netty.callback.ResponseListener;
 import com.qcloud.liveshow.realm.RealmHelper;
+import com.qcloud.liveshow.utils.MessageUtil;
 import com.qcloud.liveshow.utils.NettyUtil;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.beans.RxBusEvent;
@@ -77,6 +79,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                     break;
                 case 13://禁言
                     disposeForbidden(jsonStr);
+                    break;
+                case 15://获取个人信息
+                    disposeUserInfo(jsonStr);
                     break;
                 case 16://钻石币不足
                     disposeNoMoney(jsonStr);
@@ -167,8 +172,11 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
             @Override
             public void onSuccess(NettyReceivePrivateBean bean, String uuid) {
 
-                if (bean.getChat_id()!=null){//收到别人的消息
+                if (bean!=null&&bean.getChat_id()!=null){//收到别人的消息
                     RealmHelper.getInstance().addOrUpdateBean(bean);//添加到本地数据
+                    if (!MessageUtil.getInstance().isInList(bean.getFrom_user_id())){
+                        new IMModelImpl().getUser(bean.getFrom_user_id());
+                    }
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_private_chat).setObj(bean).build());
                 }else {//自己消息发送成功
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_message_send_success).setObj(uuid).build());
@@ -225,8 +233,7 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
 
             @Override
             public void onError(int status, String errMsg) {
-                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_get_chat_list_failure)
-                        .setObj(errMsg).build());
+                Timber.e(errMsg);
             }
         });
     }
@@ -316,6 +323,31 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
             }
         });
     }
+    /**
+     * 获取用户信息
+     *
+     * @time 2018/1/25
+     */
+    @Override
+    public void disposeUserInfo(JsonElement msgConfig){
+        Type type=new TypeToken<NettyBaseResponse<MemberBean>>(){
+        }.getType();
+        NettyDispose.dispose(msgConfig, type, new NettyDataCallback<MemberBean>() {
+            @Override
+            public void onSuccess(MemberBean memberBean, String uuid) {
+                if (memberBean!=null){
+                    RealmHelper.getInstance().addOrUpdateBean(memberBean);
+                    BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_member_char).setObj(memberBean).build());
+                }
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+
+            }
+        });
+    }
+
     /**
      * 钻石币不足
      *

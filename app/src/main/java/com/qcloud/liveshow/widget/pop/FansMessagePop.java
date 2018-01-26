@@ -19,6 +19,7 @@ import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.enums.CharStatusEnum;
 import com.qcloud.liveshow.model.impl.IMModelImpl;
 import com.qcloud.liveshow.realm.RealmHelper;
+import com.qcloud.liveshow.utils.MessageUtil;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
@@ -182,6 +183,9 @@ public class FansMessagePop extends BasePopupWindow {
     public void onSendClick() {
         if (currMember != null) {
             if (check()) {
+                if (!MessageUtil.getInstance().isInList(currMember.getIdStr())){//如果Member不在列表里
+                    RealmHelper.getInstance().addOrUpdateBean(currMember);//添加到本地数据
+                }
                 NettyContentBean contentBean = new NettyContentBean();
                 contentBean.setText(mMessage);
                 NettyReceivePrivateBean nettyReceivePrivateBean = new NettyReceivePrivateBean();

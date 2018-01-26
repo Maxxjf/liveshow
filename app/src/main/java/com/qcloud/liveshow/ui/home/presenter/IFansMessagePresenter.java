@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.ui.home.presenter;
 
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.qclib.base.BtnClickPresenter;
 
 /**
@@ -12,5 +13,5 @@ public interface IFansMessagePresenter extends BtnClickPresenter {
     void getChars(String fromUserId);
 
     /**发送消息*/
-    void sendMessage(String userId, String content);
+    void sendMessage(MemberBean user, String content);
 }

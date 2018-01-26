@@ -33,6 +33,8 @@ public interface IResponseMethod {
 
     void disposeForbidden(JsonElement msgConfig);
 
+    void disposeUserInfo(JsonElement msgConfig);
+
     /**钻石币不足*/
     void disposeNoMoney(JsonElement msgConfig);
 

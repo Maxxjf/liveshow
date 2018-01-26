@@ -88,6 +88,8 @@ public interface IRoomControlView {
     /**更新信息发送状态*/
     void upDateGroupMessageStatus(int charPosition, int charStatus);
 
+    void loadError(String errorMsg);
+
     /**收费房间收到消息*/
     void payVipRoom(NettyPayVipRoomReveice payVipRoomReveice);
 

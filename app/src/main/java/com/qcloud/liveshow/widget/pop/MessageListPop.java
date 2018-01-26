@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.PopMessageAdapter;
 import com.qcloud.liveshow.beans.MemberBean;
-import com.qcloud.liveshow.realm.RealmHelper;
+import com.qcloud.liveshow.utils.MessageUtil;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
@@ -62,11 +62,10 @@ public class MessageListPop extends BasePopupWindow {
                 mItemClick.onItemClick(position, mAdapter.getList().get(position));
             }
         });
-        initData();
     }
 
-    private void initData() {
-        List<MemberBean> beans = RealmHelper.getInstance().queryBeans(MemberBean.class);
+    public void initData() {
+        List<MemberBean> beans = MessageUtil.getInstance().getCharList();
         replaceList(beans);
     }
 
@@ -93,6 +92,7 @@ public class MessageListPop extends BasePopupWindow {
     public void   add(MemberBean memberBean){
         if (memberBean != null && mAdapter != null) {
             mAdapter.addListBeanAtStart(memberBean);
+            mAdapter.notifyDataSetChanged();
         }
     }
     @OnClick(R.id.btn_ignore_message)

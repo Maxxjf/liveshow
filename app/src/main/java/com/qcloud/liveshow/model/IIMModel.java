@@ -60,4 +60,5 @@ public interface IIMModel {
     /**VIP直播收费*/
     void payVipRoom(String room_id);
 
+    void getUser(String user_id);
 }

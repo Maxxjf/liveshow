@@ -304,7 +304,7 @@
     <string name="tag_brand_code">银行卡：%s</string>
     <string name="tag_account">账号</string>
     <string name="tag_input_again">再次输入</string>
-    <string name="tag_tip_anchor_is_no_live">该直播未开启直播~</string>
+    <string name="tag_tip_anchor_is_no_live">该主播未开启直播~</string>
     <string name="tag_extension">推广码：%s</string>
     <string name="tag_gift_name">送出了%s</string>
     <string name="tag_current_number">当前%d人</string>

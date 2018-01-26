@@ -45,6 +45,9 @@ public class MessageListPresenterImpl extends BasePresenter<IMessageListView> im
                         case R.id.netty_get_chat_list_failure:
                             mView.showEmptyView((String) rxBusEvent.getObj());
                             break;
+                        case R.id.netty_member_char://有新的成员会话加入
+                            mView.addMessage((MemberBean)rxBusEvent.getObj());
+                            break;
                     }
                 }
             }
