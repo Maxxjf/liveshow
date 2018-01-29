@@ -231,6 +231,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         if (mTvNotice != null) {
             mTvNotice.stopScroll();
             mTvNotice.setText(((AnchorActivity) getActivity()).getNotice());
+            mPresenter.sendGroupNotice(((AnchorActivity) getActivity()).getRoom().getRoomIdStr(),((AnchorActivity) getActivity()).getNotice());
             resetNoticeWith();
         }
         intoRoom();
@@ -469,6 +470,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      */
     private void initFansManagerPop() {
         mManagerPop = new FansManagerPop(mContext);
+        mManagerPop.setGuarderText(mMemberBean.isGuard());
         mManagerPop.setOnHolderClick(view -> {
             switch (view.getId()) {
                 case R.id.btn_set_guarder:

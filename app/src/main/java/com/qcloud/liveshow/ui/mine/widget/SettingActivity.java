@@ -11,7 +11,6 @@ import com.qcloud.liveshow.base.BaseApplication;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.enums.ClauseRuleEnum;
 import com.qcloud.liveshow.enums.StartFansEnum;
-import com.qcloud.liveshow.model.impl.IMModelImpl;
 import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.ui.account.widget.LoginActivity;
 import com.qcloud.liveshow.ui.main.widget.WebActivity;
@@ -71,7 +70,6 @@ public class SettingActivity extends SwipeBaseActivity<ISettingView, SettingPres
         } catch (Exception e) {
             e.printStackTrace();
         }
-        new IMModelImpl().getUser(UserInfoUtil.mUser.getIdStr());
     }
 
 

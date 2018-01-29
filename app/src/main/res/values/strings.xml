@@ -182,6 +182,7 @@
     <string name="btn_get_code_after_second">%ds后重新获取</string>
     <string name="btn_get_code_again">重新获取</string>
     <string name="btn_set_guarder">设为守护</string>
+    <string name="btn_set_guarder_none">取消守护</string>
     <string name="btn_my_guarder_list">我的守护列表</string>
     <string name="btn_gag">禁言</string>
     <string name="btn_forget_password">忘记密码</string>

@@ -61,5 +61,15 @@ public class MessageUtil {
         }
         return false;
     }
+//    /**
+//     * 得到聊天
+//     */
+//    public MemberBean getMemberChar(String userId){
+//        List<MemberBean> list=RealmHelper.getInstance().queryListByValue(MemberBean.class,"id",Long.parseLong(userId));
+//        if (list.size()>0){
+//            return list.get(0);
+//        }
+//        return new MemberBean();
+//    }
 
 }

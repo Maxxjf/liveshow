@@ -86,6 +86,13 @@ public class FansManagerPop extends BasePopupWindow {
         lineGag.setVisibility(View.GONE);
     }
 
+    public void setGuarderText(boolean isGarder){
+        if (isGarder){
+            btnSetGuarder.setText(mContext.getResources().getString(R.string.btn_set_guarder_none));
+        }else {
+            btnSetGuarder.setText(mContext.getResources().getString(R.string.btn_set_guarder));
+        }
+    }
     /**
      * 在roomFragment那里是没有守护者列表的
      */

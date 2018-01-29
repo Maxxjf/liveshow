@@ -176,6 +176,8 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                     RealmHelper.getInstance().addOrUpdateBean(bean);//添加到本地数据
                     if (!MessageUtil.getInstance().isInList(bean.getFrom_user_id())){
                         new IMModelImpl().getUser(bean.getFrom_user_id());
+                    }else {
+                       RealmHelper.getInstance().updateMember(Long.parseLong(bean.getFrom_user_id()));
                     }
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_private_chat).setObj(bean).build());
                 }else {//自己消息发送成功
@@ -226,9 +228,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         NettyDispose.dispose(msgConfig, type, new NettyDataCallback<MemberBean>() {
             @Override
             public void onSuccess(MemberBean bean, String uuid) {
-                RealmHelper.getInstance().addOrUpdateBean(bean);//添加到本地数据
-                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_get_chat_list_success)
-                        .setObj(bean).build());
+//                RealmHelper.getInstance().addOrUpdateBean(bean);//添加到本地数据
+//                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_get_chat_list_success)
+//                        .setObj(bean).build());
             }
 
             @Override
@@ -336,6 +338,7 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
             @Override
             public void onSuccess(MemberBean memberBean, String uuid) {
                 if (memberBean!=null){
+                    memberBean.setRead(false);
                     RealmHelper.getInstance().addOrUpdateBean(memberBean);
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_member_char).setObj(memberBean).build());
                 }

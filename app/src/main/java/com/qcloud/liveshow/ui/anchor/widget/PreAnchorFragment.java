@@ -111,9 +111,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
 
     @Override
     protected void beginLoad() {
-        if (mTvTollStandardRemark != null) {
-            mTvTollStandardRemark.setText(String.format(tollStandardRemark, 10));
-        }
+
     }
 
 
@@ -254,6 +252,9 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mTvTollStandard.setText(""+bean.getRates());
         upperLimit=bean.getUpperLimit();
         mCover = bean.getCover();
+        if (mTvTollStandardRemark != null) {
+            mTvTollStandardRemark.setText(String.format(tollStandardRemark, bean.getUpperLimit()));
+        }
 //        mTollPicker.setOffset(bean.getUpperLimit());
 //        mTollPicker.set
     }
