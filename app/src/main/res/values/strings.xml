@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AV8D</string>
 
-    <string name="facebook_app_id">9104e5facc4555cb15e6798912f71ac4</string>
+    <string name="facebook_app_id">176951416183947</string>
 
     <string name="save">保存</string>
     <string name="edit">编辑</string>
@@ -11,6 +11,7 @@
     <string name="change">修改</string>
     <string name="search">搜索</string>
     <string name="submit">提交</string>
+    <string name="out">退出</string>
     <string name="yuan">元</string>
 
     <string name="title_main">首页</string>
@@ -126,11 +127,14 @@
     <string name="tip_is_call">是否播号</string>
     <string name="tip_input_recommend_code">请输入推荐人推广码</string>
     <string name="tip_room_descrption">好看的根本停不下来啊啊啊啊</string>
+    <string name="tip_extension_descrption">高质量在线直播平台，美女帅哥，好看的根本停不下来</string>
     <string name="tip_no_diamonds">您的钻石币不足啦,快去充值吧~</string>
     <string name="tip_pay_for_vip_room">观看的房间是个vip房间，是否继续观看</string>
     <string name="tip_diamonds_success">充值成功</string>
     <string name="tip_diamonds_fail">充值失败</string>
     <string name="tip_diamonds_again">充值已重复</string>
+    <string name="tip_paly_again">是否继续观看</string>
+    <string name="tip_high_flow">您正在使用移动网络播放视频\n可能产生较高流量费用\n是否继续观看</string>
 
     <string name="input_mobile_hint">请输入手机号</string>
     <string name="input_account_hint">请输入账号</string>
@@ -178,6 +182,7 @@
     <string name="btn_get_code_after_second">%ds后重新获取</string>
     <string name="btn_get_code_again">重新获取</string>
     <string name="btn_set_guarder">设为守护</string>
+    <string name="btn_set_guarder_none">取消守护</string>
     <string name="btn_my_guarder_list">我的守护列表</string>
     <string name="btn_gag">禁言</string>
     <string name="btn_forget_password">忘记密码</string>
@@ -300,7 +305,7 @@
     <string name="tag_brand_code">银行卡：%s</string>
     <string name="tag_account">账号</string>
     <string name="tag_input_again">再次输入</string>
-    <string name="tag_tip_anchor_is_no_live">该直播未开启直播~</string>
+    <string name="tag_tip_anchor_is_no_live">该主播未开启直播~</string>
     <string name="tag_extension">推广码：%s</string>
     <string name="tag_gift_name">送出了%s</string>
     <string name="tag_current_number">当前%d人</string>

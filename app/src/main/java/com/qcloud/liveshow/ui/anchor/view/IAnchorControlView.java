@@ -1,11 +1,13 @@
 package com.qcloud.liveshow.ui.anchor.view;
 
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyForbiddenBean;
 import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
+import com.qcloud.liveshow.beans.UserStatusBean;
 import com.qcloud.qclib.base.BaseView;
 
 import java.util.List;
@@ -26,6 +28,8 @@ public interface IAnchorControlView extends BaseView {
 
     /**更新私聊消息的状态*/
     void upDateMessageSendStatus(String chatId, int charStatus);
+
+    void getUserIsAttention(UserStatusBean userStatusBean);
 
     /**更新群聊消息的状态*/
     void upDateGroupMessageStatus(int chatPosition, int charStatus);
@@ -63,10 +67,15 @@ public interface IAnchorControlView extends BaseView {
     /**设为守护成功*/
     void inOutGuardSuccess();
 
+    void refreshForbidden(NettyForbiddenBean obj);
+
     /**关注是否成功*/
     void onFollowRes(boolean isSuccess);
 
     void refreshNotice(NettyLiveNoticeBean bean);
+
+    void loadError(String errorMsg);
+
     /**添加消息列表*/
     void addMessage(MemberBean bean);
     /**展示礼物*/

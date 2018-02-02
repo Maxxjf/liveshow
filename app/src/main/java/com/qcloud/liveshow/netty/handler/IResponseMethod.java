@@ -30,6 +30,11 @@ public interface IResponseMethod {
     void disposeUserOutGroup(@NonNull JsonElement msgConfig);
     /**通知*/
     void disposeNotice(JsonElement msgConfig);
+
+    void disposeForbidden(JsonElement msgConfig);
+
+    void disposeUserInfo(JsonElement msgConfig);
+
     /**钻石币不足*/
     void disposeNoMoney(JsonElement msgConfig);
 

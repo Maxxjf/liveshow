@@ -26,7 +26,7 @@ public class BuyDiamondsPop extends BasePopupWindow {
     DiamondsPagerLayout mPageDiamonds;
 
     private DiamondsBean currBean;
-
+    private DiamodesPayLinstener linstener;
     public BuyDiamondsPop(Context context) {
         super(context);
     }
@@ -51,7 +51,7 @@ public class BuyDiamondsPop extends BasePopupWindow {
             public void onItemClick(Object o) {
                 currBean = (DiamondsBean) o;
                 if (currBean != null) {
-                    ToastUtils.ToastMessage(mContext, currBean.getName());
+                   linstener.goToPay(currBean);
                 }
             }
         });
@@ -95,5 +95,12 @@ public class BuyDiamondsPop extends BasePopupWindow {
                 }
             });
         }
+    }
+    public void setOnPayLinstener(DiamodesPayLinstener linstener){
+        this.linstener=linstener;
+    }
+
+    public interface DiamodesPayLinstener{
+       void  goToPay(DiamondsBean bean);
     }
 }

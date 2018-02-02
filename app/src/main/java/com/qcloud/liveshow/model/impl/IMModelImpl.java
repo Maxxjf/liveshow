@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.qcloud.liveshow.beans.NettyAuthBean;
 import com.qcloud.liveshow.beans.NettyContentBean;
 import com.qcloud.liveshow.beans.NettyDeleteMessageBean;
+import com.qcloud.liveshow.beans.NettyGetUserInfo;
 import com.qcloud.liveshow.beans.NettyGroupBean;
 import com.qcloud.liveshow.beans.NettyPayVipRoom;
 import com.qcloud.liveshow.beans.NettyRequestBean;
@@ -236,6 +237,22 @@ public class IMModelImpl implements IIMModel {
 
         NettyRequestBean<NettyPayVipRoom> requestBean = new NettyRequestBean<>();
         requestBean.setAction_type(RequestDataEnum.ActionType.PAY_VIP_ROOM.getKey());
+        requestBean.setUuid(DateUtils.getTimeStamp());
+        requestBean.setData(bean);
+
+        NettyClientBus.request(mGson.toJson(requestBean));
+    }
+    /**
+     * 获取用户信息
+     */
+    @Override
+    public void getUser(String user_id) {
+        NettyGetUserInfo bean=new NettyGetUserInfo();
+        bean.setToken(TokenUtil.getToken());
+        bean.setUser_id(user_id);
+
+        NettyRequestBean<NettyGetUserInfo> requestBean = new NettyRequestBean<>();
+        requestBean.setAction_type(RequestDataEnum.ActionType.GET_USER_INFO.getKey());
         requestBean.setUuid(DateUtils.getTimeStamp());
         requestBean.setData(bean);
 

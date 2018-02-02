@@ -26,8 +26,8 @@ public class AnchorFinishPresenterImpl extends BasePresenter<IAnchorFinishView> 
      * 结束直播的收益
      */
     @Override
-    public void finishLive() {
-        mModel.finishLive(new DataCallback<FinishIncomeBean>() {
+    public void finishLive(String roomId) {
+        mModel.finishLive(roomId,new DataCallback<FinishIncomeBean>() {
             @Override
             public void onSuccess(FinishIncomeBean bean) {
                 mView.loadData(bean);

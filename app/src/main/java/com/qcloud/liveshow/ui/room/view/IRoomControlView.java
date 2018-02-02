@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.ui.room.view;
 
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.beans.NettyForbiddenBean;
 import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
@@ -8,6 +9,7 @@ import com.qcloud.liveshow.beans.NettyPayVipRoomReveice;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
+import com.qcloud.liveshow.beans.UserStatusBean;
 
 import java.util.List;
 
@@ -86,7 +88,14 @@ public interface IRoomControlView {
     /**更新信息发送状态*/
     void upDateGroupMessageStatus(int charPosition, int charStatus);
 
+    void loadError(String errorMsg);
+
     /**收费房间收到消息*/
     void payVipRoom(NettyPayVipRoomReveice payVipRoomReveice);
 
+    void getUserIdentity(UserStatusBean userStatusBean);
+
+    void getUserIsAttention(UserStatusBean userStatusBean);
+    /**更新禁言状态*/
+    void refreshForbidden(NettyForbiddenBean obj);
 }

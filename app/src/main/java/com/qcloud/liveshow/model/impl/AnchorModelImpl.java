@@ -135,9 +135,9 @@ public class AnchorModelImpl implements IAnchorModel {
      * @time 2017/9/26 15:47
      */
     @Override
-    public void finishLive(DataCallback<FinishIncomeBean> callback) {
+    public void finishLive(String roomId,DataCallback<FinishIncomeBean> callback) {
         mParams = OkGoRequest.getAppParams();
-
+        mParams.put("roomId",roomId);
         BaseApi.dispose(IAnchorApi.finishLive(mParams), callback);
     }
 

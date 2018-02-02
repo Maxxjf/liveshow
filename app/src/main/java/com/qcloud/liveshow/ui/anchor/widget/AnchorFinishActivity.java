@@ -72,7 +72,8 @@ public class AnchorFinishActivity extends BaseActivity<IAnchorFinishView, Anchor
 
     @Override
     protected void initViewAndData() {
-        mPresenter.finishLive();
+        String roomId=getIntent().getStringExtra("roomId");
+        mPresenter.finishLive(roomId);
 //        GlideUtil.loadCircleImage(this, mImgUserHead, "", R.drawable.bitmap_user_head, 0, 0, true, false);
     }
 
@@ -119,9 +120,9 @@ public class AnchorFinishActivity extends BaseActivity<IAnchorFinishView, Anchor
         Intent intent = new Intent(context, AnchorFinishActivity.class);
         context.startActivity(intent);
     }
-    public static void openActivity(Context context,boolean isForceToExit) {
+    public static void openActivity(Context context,String roomId) {
         Intent intent = new Intent(context, AnchorFinishActivity.class);
-        intent.putExtra("isForceToExit",isForceToExit);
+        intent.putExtra("roomId",roomId);
         context.startActivity(intent);
     }
 }

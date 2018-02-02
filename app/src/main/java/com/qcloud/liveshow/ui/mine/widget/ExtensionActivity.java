@@ -94,20 +94,20 @@ public class ExtensionActivity extends SwipeBaseActivity<IExtensionView, Extensi
 
     @Override
     public void onWeChatClick() {
-            shareUtil.shareWeb(SHARE_MEDIA.WEIXIN, UrlConstants.SHARP_Generalize_URL +"?idAccount="+experienceCode, "http://store.happytify.cc/uploads/20170928/85/854533C5512Ew600h624.jpeg",
-                    "快来看我直播吧", "直播吃香蕉中.....");
+            shareUtil.shareWeb(SHARE_MEDIA.WEIXIN, UrlConstants.SHARP_Generalize_URL +"?idAccount="+experienceCode,R.mipmap.ic_logo,
+                    "AV8D", getResources().getString(R.string.tip_extension_descrption));
     }
 
     @Override
     public void onWeiXinCircleClick() {
-            shareUtil.shareWeb(SHARE_MEDIA.WEIXIN_CIRCLE, UrlConstants.SHARP_Generalize_URL +"?idAccount="+experienceCode, "http://store.happytify.cc/uploads/20170928/85/854533C5512Ew600h624.jpeg",
-                    "快来看我直播吧", "直播吃香蕉中.....");
+            shareUtil.shareWeb(SHARE_MEDIA.WEIXIN_CIRCLE, UrlConstants.SHARP_Generalize_URL +"?idAccount="+experienceCode, R.mipmap.ic_logo,
+                    "AV8D", getResources().getString(R.string.tip_extension_descrption));
     }
 
     @Override
     public void onFacebookClick() {
-            shareUtil.shareWeb(SHARE_MEDIA.FACEBOOK, UrlConstants.SHARP_Generalize_URL +"?idAccount="+experienceCode, "http://store.happytify.cc/uploads/20170928/85/854533C5512Ew600h624.jpeg",
-                    "快来看我直播吧", "直播吃香蕉中.....");
+            shareUtil.shareWeb(SHARE_MEDIA.FACEBOOK, UrlConstants.SHARP_Generalize_URL +"?idAccount="+experienceCode, R.mipmap.ic_logo,
+                    "AV8D", getResources().getString(R.string.tip_extension_descrption));
     }
 
     @Override

@@ -85,7 +85,8 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
     private String mTitle;
     private String mNotice;
     private String mDiamonds = "0";
-    private String mCover; //我的直播id
+    private String mCover; //我的直播封面id
+    private String mCoverUrl; //我的直播封面URL
     private SubmitStartLiveBean mSubmitBean;
 
 //    private InputDialog mInputDialog;
@@ -110,9 +111,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
 
     @Override
     protected void beginLoad() {
-        if (mTvTollStandardRemark != null) {
-            mTvTollStandardRemark.setText(String.format(tollStandardRemark, 10));
-        }
+
     }
 
 
@@ -223,6 +222,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         if (isInFragment && bean != null) {
             Timber.e(bean.toString());
             mCover = bean.getFileId();
+            mCoverUrl=bean.getFileUrl();
         }
     }
 
@@ -233,6 +233,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
             if (bean!=null){
                 ((AnchorActivity)getActivity()).setNotice(mEtNotice.getText().toString().trim());
                 bean.setTitle(mEtTitle.getText().toString());
+                bean.setCover(mCoverUrl);
                 ((AnchorActivity)getActivity()).setRoom(bean);
             }
             if (mListener != null) {
@@ -251,6 +252,9 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mTvTollStandard.setText(""+bean.getRates());
         upperLimit=bean.getUpperLimit();
         mCover = bean.getCover();
+        if (mTvTollStandardRemark != null) {
+            mTvTollStandardRemark.setText(String.format(tollStandardRemark, bean.getUpperLimit()));
+        }
 //        mTollPicker.setOffset(bean.getUpperLimit());
 //        mTollPicker.set
     }

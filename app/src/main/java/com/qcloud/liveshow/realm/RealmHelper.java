@@ -230,6 +230,21 @@ public class RealmHelper {
         RealmResults<T> list=  mRealm.where(clazz).equalTo(fieldName, value).findAll();
         return mRealm.copyFromRealm(list);
     }
+    /**
+     * 查找所有列表
+     * @param clazz 继承RealmObject的实体类
+     * @param fieldName 数据库对应的字段
+     * @param value 数据库对应的值
+     *
+     * */
+    public <T extends RealmObject> List<T> queryListByValue(Class<T> clazz, String fieldName, long value) {
+        if (mRealm == null) {
+            Timber.e("realm is null");
+            return new ArrayList<>();
+        }
+        RealmResults<T> list=  mRealm.where(clazz).equalTo(fieldName, value).findAll();
+        return mRealm.copyFromRealm(list);
+    }
 
     /**
      * 查找所有列表
@@ -299,4 +314,6 @@ public class RealmHelper {
         }
         mHelper = null;
     }
+
+
 }

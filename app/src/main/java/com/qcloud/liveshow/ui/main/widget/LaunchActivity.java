@@ -50,7 +50,7 @@ public class LaunchActivity extends BaseActivity<ILaunchView, LaunchPresenterImp
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA,
             Manifest.permission.CALL_PHONE,
-//            Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
+//            Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,//读取系统文件
             Manifest.permission.RECORD_AUDIO};
 
     @Override

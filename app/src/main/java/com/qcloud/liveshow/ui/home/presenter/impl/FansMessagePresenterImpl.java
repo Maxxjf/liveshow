@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.ui.home.presenter.impl;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyContentBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.enums.CharStatusEnum;
@@ -9,6 +10,7 @@ import com.qcloud.liveshow.model.impl.IMModelImpl;
 import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.ui.home.presenter.IFansMessagePresenter;
 import com.qcloud.liveshow.ui.home.view.IFansMessageView;
+import com.qcloud.liveshow.utils.MessageUtil;
 import com.qcloud.qclib.base.BasePresenter;
 import com.qcloud.qclib.beans.RxBusEvent;
 
@@ -41,8 +43,8 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
         mEventBus.registerSubscriber(this, mEventBus.obtainSubscriber(RxBusEvent.class, rxBusEvent -> {
             if (mView != null) {
                 switch (rxBusEvent.getType()) {
-                    case R.id.netty_get_chat_list_success:
-                        break;
+//                    case R.id.netty_get_chat_list_success:
+//                        break;
                     case R.id.netty_room_member_join:
                         break;
                     case R.id.netty_group_chat:
@@ -63,6 +65,7 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
                             disposable.dispose();
                         }
                         break;
+
                 }
             }
         }));
@@ -78,19 +81,22 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
     }
 
     @Override
-    public void sendMessage(String userId, String content) {
+    public void sendMessage(MemberBean memberBean, String content) {
+        if (!MessageUtil.getInstance().isInList(memberBean.getIdStr())){//如果Member不在列表里
+            RealmHelper.getInstance().addOrUpdateBean(memberBean);//添加到本地数据
+        }
         NettyContentBean contentBean = new NettyContentBean();
         contentBean.setText(content);
         NettyReceivePrivateBean nettyReceivePrivateBean = new NettyReceivePrivateBean();
         nettyReceivePrivateBean.setDate_time(String.valueOf(System.currentTimeMillis()));
         nettyReceivePrivateBean.setChat_id("" + UUID.randomUUID());
-        nettyReceivePrivateBean.setFrom_user_id(userId);
+        nettyReceivePrivateBean.setFrom_user_id(memberBean.getIdStr());
         nettyReceivePrivateBean.setSend(true);
         nettyReceivePrivateBean.setContent(contentBean);
         nettyReceivePrivateBean.setSendStatus(CharStatusEnum.INPROGRESS.getKey());
         mView.addMessage(nettyReceivePrivateBean);
         RealmHelper.getInstance().addOrUpdateBean(nettyReceivePrivateBean);
-        mModel.sendPrivateChat(userId, content, nettyReceivePrivateBean.getChat_id());
+        mModel.sendPrivateChat(memberBean.getIdStr(), content, nettyReceivePrivateBean.getChat_id());
         startTime(nettyReceivePrivateBean);
 
     }

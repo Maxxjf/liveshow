@@ -41,6 +41,10 @@
     <item name="netty_notice_out_group" type="id"/>
     <!--修改公告-->
     <item name="netty_notice" type="id"/>
+    <!--禁言-->
+    <item name="netty_forbidden" type="id"/>
+    <!--获取一个会话列表-->
+    <item name="netty_member_char" type="id"/>
     <!--私聊消息发送成功-->
     <item name="netty_message_send_success" type="id"/>
     <!--群聊消息发送成功-->

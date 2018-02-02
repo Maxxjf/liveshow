@@ -71,7 +71,6 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
     private String mTelephone;
     DiamondsBean mCurrentBean;
     PayPalHelper payPalHelper=PayPalHelper.getInstance();
-    private String address="";
 
     @Override
     protected int initLayout() {
@@ -175,6 +174,9 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
 
     @Override
     public void onDiamondsClick() {
+        //服务器地址
+        String address="";
+        //检查服务器是否可用
         try {
              address=FrameConfig.server.split("/")[2];
              if (address.contains(":")){
@@ -198,7 +200,6 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
                 return 0;
             }
         });
-
 //        AlipayUtil alipayUtil=new AlipayUtil(this);
 //        alipayUtil.pay("0.01");
 //        alipayUtil.pay("0.02");

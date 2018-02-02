@@ -3,6 +3,7 @@ package com.qcloud.liveshow.ui.room.presenter.impl;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.beans.NettyContentBean;
+import com.qcloud.liveshow.beans.NettyForbiddenBean;
 import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
@@ -10,6 +11,7 @@ import com.qcloud.liveshow.beans.NettyPayVipRoomReveice;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
+import com.qcloud.liveshow.beans.UserStatusBean;
 import com.qcloud.liveshow.enums.CharStatusEnum;
 import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.model.IAnchorModel;
@@ -68,13 +70,13 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
             public void accept(@NonNull RxBusEvent rxBusEvent) throws Exception {
                 if (mView != null) {
                     switch (rxBusEvent.getType()) {
-                        case R.id.netty_get_chat_list_success:
-                            MemberBean bean = (MemberBean) rxBusEvent.getObj();
-                            if (bean != null && idList.contains(bean.getIdStr())) {
-                                mView.addMessage(bean);
-                                idList.add(bean.getIdStr());
-                            }
-                            break;
+//                        case R.id.netty_get_chat_list_success:
+//                            MemberBean bean = (MemberBean) rxBusEvent.getObj();
+//                            if (bean != null && idList.contains(bean.getIdStr())) {
+//                                mView.addMessage(bean);
+//                                idList.add(bean.getIdStr());
+//                            }
+//                            break;
                         case R.id.netty_room_member_join:
                             // 成员加入
                             NettyRoomMemberBean member = (NettyRoomMemberBean) rxBusEvent.getObj();
@@ -97,6 +99,10 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                         case R.id.netty_notice:
                             // 公告
                             mView.refreshNotice((NettyLiveNoticeBean) rxBusEvent.getObj());
+                            break;
+                        case R.id.netty_forbidden:
+                            // 禁言
+                            mView.refreshForbidden((NettyForbiddenBean) rxBusEvent.getObj());
                             break;
                         case R.id.netty_message_send_success:
                             //消息发送成功
@@ -136,6 +142,9 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                         case R.id.netty_vip_pay_room:
                             NettyPayVipRoomReveice payVipRoomReveice= (NettyPayVipRoomReveice) rxBusEvent.getObj();
                             mView.payVipRoom(payVipRoomReveice);
+                            break;
+                        case R.id.netty_member_char://有新的成员会话加入
+                            mView.addMessage((MemberBean)rxBusEvent.getObj());
                             break;
                     }
                 }
@@ -186,7 +195,9 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
 
                 @Override
                 public void onError(int status, String errMsg) {
-
+                    if (mView != null) {
+                        mView.loadError(errMsg);
+                    }
                 }
             });
         } else {
@@ -202,7 +213,7 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                 @Override
                 public void onError(int status, String errMsg) {
                     if (mView != null) {
-                        mView.onFollowRes(false);
+                        mView.loadError(errMsg);
                     }
                 }
             });
@@ -271,12 +282,16 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        mView.upDateGroupMessageStatus(position, CharStatusEnum.FAIL.getKey());
+                        if (mView!=null){
+                            mView.upDateGroupMessageStatus(position, CharStatusEnum.FAIL.getKey());
+                        }
                     }
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
-                        mView.upDateGroupMessageStatus(position, CharStatusEnum.FAIL.getKey());
+                        if (mView!=null){
+                            mView.upDateGroupMessageStatus(position, CharStatusEnum.FAIL.getKey());
+                        }
                     }
                 });
     }
@@ -301,6 +316,42 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
         });
     }
 
+    /**
+     *
+     * @return 用户id，详细见UserIdentityEnum枚举
+     */
+    @Override
+    public void getUserIdentity(String memberId, String roomId){
+        anchorModel.getUserStatus(memberId, roomId, new DataCallback<UserStatusBean>() {
+            @Override
+            public void onSuccess(UserStatusBean userStatusBean) {
+                if (mView!=null&&userStatusBean!=null){
+                    mView.getUserIdentity(userStatusBean);
+                }
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+
+            }
+        });
+    }
+    @Override
+    public void getUserIsAttention(String idStr, String roomIdStr) {
+        anchorModel.getUserStatus(idStr, roomIdStr, new DataCallback<UserStatusBean>() {
+            @Override
+            public void onSuccess(UserStatusBean userStatusBean) {
+                if (mView!=null&&userStatusBean!=null){
+                    mView.getUserIsAttention(userStatusBean);
+                }
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+
+            }
+        });
+    }
     @Override
     public void shutUp(String roomNumber, String memberId, boolean isForbidden) {
         mIMModel.shutUp(roomNumber, memberId, isForbidden);
@@ -338,5 +389,6 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
             }
         });
     }
+
 
 }

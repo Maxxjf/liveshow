@@ -163,6 +163,7 @@ public class ForgetPassWordActivity extends SwipeBaseActivity<IForgetPassWordVie
     public void getCodeSuccess(String code) {
         if (isRunning) {
             ToastUtils.ToastMessage(this, getResources().getString(R.string.toast_has_been_sent));
+            startTimer();
         }
     }
 
@@ -191,7 +192,7 @@ public class ForgetPassWordActivity extends SwipeBaseActivity<IForgetPassWordVie
         if (checkEmailAndAccound()) {
             mPresenter.forgetPasswordCode(account);
             btnGetCode.setEnabled(false);
-            startTimer();
+
         }
     }
 

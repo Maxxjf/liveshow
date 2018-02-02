@@ -37,7 +37,9 @@ public class AnchorPresenterImpl extends BasePresenter<IAnchorView> implements I
             public void accept(RxBusEvent rxBusEvent) throws Exception {
                 switch (rxBusEvent.getType()){
                     case R.id.netty_close_room:
-                        mView.closeRoom();
+                        if (mView!=null){
+                            mView.closeRoom();
+                        }
                         break;
                 }
             }
@@ -45,8 +47,8 @@ public class AnchorPresenterImpl extends BasePresenter<IAnchorView> implements I
     }
 
     @Override
-    public void finishLive() {
-        mModel.finishLive(new DataCallback<FinishIncomeBean>() {
+    public void finishLive(String roomId) {
+        mModel.finishLive(roomId,new DataCallback<FinishIncomeBean>() {
             @Override
             public void onSuccess(FinishIncomeBean returnEmptyBean) {
                 Timber.e("关闭直播成功");

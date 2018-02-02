@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.liveshow.ui.room.presenter.impl.RoomPresenterImpl;
 import com.qcloud.liveshow.ui.room.view.IRoomView;
+import com.qcloud.liveshow.widget.pop.TipsPop;
+import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.widget.customview.VerticalViewPager;
@@ -52,16 +55,22 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
     private int mRoomId = -1;
     private FragmentManager mFragmentManager;
     private RoomFragment mRoomFragment;
-    /**是否初始化了Room*/
+    /**
+     * 是否初始化了Room
+     */
     private boolean mInit = false;
 
-    /**播放器*/
+    /**
+     * 播放器
+     */
     private PlayerView mPlayer;
 
     private String currUrl;
     private String currImage;
     private List<RoomBean> mList;
     private RoomBean mCurrBean;
+    private TipsPop tipsPop;
+    private TipsPop netWorkTipsPop;
 
     @Override
     protected int initLayout() {
@@ -93,13 +102,14 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         mFragmentContainer = (FrameLayout) mRoomContainer.findViewById(R.id.fragment_container);
         mRoomFragment = RoomFragment.newInstance();
         mFragmentManager = getSupportFragmentManager();
-
         initViewPager();
     }
 
+
+
     /**
      * 初始化播放器
-     * */
+     */
     private void initPlayer() {
         Timber.e("initPlayer");
         mPlayer = new PlayerView(this, mRoomContainer)
@@ -114,29 +124,114 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
                 .showThumbnail(new OnShowThumbnailListener() {
                     @Override
                     public void onShowThumbnail(ImageView ivThumbnail) {
+                        ivThumbnail.setScaleType(ImageView.ScaleType.CENTER_CROP);
                         GlideUtil.loadImage(mContext, ivThumbnail, currImage, R.drawable.bitmap_user, true, false);
+//                        ivThumbnail.set
                     }
                 })
                 .setPlaySource(currUrl)
                 .startPlay();
+        mPlayer.setBrightness(100);
+        mPlayer.setOnLoadingErrorLinstener(new PlayerView.LoadingErrorListener() {
+            @Override
+            public void showStatus(String errInfo) {
+                if (tipsPop == null) {
+                    initTipsPop();
+                }
+                tipsPop.setTips(errInfo+","+getResources().getString(R.string.tip_paly_again));
+                tipsPop.showAtLocation(mViewPager, Gravity.CENTER, 0, 0);
+            }
+
+            @Override
+            public void use4GNetwork() {
+                if (netWorkTipsPop==null){
+                    initNetWorkTipsPop();
+                }
+                netWorkTipsPop.setTips(getResources().getString(R.string.tip_high_flow));
+                netWorkTipsPop.showAtLocation(mViewPager, Gravity.CENTER, 0, 0);
+            }
+        });
         mPlayer.setOnInfoListener(new IMediaPlayer.OnInfoListener() {
             @Override
             public boolean onInfo(IMediaPlayer iMediaPlayer, int i, int i1) {
-                if (i == PlayStateParams.STATE_COMPLETED) {
-                    // 播放完成
-                    ToastUtils.ToastMessage(RoomActivity.this,"播放完成");
-//                    RoomFinishActivity.openActivity(RoomActivity.this);
+                switch (i) {
+                    case PlayStateParams.STATE_COMPLETED:
+                        // 播放完成
+                        Timber.e("PlayStateParams.STATE_COMPLETED");
+                        ToastUtils.ToastMessage(RoomActivity.this, "播放完成");
+                        RoomFinishActivity.openActivity(RoomActivity.this);
+                        finish();
+                        break;
+                    case PlayStateParams.STATE_ERROR://错误
+                        Timber.e("PlayStateParams.STATE_ERROR");
+                        mFragmentContainer.setVisibility(View.GONE);
+                        break;
+                    case PlayStateParams.STATE_IDLE://空闲状态
+                        Timber.e("PlayStateParams.STATE_IDLE");
+//                        mFragmentContainer.setVisibility(View.GONE);
+                        break;
+                    case PlayStateParams.STATE_PAUSED://暂停
+                        Timber.e("PlayStateParams.STATE_PAUSED");
+                        mFragmentContainer.setVisibility(View.GONE);
+                        break;
+                    case PlayStateParams.STATE_PLAYING://正在播放
+                        Timber.e("PlayStateParams.STATE_PLAYING");
+//                        mFragmentContainer.setVisibility(View.GONE);
+                        break;
+                    case PlayStateParams.STATE_PREPARED://准备好的
+                        Timber.e("PlayStateParams.STATE_PREPARED");
+//                        mFragmentContainer.setVisibility(View.GONE);
+                        break;
+                    case PlayStateParams.STATE_PREPARING://准备中
+                        Timber.e("PlayStateParams.STATE_PREPARING");
+//                        mFragmentContainer.setVisibility(View.GONE);
+                        break;
+
                 }
                 return true;
             }
         });
     }
 
+    private void initTipsPop() {
+        tipsPop = new TipsPop(this);
+        tipsPop.setCancelBtn(R.string.out);
+        tipsPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                switch (view.getId()) {
+                    case R.id.btn_ok:
+                        mPlayer.startPlay();
+                        break;
+                    case R.id.btn_cancel:
+                        finish();
+                }
+            }
+        });
+    }
+    private void initNetWorkTipsPop() {
+        netWorkTipsPop = new TipsPop(this);
+        tipsPop.setCancelBtn(R.string.out);
+        netWorkTipsPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                switch (view.getId()) {
+                    case R.id.btn_ok:
+                        mPlayer.setNetWorkTypeTie(false);
+                        mPlayer.startPlay();
+                        break;
+                    case R.id.btn_cancel:
+                        finish();
+                }
+            }
+        });
+    }
+
     /**
      * 初始化直播间
-     * */
+     */
     private void initViewPager() {
-        Timber.e("mCurrentItem = %d", mCurrentItem);
+
 
         mRoomAdapter = new RoomAdapter(this, mList);
         mViewPager.setCurrentItem(mCurrentItem);
@@ -176,9 +271,8 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
 
     /**
      * 加载直播视频
-     * */
+     */
     private void loadVideoAndChatRoom(ViewGroup viewGroup, int currentItem) {
-        Timber.e("currentItem = %d", currentItem);
         // 聊天室的fragment只加载一次，以后复用
         if (!mInit) {
             mFragmentManager.beginTransaction().add(mFragmentContainer.getId(), mRoomFragment).commitAllowingStateLoss();
@@ -187,7 +281,7 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         if (mList != null) {
             mCurrBean = mList.get(currentItem);
             if (mCurrBean != null && mCurrBean.getMember() != null) {
-                currUrl = initStreamUrl(mCurrBean.getMember().getIdAccount());
+                currUrl = initStreamUrl(mCurrBean.getMember().getIdAccount(), mCurrBean.getRoomIdStr());
             }
             currImage = mList.get(currentItem).getCover();
         }
@@ -204,10 +298,11 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         mRoomId = currentItem;
     }
 
-    private String initStreamUrl(String id) {
+    private String initStreamUrl(String id, String roomId) {
         StringBuffer url = new StringBuffer();
         url.append(UrlConstants.STREAM_IN_URL);
-        url.append(id+".flv");
+        url.append(id + "/" + roomId + ".flv");
+        Timber.e("url:"+url.toString());
         return url.toString();
     }
 
@@ -241,6 +336,11 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+//        startLoadingDialog();
+        if (mRoomFragment != null) {
+            mRoomFragment.onActivityResult(requestCode, resultCode, data);
+        }
+
     }
 
     @Override

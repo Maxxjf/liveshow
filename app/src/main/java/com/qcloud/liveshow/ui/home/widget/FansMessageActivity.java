@@ -277,7 +277,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     public void onSendClick() {
         String context = mEtMessage.getText().toString();
         if (StringUtils.isNotEmptyString(context)) {
-            mPresenter.sendMessage(mMemberBean.getIdStr(), context);
+            mPresenter.sendMessage(mMemberBean, context);
             mEtMessage.setText("");
             KeyBoardUtils.hideKeybord(mContext, mEtMessage);
             hideEmoji();
@@ -337,7 +337,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
+                RealmHelper.getInstance().updateMessageStatus(chatId, charStatus);
                 mAdapter.upDateSendStatus(chatId, charStatus);
                 mAdapter.notifyDataSetChanged();
             }

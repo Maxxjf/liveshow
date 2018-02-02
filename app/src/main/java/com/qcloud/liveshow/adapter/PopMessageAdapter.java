@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.adapter;
 
 import android.content.Context;
+import android.view.View;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.beans.MemberBean;
@@ -31,7 +32,11 @@ public class PopMessageAdapter extends CommonRecyclerAdapter<MemberBean> {
         userView.loadImage(bean.getHeadImg(), bean.getIcon(), 60);
 
         holder.setText(R.id.tv_name, bean.getNickName());
-        holder.setImageResource(R.id.img_sex, bean.getSexIcon());
+        if (bean.getSex()==2){
+            holder.setVisible(R.id.img_sex, View.GONE);
+        }else {
+            holder.setImageResource(R.id.img_sex, bean.getSexIcon());
+        }
         holder.setText(R.id.tv_message, bean.getSignature());
 //        Timber.e("--------->>>>>>>>>>>:"+bean);
         if (bean.getLast_send_message_datetime()!=null){

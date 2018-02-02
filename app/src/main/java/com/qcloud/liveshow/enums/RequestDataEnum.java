@@ -74,6 +74,10 @@ public class RequestDataEnum {
 		 */
 		DELETE_MESSAGE_CHAT(14, "删除私聊列表"),
 		/**
+		 *  GET_USER_INFO(15, "获取用户信息"),
+		 */
+		GET_USER_INFO(15, "获取用户信息"),
+		/**
 		 * 14 DELETE_MESSAGE_CHAT 删除私聊列表
 		 */
 		PAY_VIP_ROOM(17, "收费直播的计算"),

@@ -45,6 +45,7 @@
             android:text="@string/btn_my_guarder_list"/>
 
         <View
+            android:id="@+id/line_gag"
             style="@style/LineHorizontal"/>
 
         <TextView

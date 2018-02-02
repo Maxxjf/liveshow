@@ -96,7 +96,7 @@
             android:layout_marginTop="@dimen/margin_3"
             android:textColor="@color/colorEnd"
             android:textSize="@dimen/xlarge_text_size"
-            android:text="¥1234.25"/>
+            android:text="¥0.00"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/xmedium_text_size"
                 android:textStyle="bold"
-                android:text="1.5万"/>
+                android:text="0"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -157,7 +157,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/xmedium_text_size"
                 android:textStyle="bold"
-                android:text="123.02"/>
+                android:text="0"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -182,7 +182,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/xmedium_text_size"
                 android:textStyle="bold"
-                android:text="1.5万"/>
+                android:text="0"/>
 
             <TextView
                 android:layout_width="wrap_content"

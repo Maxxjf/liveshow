@@ -11,9 +11,7 @@ import android.widget.LinearLayout;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.widget.customview.CustomGiftView;
 import com.qcloud.liveshow.widget.giftlayout.GiftControl;
-import com.qcloud.liveshow.widget.giftlayout.widget.CustormAnim;
-
-import java.util.Random;
+import com.qcloud.qclib.toast.SnackbarUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,6 +23,8 @@ public class TestActivity extends AppCompatActivity {
 
     @Bind(R.id.btn_1)
     Button btn1;
+    @Bind(R.id.root)
+    LinearLayout rootLayout;
     @Bind(R.id.btn_2)
     Button btn2;
     @Bind(R.id.btn_3)
@@ -42,14 +42,14 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         ButterKnife.bind(this);
-        // Display image from a file in assets
-//        String uri = "assets://apng/rose.png";
-        giftControl=new GiftControl(this);
-        giftControl.setGiftLayout(ll_gift_parent, 3)
-                .setHideMode(false)
-                .setCustormAnim(new CustormAnim());//这里可以自定义礼物动画
-        giftControl.setDisplayMode(GiftControl.FROM_BOTTOM_TO_TOP);
-        giftControl.setHideMode(true);
+//        // Display image from a file in assets
+////        String uri = "assets://apng/rose.png";
+//        giftControl=new GiftControl(this);
+//        giftControl.setGiftLayout(ll_gift_parent, 3)
+//                .setHideMode(false)
+//                .setCustormAnim(new CustormAnim());//这里可以自定义礼物动画
+//        giftControl.setDisplayMode(GiftControl.FROM_BOTTOM_TO_TOP);
+//        giftControl.setHideMode(true);
 //        String uri = "http://littlesvr.ca/apng/images/clock.png";
 //        ApngImageLoader.getInstance()
 //                .displayApng(uri, img,
@@ -79,15 +79,21 @@ public class TestActivity extends AppCompatActivity {
         Timber.e("v.getId" + view.getId());
         switch (view.getId()) {
             case R.id.btn_1:
-
-                CustomGiftView.GiftInfo giftInfo=new CustomGiftView.GiftInfo();
-                giftInfo.setGiftID(new Random().nextInt(100)+2);
-                giftInfo.setGiftUrl("");
-                giftInfo.setSenderFace("");
-                giftInfo.setSenderNickName("小黄人");
-                gift.showGift(giftInfo);
+                SnackbarUtils.showLongSnackbar(rootLayout,"Hello,SnackBar",getResources().getColor(R.color.colorText),getResources().getColor(R.color.black));
+//                CustomGiftView.GiftInfo giftInfo=new CustomGiftView.GiftInfo();
+//                giftInfo.setGiftID(new Random().nextInt(100)+2);
+//                giftInfo.setGiftUrl("");
+//                giftInfo.setSenderFace("");
+//                giftInfo.setSenderNickName("小黄人");
+//                gift.showGift(giftInfo);
                 break;
             case R.id.btn_2:
+                SnackbarUtils.showShortSnackbar(rootLayout, "Hello,SnackBar", getResources().getColor(R.color.colorText),  getResources().getColor(R.color.black), "再次发送", getResources().getColor(R.color.big_red), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SnackbarUtils.showLongSnackbar(rootLayout,"Hello,SnackBar",getResources().getColor(R.color.colorText),getResources().getColor(R.color.black));
+                    }
+                });
 //                //这里最好不要直接new对象
 //                GiftModel giftModel = new GiftModel();
 //                giftModel.setGiftId("小气球").setGiftName("礼物名字").setGiftCount(1).setGiftPic("http://scimg.jb51.net/allimg/170921/106-1F9211106230-L.jpg")
@@ -99,7 +105,8 @@ public class TestActivity extends AppCompatActivity {
 //                Log.d("TAG", "onClick: " + giftControl.getShowingGiftLayoutCount());
                 break;
             case R.id.btn_3:
-               gift.resume();
+                SnackbarUtils.addView(R.layout.layout_gift_notic,1);
+//               gift.resume();
                 break;
         }
     }

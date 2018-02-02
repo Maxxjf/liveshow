@@ -90,6 +90,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         connectIM();
         jumpToRoomActivity();
 //        startActivity(new Intent(this, TestActivity.class));
+//        UmengTool.getSignature(this);
 
     }
     /**
@@ -136,6 +137,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     private void initBottomNavBar() {
         mNavigationBar.setMode(BottomNavigationBar.MODE_FIXED_NO_TITLE);
         mNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
+        mNavigationBar.setAutoHideEnabled(true);
         BottomNavigationItem homeItem = new BottomNavigationItem(R.drawable.icon_home_select, R.string.tab_home);
         homeItem.setInactiveIconResource(R.drawable.icon_home_normal);
         BottomNavigationItem liveItem = new BottomNavigationItem(R.drawable.icon_live_show, R.string.tab_live_show);
@@ -159,7 +161,6 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
                 if (StringUtils.isEmptyString(bindCode)) {
                     ToastUtils.ToastMessage(mContext, R.string.tip_input_recommend_code);
                 } else {
-                    mBindingPop.dismiss();
                     mPresenter.submitBinding(bindCode);
                 }
             } else {
@@ -175,7 +176,11 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
 
     @Override
     public void switchFragment(int key) {
-        mNavigationBar.selectTab(key);
+        if (mNavigationBar!=null){
+            mNavigationBar.selectTab(key);
+        }else{
+            ToastUtils.ToastMessage(this,"NavigationBar为空");
+        }
     }
     @Override
     public void onHomeClick() {
@@ -278,6 +283,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     @Override
     public void bindingSuccess() {
         if (isRunning) {
+            mBindingPop.dismiss();
             ToastUtils.ToastMessage(this, R.string.toast_binding_success);
         }
     }

@@ -111,8 +111,8 @@
             style="@style/ApplyEditTextStyle"
             android:imeOptions="actionNext"
             android:inputType="textPassword"
-            android:maxLength="12"
-            android:hint="@string/input_six_number_hint"/>
+            android:maxLength="10"
+            android:hint="@string/toast_format_account"/>
 
         <CheckBox
             android:id="@+id/cb_see"
