@@ -45,6 +45,7 @@ public class HotPresenterImpl extends BasePresenter<IHotView> implements IHotPre
             @Override
             public void onError(int status, String errMsg) {
                 if (mView != null) {
+                    mView.showEmptyView();
                     mView.loadErr(true, errMsg);
                 }
             }

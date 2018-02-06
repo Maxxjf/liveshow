@@ -24,6 +24,7 @@ import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
 import com.qcloud.qclib.swiperefresh.SwipeRecyclerView;
 import com.qcloud.qclib.swiperefresh.SwipeRefreshUtil;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.NetUtils;
 import com.qcloud.qclib.widget.layoutManager.RecycleViewDivider;
 
 import java.util.List;
@@ -170,7 +171,10 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
 
     @Override
     public void showEmptyView(String tip) {
-        if (mListFollow != null) {
+        if (mListFollow != null&&mEmptyView!=null) {
+            if (!NetUtils.isConnected(getActivity())){
+                mEmptyView.noNetWork();
+            }
             mListFollow.showEmptyView();
         }
     }

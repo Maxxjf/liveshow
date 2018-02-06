@@ -14,12 +14,13 @@ import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.ui.profit.presenter.impl.ProfitRecordPresenterImpl;
 import com.qcloud.liveshow.ui.profit.view.IProfitRecordView;
 import com.qcloud.liveshow.widget.customview.EmptyView;
-import com.qcloud.liveshow.widget.customview.NoDataView;
+import com.qcloud.liveshow.widget.customview.NoRecordView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.NetUtils;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class ProfitRecordActivity extends SwipeBaseActivity<IProfitRecordView, P
     private ProfitRecordAdapter mAdapter;
 
     private int pageNum = 1;
-    private NoDataView mEmptyView;
+    private NoRecordView mEmptyView;
 
     @Override
     protected int initLayout() {
@@ -99,7 +100,7 @@ public class ProfitRecordActivity extends SwipeBaseActivity<IProfitRecordView, P
         mAdapter = new ProfitRecordAdapter(this);
         mListProfitRecord.setAdapter(mAdapter);
 
-        mEmptyView = new NoDataView(this);
+        mEmptyView = new NoRecordView(this);
         mListProfitRecord.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
         mEmptyView.setOnRefreshListener(new EmptyView.OnRefreshListener() {
             @Override
@@ -155,6 +156,9 @@ public class ProfitRecordActivity extends SwipeBaseActivity<IProfitRecordView, P
     @Override
     public void showEmptyView(String tip) {
         if (mListProfitRecord != null) {
+            if (!NetUtils.isConnected(this)){
+                mEmptyView.noNetWork();
+            }
             mListProfitRecord.showEmptyView();
         }
     }

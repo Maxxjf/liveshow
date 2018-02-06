@@ -69,6 +69,9 @@ public class ShareUtil {
      * 分享网页
      */
     public void shareWeb(SHARE_MEDIA sharePlatfrom, String webUrl, String imageUrl, String title, String descrption) {
+        if(imageUrl==null){
+            return;
+        }
         loading.show();
         UMImage image = new UMImage(mContext, imageUrl);//网络图片
         UMWeb web = new UMWeb(webUrl);
@@ -85,6 +88,9 @@ public class ShareUtil {
      * 分享网页
      */
     public void shareWeb(SHARE_MEDIA sharePlatfrom, String webUrl, int imageResources, String title, String descrption) {
+        if (imageResources<0){
+            return;
+        }
         loading.show();
         UMImage image = new UMImage(mContext, imageResources);//网络图片
         UMWeb web = new UMWeb(webUrl);

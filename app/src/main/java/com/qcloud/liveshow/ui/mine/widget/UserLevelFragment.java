@@ -14,6 +14,7 @@ import com.qcloud.liveshow.ui.mine.view.IUserLevelView;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.NetUtils;
 import com.qcloud.qclib.utils.StringUtils;
 import com.qcloud.qclib.widget.customview.CustomProgressBar;
 import com.qcloud.qclib.widget.customview.RatioImageView;
@@ -101,6 +102,9 @@ public class UserLevelFragment extends BaseFragment<IUserLevelView, UserLevelPre
 
     @Override
     public void displayWeb(String webUrl) {
+        if (!NetUtils.isConnected(getContext())){
+            return;
+        }
         if (isInFragment && mWebView != null && StringUtils.isNotEmptyString(webUrl)) {
             Timber.e(webUrl);
             mWebView.loadUrl(webUrl);

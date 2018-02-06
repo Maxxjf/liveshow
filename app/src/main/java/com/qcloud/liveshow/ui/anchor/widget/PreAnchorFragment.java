@@ -219,6 +219,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
 
     @Override
     public void uploadSuccess(UploadFileBean bean) {
+        Timber.e("--->>>>>>UploadFileBean:"+bean);
         if (isInFragment && bean != null) {
             Timber.e(bean.toString());
             mCover = bean.getFileId();
@@ -252,6 +253,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
         mTvTollStandard.setText(""+bean.getRates());
         upperLimit=bean.getUpperLimit();
         mCover = bean.getCover();
+        mCoverUrl=bean.getCoverUrl();
         if (mTvTollStandardRemark != null) {
             mTvTollStandardRemark.setText(String.format(tollStandardRemark, bean.getUpperLimit()));
         }

@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.beans.UserBean;
-import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.ui.mine.presenter.impl.UserInfoPresenterImpl;
 import com.qcloud.liveshow.ui.mine.view.IUserInfoView;
 import com.qcloud.liveshow.utils.UserInfoUtil;
@@ -130,12 +129,12 @@ public class UserInfoActivity extends SwipeBaseActivity<IUserInfoView, UserInfoP
 
     @Override
     public void onFollowClick() {
-        MyFansActivity.openActivity(this, StartFansEnum.MyFollow.getKey());
+//        MyFansActivity.openActivity(this, StartFansEnum.MyFollow.getKey());
     }
 
     @Override
     public void onFansClick() {
-        MyFansActivity.openActivity(this, StartFansEnum.MyFans.getKey());
+//        MyFansActivity.openActivity(this, StartFansEnum.MyFans.getKey());
     }
 
     @Override
@@ -143,7 +142,7 @@ public class UserInfoActivity extends SwipeBaseActivity<IUserInfoView, UserInfoP
         if (isRunning && bean != null) {
             GlideUtil.loadImage(this, mImgUser, mUser.getHeadImg(), R.drawable.bitmap_user, 0, 0, true, false);
 
-            mTvUserName.setText(bean.getName());
+            mTvUserName.setText(bean.getNickName());
             mImgUserSex.setImageResource(bean.getSexIcon());
             if (StringUtils.isNotEmptyString(bean.getAnchorGradeIcon())) {
                 mImgAnchorLevel.setVisibility(VISIBLE);

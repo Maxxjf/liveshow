@@ -18,6 +18,7 @@ import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.ui.main.presenter.impl.WebPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.IWebView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
+import com.qcloud.qclib.utils.NetUtils;
 import com.qcloud.qclib.utils.StringUtils;
 
 import butterknife.Bind;
@@ -104,6 +105,9 @@ public class WebActivity extends BaseActivity<IWebView, WebPresenterImpl> implem
 
     @Override
     public void displayWeb(String webUrl) {
+        if (!NetUtils.isConnected(this)){
+            return;
+        }
         if (isRunning && mWebView != null && StringUtils.isNotEmptyString(webUrl)) {
             Timber.e(webUrl);
             mWebView.loadUrl(webUrl);

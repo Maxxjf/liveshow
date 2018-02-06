@@ -185,7 +185,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     @Override
     public void loadError(String errorMsg) {
-        SnackbarUtils.showShortSnackbar(layoutRoot, errorMsg, getResources().getColor(R.color.colorGrayDark), getResources().getColor(R.color.colorOrange));
+        SnackbarUtils.showShortSnackbar(layoutRoot, errorMsg.trim(), getResources().getColor(R.color.colorGrayDark), getResources().getColor(R.color.colorOrange));
     }
 
     @Override
@@ -385,6 +385,9 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
                 if (mManagerPop == null) {
                     initFansManagerPop();
                 }
+                mManagerPop.setGuarderText(mMemberBean.isGuard());
+                mManagerPop.setBlackText(mMemberBean.isBlack());
+                mManagerPop.setGagText(mMemberBean.isForbidden());
                 mManagerPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
             } else if (view.getId() == R.id.btn_letter) {
                 if (mFansMessagePop == null) {
@@ -470,11 +473,11 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      */
     private void initFansManagerPop() {
         mManagerPop = new FansManagerPop(mContext);
-        mManagerPop.setGuarderText(mMemberBean.isGuard());
+
         mManagerPop.setOnHolderClick(view -> {
             switch (view.getId()) {
                 case R.id.btn_set_guarder:
-                    mPresenter.inOutGuard(mMemberBean.getId(), true);
+                    mPresenter.inOutGuard(mMemberBean.getId(), !mMemberBean.isGuard());
                     break;
                 case R.id.btn_my_guarder_list:
                     mPresenter.getGuardList();
@@ -484,10 +487,10 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
                     mGuarderPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
                     break;
                 case R.id.btn_gag:
-                    mPresenter.shutUp(((AnchorActivity) getActivity()).getRoom().getRoomIdStr(), mMemberBean.getIdStr(), true);
+                    mPresenter.shutUp(((AnchorActivity) getActivity()).getRoom().getRoomIdStr(), mMemberBean.getIdStr(), !mMemberBean.isForbidden());
                     break;
                 case R.id.btn_add_blacklist:
-                    mPresenter.submitAttention(StartFansEnum.Blacklist.getKey(), mMemberBean.getId(), true);
+                    mPresenter.submitAttention(StartFansEnum.Blacklist.getKey(), mMemberBean.getId(), !mMemberBean.isBlack());
                     break;
             }
         });

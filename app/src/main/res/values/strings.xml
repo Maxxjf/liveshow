@@ -117,8 +117,9 @@
     <string name="tip_confirm_to_logout">您确定要退出登录吗?</string>
     <string name="tip_confirm_to_exit_room">您确定要退出房间吗?</string>
     <string name="tip_no_follow">你还没有关注的主播呢~</string>
+    <string name="tip_no_hot">暂时没有主播</string>
     <string name="tip_no_balck_list">这里一个人都没有</string>
-    <string name="tip_no_fans_list">您还没有粉丝，开播让更多的人关注你吧</string>
+    <string name="tip_no_fans_list">您还没有粉丝，开播让更多的人关注你吧！</string>
     <string name="tip_no_record">还没有交易记录呢~</string>
     <string name="tip_no_search_res">没有搜索出来呢，换个关键词试试~</string>
     <string name="tip_no_message">暂时没有消息通知哦~</string>
@@ -185,6 +186,7 @@
     <string name="btn_set_guarder_none">取消守护</string>
     <string name="btn_my_guarder_list">我的守护列表</string>
     <string name="btn_gag">禁言</string>
+    <string name="btn_gag_none">取消禁言</string>
     <string name="btn_forget_password">忘记密码</string>
     <string name="go_to_hot">去热门逛逛</string>
 

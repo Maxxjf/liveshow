@@ -103,7 +103,11 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                             break;
                         case R.id.netty_notice_out_group:
                             // 通知
-                            mView.userOutGroup((NettyNoticeBean) rxBusEvent.getObj());
+                            NettyNoticeBean nettyNoticeBean=(NettyNoticeBean) rxBusEvent.getObj();
+                            if (nettyNoticeBean != null && nettyNoticeBean.getUser() != null) {
+                                longList.remove(nettyNoticeBean.getUser().getIdStr());
+                                mView.userOutGroup(nettyNoticeBean);
+                            }
                             break;
                         case R.id.netty_message_send_success:
                             //消息发送成功

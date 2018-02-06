@@ -25,7 +25,7 @@ import com.qcloud.liveshow.ui.home.view.IFansMessageView;
 import com.qcloud.liveshow.utils.EmojiClickManagerUtil;
 import com.qcloud.liveshow.widget.customview.EmojiLayout;
 import com.qcloud.liveshow.widget.customview.KeyBackEditText;
-import com.qcloud.liveshow.widget.customview.NoDataView;
+import com.qcloud.liveshow.widget.customview.NoMessageView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
@@ -33,6 +33,7 @@ import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.ConstantUtil;
 import com.qcloud.qclib.utils.DensityUtils;
 import com.qcloud.qclib.utils.KeyBoardUtils;
+import com.qcloud.qclib.utils.NetUtils;
 import com.qcloud.qclib.utils.StringUtils;
 
 import java.util.List;
@@ -61,7 +62,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     @Bind(R.id.layout_emoji)
     EmojiLayout mLayoutEmoji;
 
-    private NoDataView mEmptyView;
+    private NoMessageView mEmptyView;
 
     private FansMessageAdapter mAdapter;
     private MemberBean mMemberBean;
@@ -131,7 +132,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
         mAdapter = new FansMessageAdapter(mContext);
         mListMessage.setAdapter(mAdapter);
 
-        mEmptyView = new NoDataView(this);
+        mEmptyView = new NoMessageView(this);
         mListMessage.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
     }
 
@@ -320,7 +321,10 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
 
     @Override
     public void showEmptyView(String tip) {
-        if (mListMessage != null) {
+        if (mListMessage != null && mEmptyView != null) {
+            if (!NetUtils.isConnected(this)) {
+                mEmptyView.noNetWork();
+            }
             mListMessage.showEmptyView();
         }
     }

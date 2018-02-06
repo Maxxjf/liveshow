@@ -204,7 +204,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     @Override
     public void loadError(String errorMsg){
-        SnackbarUtils.showShortSnackbar(mLayoutBottom,errorMsg,getResources().getColor(R.color.colorGrayDark),getResources().getColor(R.color.colorOrange));
+        SnackbarUtils.showShortSnackbar(mLayoutBottom,errorMsg.trim(),getResources().getColor(R.color.colorGrayDark),getResources().getColor(R.color.colorOrange));
     }
     @Override
     protected void initViewAndData() {
@@ -607,6 +607,24 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
                 if (mManagerPop == null) {
                     initFansManagerPop();
                 }
+                switch (userIdentity){
+                    case Audience:
+                        mManagerPop.noGuarder();//去掉守护列表
+                        mManagerPop.noSetGuarder();//去掉设置守护
+                        mManagerPop.noGag();//去掉禁言
+                        break;
+                    case Guard:
+                        mManagerPop.noGuarder();//去掉守护列表
+                        mManagerPop.noSetGuarder();//去掉设置守护
+                        break;
+                    case Anchor://不可能为直播的，所以这块没写
+                        break;
+                    default:
+                        break;
+                }
+                mManagerPop.setGuarderText(mMemberBean.isGuard());
+                mManagerPop.setBlackText(mMemberBean.isBlack());
+                mManagerPop.setGagText(mMemberBean.isForbidden());
                 mManagerPop.showAtLocation(mBtnExit, Gravity.BOTTOM, 0, 0);
             } else if (view.getId() == R.id.btn_letter) {
                 if (mFansMessagePop == null) {
@@ -627,21 +645,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      */
     private void initFansManagerPop() {
         mManagerPop = new FansManagerPop(mContext);
-        switch (userIdentity){
-            case Audience:
-                mManagerPop.noGuarder();//去掉守护列表
-                mManagerPop.noSetGuarder();//去掉设置守护
-                mManagerPop.noGag();//去掉禁言
-                break;
-            case Guard:
-                mManagerPop.noGuarder();//去掉守护列表
-                mManagerPop.noSetGuarder();//去掉设置守护
-                break;
-            case Anchor://不可能为直播的，所以这块没写
-                break;
-            default:
-                break;
-        }
+
         mManagerPop.setOnHolderClick(view -> {
             switch (view.getId()) {
                 case R.id.btn_set_guarder:
@@ -657,7 +661,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
                     mPresenter.shutUp(mCurrBean.getRoomIdStr(), mMemberBean.getIdStr(), !mMemberBean.isForbidden());
                     break;
                 case R.id.btn_add_blacklist:
-                    mPresenter.submitAttention(StartFansEnum.Blacklist.getKey(), mMemberBean.getId(), !mMemberBean.isAttention());
+                    mPresenter.submitAttention(StartFansEnum.Blacklist.getKey(), mMemberBean.getId(), !mMemberBean.isBlack());
                     break;
             }
         });
@@ -744,6 +748,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         mListFans.setAdapter(mFansAdapter);
         mFansAdapter.setOnHolderClick((view, bean, position) -> {
             mMemberBean=bean;
+            mPresenter.getUserIdentity(UserInfoUtil.mUser.getIdStr(),mCurrBean.getRoomIdStr());
             mPresenter.getUserIsAttention(mMemberBean.getIdStr(),mCurrBean.getRoomIdStr());
         });
     }

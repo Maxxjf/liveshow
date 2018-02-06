@@ -94,7 +94,11 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                             break;
                         case R.id.netty_notice_out_group:
                             // 有人退出群聊
-                            mView.userOutGroup((NettyNoticeBean) rxBusEvent.getObj());
+                            NettyNoticeBean nettyNoticeBean=(NettyNoticeBean) rxBusEvent.getObj();
+                            if (nettyNoticeBean != null && nettyNoticeBean.getUser() != null) {
+                                longList.remove(nettyNoticeBean.getUser().getIdStr());
+                                mView.userOutGroup(nettyNoticeBean);
+                            }
                             break;
                         case R.id.netty_notice:
                             // 公告

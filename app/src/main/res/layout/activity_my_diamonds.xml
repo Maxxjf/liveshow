@@ -106,6 +106,7 @@
 
         </LinearLayout>
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_diamonds"
             android:layout_marginLeft="@dimen/margin_7"
             android:layout_marginRight="@dimen/margin_7"

@@ -23,6 +23,7 @@ import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
 import com.qcloud.qclib.swiperefresh.SwipeRefreshUtil;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.NetUtils;
 import com.qcloud.qclib.utils.ScreenUtils;
 import com.qcloud.qclib.widget.customview.banner.CustomBanner;
 import com.qcloud.qclib.widget.layoutManager.FullyLinearLayoutManager;
@@ -208,10 +209,14 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
 
     @Override
     public void showEmptyView() {
+
         if (mListHot != null) {
             mListHot.setVisibility(View.GONE);
         }
         if (mEmptyView != null) {
+            if (!NetUtils.isConnected(getActivity())){
+                mEmptyView.noNetWork();
+            }
             mEmptyView.setVisibility(View.VISIBLE);
         }
     }

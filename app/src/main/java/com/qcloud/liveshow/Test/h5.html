@@ -1,11 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>copy example</title>
+    <title>Vue学习</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 </head>
 <body>
-<script>
+<!--<div id="app-2">-->
+    <!--<span v-bind:title="message">你试试悬停几秒</span>-->
+<!--</div>-->
+<div style="display: -webkit-box;
+-webkit-box-orient: vertical;
+-webkit-line-clamp: 1;
+overflow: hidden;width:100px;">我就是测试下有多长我就是测试下有多长我就是测试下有多长我就是测试下有多长我就是测试下有多长我就是测试下有多长我就是测试下有多长我就是测试下有多长我就是测试下有多长我就是测试下有多长我就是测试下有多长我就是测试下有多长</div>
+<script type="text/javaScript">
+    var app = new Vue({
+         el: '#app-2',
+         data: {
+         message: '页面加载于'+new Date().toLocaleString()
+         }
+    })
+
+
 </script>
+
 </body>
 </html>

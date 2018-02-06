@@ -19,6 +19,7 @@ import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.NetUtils;
 
 import java.util.List;
 
@@ -129,6 +130,9 @@ public class DiamondsRecordActivity extends SwipeBaseActivity<IDiamondsRecordVie
             mListRecord.setVisibility(View.GONE);
         }
         if (mEmptyView != null) {
+            if (!NetUtils.isConnected(this)){
+                mEmptyView.noNetWork();
+            }
             mEmptyView.setVisibility(View.VISIBLE);
         }
     }

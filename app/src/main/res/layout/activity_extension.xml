@@ -89,7 +89,7 @@
                     android:layout_marginTop="@dimen/margin_6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="邀请奖励规则：该用户每次充值您都会获得收益哦~多多分享一起赚钱吧" />
+                    android:text="邀请奖励规则：你邀请的用户每次充值您都会获得收益哦~多多分享一起赚钱吧" />
             </LinearLayout>
 
 

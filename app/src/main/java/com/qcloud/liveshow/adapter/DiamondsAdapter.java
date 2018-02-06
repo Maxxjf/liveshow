@@ -30,7 +30,7 @@ public class DiamondsAdapter extends CommonRecyclerAdapter<DiamondsBean> {
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         final DiamondsBean bean = mList.get(position);
         LinearLayout holderView = holder.get(R.id.layout_item);
-        holder.setText(R.id.tv_name, bean.getName());
+        holder.setText(R.id.tv_name, String.format(mContext.getResources().getString(R.string.tag_diamonds_price),bean.getVirtualCoin()));
         holder.setText(R.id.tv_price, String.format(moneyStr, bean.getMoney()));
 
         if (bean.isSelect()) {

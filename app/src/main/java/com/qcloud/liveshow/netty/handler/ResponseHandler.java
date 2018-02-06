@@ -337,6 +337,7 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         NettyDispose.dispose(msgConfig, type, new NettyDataCallback<MemberBean>() {
             @Override
             public void onSuccess(MemberBean memberBean, String uuid) {
+                Timber.e("----->>>>>memberBean:"+memberBean);
                 if (memberBean!=null){
                     memberBean.setRead(false);
                     RealmHelper.getInstance().addOrUpdateBean(memberBean);

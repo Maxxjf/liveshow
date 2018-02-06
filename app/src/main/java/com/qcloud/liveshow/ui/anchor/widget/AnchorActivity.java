@@ -459,7 +459,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
                     break;
                 case StreamerConstants.KSY_STREAMER_FRAME_SEND_SLOW:
                     Timber.d("KSY_STREAMER_FRAME_SEND_SLOW " + msg1 + "ms");
-                    ToastUtils.ToastMessage(mContext, "Network not good!");
+//                    ToastUtils.ToastMessage(mContext, "Network not good!");
                     break;
                 case StreamerConstants.KSY_STREAMER_EST_BW_RAISE:
                     Timber.d("BW raise to " + msg1 / 1000 + "kbps");

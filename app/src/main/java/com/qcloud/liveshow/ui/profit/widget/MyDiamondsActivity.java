@@ -145,9 +145,7 @@ public class MyDiamondsActivity extends SwipeBaseActivity<IMyDiamondsView, MyDia
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 DiamondsBean bean = mAdapter.refreshSelect(i);
                 mCurrentBean=bean;
-                if (bean != null) {
-                    ToastUtils.ToastMessage(mContext, bean.getName()+"");
-                }
+                onDiamondsClick();
             }
         });
     }

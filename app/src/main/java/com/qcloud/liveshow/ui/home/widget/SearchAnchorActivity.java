@@ -22,6 +22,7 @@ import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.pullrefresh.PullRefreshView;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.NetUtils;
 
 import java.util.List;
 
@@ -172,7 +173,10 @@ public class SearchAnchorActivity extends SwipeBaseActivity<ISearchAnchorView, S
 
     @Override
     public void showEmptyView() {
-        if (mListSearchRes != null) {
+        if (mListSearchRes != null&&mEmptyView!=null) {
+            if (!NetUtils.isConnected(this)){
+                mEmptyView.noNetWork();
+            }
             mListSearchRes.showEmptyView();
         }
     }

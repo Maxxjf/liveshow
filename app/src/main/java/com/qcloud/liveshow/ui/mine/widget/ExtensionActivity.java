@@ -83,7 +83,7 @@ public class ExtensionActivity extends SwipeBaseActivity<IExtensionView, Extensi
             mTvExperienceCode.setText(extension);
             experienceCode=user.getIdAccount();
         }
-        Spanned str = Html.fromHtml("      每邀请好友注册APP即可获得<font color='#FFDC35'>3个钻石币</font>，还在等什么？赶快行动！一起播！一起嗨~");
+        Spanned str = Html.fromHtml("      每邀请好友注册APP即可获得<font color='#FFDC35'>钻石币奖励</font>，还在等什么？赶快行动！一起播！一起嗨~");
         ((TextView)findViewById(R.id.tv_description)).setText(str);
     }
 

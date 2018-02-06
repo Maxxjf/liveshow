@@ -44,6 +44,7 @@ public class ProfitRecordPresenterImpl extends BasePresenter<IProfitRecordView> 
             @Override
             public void onError(int status, String errMsg) {
                 if (mView != null) {
+                    mView.showEmptyView("哎呀！网络出错");
                     mView.loadErr(true, errMsg);
                 }
             }

@@ -19,6 +19,7 @@ import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
 import com.qcloud.qclib.swiperefresh.SwipeRecyclerView;
 import com.qcloud.qclib.swiperefresh.SwipeRefreshUtil;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.NetUtils;
 import com.qcloud.qclib.widget.layoutManager.RecycleViewDivider;
 
 import java.util.List;
@@ -152,7 +153,10 @@ public class NewestFragment extends BaseFragment<INewestView, NewestPresenterImp
 
     @Override
     public void showEmptyView(String tip) {
-        if (mListNewest != null) {
+        if (mListNewest != null&&mEmptyView!=null) {
+            if (!NetUtils.isConnected(getActivity())){
+                mEmptyView.noNetWork();
+            }
             mListNewest.showEmptyView();
         }
     }

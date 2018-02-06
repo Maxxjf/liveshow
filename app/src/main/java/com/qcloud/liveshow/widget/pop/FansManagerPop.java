@@ -29,6 +29,8 @@ public class FansManagerPop extends BasePopupWindow {
     View lineGag;
     @Bind(R.id.btn_gag)
     TextView btnGag;
+    @Bind(R.id.btn_add_blacklist)
+    TextView btnBlack;
 
     public FansManagerPop(Context context) {
         super(context);
@@ -86,13 +88,30 @@ public class FansManagerPop extends BasePopupWindow {
         lineGag.setVisibility(View.GONE);
     }
 
-    public void setGuarderText(boolean isGarder){
-        if (isGarder){
-            btnSetGuarder.setText(mContext.getResources().getString(R.string.btn_set_guarder_none));
-        }else {
+    public void setGuarderText(boolean isGarder) {
+        if (!isGarder) {
             btnSetGuarder.setText(mContext.getResources().getString(R.string.btn_set_guarder));
+        } else {
+            btnSetGuarder.setText(mContext.getResources().getString(R.string.btn_set_guarder_none));
         }
     }
+
+    public void setGagText(boolean isForbidden) {
+        if (!isForbidden) {
+            btnGag.setText(mContext.getResources().getString(R.string.btn_gag));
+        } else {
+            btnGag.setText(mContext.getResources().getString(R.string.btn_gag_none));
+        }
+    }
+
+    public void setBlackText(boolean isBalck) {
+        if (!isBalck) {
+            btnBlack.setText(mContext.getResources().getString(R.string.tag_add_blacklist));
+        } else {
+            btnBlack.setText(mContext.getResources().getString(R.string.tag_remove_blacklist));
+        }
+    }
+
     /**
      * 在roomFragment那里是没有守护者列表的
      */

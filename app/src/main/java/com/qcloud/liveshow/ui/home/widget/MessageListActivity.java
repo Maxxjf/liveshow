@@ -12,13 +12,14 @@ import com.qcloud.liveshow.base.SwipeBaseActivity;
 import com.qcloud.liveshow.beans.MemberBean;
 import com.qcloud.liveshow.ui.home.presenter.impl.MessageListPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IMessageListView;
-import com.qcloud.liveshow.widget.customview.NoDataView;
+import com.qcloud.liveshow.widget.customview.NoMessageView;
 import com.qcloud.liveshow.widget.pop.TipsPop;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.rxbus.BusProvider;
 import com.qcloud.qclib.toast.ToastUtils;
+import com.qcloud.qclib.utils.NetUtils;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
 
     private MessageListAdapter mAdapter;
 
-    private NoDataView mEmptyView;
+    private NoMessageView mEmptyView;
     private List<MemberBean> beans;
     private boolean isSameMember;//加入列表时判断是否有同个成员
     private TipsPop pop;//是否删除消息的提示框
@@ -93,7 +94,7 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
             showTipsPop();
             return false;
         });
-        mEmptyView = new NoDataView(this);
+        mEmptyView = new NoMessageView(this);
         mListMessage.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
         mEmptyView.setOnRefreshListener(() -> loadData());
     }
@@ -169,6 +170,9 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
     @Override
     public void showEmptyView(String tip) {
         if (mListMessage != null) {
+            if (!NetUtils.isConnected(this)){
+                mEmptyView.noNetWork();
+            }
             mListMessage.showEmptyView();
         }
     }

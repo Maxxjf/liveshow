@@ -30,13 +30,17 @@ public class AnchorFinishPresenterImpl extends BasePresenter<IAnchorFinishView> 
         mModel.finishLive(roomId,new DataCallback<FinishIncomeBean>() {
             @Override
             public void onSuccess(FinishIncomeBean bean) {
-                mView.loadData(bean);
-                Timber.e("关闭直播成功");
+                if (mView!=null){
+                    mView.loadData(bean);
+                    Timber.e("关闭直播成功");
+                }
             }
 
             @Override
             public void onError(int status, String errMsg) {
-               mView.loadErr(true,errMsg);
+                if (mView!=null){
+                    mView.loadErr(true,errMsg);
+                }
             }
         });
     }

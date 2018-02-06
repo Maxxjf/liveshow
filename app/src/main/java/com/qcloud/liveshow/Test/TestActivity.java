@@ -79,7 +79,7 @@ public class TestActivity extends AppCompatActivity {
         Timber.e("v.getId" + view.getId());
         switch (view.getId()) {
             case R.id.btn_1:
-                SnackbarUtils.showLongSnackbar(rootLayout,"Hello,SnackBar",getResources().getColor(R.color.colorText),getResources().getColor(R.color.black));
+                SnackbarUtils.showLongSnackbar(btn1,"Hello,SnackBar",getResources().getColor(R.color.colorText),getResources().getColor(R.color.black));
 //                CustomGiftView.GiftInfo giftInfo=new CustomGiftView.GiftInfo();
 //                giftInfo.setGiftID(new Random().nextInt(100)+2);
 //                giftInfo.setGiftUrl("");
@@ -88,10 +88,10 @@ public class TestActivity extends AppCompatActivity {
 //                gift.showGift(giftInfo);
                 break;
             case R.id.btn_2:
-                SnackbarUtils.showShortSnackbar(rootLayout, "Hello,SnackBar", getResources().getColor(R.color.colorText),  getResources().getColor(R.color.black), "再次发送", getResources().getColor(R.color.big_red), new View.OnClickListener() {
+                SnackbarUtils.showShortSnackbar(btn2, "Hello,S收到个八戒咖啡哈空间划分金坷垃的合法铝合金阿萨德放假了卡号等借口了复活甲ad生活缴费哈监考老师动环监控了阖家安康还记得nackBar", getResources().getColor(R.color.colorText),  getResources().getColor(R.color.black), "再次发送", getResources().getColor(R.color.big_red), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SnackbarUtils.showLongSnackbar(rootLayout,"Hello,SnackBar",getResources().getColor(R.color.colorText),getResources().getColor(R.color.black));
+                        SnackbarUtils.showLongSnackbar(btn3,"Hello,SnackBar",getResources().getColor(R.color.colorText),getResources().getColor(R.color.black));
                     }
                 });
 //                //这里最好不要直接new对象

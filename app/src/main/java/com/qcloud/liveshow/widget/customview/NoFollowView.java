@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
 import com.qcloud.liveshow.R;
+import com.qcloud.qclib.utils.NetUtils;
 import com.qcloud.qclib.widget.customview.BaseEmptyView;
 
 /**
@@ -24,6 +25,9 @@ public class NoFollowView extends BaseEmptyView {
 
     public NoFollowView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        if (!NetUtils.isConnected(context)){
+            noNetWork();
+        }
     }
 
     @Override
