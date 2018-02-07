@@ -20,7 +20,7 @@ public class NettyClientBus {
      * 初始化
      * */
     public static void Initialization(Context context, String host, int port) {
-        isRun = true;
+        //isRun = true;
         ClientImpl.newInstances()
                 .bind(host, port)
                 .addResponseListener(new ResponseHandler())     // 响应数据监听

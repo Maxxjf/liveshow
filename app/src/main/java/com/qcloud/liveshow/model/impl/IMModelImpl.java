@@ -18,6 +18,8 @@ import com.qcloud.qclib.utils.TokenUtil;
 
 import java.util.UUID;
 
+import timber.log.Timber;
+
 /**
  * 类说明：IM通讯有关
  * Author: Kuzan
@@ -38,6 +40,7 @@ public class IMModelImpl implements IIMModel {
      */
     @Override
     public void auth() {
+        Timber.e("执行鉴权");
         NettyAuthBean bean = new NettyAuthBean();
         bean.setToken(TokenUtil.getToken());
 

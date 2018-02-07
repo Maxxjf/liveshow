@@ -2,7 +2,6 @@ package com.qcloud.liveshow.netty.handler;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.qcloud.liveshow.netty.NettyClientBus;
 import com.qcloud.liveshow.netty.callback.ResponseListener;
 import com.qcloud.liveshow.utils.JsonUtil;
 import com.qcloud.qclib.rxutil.RxScheduler;
@@ -31,6 +30,7 @@ public class ResponseChannelHandler extends ChannelHandlerSuper {
 
     protected ResponseChannelHandler() {
         mListener = new privateResponseListener();
+        disposeJson();
     }
 
     public ResponseChannelHandler addListener(ResponseListener listener) {
@@ -71,9 +71,9 @@ public class ResponseChannelHandler extends ChannelHandlerSuper {
     /**
      * 处理队列数据
      * */
-    public void disposeJson() {
+    private void disposeJson() {
         RxScheduler.doOnIOThread((IOTask<Void>) () -> {
-            while (NettyClientBus.isRun) {
+            while (true) {
                 try {
                     String response = mMessageDeque.take();
                     Timber.e("response"+response);
@@ -147,5 +147,9 @@ public class ResponseChannelHandler extends ChannelHandlerSuper {
                 }
             }
         }
+    }
+
+    public void close() {
+        mMessageDeque.clear();
     }
 }

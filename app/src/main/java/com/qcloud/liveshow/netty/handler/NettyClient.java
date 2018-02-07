@@ -1,6 +1,7 @@
 package com.qcloud.liveshow.netty.handler;
 
 import com.qcloud.liveshow.model.impl.IMModelImpl;
+import com.qcloud.liveshow.netty.NettyClientBus;
 import com.qcloud.liveshow.netty.callback.ResponseListener;
 import com.qcloud.qclib.rxutil.RxScheduler;
 import com.qcloud.qclib.rxutil.task.IOTask;
@@ -63,7 +64,7 @@ public class NettyClient extends ClientImpl {
     private NettyClient() {
         mEventLoopGroup = new NioEventLoopGroup();
         mHandler = new ResponseChannelHandler();
-        mHandler.disposeJson();
+        //mHandler.disposeJson();
         request();
     }
 
@@ -113,6 +114,7 @@ public class NettyClient extends ClientImpl {
                 mSocketChannel = (SocketChannel) future.channel();
                 Timber.i("SocketChannel 连接成功");
                 Timber.i("SocketChannel.host = %s, SocketChannel.port = %d", host, port);
+                NettyClientBus.isRun = true;
                 //连接成功后鉴权
                 auth();
 
@@ -142,7 +144,7 @@ public class NettyClient extends ClientImpl {
     /**
      * 鉴权
      * */
-    public  void auth() {
+    private void auth() {
         RxScheduler.doOnIOThread((IOTask<Void>) () -> new IMModelImpl().auth());
     }
 
@@ -204,6 +206,9 @@ public class NettyClient extends ClientImpl {
         }
         if (mEventLoopGroup != null) {
             mEventLoopGroup.rebuildSelectors();
+        }
+        if (mHandler != null) {
+            mHandler.close();
         }
         reset();
     }
