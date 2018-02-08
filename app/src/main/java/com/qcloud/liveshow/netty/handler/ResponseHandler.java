@@ -124,6 +124,7 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
 
             @Override
             public void onError(int status, String errMsg) {
+                Timber.e("鉴权失败!");
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_auth_failure)
                         .setObj(errMsg).build());
                 NettyUtil.clearIsAuth();

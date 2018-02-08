@@ -102,8 +102,6 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
         }
     }
 
-
-
     /**
      * 加载基础数据
      * */
@@ -130,7 +128,7 @@ public class MainActivity extends BaseActivity<IMainView, MainPresenterImpl> imp
     /**
      * 初始化Netty
      * */
-    public void connectIM(){
+    public void connectIM() {
         NettyClientBus.Initialization(this, AppConstants.NETTY_HOST, AppConstants.NETTY_PORT);
     }
 

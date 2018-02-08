@@ -13,7 +13,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -29,12 +28,9 @@ public class NettyDispose {
      * 数据处理
      * */
     public static <T> void dispose(@NonNull JsonElement jsonStr, final Type type, @NonNull final NettyDataCallback<T> callback) {
-        Observable.just(jsonStr).map(new Function<JsonElement, NettyBaseResponse<T>>() {
-            @Override
-            public NettyBaseResponse<T> apply(@NonNull JsonElement jsonStr) throws Exception {
-                NettyBaseResponse<T> data = new Gson().fromJson(jsonStr, type);
-                return data;
-            }
+        Observable.just(jsonStr).map(jsonStr1 -> {
+            NettyBaseResponse<T> data = new Gson().fromJson(jsonStr1, type);
+            return data;
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<NettyBaseResponse<T>>() {
