@@ -10,7 +10,9 @@ public enum NettyResponseCode {
     FAIL               (1, "失败"),
     AUTH_FAIL          (2, "鉴权失败"),
     DATA_ERROR         (3, "数据格式错误"),
-    PARAMETER_MISSING  (4, "缺少必要参数");
+    PARAMETER_MISSING  (4, "缺少必要参数"),
+    IS_BLOCKED          (5, "禁言"),
+    IS_BLACK            (6, "拉黑");
 
     private int key;
     private String value;
@@ -32,6 +34,10 @@ public enum NettyResponseCode {
                 return DATA_ERROR;
             case 4:
                 return PARAMETER_MISSING;
+            case 5:
+                return IS_BLOCKED;
+            case 6:
+                return IS_BLACK;
             default:
                 return FAIL;
         }

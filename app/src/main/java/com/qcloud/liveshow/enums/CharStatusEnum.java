@@ -9,7 +9,9 @@ import java.util.Map;
 public enum CharStatusEnum {
     SUCCESS(1,"发送成功"),
     FAIL(2,"发送失败"),
-    INPROGRESS(3,"发送中");
+    INPROGRESS(3,"发送中"),
+    IS_BLACK(4, "已被拉黑"),
+    IS_BLOCKED(5, "已被禁言");
 
     private Integer key;
     private String name;

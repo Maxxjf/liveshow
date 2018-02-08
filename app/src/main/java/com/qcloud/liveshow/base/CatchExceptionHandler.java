@@ -2,6 +2,7 @@ package com.qcloud.liveshow.base;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
+import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -41,14 +42,17 @@ public class CatchExceptionHandler implements Thread.UncaughtExceptionHandler {
             }catch (InterruptedException e){
                 Timber.e(e);
             }
-            Intent intent = new Intent(application.getTopActivity(), LaunchActivity.class);
-            @SuppressLint("WrongConstant") PendingIntent restartIntent = PendingIntent.getActivity(
-                    application.getTopActivity(), 0, intent,
-                    Intent.FLAG_ACTIVITY_NEW_TASK);
-            //退出程序
-            AlarmManager mgr = (AlarmManager)application.getTopActivity().getSystemService(Context.ALARM_SERVICE);
-            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,
-                    restartIntent); // 1秒钟后重启应用
+            Application app=BaseApplication.getInstance();
+            if (app!=null){
+                Intent intent = new Intent(app, LaunchActivity.class);
+                @SuppressLint("WrongConstant") PendingIntent restartIntent = PendingIntent.getActivity(
+                        app, 0, intent,
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                //退出程序
+                AlarmManager mgr = (AlarmManager)app.getSystemService(Context.ALARM_SERVICE);
+                mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000,
+                        restartIntent); // 1秒钟后重启应用
+            }
             application.killAllActivity();
             //杀死该应用进程
             android.os.Process.killProcess(android.os.Process.myPid());

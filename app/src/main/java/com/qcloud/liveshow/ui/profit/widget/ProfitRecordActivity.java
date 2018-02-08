@@ -158,6 +158,8 @@ public class ProfitRecordActivity extends SwipeBaseActivity<IProfitRecordView, P
         if (mListProfitRecord != null) {
             if (!NetUtils.isConnected(this)){
                 mEmptyView.noNetWork();
+            }else {
+                mEmptyView.hasNetWork();
             }
             mListProfitRecord.showEmptyView();
         }

@@ -216,6 +216,8 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
         if (mEmptyView != null) {
             if (!NetUtils.isConnected(getActivity())){
                 mEmptyView.noNetWork();
+            }else {
+                mEmptyView.hasNetWork();
             }
             mEmptyView.setVisibility(View.VISIBLE);
         }

@@ -176,6 +176,8 @@ public class SearchAnchorActivity extends SwipeBaseActivity<ISearchAnchorView, S
         if (mListSearchRes != null&&mEmptyView!=null) {
             if (!NetUtils.isConnected(this)){
                 mEmptyView.noNetWork();
+            }else {
+                mEmptyView.hasNetWork();
             }
             mListSearchRes.showEmptyView();
         }

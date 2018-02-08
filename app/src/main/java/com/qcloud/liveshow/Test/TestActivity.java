@@ -42,6 +42,12 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         ButterKnife.bind(this);
+        img.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int i) {
+                Timber.e("-------->>>>>>>>i==="+i);
+            }
+        });
 //        // Display image from a file in assets
 ////        String uri = "assets://apng/rose.png";
 //        giftControl=new GiftControl(this);
@@ -80,6 +86,7 @@ public class TestActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.btn_1:
                 SnackbarUtils.showLongSnackbar(btn1,"Hello,SnackBar",getResources().getColor(R.color.colorText),getResources().getColor(R.color.black));
+                img.setVisibility(View.VISIBLE);
 //                CustomGiftView.GiftInfo giftInfo=new CustomGiftView.GiftInfo();
 //                giftInfo.setGiftID(new Random().nextInt(100)+2);
 //                giftInfo.setGiftUrl("");
@@ -88,6 +95,7 @@ public class TestActivity extends AppCompatActivity {
 //                gift.showGift(giftInfo);
                 break;
             case R.id.btn_2:
+                img.setVisibility(View.GONE);
                 SnackbarUtils.showShortSnackbar(btn2, "Hello,S收到个八戒咖啡哈空间划分金坷垃的合法铝合金阿萨德放假了卡号等借口了复活甲ad生活缴费哈监考老师动环监控了阖家安康还记得nackBar", getResources().getColor(R.color.colorText),  getResources().getColor(R.color.black), "再次发送", getResources().getColor(R.color.big_red), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

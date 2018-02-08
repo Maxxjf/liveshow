@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         toolbar:is_title="true"
-        toolbar:title_text="@string/title_profit_record"
+        toolbar:title_text="@string/title_problem_detail"
         toolbar:is_left="true"
         toolbar:left_icon="@drawable/icon_normal_back"/>
 

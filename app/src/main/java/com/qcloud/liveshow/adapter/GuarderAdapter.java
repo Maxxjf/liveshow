@@ -58,8 +58,8 @@ public class GuarderAdapter extends CommonRecyclerAdapter<MemberBean> {
             public void onClick(View view) {
                 Timber.e("mHolderClick:"+mHolderClick);
                 if (mHolderClick != null) {
-                    bean.refreshAttention();
-                    notifyDataSetChanged();
+//                    bean.refreshAttention();
+//                    notifyDataSetChanged();
                     mHolderClick.onViewClick(btnFollow, bean, position);
                 }
             }

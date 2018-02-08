@@ -86,9 +86,9 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
             mPresenter.flagIsRead(mCurrentBean);
             FansMessageActivity.openActivity(MessageListActivity.this, mCurrentBean);
         });
-        mAdapter.setOnHolderClick((view, memberBean, position) -> {
-
-        });
+//        mAdapter.setOnHolderClick((view, memberBean, position) -> {
+//
+//        });
         mAdapter.setOnItemLongClickListener((parent, view, position, id) -> {
             mCurrentBean=mAdapter.getList().get(position);
             showTipsPop();
@@ -172,6 +172,8 @@ public class MessageListActivity extends SwipeBaseActivity<IMessageListView, Mes
         if (mListMessage != null) {
             if (!NetUtils.isConnected(this)){
                 mEmptyView.noNetWork();
+            }else {
+                mEmptyView.hasNetWork();
             }
             mListMessage.showEmptyView();
         }

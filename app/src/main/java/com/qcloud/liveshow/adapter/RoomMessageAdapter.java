@@ -46,7 +46,7 @@ public class RoomMessageAdapter extends CommonRecyclerAdapter<NettyReceiveGroupB
 //            tvMessage.setText(contentBean.getText());
 //        }
         RoomMessageLayout messageLayout = holder.get(R.id.room_message_layout);
-        messageLayout.refreshUserInfo(bean);
+        messageLayout.refreshMessageInfo(bean);
     }
 
     /**

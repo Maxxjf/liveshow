@@ -132,6 +132,8 @@ public class DiamondsRecordActivity extends SwipeBaseActivity<IDiamondsRecordVie
         if (mEmptyView != null) {
             if (!NetUtils.isConnected(this)){
                 mEmptyView.noNetWork();
+            }else {
+                mEmptyView.hasNetWork();
             }
             mEmptyView.setVisibility(View.VISIBLE);
         }

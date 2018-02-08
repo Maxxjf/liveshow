@@ -5,7 +5,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.qclib.utils.NetUtils;
 import com.qcloud.qclib.widget.customview.BaseEmptyView;
 
 /**
@@ -25,9 +24,6 @@ public class NoDataView extends BaseEmptyView {
 
     public NoDataView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        if (!NetUtils.isConnected(context)){
-            noNetWork();
-        }
     }
 
     @Override
@@ -42,7 +38,7 @@ public class NoDataView extends BaseEmptyView {
 
     @Override
     protected int setDefaultTip() {
-        return R.string.tip_no_hot;
+        return R.string.tip_no_any_data;
     }
 
     @Override

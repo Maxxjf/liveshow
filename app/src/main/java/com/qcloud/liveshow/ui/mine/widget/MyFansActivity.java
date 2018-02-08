@@ -253,6 +253,8 @@ public class MyFansActivity extends SwipeBaseActivity<IMyFansView, MyFansPresent
         if (mListMyFans != null&&mEmptyView!=null) {
             if (!NetUtils.isConnected(this)){
                 mEmptyView.noNetWork();
+            }else {
+                mEmptyView.hasNetWork();
             }
             mListMyFans.showEmptyView();
         }
