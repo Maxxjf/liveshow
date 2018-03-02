@@ -1,5 +1,6 @@
 package com.qcloud.liveshow.constant;
 
+import com.qcloud.liveshow.enums.AudioEncodeProfileEnum;
 import com.qcloud.liveshow.enums.BeautyUiEnum;
 import com.qcloud.liveshow.enums.EncodeMethodEnum;
 import com.qcloud.liveshow.enums.EncodeProfileEnum;
@@ -21,7 +22,7 @@ public interface CameraConstants {
     /**音频码率(Max)*/
     int AUDIO_BITRATE = 48;
     /**采集分辨率(720P)*/
-    int CAPTURE_RESOLUTION = VideoResolutionEnum.VIDEO_RESOLUTION_720P.getKey();
+    int CAPTURE_RESOLUTION = VideoResolutionEnum.VIDEO_RESOLUTION_1080P.getKey();
     /**预览分辨率(720P)*/
     int PREVIEW_RESOLUTION = VideoResolutionEnum.VIDEO_RESOLUTION_720P.getKey();
     /**推流分辨率(720P)*/
@@ -38,6 +39,8 @@ public interface CameraConstants {
     int ENCODE_PROFILE = EncodeProfileEnum.BALANCE.getKey();
     /**单双声道推流 1单声道 2双声道*/
     int STEREO_STREAM = 1;
+    /**音频编码*/
+    int AUDIO_ENCODE_PROFILE = AudioEncodeProfileEnum.AAC_LC.getKey();
     /**美容效果*/
     int BEAUTY_UI = BeautyUiEnum.PRO.getKey();
     /**磨皮效果*/

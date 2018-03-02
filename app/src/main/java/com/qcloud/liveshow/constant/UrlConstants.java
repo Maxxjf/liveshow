@@ -22,7 +22,7 @@ public interface UrlConstants {
      * 拉流
      * http://10.10.22.123/room/
      * */
-    String STREAM_IN_URL = "rtmp://"+AppConstants.PUSH_HOST+":"+AppConstants.PUSH_PORT+"/room/";
+    String STREAM_IN_URL = "http://"+AppConstants.PUSH_HOST+":"+AppConstants.PUSH_PORT+"/room/";
 //    String STREAM_OUT_URL = "rtmp://10.10.22.120:1935/room/";
 
     /**

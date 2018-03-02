@@ -15,7 +15,6 @@ import android.view.WindowManager;
 import com.ksyun.media.streamer.capture.CameraCapture;
 import com.ksyun.media.streamer.capture.ViewCapture;
 import com.ksyun.media.streamer.capture.camera.CameraTouchHelper;
-import com.ksyun.media.streamer.filter.imgtex.ImgTexFilterBase;
 import com.ksyun.media.streamer.filter.imgtex.ImgTexFilterMgt;
 import com.ksyun.media.streamer.kit.KSYStreamer;
 import com.ksyun.media.streamer.kit.StreamerConstants;
@@ -196,13 +195,10 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         mStreamer.setEnableAudioPreview(false);
         /**设置美颜*/
         mStreamer.getImgTexFilterMgt().setFilter(mStreamer.getGLRender(), BeautyUiEnum.PRO3.getKey());
-        mStreamer.getImgTexFilterMgt().setOnErrorListener(new ImgTexFilterBase.OnErrorListener() {
-            @Override
-            public void onError(ImgTexFilterBase filter, int errno) {
-                ToastUtils.ToastMessage(AnchorActivity.this, R.string.toast_does_not_support_beauty);
-                mStreamer.getImgTexFilterMgt().setFilter(mStreamer.getGLRender(),
-                        ImgTexFilterMgt.KSY_FILTER_BEAUTY_DISABLE);
-            }
+        mStreamer.getImgTexFilterMgt().setOnErrorListener((filter, errno) -> {
+            ToastUtils.ToastMessage(AnchorActivity.this, R.string.toast_does_not_support_beauty);
+            mStreamer.getImgTexFilterMgt().setFilter(mStreamer.getGLRender(),
+                    ImgTexFilterMgt.KSY_FILTER_BEAUTY_DISABLE);
         });
 //        List<ImgFilterBase> filters = mStreamer.getImgTexFilterMgt().getFilter();
 //        if (filters != null && !filters.isEmpty()) {
@@ -236,6 +232,8 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         mStreamer.setVideoEncodeScene(CameraConstants.ENCODE_SCENE);
         /**设置编码性能*/
         mStreamer.setVideoEncodeProfile(CameraConstants.ENCODE_PROFILE);
+        /**设置音频编码*/
+        mStreamer.setAudioEncodeProfile(CameraConstants.AUDIO_ENCODE_PROFILE);
         /**设置单双声道*/
         mStreamer.setAudioChannels(CameraConstants.STEREO_STREAM);
 

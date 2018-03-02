@@ -310,8 +310,8 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
     private String initStreamUrl(String id, String roomId) {
         StringBuffer url = new StringBuffer();
         url.append(UrlConstants.STREAM_IN_URL);
-//        url.append(id + "/" + roomId + ".flv");
-        url.append(id + "/" + roomId );
+        url.append(id + "/" + roomId + ".flv");
+//        url.append(id + "/" + roomId );
         Timber.e("url:"+url.toString());
         return url.toString();
     }
