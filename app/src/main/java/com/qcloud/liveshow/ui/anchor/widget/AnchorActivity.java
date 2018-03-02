@@ -173,14 +173,19 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
      */
     private void initCamera() {
 
-
         /**设置推流URL*/
         mStreamer.setUrl(mUrl);
+//        mStreamer.setUrl("rtmp://10.10.22.123:1935/room/123");
+        Timber.e("直播url"+mUrl);
         mStreamer.setDisplayPreview(mCameraPreview);
         /**禁用后台重复上次帧*/
         mStreamer.setEnableRepeatLastFrame(false);
         /**启动自动重连*/
         mStreamer.setEnableAutoRestart(true, 3000); // enable auto restart
+//        /**设置预览分辨率*/
+//        mStreamer.setPreviewResolution(800,0);
+//        /**设置推流分辨率*/
+//        mStreamer.setTargetResolution(800,0);
         /**设置前置摄像头*/
         mStreamer.setCameraFacing(CameraCapture.FACING_FRONT);
         /**设置前置镜像*/
@@ -232,7 +237,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         /**设置编码性能*/
         mStreamer.setVideoEncodeProfile(CameraConstants.ENCODE_PROFILE);
         /**设置单双声道*/
-        mStreamer.setAudioChannels(2);
+        mStreamer.setAudioChannels(CameraConstants.STEREO_STREAM);
 
         /**信息打印*/
         mStreamer.setOnInfoListener(mOnInfoListener);
@@ -674,7 +679,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
      */
     @Override
     public void closeRoom() {
-        if (violationTipsPop!=null){
+        if (violationTipsPop==null){
             violationTipsPop = new TipsPop(this);
             violationTipsPop.setTitle("温馨提示");
             violationTipsPop.setTips("由于你的直播内容含违规内容，现将你直播间强制关闭");

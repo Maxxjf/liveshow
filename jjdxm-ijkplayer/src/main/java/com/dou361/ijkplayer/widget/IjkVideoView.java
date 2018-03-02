@@ -170,7 +170,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     /**
      * 使用编解码器硬编码还是软编码，true 硬编码 false 为软编码
      */
-    private boolean usingMediaCodec = false;
+    private boolean usingMediaCodec = true;
     /**
      * 使用编解码是否自转
      */
@@ -407,6 +407,8 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                     }
                     ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "framedrop", 1);
                     ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "start-on-prepared", 0);
+                    ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "max-fps", 15);
+                    ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "r", 15);
 
                     ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "http-detect-range-support", 0);
                     ijkMediaPlayer.setOption(IjkMediaPlayer.OPT_CATEGORY_FORMAT, "timeout", 10000000);
@@ -600,13 +602,13 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                         case IMediaPlayer.MEDIA_INFO_VIDEO_TRACK_LAGGING:
                             Log.d(TAG, "MEDIA_INFO_VIDEO_TRACK_LAGGING:");
                             break;
-                        case IMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:
+                        case IMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START://视频准备渲染
                             Log.d(TAG, "MEDIA_INFO_VIDEO_RENDERING_START:");
                             break;
-                        case IMediaPlayer.MEDIA_INFO_BUFFERING_START:
+                        case IMediaPlayer.MEDIA_INFO_BUFFERING_START://开始缓冲
                             Log.d(TAG, "MEDIA_INFO_BUFFERING_START:");
                             break;
-                        case IMediaPlayer.MEDIA_INFO_BUFFERING_END:
+                        case IMediaPlayer.MEDIA_INFO_BUFFERING_END://缓冲结束
                             Log.d(TAG, "MEDIA_INFO_BUFFERING_END:");
                             break;
                         case IMediaPlayer.MEDIA_INFO_NETWORK_BANDWIDTH:
@@ -627,7 +629,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                         case IMediaPlayer.MEDIA_INFO_SUBTITLE_TIMED_OUT:
                             Log.d(TAG, "MEDIA_INFO_SUBTITLE_TIMED_OUT:");
                             break;
-                        case IMediaPlayer.MEDIA_INFO_VIDEO_ROTATION_CHANGED:
+                        case IMediaPlayer.MEDIA_INFO_VIDEO_ROTATION_CHANGED://视频选择信息
                             mVideoRotationDegree = arg2;
                             Log.d(TAG, "MEDIA_INFO_VIDEO_ROTATION_CHANGED: " + arg2);
                             if (mRenderView != null)

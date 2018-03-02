@@ -15,7 +15,7 @@ import com.qcloud.liveshow.enums.VideoResolutionEnum;
  */
 public interface CameraConstants {
     /**采集帧率*/
-    int FRAME_RATE = 24;
+    int FRAME_RATE = 15;
     /**视频码率(Max)*/
     int VIDEO_BITRATE = 800;
     /**音频码率(Max)*/

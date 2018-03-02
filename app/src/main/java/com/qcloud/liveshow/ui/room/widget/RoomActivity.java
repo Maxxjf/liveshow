@@ -129,9 +129,18 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
 //                        ivThumbnail.set
                     }
                 })
-                .setPlaySource(currUrl)
+                .setPlaySource("高清",currUrl)
+
+//                .setPlaySource("高清","http://10.10.22.123:80/room/123/123.flv")
                 .startPlay();
-        mPlayer.setBrightness(100);
+            Timber.e("播放url："+currUrl);
+//        int screenbrightness=0;
+//        try {
+//             screenBrightness = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
+//        } catch (Settings.SettingNotFoundException e) {
+//            e.printStackTrace();
+//        }
+        mPlayer.setBrightness(50);
         mPlayer.setOnLoadingErrorLinstener(new PlayerView.LoadingErrorListener() {
             @Override
             public void showStatus(String errInfo) {
@@ -301,7 +310,8 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
     private String initStreamUrl(String id, String roomId) {
         StringBuffer url = new StringBuffer();
         url.append(UrlConstants.STREAM_IN_URL);
-        url.append(id + "/" + roomId + ".flv");
+//        url.append(id + "/" + roomId + ".flv");
+        url.append(id + "/" + roomId );
         Timber.e("url:"+url.toString());
         return url.toString();
     }
