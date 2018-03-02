@@ -171,7 +171,6 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
      */
     private void initCamera() {
 
-
         /**设置推流URL*/
         mStreamer.setUrl(mUrl);
         mStreamer.setDisplayPreview(mCameraPreview);
