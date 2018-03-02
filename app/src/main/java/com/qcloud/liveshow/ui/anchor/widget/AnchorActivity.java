@@ -90,6 +90,8 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
      * 直播控制页面
      */
     private AnchorFragment mControlFragment;
+    private TipsPop networkErrorTipsPop;
+    private TipsPop violationTipsPop;
 
     @Override
     protected int initLayout() {
@@ -173,11 +175,17 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
 
         /**设置推流URL*/
         mStreamer.setUrl(mUrl);
+//        mStreamer.setUrl("rtmp://10.10.22.123:1935/room/123");
+        Timber.e("直播url"+mUrl);
         mStreamer.setDisplayPreview(mCameraPreview);
         /**禁用后台重复上次帧*/
         mStreamer.setEnableRepeatLastFrame(false);
         /**启动自动重连*/
         mStreamer.setEnableAutoRestart(true, 3000); // enable auto restart
+//        /**设置预览分辨率*/
+//        mStreamer.setPreviewResolution(800,0);
+//        /**设置推流分辨率*/
+//        mStreamer.setTargetResolution(800,0);
         /**设置前置摄像头*/
         mStreamer.setCameraFacing(CameraCapture.FACING_FRONT);
         /**设置前置镜像*/
@@ -229,7 +237,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         /**设置编码性能*/
         mStreamer.setVideoEncodeProfile(CameraConstants.ENCODE_PROFILE);
         /**设置单双声道*/
-        mStreamer.setAudioChannels(2);
+        mStreamer.setAudioChannels(CameraConstants.STEREO_STREAM);
 
         /**信息打印*/
         mStreamer.setOnInfoListener(mOnInfoListener);
@@ -292,8 +300,8 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
      */
     protected void startStream() {
         /**设置推流URL*/
-        if (room!=null){
-            mStreamer.setUrl(mUrl+"/"+room.getRoomIdStr());
+        if (room != null) {
+            mStreamer.setUrl(mUrl + "/" + room.getRoomIdStr());
         }
         mStreamer.startStream();
         mRecording = true;
@@ -489,8 +497,9 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
                 case StreamerConstants.KSY_STREAMER_ERROR_PUBLISH_FAILED:
                     Timber.d("KSY_STREAMER_ERROR_PUBLISH_FAILED");
                     break;
-                case StreamerConstants.KSY_STREAMER_ERROR_CONNECT_BREAKED:
+                case StreamerConstants.KSY_STREAMER_ERROR_CONNECT_BREAKED://推流失败（无网络）
                     Timber.d("KSY_STREAMER_ERROR_CONNECT_BREAKED");
+                    initErrorTip();
                     break;
                 case StreamerConstants.KSY_STREAMER_ERROR_AV_ASYNC:
                     Timber.d("KSY_STREAMER_ERROR_AV_ASYNC " + msg1 + "ms");
@@ -577,6 +586,31 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         }
     };
 
+    private void initErrorTip() {
+        if (networkErrorTipsPop == null) {
+            networkErrorTipsPop = new TipsPop(this);
+            networkErrorTipsPop.setTitle("温馨提示");
+            networkErrorTipsPop.setTips("网络中断，无法继续直播，请退出直播间");
+            networkErrorTipsPop.setOkBtn("退出直播");
+            networkErrorTipsPop.showTitle(true);
+            networkErrorTipsPop.showCancel(false);
+            networkErrorTipsPop.setFocusable(false);
+            networkErrorTipsPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+                @Override
+                public void onViewClick(View view) {
+                    switch (view.getId()) {
+                        case R.id.btn_ok:
+                            finish();
+                            break;
+                    }
+                }
+            });
+        }
+        if (!networkErrorTipsPop.isShowing()) {
+            networkErrorTipsPop.showAtLocation(mCameraHint, Gravity.CENTER, 0, 0);
+        }
+    }
+
     /**
      * 处理与相机相关的操作
      */
@@ -625,9 +659,9 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         pop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
             @Override
             public void onViewClick(View view) {
-                switch (view.getId()){
+                switch (view.getId()) {
                     case R.id.btn_ok:
-                        if (getRoom()!=null){
+                        if (getRoom() != null) {
                             AnchorFinishActivity.openActivity(AnchorActivity.this, getRoom().getRoomIdStr());
                         }
                         finish();
@@ -645,10 +679,30 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
      */
     @Override
     public void closeRoom() {
-        if (getRoom()!=null){
-            AnchorFinishActivity.openActivity(AnchorActivity.this, getRoom().getRoomIdStr());
+        if (violationTipsPop==null){
+            violationTipsPop = new TipsPop(this);
+            violationTipsPop.setTitle("温馨提示");
+            violationTipsPop.setTips("由于你的直播内容含违规内容，现将你直播间强制关闭");
+            violationTipsPop.setFocusable(false);
+            violationTipsPop.setOkBtn("确定");
+            violationTipsPop.showTitle(true);
+            violationTipsPop.showCancel(false);
+            violationTipsPop.setFocusable(false);
+            violationTipsPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+                @Override
+                public void onViewClick(View view) {
+                    switch (view.getId()) {
+                        case R.id.btn_ok:
+                            if (getRoom() != null) {
+                                AnchorFinishActivity.openActivity(AnchorActivity.this, getRoom().getRoomIdStr());
+                            }
+                            finish();
+                            break;
+                    }
+                }
+            });
         }
-        finish();
+        violationTipsPop.showAtLocation(mCameraHint, Gravity.CENTER, 0, 0);
     }
 
 
@@ -693,6 +747,12 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if (networkErrorTipsPop != null && networkErrorTipsPop.isShowing()) {
+                return true;
+            }
+            if (violationTipsPop != null && violationTipsPop.isShowing()) {
+                return true;
+            }
             if (isLiveStart) {
                 finishLive();
             } else {

@@ -67,27 +67,28 @@
         android:visibility="visible">
 
         <RelativeLayout
-            android:gravity="center|right"
             android:layout_width="@dimen/margin_80dp"
             android:layout_height="wrap_content"
-            >
+            android:gravity="center|right">
+
             <ProgressBar
-                android:layout_centerInParent="true"
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
+                android:layout_centerInParent="true"
+                android:indeterminateBehavior="repeat"
                 android:indeterminateDrawable="@drawable/small_prograssbar"
                 android:indeterminateOnly="true"
-                android:indeterminateBehavior="repeat"
                 android:visibility="visible" />
+
             <ImageView
-                android:layout_centerInParent="true"
-                android:visibility="visible"
                 android:id="@+id/img_send_fail"
-                android:src="@drawable/msg_state_fail_resend"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/msg_state_fail_resend"
+                android:visibility="visible" />
         </RelativeLayout>
 
         <TextView
@@ -115,4 +116,14 @@
             myapp:ratio="1"
             myapp:width="80" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_unsend_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_1"
+        android:background="@drawable/bg_unsend_message"
+        android:padding="@dimen/margin_1"
+        android:text="@string/tag_unsend_message" />
 </LinearLayout>

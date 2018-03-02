@@ -65,6 +65,14 @@ public class FansMessagePresenterImpl extends BasePresenter<IFansMessageView> im
                             disposable.dispose();
                         }
                         break;
+                    case R.id.netty_char_black:
+                        //已被拉黑，消息发送失败
+                        String chatId2 = (String) rxBusEvent.getObj();
+                        mView.upDateApater(chatId2, CharStatusEnum.IS_BLACK.getKey());
+                        if (disposable != null && !disposable.isDisposed()) {
+                            disposable.dispose();
+                        }
+                        break;
 
                 }
             }

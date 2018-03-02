@@ -26,6 +26,7 @@
     <string name="title_my_fans">我的粉丝</string>
     <string name="title_my_profit">我的收益</string>
     <string name="title_profit_record">收益记录</string>
+
     <string name="title_setting">设置</string>
     <string name="title_room">直播间</string>
     <string name="title_room_finish">直播完成</string>
@@ -46,6 +47,7 @@
     <string name="title_anchor_finish">直播结束</string>
     <string name="title_my_level">我的等级</string>
     <string name="title_problem">常见问题</string>
+    <string name="title_problem_detail">问题详情</string>
     <string name="title_extension">邀你一起播</string>
     <string name="title_forget_password">重置密码</string>
     <string name="title_password_error">密码错误</string>
@@ -109,6 +111,7 @@
     <string name="toast_send_gift_success">发送礼物成功</string>
     <string name="toast_send_gift_fail">发送礼物失败，钻石币不足</string>
     <string name="toast_is_not_anchor">您还不是主播喔^v^</string>
+    <string name="toast_room_char_unsend">您已经被禁言</string>
 
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>
@@ -212,7 +215,7 @@
     <string name="tag_add_blacklist">加入黑名单</string>
     <string name="tag_remove_blacklist">移出黑名单</string>
     <string name="tag_add_guard">添加守护</string>
-    <string name="tag_remove_guard">移出守护</string>
+    <string name="tag_remove_guard">取消守护</string>
     <string name="tag_name">姓名</string>
     <string name="tag_nickname">昵称</string>
     <string name="tag_sex">性别</string>
@@ -312,4 +315,5 @@
     <string name="tag_gift_name">送出了%s</string>
     <string name="tag_current_number">当前%d人</string>
     <string name="tag_vip_room">VIP房</string>
+    <string name="tag_unsend_message">你已经被拉黑，对方无法收到你的消息!</string>
 </resources>

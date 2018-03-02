@@ -80,4 +80,6 @@ public interface IAnchorControlView extends BaseView {
     void addMessage(MemberBean bean);
     /**展示礼物*/
     void showGift(NettyGiftBean gift);
+
+    void checkMessageIsRead();
 }

@@ -5,7 +5,6 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
 import com.qcloud.liveshow.R;
-import com.qcloud.qclib.utils.NetUtils;
 import com.qcloud.qclib.widget.customview.BaseEmptyView;
 
 /**
@@ -25,9 +24,6 @@ public class NoBlackListView extends BaseEmptyView {
 
     public NoBlackListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        if (!NetUtils.isConnected(context)){
-            noNetWork();
-        }
     }
 
     @Override

@@ -156,6 +156,8 @@ public class NewestFragment extends BaseFragment<INewestView, NewestPresenterImp
         if (mListNewest != null&&mEmptyView!=null) {
             if (!NetUtils.isConnected(getActivity())){
                 mEmptyView.noNetWork();
+            }else {
+                mEmptyView.hasNetWork();
             }
             mListNewest.showEmptyView();
         }

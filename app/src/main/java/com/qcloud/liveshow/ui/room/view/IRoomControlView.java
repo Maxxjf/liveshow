@@ -20,6 +20,8 @@ import java.util.List;
  */
 public interface IRoomControlView {
 
+    void checkMessageIsRead();
+
     /**点击关注*/
     void onFollowClick();
 

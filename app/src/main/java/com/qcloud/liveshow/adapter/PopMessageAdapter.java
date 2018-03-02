@@ -37,8 +37,12 @@ public class PopMessageAdapter extends CommonRecyclerAdapter<MemberBean> {
         }else {
             holder.setImageResource(R.id.img_sex, bean.getSexIcon());
         }
+        if (!bean.isRead()){
+            holder.setVisible(R.id.iv_no_read,View.VISIBLE);
+        }else {
+            holder.setVisible(R.id.iv_no_read,View.GONE);
+        }
         holder.setText(R.id.tv_message, bean.getSignature());
-//        Timber.e("--------->>>>>>>>>>>:"+bean);
         if (bean.getLast_send_message_datetime()!=null){
             holder.setText(R.id.tv_time, DateUtils.longToString(Long.parseLong(bean.getLast_send_message_datetime()), DateUtils.MMddHHmmss));
         }

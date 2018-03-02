@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -32,7 +33,7 @@ public class RoomMessageLayout extends BaseLinearLayout {
     private TextView tvMessage2;
     private ProgressBar progressBar;
     private ImageView imgSendFail;
-
+    private LinearLayout rootLayout;
     private int ScreenWidth;
     private NettyReceiveGroupBean mCurrentBean;//当前的群聊
 
@@ -79,9 +80,10 @@ public class RoomMessageLayout extends BaseLinearLayout {
         tvMessage2 = (TextView) mView.findViewById(R.id.tv_message2);
         progressBar = (ProgressBar) mView.findViewById(R.id.progressBar);
         imgSendFail = (ImageView) mView.findViewById(R.id.img_send_fail);
+        rootLayout=(LinearLayout)mView.findViewById(R.id.root_layout);
     }
 
-    public void refreshUserInfo(NettyReceiveGroupBean bean) {
+    public void refreshMessageInfo(NettyReceiveGroupBean bean) {
         if (bean != null) {
             this.mCurrentBean=bean;
             MemberBean memberBean = bean.getUser();
@@ -100,6 +102,10 @@ public class RoomMessageLayout extends BaseLinearLayout {
                     imgSendFail.setVisibility(View.VISIBLE);
                 } else if (bean.getCharStatusEnum() == CharStatusEnum.INPROGRESS.getKey()) {
                     progressBar.setVisibility(View.VISIBLE);
+                    imgSendFail.setVisibility(View.GONE);
+                } else if (bean.getCharStatusEnum()==CharStatusEnum.IS_BLOCKED.getKey()){//已被禁言
+                    rootLayout.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
                     imgSendFail.setVisibility(View.GONE);
                 }
                 if (contentBean != null) {

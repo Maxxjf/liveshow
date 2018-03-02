@@ -32,10 +32,12 @@ import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.beans.UserBean;
 import com.qcloud.liveshow.beans.UserStatusBean;
 import com.qcloud.liveshow.constant.UrlConstants;
+import com.qcloud.liveshow.enums.CharStatusEnum;
 import com.qcloud.liveshow.enums.GiftTypeEnum;
 import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.AnchorControlPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IAnchorControlView;
+import com.qcloud.liveshow.utils.MessageUtil;
 import com.qcloud.liveshow.utils.ShareUtil;
 import com.qcloud.liveshow.utils.UserInfoUtil;
 import com.qcloud.liveshow.widget.customview.UserHeadImageView;
@@ -116,6 +118,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     ImageView mBtnExit;
     @Bind(R.id.layout_root)
     RelativeLayout layoutRoot;
+    @Bind(R.id.iv_no_read)
+    ImageView ivNoRead;
 //    @Bind(R.id.gift)
 //    CustomGiftView mGiftShow;
 
@@ -194,6 +198,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         initMessageLayout();
         initMessagePop();
         initGiftParent();
+        checkMessageIsRead();
     }
 
     private void initGiftParent() {
@@ -231,7 +236,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         if (mTvNotice != null) {
             mTvNotice.stopScroll();
             mTvNotice.setText(((AnchorActivity) getActivity()).getNotice());
-            mPresenter.sendGroupNotice(((AnchorActivity) getActivity()).getRoom().getRoomIdStr(),((AnchorActivity) getActivity()).getNotice());
+            mPresenter.sendGroupNotice(((AnchorActivity) getActivity()).getRoom().getRoomIdStr(), ((AnchorActivity) getActivity()).getNotice());
             resetNoticeWith();
         }
         intoRoom();
@@ -426,6 +431,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         mMessagePop.setOnPopItemClick((position, member) -> {
             if (mFansMessagePop == null) {
                 initFansMessagePop();
+                checkMessageIsRead();
             }
             mFansMessagePop.refreshMemberInfo(member);
             mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
@@ -563,6 +569,9 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         ((Activity) mContext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                if (charStatus== CharStatusEnum.IS_BLOCKED.getKey()){
+                    loadErr(true,getString(R.string.toast_room_char_unsend));
+                }
                 mMessageAdapter.upDateMessageStatus(position, charStatus);
             }
         });
@@ -766,6 +775,15 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         }
     }
 
+    @Override
+    public void checkMessageIsRead() {
+        int noReadNumber = MessageUtil.getInstance().getNoReadNumber();//未读消息数量
+        if (noReadNumber != 0) {
+            ivNoRead.setVisibility(View.VISIBLE);
+        } else {
+            ivNoRead.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void onStop() {
@@ -812,4 +830,5 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
 }

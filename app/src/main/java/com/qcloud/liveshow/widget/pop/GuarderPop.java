@@ -79,10 +79,11 @@ public class GuarderPop extends BasePopupWindow {
         mAdapter.setOnHolderClick(new CommonRecyclerAdapter.ViewHolderClick<MemberBean>() {
             @Override
             public void onViewClick(View view, MemberBean memberBean, int position) {
+                memberBean.refreshAttention();
                 new AnchorModelImpl().inOutGuard(memberBean.getId(), memberBean.isAttention(), new DataCallback<ReturnEmptyBean>() {
                     @Override
                     public void onSuccess(ReturnEmptyBean returnEmptyBean) {
-//                        mAdapter.notifyDataSetChanged();
+                        mAdapter.notifyDataSetChanged();
                     }
 
                     @Override

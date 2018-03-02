@@ -105,7 +105,7 @@ public class ResponseChannelHandler extends ChannelHandlerSuper {
                         // 粘包/拆包数据
                         receiveMsg.append(response);
                     }
-                    Thread.sleep(100);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (Exception ignored) {

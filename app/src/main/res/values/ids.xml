@@ -63,5 +63,9 @@
     <item name="is_not_anchor" type="id"/>
     <!--vip房间支付返回-->
     <item name="netty_vip_pay_room" type="id"/>
+    <!--已被拉黑，消息发送失败-->
+    <item name="netty_char_black" type="id"/>
+    <!--已被禁言，消息发送失败-->
+    <item name="netty_room_char_block" type="id"/>
 
 </resources>

@@ -57,6 +57,10 @@ public class NettyDispose {
                             case 4://缺少必要参数
                                 callback.onError(bean.getCode(), NettyResponseCode.valueOf(bean.getCode()).getValue());
                                 break;
+                            case 5://已经被禁言
+                            case 6://已经被拉黑
+                                callback.onError(bean.getCode(),bean.getUuid());
+                                break;
                         }
                     }
 

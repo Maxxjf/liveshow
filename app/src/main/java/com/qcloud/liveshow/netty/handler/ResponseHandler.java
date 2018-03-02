@@ -16,6 +16,8 @@ import com.qcloud.liveshow.beans.NettyPayVipRoomReveice;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
+import com.qcloud.liveshow.enums.CharStatusEnum;
+import com.qcloud.liveshow.enums.NettyResponseCode;
 import com.qcloud.liveshow.model.impl.IMModelImpl;
 import com.qcloud.liveshow.netty.callback.ResponseListener;
 import com.qcloud.liveshow.realm.RealmHelper;
@@ -154,8 +156,10 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
             }
 
             @Override
-            public void onError(int status, String errMsg) {
-                Timber.e(errMsg);
+            public void onError(int status, String uuid) {
+                if (status== NettyResponseCode.IS_BLOCKED.getKey()){
+                    BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_room_char_block).setObj(uuid).build());
+                }
             }
         });
     }
@@ -187,8 +191,11 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
             }
 
             @Override
-            public void onError(int status, String errMsg) {
-                Timber.e(errMsg);
+            public void onError(int status, String uuid) {
+                if (status== NettyResponseCode.IS_BLACK.getKey()){
+                    RealmHelper.getInstance().updateMessageStatus(uuid, CharStatusEnum.IS_BLACK.getKey());
+                    BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_char_black).setObj(uuid).build());
+                }
             }
         });
     }
@@ -204,8 +211,7 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyGiftBean>() {
             @Override
             public void onSuccess(NettyGiftBean bean, String uuid) {
-
-                if (bean!=null){//收到别人的消息
+                if (bean!=null){//
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_gift_show).setObj(bean).build());
                 }
             }
@@ -229,7 +235,13 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         NettyDispose.dispose(msgConfig, type, new NettyDataCallback<MemberBean>() {
             @Override
             public void onSuccess(MemberBean bean, String uuid) {
-//                RealmHelper.getInstance().addOrUpdateBean(bean);//添加到本地数据
+                MemberBean realmData=RealmHelper.getInstance().queryBeanById(MemberBean.class,"id",bean.getId());
+                if (realmData!=null){
+                    bean.setRead(realmData.isRead());
+                }else {
+                    bean.setRead(true);
+                }
+                RealmHelper.getInstance().addOrUpdateBean(bean);//添加到本地数据
 //                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_get_chat_list_success)
 //                        .setObj(bean).build());
             }

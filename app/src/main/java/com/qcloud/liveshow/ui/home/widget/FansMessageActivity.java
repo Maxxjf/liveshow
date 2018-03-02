@@ -324,6 +324,8 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
         if (mListMessage != null && mEmptyView != null) {
             if (!NetUtils.isConnected(this)) {
                 mEmptyView.noNetWork();
+            }else {
+                mEmptyView.hasNetWork();
             }
             mListMessage.showEmptyView();
         }

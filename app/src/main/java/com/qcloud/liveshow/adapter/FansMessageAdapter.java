@@ -66,12 +66,22 @@ public class FansMessageAdapter extends CommonRecyclerAdapter<NettyReceivePrivat
         RatioImageView mImgMineHead = holder.get(R.id.img_user_header);
         TextView mTvSendMessage = holder.get(R.id.tv_send_message);
 
+        //已被拉黑，收不到消息
+        TextView mBlackMessage=holder.get(R.id.tv_unsend_message);
 
         //发送状态
         ProgressBar progressBar = holder.get(R.id.progressBar);
         ImageView imgSendFail = holder.get(R.id.img_send_fail);
+        if (bean.getSendStatus()==CharStatusEnum.IS_BLACK.getKey()){
+            mBlackMessage.setVisibility(View.VISIBLE);
+            mLayoutReceive.setVisibility(View.GONE);
+            mLayoutSend.setVisibility(View.GONE);
+            //已被拉黑，消息不显示
+            return;
+        }
         if (bean.isSend()) {
             // 发送消息
+            mBlackMessage.setVisibility(View.GONE);
             mLayoutReceive.setVisibility(View.GONE);
             mLayoutSend.setVisibility(View.VISIBLE);
 
@@ -96,6 +106,7 @@ public class FansMessageAdapter extends CommonRecyclerAdapter<NettyReceivePrivat
             }
         } else {
             // 接收消息
+            mBlackMessage.setVisibility(View.GONE);
             mLayoutReceive.setVisibility(View.VISIBLE);
             mLayoutSend.setVisibility(View.GONE);
             GlideUtil.loadCircleImage(mContext, mImgFansHead, mMemberBean.getHeadImg(), R.drawable.bitmap_user_head, 0, 0, true, false);

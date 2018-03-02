@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.PopMessageAdapter;
 import com.qcloud.liveshow.beans.MemberBean;
+import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.utils.MessageUtil;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
@@ -59,6 +60,12 @@ public class MessageListPop extends BasePopupWindow {
         mListMessage.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener((adapterView, view, position, l) -> {
             if (mItemClick != null) {
+              MemberBean memberBean=  mAdapter.getList().get(position);
+              if (memberBean!=null){
+                  memberBean.setRead(true);
+                  mAdapter.notifyDataSetChanged();
+                  RealmHelper.getInstance().addOrUpdateBean(memberBean);
+              }
                 mItemClick.onItemClick(position, mAdapter.getList().get(position));
             }
         });

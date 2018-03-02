@@ -99,6 +99,9 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                             break;
                         case R.id.netty_private_chat:
                             // 私聊消息
+                            if (mView!=null){
+                                mView.checkMessageIsRead();
+                            }
 //                            mView.addPrivateChat((NettyReceivePrivateBean) rxBusEvent.getObj());
                             break;
                         case R.id.netty_notice_out_group:
@@ -114,11 +117,25 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                             String chatId = (String) rxBusEvent.getObj();
                             mView.upDateMessageSendStatus(chatId, CharStatusEnum.SUCCESS.getKey());
                             break;
+                        case R.id.netty_char_black:
+                            //已被拉黑，消息发送失败
+                            String chatId2 = (String) rxBusEvent.getObj();
+                            mView.upDateMessageSendStatus(chatId2, CharStatusEnum.IS_BLACK.getKey());
+                            break;
                         case R.id.netty_group_message_send_success:
                             //群聊消息发送成功
                             String uuid=(String)rxBusEvent.getObj();
                             int chatPosition = Integer.valueOf(uuid);
                             mView.upDateGroupMessageStatus(chatPosition, CharStatusEnum.SUCCESS.getKey());
+                            if (disposable!=null){
+                                disposable.dispose();
+                            }
+                            break;
+                        case R.id.netty_room_char_block:
+                            //已被禁言，群聊消息发送失败
+                            String failUuid=(String)rxBusEvent.getObj();
+                            int FailChatPosition = Integer.valueOf(failUuid);
+                            mView.upDateGroupMessageStatus(FailChatPosition, CharStatusEnum.IS_BLOCKED.getKey());
                             if (disposable!=null){
                                 disposable.dispose();
                             }

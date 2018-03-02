@@ -174,6 +174,8 @@ public class FollowFragment extends BaseFragment<IFollowView, FollowPresenterImp
         if (mListFollow != null&&mEmptyView!=null) {
             if (!NetUtils.isConnected(getActivity())){
                 mEmptyView.noNetWork();
+            }else {
+                mEmptyView.hasNetWork();
             }
             mListFollow.showEmptyView();
         }

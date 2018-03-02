@@ -20,9 +20,16 @@ public class NettyReceivePrivateBean extends RealmObject {
     String date_time;           //接收时间
     boolean isSend = false;     // false为未读的，true为自己发的
     int sendStatus= CharStatusEnum.INPROGRESS.getKey();       //聊天的发送状态  1为成功，2为失败，3是发送中
+    boolean isBlack=false;    //这条消息是否被拉黑
 
 
+    public boolean isBlack() {
+        return isBlack;
+    }
 
+    public void setBlack(boolean black) {
+        isBlack = black;
+    }
 
     public int getSendStatus() {
         return sendStatus;
@@ -88,6 +95,7 @@ public class NettyReceivePrivateBean extends RealmObject {
                 ", date_time='" + date_time + '\'' +
                 ", isSend=" + isSend +
                 ", sendStatus=" + sendStatus +
+                ", isBlack=" + isBlack +
                 '}';
     }
 }

@@ -36,7 +36,8 @@ public interface AppConstants {
     String PUSH_HOST = "10.10.22.123";
 //    String PUSH_HOST = "221.4.216.90";
 //    int PUSH_PORT = 2091;
-    int PUSH_PORT = 80;
+//    int PUSH_PORT = 80;
+    int PUSH_PORT = 1935;
 
     /**弹起键盘坡度*/
     int DISTANCE_SLOP = 180;
