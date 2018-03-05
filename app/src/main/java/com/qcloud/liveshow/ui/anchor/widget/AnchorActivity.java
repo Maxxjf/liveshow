@@ -181,10 +181,6 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         mStreamer.setEnableRepeatLastFrame(false);
         /**启动自动重连*/
         mStreamer.setEnableAutoRestart(true, 3000); // enable auto restart
-//        /**设置预览分辨率*/
-//        mStreamer.setPreviewResolution(800,0);
-//        /**设置推流分辨率*/
-//        mStreamer.setTargetResolution(800,0);
         /**设置前置摄像头*/
         mStreamer.setCameraFacing(CameraCapture.FACING_FRONT);
         /**设置前置镜像*/
@@ -200,19 +196,10 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
             mStreamer.getImgTexFilterMgt().setFilter(mStreamer.getGLRender(),
                     ImgTexFilterMgt.KSY_FILTER_BEAUTY_DISABLE);
         });
-//        List<ImgFilterBase> filters = mStreamer.getImgTexFilterMgt().getFilter();
-//        if (filters != null && !filters.isEmpty()) {
-//            final ImgFilterBase filter = filters.get(0);
-//            filter.setGrindRatio(0.5f);     // 磨皮0~1.0f
-//            filter.setWhitenRatio(1.0f);    // 美白0~1.0f
-//            filter.setRuddyRatio(1.0f);     // 红润0~1.0f
-//        }
-//
-//        mStreamer.getImgTexFilterMgt().setFilter(filters);
         /**设置采集帧率为24*/
         mStreamer.setPreviewFps(CameraConstants.FRAME_RATE);
         mStreamer.setTargetFps(CameraConstants.FRAME_RATE);
-        /**设置视频码率(Max)为800*/
+        /**设置视频码率(Max)为800，分别为初始平均码率、最高平均码率、最低平均码率，单位为kbps*/
         mStreamer.setVideoKBitrate(CameraConstants.VIDEO_BITRATE * 3 / 4, CameraConstants.VIDEO_BITRATE, CameraConstants.VIDEO_BITRATE / 4);
         /**设置音频码率(Max)为48*/
         mStreamer.setAudioKBitrate(CameraConstants.AUDIO_BITRATE);
@@ -232,6 +219,8 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
         mStreamer.setVideoEncodeScene(CameraConstants.ENCODE_SCENE);
         /**设置编码性能*/
         mStreamer.setVideoEncodeProfile(CameraConstants.ENCODE_PROFILE);
+        /**设置音频采样率*/
+        mStreamer.setAudioSampleRate(44100);
         /**设置音频编码*/
         mStreamer.setAudioEncodeProfile(CameraConstants.AUDIO_ENCODE_PROFILE);
         /**设置单双声道*/

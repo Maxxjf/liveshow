@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.widget.NewestFragment">
 
-    <com.qcloud.qclib.swiperefresh.SwipeRecyclerView
+    <com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView
         android:id="@+id/list_newest"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

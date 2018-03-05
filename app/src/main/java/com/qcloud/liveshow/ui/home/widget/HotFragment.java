@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import com.qcloud.liveshow.R;
@@ -20,8 +19,8 @@ import com.qcloud.liveshow.ui.main.widget.WebActivity;
 import com.qcloud.liveshow.ui.room.widget.RoomActivity;
 import com.qcloud.liveshow.widget.customview.NoDataView;
 import com.qcloud.qclib.image.GlideUtil;
-import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
-import com.qcloud.qclib.swiperefresh.SwipeRefreshUtil;
+import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
+import com.qcloud.qclib.pullrefresh.PullRefreshView;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.NetUtils;
 import com.qcloud.qclib.utils.ScreenUtils;
@@ -47,7 +46,7 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
     @Bind(R.id.empty_view)
     NoDataView mEmptyView;
     @Bind(R.id.refresh_layout)
-    CustomSwipeRefreshLayout mRefreshLayout;
+    PullRefreshView mRefreshLayout;
 
     private HotAdapter mAdapter;
     private int pageNum = 1;
@@ -109,12 +108,9 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
                 //设置翻页的效果，不需要翻页效果可用不设
                 .startTurning(5000);
 
-        mBanner.setOnPageClickListener(new CustomBanner.OnPageClickListener() {
-            @Override
-            public void onPageClick(int position, Object o) {
-                BannerBean bean = (BannerBean) o;
-                WebActivity.openActivity(mContext, "热门活动", bean.getHandleUrl());
-            }
+        mBanner.setOnPageClickListener((position, o) -> {
+            BannerBean bean = (BannerBean) o;
+            WebActivity.openActivity(mContext, "热门活动", bean.getHandleUrl());
         });
     }
 
@@ -125,32 +121,21 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
         mListHot.setLayoutManager(layoutManager);
         mListHot.setNestedScrollingEnabled(false);
 
-        SwipeRefreshUtil.setLoadMore(mRefreshLayout, true);
-        SwipeRefreshUtil.setRefreshImage(getActivity(), mRefreshLayout, R.drawable.icon_refresh_icon, CustomSwipeRefreshLayout.ANIM_IN_LEFT);
-        mRefreshLayout.setOnRefreshListener(new CustomSwipeRefreshLayout.OnRefreshListener(){
-            @Override
-            public void onRefresh() {
-                pageNum = 1;
-                mRefreshLayout.isMore(true);
-                loadData();
-            }
+        PullRefreshUtil.setRefresh(mRefreshLayout, true, true);
+        mRefreshLayout.setOnPullDownRefreshListener(() -> {
+            pageNum = 1;
+            mRefreshLayout.isMore(true);
+            loadData();
         });
-        mRefreshLayout.setOnLoadMoreListener(new CustomSwipeRefreshLayout.OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                pageNum++;
-                loadData();
-            }
+        mRefreshLayout.setOnPullUpRefreshListener(() -> {
+            pageNum++;
+            loadData();
         });
 
         mAdapter = new HotAdapter(getActivity());
         mListHot.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                RoomActivity.openActivity(getActivity(), i, mAdapter.getList());
-            }
-        });
+        mAdapter.setOnItemClickListener((adapterView, view, i, l) ->
+                RoomActivity.openActivity(getActivity(), i, mAdapter.getList()));
     }
 
     @Override
@@ -202,7 +187,7 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
                 }
             }
             if (mRefreshLayout != null) {
-                mRefreshLayout.loadMoreFinish();
+                mRefreshLayout.refreshFinish();
             }
         }
     }
@@ -243,7 +228,6 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
             }
             if (mRefreshLayout != null) {
                 mRefreshLayout.refreshFinish();
-                mRefreshLayout.loadMoreFinish();
             }
         }
     }

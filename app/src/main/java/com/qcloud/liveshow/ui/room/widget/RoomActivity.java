@@ -25,7 +25,6 @@ import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.liveshow.ui.room.presenter.impl.RoomPresenterImpl;
 import com.qcloud.liveshow.ui.room.view.IRoomView;
 import com.qcloud.liveshow.widget.pop.TipsPop;
-import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.image.GlideUtil;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.widget.customview.VerticalViewPager;
@@ -105,8 +104,6 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         initViewPager();
     }
 
-
-
     /**
      * 初始化播放器
      */
@@ -121,16 +118,15 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
                 .setForbidDoulbeUp(true)
                 .hideCenterPlayer(true)
                 .hideControlPanl(true)
+                .setChargeTie(true, 3)  // 播放时长，6秒后收费
                 .showThumbnail(new OnShowThumbnailListener() {
                     @Override
                     public void onShowThumbnail(ImageView ivThumbnail) {
                         ivThumbnail.setScaleType(ImageView.ScaleType.CENTER_CROP);
                         GlideUtil.loadImage(mContext, ivThumbnail, currImage, R.drawable.bitmap_user, true, false);
-//                        ivThumbnail.set
                     }
                 })
                 .setPlaySource("高清",currUrl)
-
 //                .setPlaySource("高清","http://10.10.22.123:80/room/123/123.flv")
                 .startPlay();
             Timber.e("播放url："+currUrl);
@@ -205,33 +201,28 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
     private void initTipsPop() {
         tipsPop = new TipsPop(this);
         tipsPop.setCancelBtn(R.string.out);
-        tipsPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
-            @Override
-            public void onViewClick(View view) {
-                switch (view.getId()) {
-                    case R.id.btn_ok:
-                        mPlayer.startPlay();
-                        break;
-                    case R.id.btn_cancel:
-                        finish();
-                }
+        tipsPop.setOnHolderClick(view -> {
+            switch (view.getId()) {
+                case R.id.btn_ok:
+                    mPlayer.startPlay();
+                    break;
+                case R.id.btn_cancel:
+                    finish();
             }
         });
     }
+
     private void initNetWorkTipsPop() {
         netWorkTipsPop = new TipsPop(this);
         tipsPop.setCancelBtn(R.string.out);
-        netWorkTipsPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
-            @Override
-            public void onViewClick(View view) {
-                switch (view.getId()) {
-                    case R.id.btn_ok:
-                        mPlayer.setNetWorkTypeTie(false);
-                        mPlayer.startPlay();
-                        break;
-                    case R.id.btn_cancel:
-                        finish();
-                }
+        netWorkTipsPop.setOnHolderClick(view -> {
+            switch (view.getId()) {
+                case R.id.btn_ok:
+                    mPlayer.setNetWorkTypeTie(false);
+                    mPlayer.startPlay();
+                    break;
+                case R.id.btn_cancel:
+                    finish();
             }
         });
     }
@@ -240,8 +231,6 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
      * 初始化直播间
      */
     private void initViewPager() {
-
-
         mRoomAdapter = new RoomAdapter(this, mList);
         mViewPager.setCurrentItem(mCurrentItem);
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -334,8 +323,6 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
 
     @Override
     protected void onDestroy() {
-
-
         super.onDestroy();
         if (mPlayer != null) {
             mPlayer.onDestroy();
@@ -350,7 +337,6 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
         if (mRoomFragment != null) {
             mRoomFragment.onActivityResult(requestCode, resultCode, data);
         }
-
     }
 
     @Override

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout
+<com.qcloud.qclib.pullrefresh.PullRefreshView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/refresh_layout"
@@ -40,4 +40,4 @@
                 android:visibility="gone"/>
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
-</com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout>
+</com.qcloud.qclib.pullrefresh.PullRefreshView>

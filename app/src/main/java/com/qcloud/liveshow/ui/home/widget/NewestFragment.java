@@ -2,8 +2,6 @@ package com.qcloud.liveshow.ui.home.widget;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.view.Gravity;
-import android.view.View;
-import android.widget.AdapterView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.NewestAdapter;
@@ -13,11 +11,9 @@ import com.qcloud.liveshow.constant.AppConstants;
 import com.qcloud.liveshow.ui.home.presenter.impl.NewestPresenterImpl;
 import com.qcloud.liveshow.ui.home.view.INewestView;
 import com.qcloud.liveshow.ui.room.widget.RoomActivity;
-import com.qcloud.liveshow.widget.customview.EmptyView;
 import com.qcloud.liveshow.widget.customview.NoDataView;
-import com.qcloud.qclib.swiperefresh.CustomSwipeRefreshLayout;
-import com.qcloud.qclib.swiperefresh.SwipeRecyclerView;
-import com.qcloud.qclib.swiperefresh.SwipeRefreshUtil;
+import com.qcloud.qclib.pullrefresh.PullRefreshRecyclerView;
+import com.qcloud.qclib.pullrefresh.PullRefreshUtil;
 import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.NetUtils;
 import com.qcloud.qclib.widget.layoutManager.RecycleViewDivider;
@@ -35,7 +31,7 @@ import timber.log.Timber;
 public class NewestFragment extends BaseFragment<INewestView, NewestPresenterImpl> implements INewestView {
 
     @Bind(R.id.list_newest)
-    SwipeRecyclerView mListNewest;
+    PullRefreshRecyclerView mListNewest;
 
     private NoDataView mEmptyView;
 
@@ -74,39 +70,23 @@ public class NewestFragment extends BaseFragment<INewestView, NewestPresenterImp
 
         mAdapter = new NewestAdapter(getActivity());
         mListNewest.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                RoomActivity.openActivity(getActivity(), i, mAdapter.getList());
-            }
-        });
+        mAdapter.setOnItemClickListener((adapterView, view, i, l) ->
+                RoomActivity.openActivity(getActivity(), i, mAdapter.getList()));
 
-        SwipeRefreshUtil.setLoadMore(mListNewest, true);
-        SwipeRefreshUtil.setRefreshImage(getActivity(), mListNewest, R.drawable.icon_refresh_icon, CustomSwipeRefreshLayout.ANIM_IN_LEFT);
-        mListNewest.setOnRefreshListener(new CustomSwipeRefreshLayout.OnRefreshListener(){
-            @Override
-            public void onRefresh() {
-                pageNum = 1;
-                mListNewest.isMore(true);
-                loadData();
-            }
+        PullRefreshUtil.setRefresh(mListNewest, true, true);
+        mListNewest.setOnPullDownRefreshListener(() -> {
+            pageNum = 1;
+            mListNewest.isMore(true);
+            loadData();
         });
-        mListNewest.setOnLoadMoreListener(new CustomSwipeRefreshLayout.OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                pageNum++;
-                loadData();
-            }
+        mListNewest.setOnPullUpRefreshListener(() -> {
+            pageNum++;
+            loadData();
         });
 
         mEmptyView = new NoDataView(getActivity());
         mListNewest.setEmptyView(mEmptyView, Gravity.CENTER_HORIZONTAL);
-        mEmptyView.setOnRefreshListener(new EmptyView.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadData();
-            }
-        });
+        mEmptyView.setOnRefreshListener(() -> loadData());
     }
 
     @Override
@@ -133,7 +113,7 @@ public class NewestFragment extends BaseFragment<INewestView, NewestPresenterImp
     public void addListAtEnd(List<RoomBean> beans, boolean isNext) {
         if (isInFragment) {
             if (mListNewest != null) {
-                mListNewest.loadMoreFinish();
+                mListNewest.refreshFinish();
             }
             if (beans != null && beans.size() > 0) {
                 if (mAdapter != null) {
