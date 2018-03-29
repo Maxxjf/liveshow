@@ -28,15 +28,18 @@ public interface AppConstants {
 
     /**推流 服务器*/
 //    String IO_HOST = "221.4.216.90";
-    String IO_HOST = "10.10.22.123";
+//    String IO_HOST = "10.10.22.123";
+    String IO_HOST = "167.99.68.31";
 //    int IO_PORT = 2081;
     int IO_PORT = 1935;
 
     /**拉流服务器*/
-    String PUSH_HOST = "10.10.22.123";
+    String PUSH_HOST = "167.99.68.31";
+//    String PUSH_HOST = "10.10.22.123";
 //    String PUSH_HOST = "221.4.216.90";
 //    int PUSH_PORT = 2091;
-    int PUSH_PORT = 80;
+    int PUSH_PORT = 8080;
+//    int PUSH_PORT = 80;
 //    int PUSH_PORT = 1935;
 
     /**弹起键盘坡度*/
