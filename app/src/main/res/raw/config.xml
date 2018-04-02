@@ -5,7 +5,7 @@
         <unicode>UTF-8</unicode>
         <app_sign>liveshow</app_sign>
 
-        <!--测试服务器-->
+        <!--正式服务器-->
         <server>http://zb.demo.qi-cloud.com/</server>
         <!--库赞服务器-->
         <!--<server>http://10.10.100.169:8082/</server>-->
