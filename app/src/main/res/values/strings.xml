@@ -112,6 +112,8 @@
     <string name="toast_send_gift_fail">发送礼物失败，钻石币不足</string>
     <string name="toast_is_not_anchor">您还不是主播喔^v^</string>
     <string name="toast_room_char_unsend">您已经被禁言</string>
+    <string name="toast_netty_is_destory">IM服务器忙碌，请重启APP试试</string>
+    <string name="toast_money_often_setting">请不要频繁操作，%d分钟后再修改</string>
 
     <string name="tip_title">温馨提示</string>
     <string name="tip_cancel">取消</string>
@@ -133,7 +135,7 @@
     <string name="tip_room_descrption">好看的根本停不下来啊啊啊啊</string>
     <string name="tip_extension_descrption">高质量在线直播平台，美女帅哥，好看的根本停不下来</string>
     <string name="tip_no_diamonds">您的钻石币不足啦,快去充值吧~</string>
-    <string name="tip_pay_for_vip_room">观看的房间是个vip房间，是否继续观看</string>
+    <string name="tip_pay_for_vip_room">观看的房间是个vip房间，收费标准为%d钻石币每分钟，是否继续观看</string>
     <string name="tip_diamonds_success">充值成功</string>
     <string name="tip_diamonds_fail">充值失败</string>
     <string name="tip_diamonds_again">充值已重复</string>
@@ -235,6 +237,7 @@
     <string name="tag_clear_cache">清除缓存</string>
     <string name="tag_problem">常见问题</string>
     <string name="tag_app_id">AV8DID:\t</string>
+    <string name="tag_room_rates">收费标准:\t</string>
     <string name="tag_message_eg">别睡了，起来嗨</string>
     <string name="tag_please_select">请选择</string>
     <string name="tag_colon">：</string>

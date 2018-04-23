@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyPayVipRoomReveice;
+import com.qcloud.liveshow.beans.NettyRatesBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
@@ -97,8 +99,15 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     @Bind(R.id.iv_no_read)
     ImageView ivNoRead;
-    //    @Bind(R.id.layout_gift)
-//    LinearLayout layoutGift;
+    @Bind(R.id.tv_rates)
+    TextView tvRates;
+    @Bind(R.id.layout_small_gift)
+    LinearLayout giftParent;
+    @Bind(R.id.layout_big_gift)
+    LinearLayout BigGiftParent;
+
+    @Bind(R.id.img_gift_gif)
+    ImageView imgGiftGif;
     private IClearRootView mClearRootLayout;
     private ClearScreenHelper mClearScreenHelper;
 
@@ -159,7 +168,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     /**
      * 消息列表弹窗
      */
-    private MessageListPop mMessagePop;
+    private MessageListPop messageListPop;
     /**
      * 系统消息弹窗
      */
@@ -180,14 +189,6 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * 分享工具
      */
     private ShareUtil shareUtil;
-
-    @Bind(R.id.layout_small_gift)
-    LinearLayout giftParent;
-    @Bind(R.id.layout_big_gift)
-    LinearLayout BigGiftParent;
-
-    @Bind(R.id.img_gift_gif)
-    ImageView imgGiftGif;
     private GiftControl smallGiftControl;
     private GiftControl bigGigtControl;
     private Disposable disposable;
@@ -196,7 +197,9 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     private Disposable freeTimeDisposable;
     private PayPalHelper payPalHelper = PayPalHelper.getInstance();
     private UserIdentityEnum userIdentity;//当前人身份 0:观众 1:守护 2:主播
+    private int rates;//直播间收费标准
 
+    private RoomBean preRoom;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_room;
@@ -244,6 +247,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
                                 if (payPop == null) {
                                     initPayWindow();
                                 }
+                                payPop.setTips(String.format(getResources().getString(R.string.tip_pay_for_vip_room),rates));
                                 payPop.showAtLocation(mLayoutNotice, Gravity.CENTER, 0, 0);
                             }
                         }
@@ -254,7 +258,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     private void initPayWindow() {
         payPop = new TipsPop(getActivity());
-        payPop.setTips(getResources().getString(R.string.tip_pay_for_vip_room));
+        payPop.setTips(String.format(getResources().getString(R.string.tip_pay_for_vip_room),rates));
         payPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
             @Override
             public void onViewClick(View view) {
@@ -272,12 +276,11 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     //计费开始，一秒钟一次
     private void startTime() {
-        if (payDisposable == null) {
             payDisposable = Observable.interval(60, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).
                     doOnDispose(new Action() {
                         @Override
                         public void run() throws Exception {
-                            mPresenter.watchCalculate(mCurrBean.getRoomIdStr());
+//                            mPresenter.watchCalculate(mCurrBean.getRoomIdStr());
                         }
                     }).subscribe(new Consumer<Long>() {
                 @Override
@@ -285,20 +288,25 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
                     mPresenter.payVip(mCurrBean.getRoomIdStr());
                 }
             });
-        }
     }
-
+    /**
+     * 取消收费计时器
+     */
     public void cancelPay() {
         if (payDisposable != null && !payDisposable.isDisposed()) {
             payDisposable.dispose();
         }
     }
-
+    /**
+     * 取消免费时长计时器
+     */
     public void cancelStratTime() {
         if (freeTimeDisposable != null && !freeTimeDisposable.isDisposed()) {
             freeTimeDisposable.dispose();
         }
     }
+
+
 
     /**
      * 收到IM为17时
@@ -356,7 +364,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
                 .setCustormAnim(new CustormAnim());
         bigGigtControl.setDisplayMode(GiftControl.FROM_TOP_TO_BOTTOM);
         bigGigtControl.setHideMode(true);
-        initFreeTime();
+
     }
 
     @Override
@@ -366,7 +374,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
             isFirstInRoom = false;
         } else {
             cancelStratTime();//先取消免费时长
-            initFreeTime();//再初始化免费时长
+            cancelPay();
+//            initFreeTime();//再初始化免费时长
             refreshAndLoadData();
         }
     }
@@ -375,6 +384,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * 刷新房间
      */
     public void refreshRoom(RoomBean bean) {
+        preRoom =mCurrBean;
         mCurrBean = bean;
     }
 
@@ -409,7 +419,10 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         }
         mMessageAdapter.removeAll();
         mFansAdapter.removeAll();
-
+        if (preRoom!=null){
+            Timber.e("结算");
+            mPresenter.watchCalculate(preRoom.getRoomIdStr());
+        }
         intoRoom();
     }
 
@@ -690,8 +703,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      * 初始化消息列表弹窗
      */
     private void initMessagePop() {
-        mMessagePop = new MessageListPop(mContext);
-        mMessagePop.setOnPopItemClick((position, memberBean) -> {
+        messageListPop = new MessageListPop(mContext);
+        messageListPop.setOnPopItemClick((position, memberBean) -> {
             if (mFansMessagePop == null) {
                 initFansMessagePop();
             }
@@ -699,6 +712,18 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
             mFansMessagePop.refreshMemberInfo(memberBean);
             mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
         });
+        messageListPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                ivNoRead.setVisibility(View.GONE);
+            }
+        });
+//        messageListPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                checkMessageIsRead();
+//            }
+//        });
     }
 
     /**
@@ -713,6 +738,13 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
      */
     private void initFansMessagePop() {
         mFansMessagePop = new FansMessagePop(getActivity());
+        mFansMessagePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                mFansMessagePop.removeMemberInfo();//当聊天消失的时候，把当前的memberBean移除
+                checkMessageIsRead();
+            }
+        });
     }
 
     /**
@@ -824,7 +856,15 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 //                    Glide.with(mContext).load(gift.getGift().getGiftKey()).into(imgGiftGif);
                     ApngImageLoader.getInstance()
                             .displayApng(gift.getGift().getGiftKey(), imgGiftGif,
-                                    new ApngImageLoader.ApngConfig(8, false));
+                                    new ApngImageLoader.ApngConfig(2, false));
+//                    ApngDrawable apngDrawable = ApngDrawable.getFromView(imgGiftGif);
+//                    if (apngDrawable == null) return;
+//                    if (apngDrawable.isRunning()) {
+//                        return;
+//                    } else {
+//                        apngDrawable.setNumPlays(5); // Fix number of repetition
+//                        apngDrawable.start(); // Start animation
+//                    }
 //                    imgGiftGif.setOnClickListener(new View.OnClickListener() {
 //                        @Override
 //                        public void onClick(View v) {
@@ -839,12 +879,6 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 //                            }
 //                        }
 //                    });
-//                    imgGiftGif.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-//                        @Override
-//                        public void onSystemUiVisibilityChange(int i) {
-//
-//                        }
-//                    });
                 }
             } else {//小礼物
                 smallGiftControl.loadGift(gift);
@@ -853,7 +887,7 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     }
 
     public void startThread() {
-        disposable = Observable.interval(60, TimeUnit.SECONDS).take(10).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        disposable = Observable.interval(1, TimeUnit.SECONDS).take(60).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .doOnDispose(new Action() {
                     @Override
                     public void run() throws Exception {
@@ -862,7 +896,15 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
                     @Override
                     public void accept(Long aLong) throws Exception {
                         ApngDrawable apngDrawable = ApngDrawable.getFromView(imgGiftGif);
-                        if (apngDrawable == null) return;
+                        if (aLong == 0) {
+                            if (apngDrawable == null) return;
+                            if (apngDrawable.isRunning()) {
+                                return;
+                            } else {
+                                apngDrawable.setNumPlays(2); // Fix number of repetition
+                                apngDrawable.start(); // Start animation
+                            }
+                        }
                         if (apngDrawable.isRunning()) {
                             imgGiftGif.setVisibility(View.VISIBLE);
                         } else {
@@ -912,11 +954,11 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
 
     @Override
     public void onReceiveMessageClick() {
-        mMessagePop.initData();
-        if (mMessagePop == null) {
+        messageListPop.initData();
+        if (messageListPop == null) {
             initMessagePop();
         }
-        mMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
+        messageListPop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
     }
 
     @Override
@@ -952,8 +994,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     @Override
     public void replaceChatList(List<MemberBean> beans) {
         if (isInFragment) {
-            if (beans != null && mMessagePop != null) {
-                mMessagePop.replaceList(beans);
+            if (beans != null && messageListPop != null) {
+                messageListPop.replaceList(beans);
             }
         }
     }
@@ -1034,6 +1076,19 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     }
 
     @Override
+    public void moneyHasSetting(NettyRatesBean ratesBean) {
+            rates = ratesBean.getRates();
+            tvRates.setText(String.format(getResources().getString(R.string.tag_top_profit), rates));
+            cancelStratTime();
+            cancelPay();
+            if (rates == 0) {
+
+            } else {
+                initFreeTime();
+            }
+    }
+
+    @Override
     public void inOutGuardError(String msg) {
         ToastUtils.ToastMessage(mContext, msg);
     }
@@ -1055,8 +1110,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     public void addMessage(MemberBean bean) {
         if (isInFragment) {
             if (isInFragment) {
-                if (bean != null && mMessagePop != null) {
-                    mMessagePop.add(bean);
+                if (bean != null && messageListPop != null) {
+                    messageListPop.add(bean);
                 }
             }
         }
@@ -1089,8 +1144,8 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
         if (mGiftPop != null && mGiftPop.isShowing()) {
             mGiftPop.dismiss();
         }
-        if (mMessagePop != null && mMessagePop.isShowing()) {
-            mMessagePop.dismiss();
+        if (messageListPop != null && messageListPop.isShowing()) {
+            messageListPop.dismiss();
         }
         if (mSharePop != null && mSharePop.isShowing()) {
             mSharePop.dismiss();
@@ -1150,11 +1205,14 @@ public class RoomFragment extends BaseFragment<IRoomControlView, RoomControlPres
     @Override
     public void onDestroy() {
         super.onDestroy();
+        cancelStratTime();
         cancelPay();
+        Timber.e("onDestroy");
         payPalHelper.stopPayPalService(getActivity());
         if (mCurrBean != null) {
             mPresenter.outGroup(mCurrBean.getRoomIdStr());
         }
+
     }
 
     @Override

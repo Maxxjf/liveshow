@@ -20,6 +20,15 @@ public class RoomBean implements Serializable {
     boolean isAttention;    // 是否关注了该主播员
     AnchorBean member;      // 主播员信息
     boolean isLive;         // 是否在直播
+    int MaxRates;           //收费的最大值
+
+    public int getMaxRates() {
+        return MaxRates;
+    }
+
+    public void setMaxRates(int maxRates) {
+        MaxRates = maxRates;
+    }
 
     public boolean isLive() {
         return isLive;
@@ -126,6 +135,7 @@ public class RoomBean implements Serializable {
                 ", isAttention=" + isAttention +
                 ", member=" + member +
                 ", isLive=" + isLive +
+                ", MaxRates=" + MaxRates +
                 '}';
     }
 }

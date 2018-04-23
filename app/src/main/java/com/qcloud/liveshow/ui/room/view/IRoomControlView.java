@@ -6,6 +6,7 @@ import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyPayVipRoomReveice;
+import com.qcloud.liveshow.beans.NettyRatesBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
@@ -100,4 +101,6 @@ public interface IRoomControlView {
     void getUserIsAttention(UserStatusBean userStatusBean);
     /**更新禁言状态*/
     void refreshForbidden(NettyForbiddenBean obj);
+    /**收费标准被修改*/
+    void moneyHasSetting(NettyRatesBean ratesBean);
 }

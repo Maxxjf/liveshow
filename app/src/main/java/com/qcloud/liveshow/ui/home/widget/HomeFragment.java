@@ -88,6 +88,12 @@ public class HomeFragment extends BaseFragment<IHomeView, HomePresenterImpl> imp
         }));
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkMessageIsRead();
+    }
+
     private void checkMessageIsRead() {
         int noReadNumber = MessageUtil.getInstance().getNoReadNumber();//未读消息数量
         if (noReadNumber != 0) {

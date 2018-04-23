@@ -40,6 +40,9 @@ public class PreAnchorPresenterImpl extends BasePresenter<IPreAnchorView> implem
 
     @Override
     public void onBtnClick(int viewId) {
+        if (mView==null){
+            return;
+        }
         switch (viewId) {
             case R.id.btn_exit:
                 mView.onExitClick();

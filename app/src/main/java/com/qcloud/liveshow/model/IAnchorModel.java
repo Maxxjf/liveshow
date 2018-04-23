@@ -21,35 +21,54 @@ import com.qcloud.qclib.callback.DataCallback;
  * Date: 2017/9/8 11:05.
  */
 public interface IAnchorModel {
-    /**获取主播状态*/
+    /**
+     * 获取主播状态
+     */
     void getApplyStatus(DataCallback<ApplyStatusBean> callback);
 
-    /**获取验证码*/
+    /**
+     * 获取验证码
+     */
     void getCode(String email, DataCallback<GetCodeResBean> callback);
 
-    /**提交申请主播*/
+    /**
+     * 提交申请主播
+     */
     void submitApply(@NonNull SubmitApplyBean bean, DataCallback<ReturnEmptyBean> callback);
 
-    /**创建直播间*/
+    /**
+     * 创建直播间
+     */
     void createLive(@NonNull SubmitStartLiveBean bean, DataCallback<RoomBean> callback);
 
-    /**获取我的守护列表*/
+    /**
+     * 获取我的守护列表
+     */
     void getGuardList(DataCallback<ReturnDataBean<MemberBean>> callback);
 
-    /**添加守护/取消守护*/
+    /**
+     * 添加守护/取消守护
+     */
     void inOutGuard(long memberId, boolean isGuard, DataCallback<ReturnEmptyBean> callback);
 
-    /**结束直播间*/
-    void finishLive(String roomId,DataCallback<FinishIncomeBean> callback);
+    /**
+     * 结束直播间
+     */
+    void finishLive(String roomId, DataCallback<FinishIncomeBean> callback);
 
-    /**直播前获取直播消息*/
+    /**
+     * 直播前获取直播消息
+     */
     void getLiveinfo(DataCallback<LiveInfoBean> callback);
 
-
     void getUserStatus(String memberId, String roomId, DataCallback<UserStatusBean> callback);
-
 
     void shareGetCoin(DataCallback<ReturnEmptyBean> callback);
 
     void watchCalculate(String roomId, DataCallback<ReturnEmptyBean> callback);
+
+    /**
+     * 更改房间收费
+     */
+    void settingMoney(String id,int rates,DataCallback<ReturnEmptyBean> callback);
 }

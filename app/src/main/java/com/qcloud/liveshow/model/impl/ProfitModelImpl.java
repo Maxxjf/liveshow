@@ -193,7 +193,8 @@ public class ProfitModelImpl implements IProfitModel {
      * @time 2017/12/4
      */
     @Override
-    public void withdraw2Card(String cash, String name, String cardNumber, Integer bankCode, String password, DataCallback<ReturnWithdrawSuccessBean> callback) {
+    public void withdraw2Card(String cash, String name, String cardNumber, Integer bankCode,
+                              String password, DataCallback<ReturnWithdrawSuccessBean> callback) {
         mParams = OkGoRequest.getAppParams();
         mParams.put("money", cash);
         mParams.put("payee", name);

@@ -57,6 +57,8 @@
     <item name="return_hot_fragment" type="id"/>
     <!--钻石币不足，-->
     <item name="netty_no_money" type="id"/>
+    <!--收费标准被修改，-->
+    <item name="netty_money_setting" type="id"/>
     <!--强制关闭直播，-->
     <item name="netty_close_room" type="id"/>
     <!--还不是直播播主-->

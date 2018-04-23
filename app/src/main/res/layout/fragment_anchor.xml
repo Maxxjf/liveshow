@@ -103,6 +103,37 @@
         
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/layout_rates"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/small_btn_height"
+        android:layout_alignLeft="@+id/layout_top"
+        android:layout_below="@+id/layout_id"
+        android:layout_marginTop="@dimen/margin_1"
+        android:background="@drawable/bg_black_alpha_20_circular"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/layout_margin"
+        android:paddingRight="@dimen/layout_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/tag_room_rates"
+            android:textColor="@color/white"
+            android:textSize="@dimen/micro_text_size" />
+
+        <TextView
+            android:id="@+id/tv_rates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="@dimen/micro_text_size"
+            tools:text="@string/tag_top_profit" />
+
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/layout_big_gift"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -160,7 +191,7 @@
                 android:id="@+id/btn_notice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_notice"/>
+                android:src="@drawable/icon_notice" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -215,6 +246,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:src="@drawable/icon_send_message"/>
+        <ImageView
+            android:id="@+id/btn_setting_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/layout_margin"
+            android:layout_toRightOf="@+id/btn_send_message"
+            android:src="@drawable/icon_setting_money"/>
 
 
         <ImageView
@@ -252,10 +290,10 @@
             android:id="@+id/iv_no_read"
             android:layout_toLeftOf="@+id/btn_flash"
             android:layout_marginRight="@dimen/margin_3"
-            android:layout_marginTop="@dimen/margin_2"
+            android:layout_marginTop="@dimen/margin_1"
             android:background="@drawable/reg_circle"
-            android:layout_width="@dimen/margin_1"
-            android:layout_height="@dimen/margin_1" />
+            android:layout_width="@dimen/margin_2"
+            android:layout_height="@dimen/margin_2" />
 
 
     </RelativeLayout>

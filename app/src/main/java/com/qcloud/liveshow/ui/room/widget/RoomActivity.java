@@ -22,6 +22,7 @@ import com.qcloud.liveshow.adapter.RoomAdapter;
 import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.constant.UrlConstants;
+import com.qcloud.liveshow.netty.handler.NettyClient;
 import com.qcloud.liveshow.ui.room.presenter.impl.RoomPresenterImpl;
 import com.qcloud.liveshow.ui.room.view.IRoomView;
 import com.qcloud.liveshow.widget.pop.TipsPop;
@@ -126,10 +127,9 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
                         GlideUtil.loadImage(mContext, ivThumbnail, currImage, R.drawable.bitmap_user, true, false);
                     }
                 })
-                .setPlaySource("高清",currUrl)
+                .setPlaySource("高清",currUrl);
 //                .setPlaySource("高清","http://10.10.22.123:80/room/123/123.flv")
-                .startPlay();
-            Timber.e("播放url："+currUrl);
+
 //        int screenbrightness=0;
 //        try {
 //             screenBrightness = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
@@ -143,7 +143,7 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
                 if (tipsPop == null) {
                     initTipsPop();
                 }
-                tipsPop.setTips(errInfo+","+getResources().getString(R.string.tip_paly_again));
+                tipsPop.setTips(errInfo);
                 tipsPop.showAtLocation(mViewPager, Gravity.CENTER, 0, 0);
             }
 
@@ -156,6 +156,7 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
                 netWorkTipsPop.showAtLocation(mViewPager, Gravity.CENTER, 0, 0);
             }
         });
+        mPlayer.startPlay();
         mPlayer.setOnInfoListener(new IMediaPlayer.OnInfoListener() {
             @Override
             public boolean onInfo(IMediaPlayer iMediaPlayer, int i, int i1) {
@@ -200,21 +201,22 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
 
     private void initTipsPop() {
         tipsPop = new TipsPop(this);
-        tipsPop.setCancelBtn(R.string.out);
+        tipsPop.setOkBtn(R.string.out);
+        tipsPop.showCancel(false);
         tipsPop.setOnHolderClick(view -> {
             switch (view.getId()) {
                 case R.id.btn_ok:
-                    mPlayer.startPlay();
+                    finish();
                     break;
                 case R.id.btn_cancel:
-                    finish();
+                   break;
             }
         });
     }
 
     private void initNetWorkTipsPop() {
         netWorkTipsPop = new TipsPop(this);
-        tipsPop.setCancelBtn(R.string.out);
+        netWorkTipsPop.setCancelBtn(R.string.out);
         netWorkTipsPop.setOnHolderClick(view -> {
             switch (view.getId()) {
                 case R.id.btn_ok:
@@ -348,6 +350,10 @@ public class RoomActivity extends BaseActivity<IRoomView, RoomPresenterImpl> imp
     }
 
     public static void openActivity(Context context, int position, List<RoomBean> list) {
+        if (NettyClient.isDestroy){
+            ToastUtils.ToastMessage(context,context.getResources().getString(R.string.toast_netty_is_destory));
+            return;
+        }
         Intent intent = new Intent(context, RoomActivity.class);
         intent.putExtra("POSITION", position);
         intent.putExtra("LIST", (Serializable) list);

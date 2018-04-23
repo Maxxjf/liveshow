@@ -44,7 +44,7 @@ public class NettyClient extends ClientImpl {
     /**添加数据队列*/
     private BlockingDeque<String> mMessageSupers = new LinkedBlockingDeque<>();
     /**是否已清*/
-    private boolean isDestroy = false;
+    public static boolean isDestroy = false;
     /**服务器ip*/
     private String host;
     /**服务器端口*/

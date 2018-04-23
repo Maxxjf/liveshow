@@ -235,6 +235,7 @@ public class PreAnchorFragment extends BaseFragment<IPreAnchorView, PreAnchorPre
                 ((AnchorActivity)getActivity()).setNotice(mEtNotice.getText().toString().trim());
                 bean.setTitle(mEtTitle.getText().toString());
                 bean.setCover(mCoverUrl);
+                bean.setMaxRates(upperLimit);
                 ((AnchorActivity)getActivity()).setRoom(bean);
             }
             if (mListener != null) {

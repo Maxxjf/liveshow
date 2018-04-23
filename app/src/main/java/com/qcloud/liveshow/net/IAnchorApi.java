@@ -98,4 +98,11 @@ public class IAnchorApi {
         Type type=new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
         return OkGoRequest.getRequest(UrlConstants.WATCH_CALCULATE,type,params);
     }
+    /**
+     * 设置收费标准
+     */
+    public static Observable<BaseResponse<ReturnEmptyBean>> settingMoney(HttpParams params){
+        Type type=new TypeToken<BaseResponse<ReturnEmptyBean>>(){}.getType();
+        return OkGoRequest.getRequest(UrlConstants.SETTING_MONEY,type,params);
+    }
 }

@@ -2,6 +2,7 @@ package com.qcloud.liveshow.ui.main.widget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.qcloud.liveshow.base.BaseActivity;
 import com.qcloud.liveshow.ui.main.presenter.impl.WebPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.IWebView;
 import com.qcloud.liveshow.widget.toolbar.TitleBar;
+import com.qcloud.qclib.FrameConfig;
+import com.qcloud.qclib.toast.ToastUtils;
 import com.qcloud.qclib.utils.NetUtils;
 import com.qcloud.qclib.utils.StringUtils;
 
@@ -105,13 +108,34 @@ public class WebActivity extends BaseActivity<IWebView, WebPresenterImpl> implem
 
     @Override
     public void displayWeb(String webUrl) {
-        if (!NetUtils.isConnected(this)){
-            return;
+        //服务器地址
+        String address="";
+        //检查服务器是否可用
+        try {
+            address= FrameConfig.server.split("/")[2];
+            if (address.contains(":")){
+                address=address.split(":")[0];
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        if (isRunning && mWebView != null && StringUtils.isNotEmptyString(webUrl)) {
-            Timber.e(webUrl);
-            mWebView.loadUrl(webUrl);
-        }
+        startLoadingDialog();
+        NetUtils.isNetWorkAvailable(address, new Comparable<Boolean>() {
+            @Override
+            public int compareTo(@NonNull Boolean aBoolean) {
+                stopLoadingDialog();
+                if (aBoolean){
+                    if (isRunning && mWebView != null && StringUtils.isNotEmptyString(webUrl)) {
+                        Timber.e(webUrl);
+                        mWebView.loadUrl(webUrl);
+                    }
+                }else {
+                    ToastUtils.ToastMessage(WebActivity.this,"服务器出错，请重新试试");
+                }
+                return 0;
+            }
+        });
+
     }
 
     /**

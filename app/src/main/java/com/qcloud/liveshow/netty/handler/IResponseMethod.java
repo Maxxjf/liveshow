@@ -38,6 +38,10 @@ public interface IResponseMethod {
     /**钻石币不足*/
     void disposeNoMoney(JsonElement msgConfig);
 
+    void disposeVipRoomPay(JsonElement msgConfig);
+
+    void dispooseMoneyUpdate(JsonElement msgConfig);
+
     /**看直播成员*/
     void disposeGroupMember(@NonNull JsonElement msgConfig);
 }

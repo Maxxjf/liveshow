@@ -94,6 +94,8 @@ public interface UrlConstants {
     String WATCH_CALCULATE = URL_PREFIX_APP + "room/watchCalculate";
     /**分享送钻石币*/
     String SHARE_GET_COIN = URL_PREFIX_APP + "share/giveShareRewards";
+    /**修改房间收费*/
+    String SETTING_MONEY = URL_PREFIX_APP + "room/updateRoomRates";
 
 
     /**

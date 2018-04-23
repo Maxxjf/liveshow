@@ -61,6 +61,23 @@ public class MessageUtil {
         }
         return false;
     }
+
+    /**
+     * 忽略全部未读
+     */
+    public void ignoreMessage(){
+        charList=RealmHelper.getInstance().queryListByValue(MemberBean.class,"isRead",false);
+        for (MemberBean member:charList){
+            RealmHelper.getInstance().updateMemberIsRead(member.getId(),true);
+        }
+    }
+    /**
+     * 标记已读
+     */
+    public void charIsRead(long id,boolean isRead){
+        RealmHelper.getInstance().updateMemberIsRead(id,isRead);
+    }
+
 //    /**
 //     * 得到聊天
 //     */

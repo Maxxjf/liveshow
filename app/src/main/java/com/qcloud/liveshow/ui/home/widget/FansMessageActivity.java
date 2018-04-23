@@ -23,6 +23,7 @@ import com.qcloud.liveshow.realm.RealmHelper;
 import com.qcloud.liveshow.ui.home.presenter.impl.FansMessagePresenterImpl;
 import com.qcloud.liveshow.ui.home.view.IFansMessageView;
 import com.qcloud.liveshow.utils.EmojiClickManagerUtil;
+import com.qcloud.liveshow.utils.MessageUtil;
 import com.qcloud.liveshow.widget.customview.EmojiLayout;
 import com.qcloud.liveshow.widget.customview.KeyBackEditText;
 import com.qcloud.liveshow.widget.customview.NoMessageView;
@@ -65,7 +66,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     private NoMessageView mEmptyView;
 
     private FansMessageAdapter mAdapter;
-    private MemberBean mMemberBean;
+    private MemberBean mCurrentMember;//当前聊天人
 
     private Rect tmp = new Rect();
     private int mScreenHeight;
@@ -109,15 +110,15 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     }
 
     private void initData() {
-        mMemberBean = (MemberBean) getIntent().getSerializableExtra("formUser");
-        if (mMemberBean != null) {
-            mAdapter.refreshMember(mMemberBean);
-            String fromUserId = mMemberBean.getIdStr();
+        mCurrentMember = (MemberBean) getIntent().getSerializableExtra("formUser");
+        if (mCurrentMember != null) {
+            mAdapter.refreshMember(mCurrentMember);
+            String fromUserId = mCurrentMember.getIdStr();
             if (mPresenter != null) {
                 mPresenter.getChars(fromUserId);//获取所有私聊列表
             }
 
-            mTitleBar.setTitle(mMemberBean.getNickName());
+            mTitleBar.setTitle(mCurrentMember.getNickName());
         }
     }
 
@@ -278,7 +279,7 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     public void onSendClick() {
         String context = mEtMessage.getText().toString();
         if (StringUtils.isNotEmptyString(context)) {
-            mPresenter.sendMessage(mMemberBean, context);
+            mPresenter.sendMessage(mCurrentMember, context);
             mEtMessage.setText("");
             KeyBoardUtils.hideKeybord(mContext, mEtMessage);
             hideEmoji();
@@ -293,10 +294,12 @@ public class FansMessageActivity extends SwipeBaseActivity<IFansMessageView, Fan
     @Override
     public void addMessage(NettyReceivePrivateBean bean) {
         if (isRunning) {
-            if (mAdapter != null && bean != null && mMemberBean.getIdStr().equals(bean.getFrom_user_id())) {
+            if (mAdapter != null && bean != null && mCurrentMember.getIdStr().equals(bean.getFrom_user_id())) {
                 hideEmptyView();
                 mAdapter.addListBeanAtEnd(bean);
                 mListMessage.smoothScrollToPosition(mAdapter.getItemCount());
+                //需要标记为已读
+                MessageUtil.getInstance().charIsRead(mCurrentMember.getId(),true);
             }
         }
     }

@@ -26,11 +26,6 @@ public class CharManager {
 
     }
 
-
-
-
-
-
     interface CharCallBack{
         void onSuccess();
         void onError();

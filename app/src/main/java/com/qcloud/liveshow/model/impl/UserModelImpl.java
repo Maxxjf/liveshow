@@ -68,7 +68,8 @@ public class UserModelImpl implements IUserModel {
      * @time 2017/9/6 16:55
      */
     @Override
-    public void loginOther(String iconurl, String name, String openId, int sex, int type, DataCallback<LoginBean> callback) {
+    public void loginOther(String iconurl, String name, String openId,
+                           int sex, int type, DataCallback<LoginBean> callback) {
         mParams = OkGoRequest.getAppParams();
         mParams.put("iconurl", iconurl);
         mParams.put("name", name);

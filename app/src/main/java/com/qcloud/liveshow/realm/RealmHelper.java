@@ -263,23 +263,26 @@ public class RealmHelper {
     }
 
     /**
-     * 更新成员对象
+     * 更新成员对象(标记未读)
      *  查询出来的对象不可以临时改变其数据, 否则会报错:
      *  java.lang.IllegalStateException: Changing Realm data can only be done from inside a transaction.
      *  只能在transaction内执行操作
      *
      * @param id 成员id
      * */
-    public void updateMember(long id) {
+    public void updateMemberIsRead(long id, boolean isRead) {
         if (mRealm == null) {
             Timber.e("realm is null");
             return;
         }
 
+
+
         MemberBean bean = mRealm.where(MemberBean.class).equalTo("id", id).findFirst();
+
         if (bean != null) {
             mRealm.beginTransaction();
-            bean.setRead(false);
+            bean.setRead(isRead);
             mRealm.commitTransaction();
         }
     }

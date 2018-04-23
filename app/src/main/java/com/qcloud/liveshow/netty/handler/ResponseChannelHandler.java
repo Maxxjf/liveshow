@@ -105,7 +105,11 @@ public class ResponseChannelHandler extends ChannelHandlerSuper {
                         // 粘包/拆包数据
                         receiveMsg.append(response);
                     }
-                    Thread.sleep(500);
+                    if (mMessageDeque.isEmpty()){
+                        Thread.sleep(500);
+                    }else {
+                        Thread.sleep(0);
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (Exception ignored) {

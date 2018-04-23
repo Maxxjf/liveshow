@@ -113,9 +113,9 @@ public class BaseApplication extends Application {
         builder.addInterceptor(loggingInterceptor);                                 //添加OkGo默认debug日志
 
         //超时时间设置，默认60秒
-        builder.readTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);      //全局的读取超时时间
-        builder.writeTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);     //全局的写入超时时间
-        builder.connectTimeout(OkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);   //全局的连接超时时间
+        builder.readTimeout(OkGo.DEFAULT_MILLISECONDS/2, TimeUnit.MILLISECONDS);      //全局的读取超时时间
+        builder.writeTimeout(OkGo.DEFAULT_MILLISECONDS/2, TimeUnit.MILLISECONDS);     //全局的写入超时时间
+        builder.connectTimeout(OkGo.DEFAULT_MILLISECONDS/2, TimeUnit.MILLISECONDS);   //全局的连接超时时间
 
         //自动管理cookie（或者叫session的保持），以下几种任选其一就行
         //builder.cookieJar(new CookieJarImpl(new SPCookieStore(this)));            //使用sp保持cookie，如果cookie不过期，则一直有效
@@ -134,7 +134,7 @@ public class BaseApplication extends Application {
                 .setOkHttpClient(builder.build())               //建议设置OkHttpClient，不设置会使用默认的
                 .setCacheMode(CacheMode.NO_CACHE)               //全局统一缓存模式，默认不使用缓存，可以不传
                 .setCacheTime(CacheEntity.CACHE_NEVER_EXPIRE)   //全局统一缓存时间，默认永不过期，可以不传
-                .setRetryCount(0);                              //全局统一超时重连次数，不需要可以设置为0
+                .setRetryCount(1);                              //全局统一超时重连次数，不需要可以设置为0
     }
 
     private class SafeHostnameVerifier implements HostnameVerifier {

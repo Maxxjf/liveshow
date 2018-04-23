@@ -5,7 +5,9 @@ import com.qcloud.liveshow.beans.NettyForbiddenBean;
 import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
+import com.qcloud.liveshow.beans.NettyRatesBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
+import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.UserStatusBean;
 import com.qcloud.qclib.base.BaseView;
@@ -28,6 +30,8 @@ public interface IAnchorControlView extends BaseView {
 
     /**更新私聊消息的状态*/
     void upDateMessageSendStatus(String chatId, int charStatus);
+
+    void addPrivateChat(NettyReceivePrivateBean bean);
 
     void getUserIsAttention(UserStatusBean userStatusBean);
 
@@ -82,4 +86,8 @@ public interface IAnchorControlView extends BaseView {
     void showGift(NettyGiftBean gift);
 
     void checkMessageIsRead();
+    /**设置收费按钮*/
+    void settingMoneyClick();
+    /**钻石币被修改*/
+    void moneyHasSetting(NettyRatesBean ratesBean);
 }

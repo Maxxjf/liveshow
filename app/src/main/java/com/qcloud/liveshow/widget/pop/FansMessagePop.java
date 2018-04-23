@@ -124,6 +124,14 @@ public class FansMessagePop extends BasePopupWindow {
         }
     }
 
+    /**
+     * 去掉当前用户
+     */
+    public void removeMemberInfo() {
+        currMember = null;
+    }
+
+
     //初始化所有私聊记录
     private void initDate() {
         if (currMember != null) {
@@ -141,6 +149,7 @@ public class FansMessagePop extends BasePopupWindow {
         if (beans != null && beans.size() > 0) {
             if (mAdapter != null) {
                 mAdapter.replaceList(beans);
+                mListMessage.smoothScrollToPosition(mAdapter.getItemCount());
             }
         } else {
             Timber.e("私聊列表为空");
@@ -152,9 +161,11 @@ public class FansMessagePop extends BasePopupWindow {
      */
     public void addMessage(NettyReceivePrivateBean bean) {
 
-        if (mAdapter != null && bean != null && currMember.getIdStr().equals(bean.getFrom_user_id())) {
+        if (mAdapter != null && bean != null && currMember != null && currMember.getIdStr().equals(bean.getFrom_user_id())) {
             if (bean.getContent() != null) {
                 // 接收消息
+                //标记为已读
+                MessageUtil.getInstance().charIsRead(currMember.getId(), true);
                 Timber.e(bean.toString());
             } else {
                 // 发送消息
@@ -163,6 +174,7 @@ public class FansMessagePop extends BasePopupWindow {
                 bean.setContent(contentBean);
             }
             mAdapter.addListBeanAtEnd(bean);
+            mListMessage.smoothScrollToPosition(mAdapter.getItemCount());
         }
     }
 
@@ -183,7 +195,7 @@ public class FansMessagePop extends BasePopupWindow {
     public void onSendClick() {
         if (currMember != null) {
             if (check()) {
-                if (!MessageUtil.getInstance().isInList(currMember.getIdStr())){//如果Member不在列表里
+                if (!MessageUtil.getInstance().isInList(currMember.getIdStr())) {//如果Member不在列表里
                     RealmHelper.getInstance().addOrUpdateBean(currMember);//添加到本地数据
                 }
                 NettyContentBean contentBean = new NettyContentBean();
@@ -235,7 +247,7 @@ public class FansMessagePop extends BasePopupWindow {
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
         }
-        ((Activity)mContext).runOnUiThread(new Runnable() {
+        ((Activity) mContext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 RealmHelper.getInstance().updateMessageStatus(chatId, charStatus);

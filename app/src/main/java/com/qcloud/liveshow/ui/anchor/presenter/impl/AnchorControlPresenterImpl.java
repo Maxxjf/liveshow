@@ -7,11 +7,14 @@ import com.qcloud.liveshow.beans.NettyForbiddenBean;
 import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
+import com.qcloud.liveshow.beans.NettyRatesBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
+import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.UserStatusBean;
 import com.qcloud.liveshow.enums.CharStatusEnum;
+import com.qcloud.liveshow.enums.GiftTypeEnum;
 import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.model.IAnchorModel;
 import com.qcloud.liveshow.model.IIMModel;
@@ -58,9 +61,9 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
     public AnchorControlPresenterImpl() {
         mModel = new AnchorModelImpl();
         mIMModel = new IMModelImpl();
-        mineModel=new MineModelImpl();
-        idList=new ArrayList<>();
-        longList=new ArrayList<>();
+        mineModel = new MineModelImpl();
+        idList = new ArrayList<>();
+        longList = new ArrayList<>();
         initRxBusEvent();
     }
 
@@ -80,7 +83,7 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                         case R.id.netty_room_member_join:
                             // 成员加入
                             NettyRoomMemberBean member = (NettyRoomMemberBean) rxBusEvent.getObj();
-                            if (!longList.contains(member.getUser().getIdStr())){
+                            if (!longList.contains(member.getUser().getIdStr())) {
                                 longList.add(member.getUser().getIdStr());
                                 mView.addMember(member);
                             }
@@ -99,14 +102,14 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                             break;
                         case R.id.netty_private_chat:
                             // 私聊消息
-                            if (mView!=null){
+                            if (mView != null) {
                                 mView.checkMessageIsRead();
                             }
-//                            mView.addPrivateChat((NettyReceivePrivateBean) rxBusEvent.getObj());
+                            mView.addPrivateChat((NettyReceivePrivateBean) rxBusEvent.getObj());
                             break;
                         case R.id.netty_notice_out_group:
                             // 通知
-                            NettyNoticeBean nettyNoticeBean=(NettyNoticeBean) rxBusEvent.getObj();
+                            NettyNoticeBean nettyNoticeBean = (NettyNoticeBean) rxBusEvent.getObj();
                             if (nettyNoticeBean != null && nettyNoticeBean.getUser() != null) {
                                 longList.remove(nettyNoticeBean.getUser().getIdStr());
                                 mView.userOutGroup(nettyNoticeBean);
@@ -124,40 +127,48 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                             break;
                         case R.id.netty_group_message_send_success:
                             //群聊消息发送成功
-                            String uuid=(String)rxBusEvent.getObj();
+                            String uuid = (String) rxBusEvent.getObj();
                             int chatPosition = Integer.valueOf(uuid);
                             mView.upDateGroupMessageStatus(chatPosition, CharStatusEnum.SUCCESS.getKey());
-                            if (disposable!=null){
+                            if (disposable != null) {
                                 disposable.dispose();
                             }
                             break;
                         case R.id.netty_room_char_block:
                             //已被禁言，群聊消息发送失败
-                            String failUuid=(String)rxBusEvent.getObj();
+                            String failUuid = (String) rxBusEvent.getObj();
                             int FailChatPosition = Integer.valueOf(failUuid);
                             mView.upDateGroupMessageStatus(FailChatPosition, CharStatusEnum.IS_BLOCKED.getKey());
-                            if (disposable!=null){
+                            if (disposable != null) {
                                 disposable.dispose();
                             }
                             break;
                         case R.id.netty_gift_show:
                             //收到礼物消息
-                            NettyGiftBean gift=(NettyGiftBean)rxBusEvent.getObj();
-                            if (gift.getGift()!=null&&gift.getUser()!=null){
+                            NettyGiftBean gift = (NettyGiftBean) rxBusEvent.getObj();
+                            if (gift.getGift() != null && gift.getUser() != null) {
                                 gift.getGift().setGiftCount(1);
                                 gift.getGift().setSendGiftTime(System.currentTimeMillis());
                                 mView.showGift(gift);
-                                NettyReceiveGroupBean groupBean=new NettyReceiveGroupBean();
-                                groupBean.setUser(gift.getUser());
-                                groupBean.setChatId(""+ UUID.randomUUID());
-                                groupBean.setContent(new NettyContentBean(gift.getUser().getNickName()+"送出了"+gift.getGift().getName()));
-                                // 群聊消息
-                                mView.addGroupChat(groupBean);
+                                if (gift.getGift().getType() == GiftTypeEnum.BigGift.getKey()) {//大礼物
+                                    NettyReceiveGroupBean groupBean = new NettyReceiveGroupBean();
+                                    groupBean.setUser(gift.getUser());
+                                    groupBean.setChatId("" + UUID.randomUUID());
+                                    groupBean.setContent(new NettyContentBean(gift.getUser().getNickName() + "送出了" + gift.getGift().getName()));
+                                    // 群聊消息
+                                    mView.addGroupChat(groupBean);
+                                }
                             }
                             break;
-                        case R.id.netty_member_char://有新的成员会话加入
-                            Timber.e("char:"+"netty_member_char");
-                            mView.addMessage((MemberBean)rxBusEvent.getObj());
+                        case R.id.netty_member_char://有新的会话加入
+                            Timber.e("char:" + "netty_member_char");
+                            mView.addMessage((MemberBean) rxBusEvent.getObj());
+                            break;
+                        case R.id.netty_money_setting:
+                            NettyRatesBean ratesBean= (NettyRatesBean) rxBusEvent.getObj();
+                            if (ratesBean!=null&&mView!=null){
+                                mView.moneyHasSetting(ratesBean);
+                            }
                             break;
                     }
                 }
@@ -189,6 +200,8 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
             case R.id.btn_exit:
                 mView.onExitClick();
                 break;
+            case R.id.btn_setting_money:
+                mView.settingMoneyClick();
         }
     }
 
@@ -217,11 +230,11 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
 
     @Override
     public void submitAttention(int type, long id, boolean isAttention) {
-        if (type== StartFansEnum.Blacklist.getKey()){
+        if (type == StartFansEnum.Blacklist.getKey()) {
             mineModel.submitAttention(StartFansEnum.Blacklist.getKey(), id, isAttention, new DataCallback<ReturnEmptyBean>() {
                 @Override
                 public void onSuccess(ReturnEmptyBean returnEmptyBean) {
-                    if (mView!=null){
+                    if (mView != null) {
                         mView.backListSuccess();
                     }
                 }
@@ -233,7 +246,7 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                     }
                 }
             });
-        }else {
+        } else {
             mineModel.submitAttention(StartFansEnum.MyFans.getKey(), id, isAttention, new DataCallback<ReturnEmptyBean>() {
                 @Override
                 public void onSuccess(ReturnEmptyBean returnEmptyBean) {
@@ -264,10 +277,9 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
     }
 
 
-
     /**
      * 加入群聊
-     * */
+     */
     @Override
     public void joinGroup(String roomNumber) {
         mIMModel.joinGroup(roomNumber);
@@ -279,28 +291,29 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
      * @time 2017/11/8 10:21
      */
     @Override
-    public void sendGroupMessage(String roomNum, String content,int position) {
-        if (StringUtils.isNotEmptyString(content)){
-            MemberBean user=new MemberBean();
+    public void sendGroupMessage(String roomNum, String content, int position) {
+        if (StringUtils.isNotEmptyString(content)) {
+            MemberBean user = new MemberBean();
             user.setMemberGradeIcon(UserInfoUtil.mUser.getMemberGradeIconLong());
             user.setAnchorGradeIcon(UserInfoUtil.mUser.getAnchorGradeIconLong());
             user.setNickName(UserInfoUtil.mUser.getNickName());
             user.setAnchor(UserInfoUtil.mUser.isAnchor());
-            NettyContentBean contentBean=new NettyContentBean();
+            NettyContentBean contentBean = new NettyContentBean();
             contentBean.setText(content);
 
-            NettyReceiveGroupBean bean=new NettyReceiveGroupBean();
+            NettyReceiveGroupBean bean = new NettyReceiveGroupBean();
             bean.setChatId(String.valueOf(position));
             bean.setCharStatusEnum(CharStatusEnum.INPROGRESS.getKey());
             bean.setContent(contentBean);
             bean.setRoom_number(roomNum);
             bean.setUser(user);
             mView.addGroupChat(bean);
-            mView.upDateGroupMessageStatus(position,CharStatusEnum.INPROGRESS.getKey());
-            mIMModel.sendGroupChat(roomNum, content,String.valueOf(position));
+            mView.upDateGroupMessageStatus(position, CharStatusEnum.INPROGRESS.getKey());
+            mIMModel.sendGroupChat(roomNum, content, String.valueOf(position));
             startTime(position);
         }
     }
+
     @Override
     public void sendGroupNotice(String roomNum, String content) {
         mIMModel.sendGroupNotice(roomNum, content);
@@ -320,21 +333,23 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        if (mView!=null){
+                        if (mView != null) {
                             mView.upDateGroupMessageStatus(position, CharStatusEnum.FAIL.getKey());
                         }
                     }
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
-                        if (mView!=null){
+                        if (mView != null) {
                             mView.upDateGroupMessageStatus(position, CharStatusEnum.FAIL.getKey());
                         }
                     }
                 });
     }
+
     /**
      * 设置/取消守护
+     *
      * @param memberId
      * @param isGuard
      */
@@ -348,14 +363,29 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
 
             @Override
             public void onError(int status, String errMsg) {
-                mView.loadErr(true,errMsg);
+                mView.loadErr(true, errMsg);
             }
         });
     }
 
     @Override
     public void shutUp(String roomNumber, String memberId, boolean isForbidden) {
-        mIMModel.shutUp(roomNumber,memberId,isForbidden);
+        mIMModel.shutUp(roomNumber, memberId, isForbidden);
+    }
+
+    @Override
+    public void settingMoney(String id, int rates) {
+        mModel.settingMoney(id, rates, new DataCallback<ReturnEmptyBean>() {
+            @Override
+            public void onSuccess(ReturnEmptyBean returnEmptyBean) {
+
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+
+            }
+        });
     }
 
 
@@ -364,7 +394,7 @@ public class AnchorControlPresenterImpl extends BasePresenter<IAnchorControlView
         mModel.getUserStatus(idStr, roomIdStr, new DataCallback<UserStatusBean>() {
             @Override
             public void onSuccess(UserStatusBean userStatusBean) {
-                if (mView!=null&&userStatusBean!=null){
+                if (mView != null && userStatusBean != null) {
                     mView.getUserIsAttention(userStatusBean);
                 }
             }

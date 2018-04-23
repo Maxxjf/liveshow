@@ -13,6 +13,7 @@ import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyPayVipRoomReveice;
+import com.qcloud.liveshow.beans.NettyRatesBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
 import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
@@ -91,6 +92,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                 case 17://直播收费返回
                     disposeVipRoomPay(jsonStr);
                     break;
+                case 18:
+                    dispooseMoneyUpdate(jsonStr);
+                    break;
                 case 104:   // 获取私聊列表
                     disposeChatList(jsonStr);
                     break;
@@ -106,6 +110,9 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
             }
         }
     }
+
+
+
     /**
      * 鉴权
      *
@@ -182,7 +189,7 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
                     if (!MessageUtil.getInstance().isInList(bean.getFrom_user_id())){
                         new IMModelImpl().getUser(bean.getFrom_user_id());
                     }else {
-                       RealmHelper.getInstance().updateMember(Long.parseLong(bean.getFrom_user_id()));
+                       RealmHelper.getInstance().updateMemberIsRead(Long.parseLong(bean.getFrom_user_id()),false);
                     }
                     BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_private_chat).setObj(bean).build());
                 }else {//自己消息发送成功
@@ -350,7 +357,6 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         NettyDispose.dispose(msgConfig, type, new NettyDataCallback<MemberBean>() {
             @Override
             public void onSuccess(MemberBean memberBean, String uuid) {
-                Timber.e("----->>>>>memberBean:"+memberBean);
                 if (memberBean!=null){
                     memberBean.setRead(false);
                     RealmHelper.getInstance().addOrUpdateBean(memberBean);
@@ -387,12 +393,34 @@ public class ResponseHandler implements ResponseListener, IResponseMethod {
         });
     }
 
+    /**
+     * 直播收费返回钻石币，是否可以继续观看
+     */
+    @Override
     public  void disposeVipRoomPay(JsonElement msgConfig){
         Type type=new TypeToken<NettyBaseResponse<NettyPayVipRoomReveice>>(){}.getType();
         NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyPayVipRoomReveice>() {
             @Override
             public void onSuccess(NettyPayVipRoomReveice bean, String uuid) {
                 BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_vip_pay_room).setObj(bean).build());
+            }
+
+            @Override
+            public void onError(int status, String errMsg) {
+
+            }
+        });
+    }
+    /**
+     * 直播收费标准被修改
+     */
+    @Override
+    public void dispooseMoneyUpdate(JsonElement msgConfig) {
+        Type type=new TypeToken<NettyBaseResponse<NettyRatesBean>>(){}.getType();
+        NettyDispose.dispose(msgConfig, type, new NettyDataCallback<NettyRatesBean>() {
+            @Override
+            public void onSuccess(NettyRatesBean nettyRatesBean, String uuid) {
+                BusProvider.getInstance().post(RxBusEvent.newBuilder(R.id.netty_money_setting).setObj(nettyRatesBean).build());
             }
 
             @Override

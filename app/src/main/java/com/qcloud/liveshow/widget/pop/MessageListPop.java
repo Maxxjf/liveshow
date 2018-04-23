@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.qcloud.liveshow.R;
 import com.qcloud.liveshow.adapter.PopMessageAdapter;
@@ -30,6 +31,8 @@ public class MessageListPop extends BasePopupWindow {
     RecyclerView mListMessage;
     @Bind(R.id.refresh_view)
     PullRefreshView mRefreshView;
+    @Bind(R.id.btn_ignore_message)
+    TextView ignoreMessage;
 
     private PopMessageAdapter mAdapter;
 
@@ -104,7 +107,27 @@ public class MessageListPop extends BasePopupWindow {
     }
     @OnClick(R.id.btn_ignore_message)
     void onIgnoreClick(View view) {
+        if (mViewClick!=null){
+            mViewClick.onViewClick(ignoreMessage);
+        }
+        ignoreMessageRealm();//数据库标为未读
+        ignoreMessageList();//列表数据标为未读
+        
+    }
 
+    private void ignoreMessageList() {
+        if (mAdapter!=null){
+            List<MemberBean> charList = mAdapter.getList();
+            for (MemberBean member:charList){
+                member.setRead(true);
+            }
+        }
+        mAdapter.notifyDataSetChanged();
+//        notifyAll();
+    }
+
+    private void ignoreMessageRealm() {
+        MessageUtil.getInstance().ignoreMessage();
     }
 
     /**

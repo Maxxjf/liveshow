@@ -48,10 +48,8 @@ public class AnchorModelImpl implements IAnchorModel {
 
     /**
      * 获取验证码
-     *
      * @param email
      *              联系方式
-     *
      * @time 2017/9/8 11:59
      */
     @Override
@@ -171,5 +169,13 @@ public class AnchorModelImpl implements IAnchorModel {
         mParams.put("roomId",roomId);
 
         BaseApi.dispose(IAnchorApi.watchCalculate(mParams),callback);
+    }
+
+    @Override
+    public void settingMoney(String id,int rates, DataCallback<ReturnEmptyBean> callback) {
+        mParams=OkGoRequest.getAppParams();
+        mParams.put("id",id);
+        mParams.put("rates",rates);
+        BaseApi.dispose(IAnchorApi.settingMoney(mParams),callback);
     }
 }

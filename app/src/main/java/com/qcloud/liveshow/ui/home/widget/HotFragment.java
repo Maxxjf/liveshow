@@ -139,6 +139,12 @@ public class HotFragment extends BaseFragment<IHotView, HotPresenterImpl> implem
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.loadData(pageNum, AppConstants.PAGE_SIZE);
+    }
+
+    @Override
     public void replaceBanner(List<BannerBean> list) {
         if (isInFragment) {
             if (list != null && !list.isEmpty()) {

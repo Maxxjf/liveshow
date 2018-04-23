@@ -1611,7 +1611,7 @@ public class PlayerView {
                 } else {
                     hideAll();
                     if (isLive) {
-                        showStatus("获取不到直播源");
+                        showStatus("获取不到直播源，尝试检查下网络");
                     } else {
                         showStatus(mActivity.getResources().getString(R.string.small_problem));
                     }

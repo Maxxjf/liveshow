@@ -110,6 +110,12 @@ public class NewestFragment extends BaseFragment<INewestView, NewestPresenterImp
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
+
+    @Override
     public void addListAtEnd(List<RoomBean> beans, boolean isNext) {
         if (isInFragment) {
             if (mListNewest != null) {

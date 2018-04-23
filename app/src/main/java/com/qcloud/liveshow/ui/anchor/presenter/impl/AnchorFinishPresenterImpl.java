@@ -31,6 +31,7 @@ public class AnchorFinishPresenterImpl extends BasePresenter<IAnchorFinishView> 
             @Override
             public void onSuccess(FinishIncomeBean bean) {
                 if (mView!=null){
+                    Timber.e("FinishIncomeBean:"+bean);
                     mView.loadData(bean);
                     Timber.e("关闭直播成功");
                 }
@@ -39,6 +40,7 @@ public class AnchorFinishPresenterImpl extends BasePresenter<IAnchorFinishView> 
             @Override
             public void onError(int status, String errMsg) {
                 if (mView!=null){
+                    Timber.e("errMsg:");
                     mView.loadErr(true,errMsg);
                 }
             }

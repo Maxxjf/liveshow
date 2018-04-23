@@ -107,7 +107,7 @@ public class SendGiftPop extends BasePopupWindow {
                     @Override
                     public void onSuccess(ReturnGiftBean bean) {
                         if (bean.isSuccess()) {
-                            ToastUtils.ToastMessage(mContext, mContext.getResources().getString(R.string.toast_send_gift_success));
+//                            ToastUtils.ToastMessage(mContext, mContext.getResources().getString(R.string.toast_send_gift_success));
 //                            virtualCoin -= giftPrice;
                             setVirtualCoin(bean.getVirtualCoin());
                         } else {

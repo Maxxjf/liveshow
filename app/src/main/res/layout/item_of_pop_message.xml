@@ -83,8 +83,8 @@
 
         <ImageView
             android:id="@+id/iv_no_read"
-            android:layout_width="@dimen/margin_1"
-            android:layout_height="@dimen/margin_1"
+            android:layout_width="@dimen/margin_2"
+            android:layout_height="@dimen/margin_2"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/margin_2"
             android:background="@drawable/reg_circle" />

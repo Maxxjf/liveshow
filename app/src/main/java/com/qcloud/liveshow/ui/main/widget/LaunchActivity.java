@@ -16,6 +16,7 @@ import com.qcloud.liveshow.ui.main.presenter.impl.LaunchPresenterImpl;
 import com.qcloud.liveshow.ui.main.view.ILaunchView;
 import com.qcloud.liveshow.utils.RoomInfoUtil;
 import com.qcloud.liveshow.utils.UserInfoUtil;
+import com.qcloud.qclib.AppManager;
 import com.qcloud.qclib.beans.RxBusEvent;
 import com.qcloud.qclib.network.BaseApi;
 import com.qcloud.qclib.permission.PermissionsManager;
@@ -88,8 +89,6 @@ public class LaunchActivity extends BaseActivity<ILaunchView, LaunchPresenterImp
         Uri uriData = this.getIntent().getData();
         if (uriData!=null){
             String mydata = uriData.getQueryParameter("memberId");
-            Timber.e("uriData:"+uriData);
-            Timber.e("mydata:"+mydata);
             RoomInfoUtil.loadRoomInfo(mydata);
         }
     }
@@ -118,6 +117,9 @@ public class LaunchActivity extends BaseActivity<ILaunchView, LaunchPresenterImp
      * 申请应用需要的权限
      * */
     private void requestPermission() {
+        if (AppManager.getInstance().getActivityCount()<=0){
+            return;
+        }
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             PERMISSIONS=PERMISSIONS2;
         }

@@ -9,6 +9,7 @@ import com.qcloud.liveshow.netty.callback.ResponseListener;
  * Date: 2017/11/1 11:41.
  */
 public abstract class ClientImpl implements ConnectCallBack {
+
     /**
      * 初始化
      * */

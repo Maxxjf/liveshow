@@ -25,6 +25,7 @@ import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.constant.CameraConstants;
 import com.qcloud.liveshow.constant.UrlConstants;
 import com.qcloud.liveshow.enums.BeautyUiEnum;
+import com.qcloud.liveshow.netty.handler.NettyClient;
 import com.qcloud.liveshow.ui.anchor.presenter.impl.AnchorPresenterImpl;
 import com.qcloud.liveshow.ui.anchor.view.IAnchorView;
 import com.qcloud.liveshow.utils.UserInfoUtil;
@@ -265,7 +266,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     }
 
     /**
-     * 设置房间ID
+     * 设置房间
      */
     public void setRoom(RoomBean room) {
         this.room = room;
@@ -703,7 +704,7 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     protected void onDestroy() {
         if (mPresenter != null) {
             if (room != null) {
-                mPresenter.finishLive(room.getRoomIdStr());
+//                mPresenter.finishLive(room.getRoomIdStr());
                 mPresenter.outGroup(room.getRoomIdStr());
             }
         }
@@ -728,6 +729,10 @@ public class AnchorActivity extends BaseActivity<IAnchorView, AnchorPresenterImp
     }
 
     public static void openActivity(Context context) {
+        if (NettyClient.isDestroy){
+            ToastUtils.ToastMessage(context,context.getResources().getString(R.string.toast_netty_is_destory));
+            return;
+        }
         context.startActivity(new Intent(context, AnchorActivity.class));
     }
 

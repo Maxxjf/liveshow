@@ -8,11 +8,14 @@ import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
 import com.qcloud.liveshow.beans.NettyPayVipRoomReveice;
+import com.qcloud.liveshow.beans.NettyRatesBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
+import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.ReturnEmptyBean;
 import com.qcloud.liveshow.beans.UserStatusBean;
 import com.qcloud.liveshow.enums.CharStatusEnum;
+import com.qcloud.liveshow.enums.GiftTypeEnum;
 import com.qcloud.liveshow.enums.StartFansEnum;
 import com.qcloud.liveshow.model.IAnchorModel;
 import com.qcloud.liveshow.model.IIMModel;
@@ -40,6 +43,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * 类说明：直播间
@@ -86,18 +90,18 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                             }
                             break;
                         case R.id.netty_group_chat:
-                             mView.addGroupChat((NettyReceiveGroupBean) rxBusEvent.getObj());
+                            mView.addGroupChat((NettyReceiveGroupBean) rxBusEvent.getObj());
                             break;
                         case R.id.netty_private_chat:
                             // 私聊消息
-                            if (mView!=null){
+                            if (mView != null) {
                                 mView.checkMessageIsRead();
                             }
-//                            mView.addPrivateChat((NettyReceivePrivateBean) rxBusEvent.getObj());
+                            mView.addPrivateChat((NettyReceivePrivateBean) rxBusEvent.getObj());
                             break;
                         case R.id.netty_notice_out_group:
                             // 有人退出群聊
-                            NettyNoticeBean nettyNoticeBean=(NettyNoticeBean) rxBusEvent.getObj();
+                            NettyNoticeBean nettyNoticeBean = (NettyNoticeBean) rxBusEvent.getObj();
                             if (nettyNoticeBean != null && nettyNoticeBean.getUser() != null) {
                                 longList.remove(nettyNoticeBean.getUser().getIdStr());
                                 mView.userOutGroup(nettyNoticeBean);
@@ -123,35 +127,37 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                             break;
                         case R.id.netty_group_message_send_success:
                             //群聊消息发送成功
-                            String uuid=(String)rxBusEvent.getObj();
+                            String uuid = (String) rxBusEvent.getObj();
                             int chatPosition = Integer.valueOf(uuid);
                             mView.upDateGroupMessageStatus(chatPosition, CharStatusEnum.SUCCESS.getKey());
-                            if (disposable!=null){
+                            if (disposable != null) {
                                 disposable.dispose();
                             }
                             break;
                         case R.id.netty_room_char_block:
                             //已被禁言，群聊消息发送失败
-                            String failUuid=(String)rxBusEvent.getObj();
+                            String failUuid = (String) rxBusEvent.getObj();
                             int FailChatPosition = Integer.valueOf(failUuid);
                             mView.upDateGroupMessageStatus(FailChatPosition, CharStatusEnum.IS_BLOCKED.getKey());
-                            if (disposable!=null){
+                            if (disposable != null) {
                                 disposable.dispose();
                             }
                             break;
                         case R.id.netty_gift_show:
                             //收到礼物消息
-                            NettyGiftBean gift=(NettyGiftBean)rxBusEvent.getObj();
-                            if (gift.getGift()!=null&&gift.getUser()!=null){
+                            NettyGiftBean gift = (NettyGiftBean) rxBusEvent.getObj();
+                            if (gift.getGift() != null && gift.getUser() != null) {
                                 gift.getGift().setGiftCount(1);
                                 gift.getGift().setSendGiftTime(System.currentTimeMillis());
                                 mView.showGift(gift);
-                                NettyReceiveGroupBean groupBean=new NettyReceiveGroupBean();
-                                groupBean.setUser(gift.getUser());
-                                groupBean.setChatId(""+ UUID.randomUUID());
-                                groupBean.setContent(new NettyContentBean("送出了"+gift.getGift().getName()));
-                                // 群聊消息
-                                mView.addGroupChat(groupBean);
+                                if (gift.getGift().getType() == GiftTypeEnum.BigGift.getKey()) {//大礼物
+                                    NettyReceiveGroupBean groupBean = new NettyReceiveGroupBean();
+                                    groupBean.setUser(gift.getUser());
+                                    groupBean.setChatId("" + UUID.randomUUID());
+                                    groupBean.setContent(new NettyContentBean("送出了" + gift.getGift().getName()));
+                                    // 群聊消息
+                                    mView.addGroupChat(groupBean);
+                                }
                             }
 
                             break;
@@ -161,11 +167,17 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
 //                            mView.noMoney(content);
 //                            break;
                         case R.id.netty_vip_pay_room:
-                            NettyPayVipRoomReveice payVipRoomReveice= (NettyPayVipRoomReveice) rxBusEvent.getObj();
+                            NettyPayVipRoomReveice payVipRoomReveice = (NettyPayVipRoomReveice) rxBusEvent.getObj();
                             mView.payVipRoom(payVipRoomReveice);
                             break;
+                        case R.id.netty_money_setting:
+                            NettyRatesBean ratesBean = (NettyRatesBean) rxBusEvent.getObj();
+                            if (ratesBean != null && mView != null) {
+                                mView.moneyHasSetting(ratesBean);
+                            }
+                            break;
                         case R.id.netty_member_char://有新的成员会话加入
-                            mView.addMessage((MemberBean)rxBusEvent.getObj());
+                            mView.addMessage((MemberBean) rxBusEvent.getObj());
                             break;
                     }
                 }
@@ -266,29 +278,30 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
      * @time 2017/11/8 10:21
      */
     @Override
-    public void sendGroupMessage(String roomNum, String content,int position) {
-        if (UserInfoUtil.mUser!=null&&StringUtils.isNotEmptyString(content)){
-            MemberBean user=new MemberBean();
+    public void sendGroupMessage(String roomNum, String content, int position) {
+        if (UserInfoUtil.mUser != null && StringUtils.isNotEmptyString(content)) {
+            MemberBean user = new MemberBean();
             user.setMemberGradeIcon(UserInfoUtil.mUser.getMemberGradeIconLong());
             user.setAnchorGradeIcon(UserInfoUtil.mUser.getAnchorGradeIconLong());
             user.setNickName(UserInfoUtil.mUser.getNickName());
             user.setAnchor(UserInfoUtil.mUser.isAnchor());
 
-            NettyContentBean contentBean=new NettyContentBean();
+            NettyContentBean contentBean = new NettyContentBean();
             contentBean.setText(content);
 
-            NettyReceiveGroupBean bean=new NettyReceiveGroupBean();
+            NettyReceiveGroupBean bean = new NettyReceiveGroupBean();
             bean.setChatId(String.valueOf(position));
             bean.setCharStatusEnum(CharStatusEnum.INPROGRESS.getKey());
             bean.setContent(contentBean);
             bean.setRoom_number(roomNum);
             bean.setUser(user);
             mView.addGroupChat(bean);
-            mView.upDateGroupMessageStatus(position,CharStatusEnum.INPROGRESS.getKey());
-            mIMModel.sendGroupChat(roomNum, content,String.valueOf(position));
+            mView.upDateGroupMessageStatus(position, CharStatusEnum.INPROGRESS.getKey());
+            mIMModel.sendGroupChat(roomNum, content, String.valueOf(position));
             startTime(position);
         }
     }
+
     /**
      * 开始计时，5秒后发送失败
      *
@@ -303,19 +316,20 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        if (mView!=null){
+                        if (mView != null) {
                             mView.upDateGroupMessageStatus(position, CharStatusEnum.FAIL.getKey());
                         }
                     }
                 }, new Action() {
                     @Override
                     public void run() throws Exception {
-                        if (mView!=null){
+                        if (mView != null) {
                             mView.upDateGroupMessageStatus(position, CharStatusEnum.FAIL.getKey());
                         }
                     }
                 });
     }
+
     /**
      * 设置/取消守护
      *
@@ -338,15 +352,14 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
     }
 
     /**
-     *
      * @return 用户id，详细见UserIdentityEnum枚举
      */
     @Override
-    public void getUserIdentity(String memberId, String roomId){
+    public void getUserIdentity(String memberId, String roomId) {
         anchorModel.getUserStatus(memberId, roomId, new DataCallback<UserStatusBean>() {
             @Override
             public void onSuccess(UserStatusBean userStatusBean) {
-                if (mView!=null&&userStatusBean!=null){
+                if (mView != null && userStatusBean != null) {
                     mView.getUserIdentity(userStatusBean);
                 }
             }
@@ -357,12 +370,13 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
             }
         });
     }
+
     @Override
     public void getUserIsAttention(String idStr, String roomIdStr) {
         anchorModel.getUserStatus(idStr, roomIdStr, new DataCallback<UserStatusBean>() {
             @Override
             public void onSuccess(UserStatusBean userStatusBean) {
-                if (mView!=null&&userStatusBean!=null){
+                if (mView != null && userStatusBean != null) {
                     mView.getUserIsAttention(userStatusBean);
                 }
             }
@@ -373,6 +387,7 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
             }
         });
     }
+
     @Override
     public void shutUp(String roomNumber, String memberId, boolean isForbidden) {
         mIMModel.shutUp(roomNumber, memberId, isForbidden);
@@ -380,12 +395,14 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
 
     /**
      * 直播收费（每一分钟调用一次）
+     *
      * @param roomId
      */
     @Override
     public void payVip(String roomId) {
         mIMModel.payVipRoom(roomId);
     }
+
     /**
      * 退出群聊
      *
@@ -394,10 +411,12 @@ public class RoomControlPresenterImpl extends BasePresenter<IRoomControlView> im
     @Override
     public void outGroup(String roomNum) {
         mIMModel.outGroup(roomNum);
+        Timber.e("结算");
         watchCalculate(roomNum);
     }
+
     @Override
-    public  void watchCalculate(String roomNum){
+    public void watchCalculate(String roomNum) {
         anchorModel.watchCalculate(roomNum, new DataCallback<ReturnEmptyBean>() {
             @Override
             public void onSuccess(ReturnEmptyBean returnEmptyBean) {

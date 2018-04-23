@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,7 +27,9 @@ import com.qcloud.liveshow.beans.NettyForbiddenBean;
 import com.qcloud.liveshow.beans.NettyGiftBean;
 import com.qcloud.liveshow.beans.NettyLiveNoticeBean;
 import com.qcloud.liveshow.beans.NettyNoticeBean;
+import com.qcloud.liveshow.beans.NettyRatesBean;
 import com.qcloud.liveshow.beans.NettyReceiveGroupBean;
+import com.qcloud.liveshow.beans.NettyReceivePrivateBean;
 import com.qcloud.liveshow.beans.NettyRoomMemberBean;
 import com.qcloud.liveshow.beans.RoomBean;
 import com.qcloud.liveshow.beans.UserBean;
@@ -50,6 +53,7 @@ import com.qcloud.liveshow.widget.pop.FansMessagePop;
 import com.qcloud.liveshow.widget.pop.GuarderPop;
 import com.qcloud.liveshow.widget.pop.MessageListPop;
 import com.qcloud.liveshow.widget.pop.SharePop;
+import com.qcloud.liveshow.widget.pop.TollStandardPicker;
 import com.qcloud.qclib.base.BasePopupWindow;
 import com.qcloud.qclib.toast.SnackbarUtils;
 import com.qcloud.qclib.toast.ToastUtils;
@@ -120,6 +124,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     RelativeLayout layoutRoot;
     @Bind(R.id.iv_no_read)
     ImageView ivNoRead;
+    @Bind(R.id.tv_rates)
+    TextView tvRates;
 //    @Bind(R.id.gift)
 //    CustomGiftView mGiftShow;
 
@@ -144,7 +150,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     /**
      * 消息列表弹窗
      */
-    private MessageListPop mMessagePop;
+    private MessageListPop messageListPop;
     /**
      * 分享弹窗
      */
@@ -175,7 +181,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     private GiftControl smallGiftControl;
     private GiftControl bigGigtControl;
     private Disposable disposable;
-
+    private TollStandardPicker mTollPicker;//钻石币Picker
+    private RoomBean roomBean;
 
     @Override
     protected int getLayoutId() {
@@ -199,6 +206,11 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         initMessagePop();
         initGiftParent();
         checkMessageIsRead();
+        initRoom();
+    }
+
+    private void initRoom() {
+        roomBean = ((AnchorActivity) getActivity()).getRoom();
     }
 
     private void initGiftParent() {
@@ -313,8 +325,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         if (isInFragment) {
             if (isInFragment) {
                 Timber.e("char:" + "bean:" + bean);
-                if (bean != null && mMessagePop != null) {
-                    mMessagePop.add(bean);
+                if (bean != null && messageListPop != null) {
+                    messageListPop.add(bean);
                 }
             }
         }
@@ -331,7 +343,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 //                    Glide.with(mContext).load(gift.getGift().getGiftKey()).into(imgGiftGif);
                     ApngImageLoader.getInstance()
                             .displayApng(gift.getGift().getGiftKey(), imgGiftGif,
-                                    new ApngImageLoader.ApngConfig(8, false));
+                                    new ApngImageLoader.ApngConfig(2, false));
+
 //                    imgGiftGif.setOnClickListener(new View.OnClickListener() {
 //                        @Override
 //                        public void onClick(View v) {
@@ -360,7 +373,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
     }
 
     public void startThread() {
-        disposable = Observable.interval(1, TimeUnit.SECONDS).take(10).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        disposable = Observable.interval(1, TimeUnit.SECONDS).take(15).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .doOnDispose(new Action() {
                     @Override
                     public void run() throws Exception {
@@ -370,7 +383,15 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
                     @Override
                     public void accept(Long aLong) throws Exception {
                         ApngDrawable apngDrawable = ApngDrawable.getFromView(imgGiftGif);
-                        if (apngDrawable == null) return;
+                        if (aLong == 0) {
+                            if (apngDrawable == null) return;
+                            if (apngDrawable.isRunning()) {
+                                return;
+                            } else {
+                                apngDrawable.setNumPlays(2); // Fix number of repetition
+                                apngDrawable.start(); // Start animation
+                            }
+                        }
                         if (apngDrawable.isRunning()) {
                             imgGiftGif.setVisibility(View.VISIBLE);
                         } else {
@@ -413,6 +434,13 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      */
     private void initFansMessagePop() {
         mFansMessagePop = new FansMessagePop(getActivity());
+        mFansMessagePop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                mFansMessagePop.removeMemberInfo();
+                checkMessageIsRead();
+            }
+        });
     }
 
     /**
@@ -427,8 +455,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
      * 初始化消息列表弹窗
      */
     private void initMessagePop() {
-        mMessagePop = new MessageListPop(mContext);
-        mMessagePop.setOnPopItemClick((position, member) -> {
+        messageListPop = new MessageListPop(mContext);
+        messageListPop.setOnPopItemClick((position, member) -> {
             if (mFansMessagePop == null) {
                 initFansMessagePop();
                 checkMessageIsRead();
@@ -436,6 +464,18 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
             mFansMessagePop.refreshMemberInfo(member);
             mFansMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
         });
+        messageListPop.setOnHolderClick(new BasePopupWindow.onPopWindowViewClick() {
+            @Override
+            public void onViewClick(View view) {
+                ivNoRead.setVisibility(View.GONE);
+            }
+        });
+//        messageListPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                checkMessageIsRead();
+//            }
+//        });
     }
 
     /**
@@ -502,6 +542,17 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         });
     }
 
+    /**
+     * 私聊消息
+     */
+    @Override
+    public void addPrivateChat(NettyReceivePrivateBean bean) {
+        if (isInFragment) {
+            if (bean != null && mFansMessagePop != null) {
+                mFansMessagePop.addMessage(bean);
+            }
+        }
+    }
 
     /**
      * 初始化粉守护者弹窗
@@ -569,8 +620,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         ((Activity) mContext).runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (charStatus== CharStatusEnum.IS_BLOCKED.getKey()){
-                    loadErr(true,getString(R.string.toast_room_char_unsend));
+                if (charStatus == CharStatusEnum.IS_BLOCKED.getKey()) {
+                    loadErr(true, getString(R.string.toast_room_char_unsend));
                 }
                 mMessageAdapter.upDateMessageStatus(position, charStatus);
             }
@@ -599,7 +650,7 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         }
     }
 
-    @OnClick({R.id.btn_notice, R.id.btn_send_message, R.id.btn_receive_message, R.id.btn_flash,
+    @OnClick({R.id.btn_notice, R.id.btn_send_message, R.id.btn_setting_money, R.id.btn_receive_message, R.id.btn_flash,
             R.id.btn_switch_camera, R.id.btn_share, R.id.btn_exit})
     void onBtnClick(View view) {
         mPresenter.onBtnClick(view.getId());
@@ -629,12 +680,47 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
 
     @Override
     public void onReceiveMessageClick() {
-        mMessagePop.initData();
-        if (mMessagePop == null) {
+        messageListPop.initData();
+        if (messageListPop == null) {
             initMessagePop();
         }
-        mMessagePop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
+        messageListPop.showAtLocation(mBtnReceiveMessage, Gravity.BOTTOM, 0, 0);
     }
+    long preClickTime=0;
+    @Override
+    public void settingMoneyClick() {
+        long currentClickTime=System.currentTimeMillis();
+        if (currentClickTime-preClickTime<=600000){
+            ToastUtils.ToastMessage(getActivity(),String.format(getString(R.string.toast_money_often_setting),(600000-(currentClickTime-preClickTime))/60000));
+            return;
+        }
+        preClickTime=currentClickTime;
+        if (mTollPicker == null) {
+            initMoneyPicker();
+        }
+        RoomBean roomBean = ((AnchorActivity) getActivity()).getRoom();
+        if (roomBean != null && roomBean.getMaxRates() > 0) {
+            mTollPicker.refreshData(roomBean.getMaxRates() + 1);
+            mTollPicker.showAtLocation(mLayoutBottom, Gravity.BOTTOM, 0, 0);
+        }
+    }
+
+    @Override
+    public void moneyHasSetting(NettyRatesBean ratesBean) {
+            int rates = ratesBean.getRates();
+            tvRates.setText(String.format(getResources().getString(R.string.tag_top_profit), rates));
+    }
+
+    private void initMoneyPicker() {
+        mTollPicker = new TollStandardPicker(getActivity());
+        mTollPicker.setOnStandardPickListener(new TollStandardPicker.OnStandardPickListener() {
+            @Override
+            public void onStandardPicked(int index, Integer item) {
+                mPresenter.settingMoney(roomBean.getRoomIdStr(), item);
+            }
+        });
+    }
+
 
     @Override
     public void onFlashClick() {
@@ -794,8 +880,8 @@ public class AnchorFragment extends BaseFragment<IAnchorControlView, AnchorContr
         if (mInputDialog != null && mInputDialog.isShowing()) {
             mInputDialog.dismiss();
         }
-        if (mMessagePop != null && mMessagePop.isShowing()) {
-            mMessagePop.dismiss();
+        if (messageListPop != null && messageListPop.isShowing()) {
+            messageListPop.dismiss();
         }
         if (mSharePop != null && mSharePop.isShowing()) {
             mSharePop.dismiss();
